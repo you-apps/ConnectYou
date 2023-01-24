@@ -5,5 +5,5 @@ data class ContactData(
     val displayName: String?,
     val givenName: String?,
     val familyName: String?,
-    val phoneNumber: List<String>
+    var phoneNumber: List<String>
 )

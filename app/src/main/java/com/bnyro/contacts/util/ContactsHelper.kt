@@ -37,8 +37,18 @@ class ContactsHelper(context: Context) {
 
         cursor?.use {
             while (it.moveToNext()) {
+                val contactId = getLong(CommonDataKinds.Phone.CONTACT_ID)!!
+
+                // check whether already in the list
+                val contactIndex = contactList.indexOfFirst { it.contactId == contactId }.takeIf { it >= 0 }
+                if (contactIndex != null) {
+                    getString(CommonDataKinds.Phone.NUMBER)?.let {
+                        contactList[contactIndex].phoneNumber += it
+                    }
+                    continue
+                }
                 val contact = ContactData(
-                    contactId = getLong(CommonDataKinds.Phone.CONTACT_ID)!!,
+                    contactId = contactId,
                     displayName = getString(ContactsContract.Contacts.DISPLAY_NAME),
                     givenName = getString(CommonDataKinds.StructuredName.GIVEN_NAME),
                     familyName = getString(CommonDataKinds.StructuredName.FAMILY_NAME),
