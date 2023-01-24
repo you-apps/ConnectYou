@@ -9,10 +9,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
@@ -27,14 +25,20 @@ fun ContactsPage(contacts: List<ContactData>?) {
     ) {
         if (contacts != null) {
             Column {
-                val value = remember {
+                val searchQuery = remember {
                     mutableStateOf(TextFieldValue())
                 }
 
-                SearchBar(Modifier.padding(horizontal = 10.dp, vertical = 5.dp), value)
+                SearchBar(Modifier.padding(horizontal = 10.dp, vertical = 5.dp), searchQuery)
 
                 LazyColumn {
-                    items(contacts) {
+                    items(
+                        contacts.filter {
+                            it.displayName.orEmpty().lowercase().contains(
+                                searchQuery.value.text.lowercase()
+                            )
+                        }
+                    ) {
                         ContactItem(it)
                     }
                 }

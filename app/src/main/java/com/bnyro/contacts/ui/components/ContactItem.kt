@@ -49,7 +49,7 @@ fun ContactItem(contact: ContactData) {
                 )
             }
             Spacer(modifier = Modifier.width(20.dp))
-            Text(contact.displayName ?: "")
+            Text(contact.displayName.orEmpty())
         }
     }
 }
