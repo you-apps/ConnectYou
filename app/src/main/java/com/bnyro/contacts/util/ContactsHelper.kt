@@ -40,7 +40,9 @@ class ContactsHelper(context: Context) {
                 val contactId = getLong(CommonDataKinds.Phone.CONTACT_ID)!!
 
                 // check whether already in the list
-                val contactIndex = contactList.indexOfFirst { it.contactId == contactId }.takeIf { it >= 0 }
+                val contactIndex = contactList.indexOfFirst {
+                    it.contactId == contactId
+                }.takeIf { it >= 0 }
                 if (contactIndex != null) {
                     getString(CommonDataKinds.Phone.NUMBER)?.let {
                         contactList[contactIndex].phoneNumber += it
