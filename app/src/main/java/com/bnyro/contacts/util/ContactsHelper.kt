@@ -15,7 +15,7 @@ class ContactsHelper(context: Context) {
     private val contentResolver = context.contentResolver
     private var cursor: Cursor? = null
 
-    private val PROJECTION = arrayOf(
+    private val projection = arrayOf(
         CommonDataKinds.Phone.CONTACT_ID,
         ContactsContract.Contacts.DISPLAY_NAME,
         CommonDataKinds.StructuredName.GIVEN_NAME,
@@ -27,9 +27,10 @@ class ContactsHelper(context: Context) {
     fun getContactList(): List<ContactData> {
         val contactList = mutableListOf<ContactData>()
 
+        @Suppress("SameParameterValue")
         cursor = contentResolver.query(
             ContactsContract.Data.CONTENT_URI,
-            PROJECTION,
+            projection,
             null,
             null,
             CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
@@ -45,7 +46,11 @@ class ContactsHelper(context: Context) {
                 }.takeIf { it >= 0 }
                 if (contactIndex != null) {
                     getString(CommonDataKinds.Phone.NUMBER)?.let {
-                        contactList[contactIndex].phoneNumber += it
+                        if (!contactList[contactIndex].phoneNumber.contains(it) && TextUtils.isPhoneNumber(
+                                it
+                            )) {
+                            contactList[contactIndex].phoneNumber += it
+                        }
                     }
                     continue
                 }
@@ -53,9 +58,12 @@ class ContactsHelper(context: Context) {
                     contactId = contactId,
                     displayName = getString(ContactsContract.Contacts.DISPLAY_NAME),
                     givenName = getString(CommonDataKinds.StructuredName.GIVEN_NAME),
-                    familyName = getString(CommonDataKinds.StructuredName.FAMILY_NAME),
-                    phoneNumber = listOf(getString(CommonDataKinds.Phone.NUMBER)!!)
+                    familyName = getString(CommonDataKinds.StructuredName.FAMILY_NAME)
                 )
+                getString(CommonDataKinds.Phone.NUMBER)?.let {
+                    @Suppress("SameParameterValue")
+                    if (TextUtils.isPhoneNumber(it)) contact.phoneNumber = listOf(it)
+                }
                 contactList.add(contact)
             }
         }
@@ -68,6 +76,7 @@ class ContactsHelper(context: Context) {
         return cursor?.getStringOrNull(cursor!!.getColumnIndex(index))
     }
 
+    @Suppress("SameParameterValue")
     @SuppressLint("Range")
     private fun getLong(index: String): Long? {
         return cursor?.getLongOrNull(cursor!!.getColumnIndex(index))
