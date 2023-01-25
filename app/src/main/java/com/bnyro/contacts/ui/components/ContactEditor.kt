@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
+import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.base.LabeledTextField
 
 @Composable
@@ -33,21 +34,20 @@ fun ContactEditor(
     }
 
     val phoneNumber = remember {
-        mutableStateOf(contact?.phoneNumber?.firstOrNull().orEmpty())
+        mutableStateOf(contact?.phoneNumber?.firstOrNull()?.value.orEmpty())
     }
 
     val email = remember {
-        mutableStateOf(contact?.emails?.firstOrNull().orEmpty())
+        mutableStateOf(contact?.emails?.firstOrNull()?.value.orEmpty())
     }
 
     val address = remember {
-        mutableStateOf(contact?.addresses?.firstOrNull().orEmpty())
+        mutableStateOf(contact?.addresses?.firstOrNull()?.value.orEmpty())
     }
 
     val event = remember {
-        mutableStateOf(contact?.events?.firstOrNull().orEmpty())
+        mutableStateOf(contact?.events?.firstOrNull()?.value.orEmpty())
     }
-
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -92,10 +92,10 @@ fun ContactEditor(
                     firstName = firstName.value.trim(),
                     surName = surName.value.trim(),
                     displayName = "${firstName.value.trim()} ${surName.value.trim()}",
-                    phoneNumber = listOf(phoneNumber.value.trim()),
-                    emails = listOf(email.value.trim()),
-                    addresses = listOf(address.value.trim()),
-                    events = listOf(event.value.trim())
+                    phoneNumber = listOf(ValueWithType(phoneNumber.value.trim())),
+                    emails = listOf(ValueWithType(email.value.trim())),
+                    addresses = listOf(ValueWithType(address.value.trim())),
+                    events = listOf(ValueWithType(event.value.trim()))
                 )
                 onSave.invoke(newContact)
             }

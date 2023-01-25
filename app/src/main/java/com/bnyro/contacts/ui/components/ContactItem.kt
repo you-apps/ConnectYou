@@ -23,7 +23,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.obj.ContactData
+import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.SingleContactScreen
 
 @Composable
@@ -32,6 +34,7 @@ fun ContactItem(contact: ContactData) {
     var showContactScreen by remember {
         mutableStateOf(false)
     }
+    val viewModel: ContactsModel = viewModel()
 
     ElevatedCard(
         modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp)
@@ -65,7 +68,7 @@ fun ContactItem(contact: ContactData) {
     }
 
     if (showContactScreen) {
-        SingleContactScreen(contact) {
+        SingleContactScreen(viewModel.loadAdvancedContactData(contact)) {
             showContactScreen = false
         }
     }

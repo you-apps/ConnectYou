@@ -43,4 +43,9 @@ class ContactsModel : ViewModel() {
             contacts = contacts?.plus(contact)
         }
     }
+
+    fun loadAdvancedContactData(contact: ContactData): ContactData {
+        contactsHelper ?: return contact
+        return contactsHelper!!.loadAdvancedData(contact)
+    }
 }

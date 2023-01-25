@@ -111,7 +111,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                         IntentHelper.launchAction(
                             context,
                             IntentActionType.DIAL,
-                            contact.phoneNumber.firstOrNull() ?: return@ClickableIcon
+                            contact.phoneNumber.firstOrNull()?.value ?: return@ClickableIcon
                         )
                     }
                     Spacer(modifier = Modifier.width(5.dp))
@@ -119,7 +119,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                         IntentHelper.launchAction(
                             context,
                             IntentActionType.SMS,
-                            contact.phoneNumber.firstOrNull() ?: return@ClickableIcon
+                            contact.phoneNumber.firstOrNull()?.value ?: return@ClickableIcon
                         )
                     }
                     Spacer(modifier = Modifier.width(5.dp))
@@ -130,23 +130,23 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
             }
 
             contact.phoneNumber.forEach {
-                ContactEntry(label = stringResource(R.string.phone), content = it) {
-                    IntentHelper.launchAction(context, IntentActionType.DIAL, it)
+                ContactEntry(label = stringResource(R.string.phone), content = it.value) {
+                    IntentHelper.launchAction(context, IntentActionType.DIAL, it.value)
                 }
             }
 
             contact.emails.forEach {
-                ContactEntry(label = stringResource(R.string.email), content = it) {
-                    IntentHelper.launchAction(context, IntentActionType.EMAIL, it)
+                ContactEntry(label = stringResource(R.string.email), content = it.value) {
+                    IntentHelper.launchAction(context, IntentActionType.EMAIL, it.value)
                 }
             }
 
             contact.addresses.forEach {
-                ContactEntry(label = stringResource(R.string.address), content = it)
+                ContactEntry(label = stringResource(R.string.address), content = it.value)
             }
 
             contact.events.forEach {
-                ContactEntry(label = stringResource(R.string.event), content = it)
+                ContactEntry(label = stringResource(R.string.event), content = it.value)
             }
 
             if (showDelete) {
