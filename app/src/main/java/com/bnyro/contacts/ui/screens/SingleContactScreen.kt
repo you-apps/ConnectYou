@@ -19,6 +19,10 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,11 +34,15 @@ import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.ContactEntry
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
+import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.models.ContactsModel
 
 @Composable
 fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
     val viewModel: ContactsModel = viewModel()
+    var showDelete by remember {
+        mutableStateOf(false)
+    }
 
     FullScreenDialog(onClose = onClose) {
         val scrollState = rememberScrollState()
@@ -81,10 +89,17 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                 }
             }
 
-            Row {
-                ClickableIcon(icon = Icons.Default.Delete) {
-                    viewModel.deleteContact(contact)
-                    onClose.invoke()
+            ElevatedCard(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .align(Alignment.CenterHorizontally)
+            ) {
+                Row(
+                    modifier = Modifier.padding(10.dp)
+                ) {
+                    ClickableIcon(icon = Icons.Default.Delete) {
+                        showDelete = true
+                    }
                 }
             }
 
@@ -92,6 +107,19 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
 
             contact.phoneNumber.forEach {
                 ContactEntry(label = "Phone", content = it) {
+                }
+            }
+
+            if (showDelete) {
+                ConfirmationDialog(
+                    onDismissRequest = {
+                        showDelete = false
+                    },
+                    title = "Delete contact",
+                    text = "Are you sure? This can't be undone!"
+                ) {
+                    viewModel.deleteContact(contact)
+                    onClose.invoke()
                 }
             }
         }
