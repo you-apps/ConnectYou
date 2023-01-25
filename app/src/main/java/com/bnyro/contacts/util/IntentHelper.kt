@@ -18,7 +18,7 @@ object IntentHelper {
         }
 
         val intent = Intent(action).apply {
-            data = Uri.fromParts(actionScheme, number, null)
+            data = Uri.fromParts(actionScheme, num, null)
         }
         context.startActivity(intent)
     }
