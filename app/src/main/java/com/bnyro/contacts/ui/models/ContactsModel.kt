@@ -39,5 +39,6 @@ class ContactsModel : ViewModel() {
 
     fun deleteContact(contact: ContactData) {
         contactsHelper?.deleteContacts(listOf(contact))
+        contacts = contacts?.minus(contact)
     }
 }
