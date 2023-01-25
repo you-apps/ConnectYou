@@ -31,7 +31,7 @@ fun ContactsPage(contacts: List<ContactData>?) {
                     mutableStateOf(TextFieldValue())
                 }
 
-                SearchBar(Modifier.padding(horizontal = 10.dp, vertical = 5.dp), searchQuery)
+                SearchBar(Modifier.padding(horizontal = 10.dp, vertical = 15.dp), searchQuery)
 
                 LazyColumn {
                     items(
