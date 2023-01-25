@@ -68,8 +68,8 @@ class ContactsHelper(private val context: Context) {
                     contactId = contactId,
                     accountType = getString(RawContacts.ACCOUNT_TYPE),
                     displayName = getString(ContactsContract.Contacts.DISPLAY_NAME),
-                    givenName = getString(CommonDataKinds.StructuredName.GIVEN_NAME),
-                    familyName = getString(CommonDataKinds.StructuredName.FAMILY_NAME)
+                    firstName = getString(CommonDataKinds.StructuredName.GIVEN_NAME),
+                    surName = getString(CommonDataKinds.StructuredName.FAMILY_NAME)
                 )
                 getString(CommonDataKinds.Phone.NUMBER)?.let {
                     if (TextUtils.isPhoneNumber(it)) contact.phoneNumber = listOf(it)
@@ -118,6 +118,28 @@ class ContactsHelper(private val context: Context) {
                 CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
             )
             .withValue(CommonDataKinds.StructuredName.DISPLAY_NAME, contact.displayName)
+
+        ops.add(op.build())
+
+        // Creates the first name for the new raw contact, as a StructuredName data row.
+        op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+            .withValue(
+                ContactsContract.Data.MIMETYPE,
+                CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
+            )
+            .withValue(CommonDataKinds.StructuredName.GIVEN_NAME, contact.firstName)
+
+        ops.add(op.build())
+
+        // Creates the display name for the new raw contact, as a StructuredName data row.
+        op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+            .withValue(
+                ContactsContract.Data.MIMETYPE,
+                CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
+            )
+            .withValue(CommonDataKinds.StructuredName.FAMILY_NAME, contact.surName)
 
         ops.add(op.build())
 

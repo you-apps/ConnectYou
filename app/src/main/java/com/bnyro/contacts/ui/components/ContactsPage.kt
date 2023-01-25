@@ -89,8 +89,8 @@ fun ContactsPage(contacts: List<ContactData>?) {
                         }.sortedBy {
                             when (sortOrder) {
                                 SortOrder.NAME -> it.displayName
-                                SortOrder.FIRSTNAME -> it.givenName
-                                SortOrder.SURNAME -> it.familyName
+                                SortOrder.FIRSTNAME -> it.firstName
+                                SortOrder.SURNAME -> it.surName
                             }
                         }
                     ) {

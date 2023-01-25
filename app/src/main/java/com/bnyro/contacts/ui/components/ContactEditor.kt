@@ -24,7 +24,11 @@ fun ContactEditor(
     contact: ContactData? = null,
     onSave: (contact: ContactData) -> Unit
 ) {
-    val name = remember {
+    val firstName = remember {
+        mutableStateOf(contact?.displayName.orEmpty())
+    }
+
+    val surName = remember {
         mutableStateOf(contact?.displayName.orEmpty())
     }
 
@@ -44,8 +48,12 @@ fun ContactEditor(
         ) {
             item {
                 LabeledTextField(
-                    label = R.string.display_name,
-                    state = name
+                    label = R.string.first_name,
+                    state = firstName
+                )
+                LabeledTextField(
+                    label = R.string.surname,
+                    state = surName
                 )
                 LabeledTextField(
                     label = R.string.phone,
@@ -64,9 +72,11 @@ fun ContactEditor(
                 .padding(16.dp),
             onClick = {
                 val newContact = ContactData(
-                    displayName = name.value,
-                    phoneNumber = listOf(phoneNumber.value),
-                    emails = listOf(email.value)
+                    firstName = firstName.value.trim(),
+                    surName = surName.value.trim(),
+                    displayName = "${firstName.value.trim()} ${surName.value.trim()}",
+                    phoneNumber = listOf(phoneNumber.value.trim()),
+                    emails = listOf(email.value.trim())
                 )
                 onSave.invoke(newContact)
             }

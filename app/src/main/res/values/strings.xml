@@ -7,6 +7,9 @@
     <string name="delete_contact">Delete contact</string>
     <string name="irreversible">Are you sure? This can\'t be undone!</string>
 
+    <!-- Warnings -->
+    <string name="empty_name">Name can\'t be empty!</string>
+
     <!-- Data types -->
     <string name="display_name">Display name</string>
     <string name="phone">Phone</string>
