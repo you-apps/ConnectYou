@@ -145,6 +145,10 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                 ContactEntry(label = stringResource(R.string.address), content = it)
             }
 
+            contact.events.forEach {
+                ContactEntry(label = stringResource(R.string.event), content = it)
+            }
+
             if (showDelete) {
                 ConfirmationDialog(
                     onDismissRequest = {

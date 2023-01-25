@@ -8,6 +8,10 @@ import android.database.Cursor
 import android.provider.ContactsContract
 import android.provider.ContactsContract.AUTHORITY
 import android.provider.ContactsContract.CommonDataKinds
+import android.provider.ContactsContract.CommonDataKinds.Email
+import android.provider.ContactsContract.CommonDataKinds.Event
+import android.provider.ContactsContract.CommonDataKinds.Phone
+import android.provider.ContactsContract.CommonDataKinds.StructuredName
 import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
 import android.provider.ContactsContract.RawContacts
 import androidx.annotation.RequiresPermission
@@ -21,13 +25,11 @@ class ContactsHelper(private val context: Context) {
     private val ANDROID_ACCOUNT_TYPE = "com.android.contacts"
 
     private val projection = arrayOf(
-        CommonDataKinds.Phone.CONTACT_ID,
+        Phone.CONTACT_ID,
         ContactsContract.Contacts.DISPLAY_NAME,
-        CommonDataKinds.StructuredName.GIVEN_NAME,
-        CommonDataKinds.StructuredName.FAMILY_NAME,
-        CommonDataKinds.Phone.NUMBER,
-        RawContacts.ACCOUNT_TYPE,
-        StructuredPostal.FORMATTED_ADDRESS
+        StructuredName.GIVEN_NAME,
+        StructuredName.FAMILY_NAME,
+        RawContacts.ACCOUNT_TYPE
     )
 
     @RequiresPermission(Manifest.permission.READ_CONTACTS)
@@ -40,51 +42,28 @@ class ContactsHelper(private val context: Context) {
             projection,
             null,
             null,
-            CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
+            Phone.DISPLAY_NAME + " ASC"
         ) ?: return contactList
 
         cursor?.use {
             while (it.moveToNext()) {
-                val contactId = getLong(CommonDataKinds.Phone.CONTACT_ID)!!
+                val contactId = getLong(Phone.CONTACT_ID)!!
 
                 // check whether already in the list
                 val contactIndex = contactList.indexOfFirst {
                     it.contactId == contactId
                 }.takeIf { it >= 0 }
                 if (contactIndex != null) {
-                    getString(CommonDataKinds.Phone.NUMBER)?.let {
-                        if (!contactList[contactIndex].phoneNumber.contains(it) &&
-                            TextUtils.isPhoneNumber(it)
-                        ) {
-                            contactList[contactIndex].phoneNumber += it
-                        }
-                    }
-                    getString(CommonDataKinds.Email.ADDRESS)?.let {
-                        if (!contactList[contactIndex].emails.contains(it)) {
-                            if (it.contains('@')) contactList[contactIndex].emails += it
-                        }
-                    }
-                    getString(StructuredPostal.FORMATTED_ADDRESS)?.takeIf { it.isNotBlank() }?.let {
-                        contactList[contactIndex].addresses += it
-                    }
                     continue
                 }
+
                 val contact = ContactData(
                     contactId = contactId,
                     accountType = getString(RawContacts.ACCOUNT_TYPE),
                     displayName = getString(ContactsContract.Contacts.DISPLAY_NAME),
-                    firstName = getString(CommonDataKinds.StructuredName.GIVEN_NAME),
-                    surName = getString(CommonDataKinds.StructuredName.FAMILY_NAME)
+                    firstName = getString(StructuredName.GIVEN_NAME),
+                    surName = getString(StructuredName.FAMILY_NAME)
                 )
-                getString(CommonDataKinds.Phone.NUMBER)?.let {
-                    if (TextUtils.isPhoneNumber(it)) contact.phoneNumber = listOf(it)
-                }
-                getString(CommonDataKinds.Email.ADDRESS)?.let {
-                    if (it.contains('@')) contact.emails = listOf(it)
-                }
-                getString(StructuredPostal.FORMATTED_ADDRESS)?.let {
-                    contact.addresses += it
-                }
                 contactList.add(contact)
             }
         }
@@ -109,87 +88,44 @@ class ContactsHelper(private val context: Context) {
 
     @RequiresPermission(Manifest.permission.WRITE_CONTACTS)
     fun createContact(contact: ContactData) {
-        val ops = arrayListOf<ContentProviderOperation>()
-
-        var op: ContentProviderOperation.Builder =
-            ContentProviderOperation.newInsert(RawContacts.CONTENT_URI)
-                .withValue(RawContacts.ACCOUNT_TYPE, ANDROID_ACCOUNT_TYPE)
-                .withValue(RawContacts.ACCOUNT_NAME, contact.displayName)
-
-        ops.add(op.build())
-
-        // Creates the display name for the new raw contact, as a StructuredName data row.
-        op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-            .withValue(
-                ContactsContract.Data.MIMETYPE,
-                CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
-            )
-            .withValue(CommonDataKinds.StructuredName.DISPLAY_NAME, contact.displayName)
-
-        ops.add(op.build())
-
-        // Creates the first name for the new raw contact, as a StructuredName data row.
-        op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-            .withValue(
-                ContactsContract.Data.MIMETYPE,
-                CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
-            )
-            .withValue(CommonDataKinds.StructuredName.GIVEN_NAME, contact.firstName)
-
-        ops.add(op.build())
-
-        // Creates the display name for the new raw contact, as a StructuredName data row.
-        op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-            .withValue(
-                ContactsContract.Data.MIMETYPE,
-                CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
-            )
-            .withValue(CommonDataKinds.StructuredName.FAMILY_NAME, contact.surName)
-
-        ops.add(op.build())
-
-        // Inserts the specified phone number and type as a Phone data row
-        op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-            .withValue(ContactsContract.Data.MIMETYPE, CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
-            .withValue(CommonDataKinds.Phone.NUMBER, contact.phoneNumber.firstOrNull())
-            .withValue(CommonDataKinds.Phone.TYPE, CommonDataKinds.Phone.TYPE_MOBILE)
-
-        ops.add(op.build())
-
-        // Inserts the specified address as a postal data row
-        op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-            .withValue(ContactsContract.Data.MIMETYPE, StructuredPostal.CONTENT_ITEM_TYPE)
-            .withValue(CommonDataKinds.Email.ADDRESS, contact.addresses.firstOrNull())
-            .withValue(CommonDataKinds.Email.TYPE, StructuredPostal.TYPE_HOME)
-
-        ops.add(op.build())
-
-        op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI).apply {
-            withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-            withValue(ContactsContract.Data.MIMETYPE, CommonDataKinds.Event.CONTENT_ITEM_TYPE)
-            withValue(CommonDataKinds.Event.START_DATE, contact.events.firstOrNull())
-            withValue(CommonDataKinds.Event.TYPE, CommonDataKinds.Event.TYPE_BIRTHDAY)
-        }
-
-        ops.add(op.build())
-
-        // Inserts the specified email and type as a Phone data row
-        op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-            .withValue(ContactsContract.Data.MIMETYPE, CommonDataKinds.Email.CONTENT_ITEM_TYPE)
-            .withValue(CommonDataKinds.Email.ADDRESS, contact.emails.firstOrNull())
-            .withValue(CommonDataKinds.Email.TYPE, CommonDataKinds.Email.TYPE_HOME)
-
-        op.withYieldAllowed(true)
-
-        ops.add(op.build())
+        val ops = arrayListOf(
+            getCreateAction(contact.displayName.orEmpty()),
+            getInsertAction(StructuredName.CONTENT_ITEM_TYPE, StructuredName.DISPLAY_NAME, contact.displayName.orEmpty()),
+            getInsertAction(StructuredName.CONTENT_ITEM_TYPE, StructuredName.GIVEN_NAME, contact.firstName.orEmpty()),
+            getInsertAction(StructuredName.CONTENT_ITEM_TYPE, StructuredName.FAMILY_NAME, contact.surName.orEmpty()),
+            *contact.phoneNumber.map { getInsertAction(Phone.CONTENT_ITEM_TYPE, Phone.NUMBER, it, Phone.TYPE, Phone.TYPE_MOBILE) }.toTypedArray(),
+            *contact.emails.map { getInsertAction(Email.CONTENT_ITEM_TYPE, Email.ADDRESS, it, Email.TYPE, Email.TYPE_HOME) }.toTypedArray(),
+            *contact.addresses.map { getInsertAction(StructuredPostal.CONTENT_ITEM_TYPE, StructuredPostal.FORMATTED_ADDRESS, it, StructuredPostal.TYPE, StructuredPostal.TYPE_HOME) }.toTypedArray(),
+            *contact.events.map { getInsertAction(Event.CONTENT_ITEM_TYPE, Event.START_DATE, it, Event.TYPE, Event.TYPE_BIRTHDAY) }.toTypedArray()
+        )
 
         contentResolver.applyBatch(AUTHORITY, ops)
+    }
+
+    private fun getCreateAction(accountName: String): ContentProviderOperation {
+        return ContentProviderOperation.newInsert(RawContacts.CONTENT_URI)
+            .withValue(RawContacts.ACCOUNT_TYPE, ANDROID_ACCOUNT_TYPE)
+            .withValue(RawContacts.ACCOUNT_NAME, accountName)
+            .build()
+    }
+
+    private fun getInsertAction(
+        mimeType: String,
+        valueIndex: String,
+        value: String,
+        typeIndex: String? = null,
+        type: Int? = null
+    ): ContentProviderOperation {
+        return ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+            .withValue(ContactsContract.Data.MIMETYPE, mimeType)
+            .withValue(valueIndex, value)
+            .apply {
+                typeIndex?.let {
+                    withValue(it, type)
+                }
+            }
+            .build()
     }
 
     @SuppressLint("Range")
