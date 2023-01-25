@@ -58,6 +58,11 @@ class ContactsHelper(private val context: Context) {
                             contactList[contactIndex].phoneNumber += it
                         }
                     }
+                    getString(CommonDataKinds.Email.ADDRESS)?.let {
+                        if (!contactList[contactIndex].emails.contains(it)) {
+                            contactList[contactIndex].emails += it
+                        }
+                    }
                     continue
                 }
                 val contact = ContactData(
@@ -68,8 +73,10 @@ class ContactsHelper(private val context: Context) {
                     familyName = getString(CommonDataKinds.StructuredName.FAMILY_NAME)
                 )
                 getString(CommonDataKinds.Phone.NUMBER)?.let {
-                    @Suppress("SameParameterValue")
                     if (TextUtils.isPhoneNumber(it)) contact.phoneNumber = listOf(it)
+                }
+                getString(CommonDataKinds.Email.ADDRESS)?.let {
+                    contact.emails = listOf(it)
                 }
                 contactList.add(contact)
             }

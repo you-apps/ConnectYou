@@ -1,10 +1,14 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Connect You</string>
 
+    <!-- Actions -->
     <string name="search" tools:ignore="PrivateResource">Search</string>
     <string name="copied">Copied to clipboard</string>
-    <string name="delete_account">Delete account</string>
+    <string name="delete_contact">Delete contact</string>
     <string name="irreversible">Are you sure? This can\'t be undone!</string>
-    <string name="phone">Phone</string>
+
+    <!-- Data types -->
     <string name="display_name">Display name</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
 </resources>

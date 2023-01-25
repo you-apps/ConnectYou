@@ -133,12 +133,16 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                 ContactEntry(label = stringResource(R.string.phone), content = it) {}
             }
 
+            contact.emails.forEach {
+                ContactEntry(label = stringResource(R.string.email), content = it) {}
+            }
+
             if (showDelete) {
                 ConfirmationDialog(
                     onDismissRequest = {
                         showDelete = false
                     },
-                    title = stringResource(R.string.delete_account),
+                    title = stringResource(R.string.delete_contact),
                     text = stringResource(R.string.irreversible)
                 ) {
                     viewModel.deleteContact(context, contact)
