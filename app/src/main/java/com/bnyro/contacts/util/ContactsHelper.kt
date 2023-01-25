@@ -48,7 +48,8 @@ class ContactsHelper(context: Context) {
                     getString(CommonDataKinds.Phone.NUMBER)?.let {
                         if (!contactList[contactIndex].phoneNumber.contains(it) && TextUtils.isPhoneNumber(
                                 it
-                            )) {
+                            )
+                        ) {
                             contactList[contactIndex].phoneNumber += it
                         }
                     }
