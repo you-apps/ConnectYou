@@ -74,6 +74,7 @@ class ContactsHelper(private val context: Context) {
         return contactList
     }
 
+    @RequiresPermission(Manifest.permission.WRITE_CONTACTS)
     fun deleteContacts(contacts: List<ContactData>) {
         val operations = ArrayList<ContentProviderOperation>()
         val selection = "${ContactsContract.RawContacts._ID} = ?"
