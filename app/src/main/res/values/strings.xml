@@ -14,6 +14,8 @@
     <string name="display_name">Display name</string>
     <string name="phone">Phone</string>
     <string name="email">Email</string>
+    <string name="address">Address</string>
+    <string name="birthday">Birthday</string>
 
     <!-- Sorting -->
     <string name="first_name">First name</string>

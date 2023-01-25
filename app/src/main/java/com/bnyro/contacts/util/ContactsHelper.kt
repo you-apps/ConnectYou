@@ -8,6 +8,7 @@ import android.database.Cursor
 import android.provider.ContactsContract
 import android.provider.ContactsContract.AUTHORITY
 import android.provider.ContactsContract.CommonDataKinds
+import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
 import android.provider.ContactsContract.RawContacts
 import androidx.annotation.RequiresPermission
 import androidx.core.database.getLongOrNull
@@ -25,7 +26,8 @@ class ContactsHelper(private val context: Context) {
         CommonDataKinds.StructuredName.GIVEN_NAME,
         CommonDataKinds.StructuredName.FAMILY_NAME,
         CommonDataKinds.Phone.NUMBER,
-        RawContacts.ACCOUNT_TYPE
+        RawContacts.ACCOUNT_TYPE,
+        StructuredPostal.FORMATTED_ADDRESS
     )
 
     @RequiresPermission(Manifest.permission.READ_CONTACTS)
@@ -62,6 +64,9 @@ class ContactsHelper(private val context: Context) {
                             if (it.contains('@')) contactList[contactIndex].emails += it
                         }
                     }
+                    getString(StructuredPostal.FORMATTED_ADDRESS)?.takeIf { it.isNotBlank() }?.let {
+                        contactList[contactIndex].addresses += it
+                    }
                     continue
                 }
                 val contact = ContactData(
@@ -76,6 +81,9 @@ class ContactsHelper(private val context: Context) {
                 }
                 getString(CommonDataKinds.Email.ADDRESS)?.let {
                     if (it.contains('@')) contact.emails = listOf(it)
+                }
+                getString(StructuredPostal.FORMATTED_ADDRESS)?.let {
+                    contact.addresses += it
                 }
                 contactList.add(contact)
             }
@@ -149,6 +157,15 @@ class ContactsHelper(private val context: Context) {
             .withValue(ContactsContract.Data.MIMETYPE, CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
             .withValue(CommonDataKinds.Phone.NUMBER, contact.phoneNumber.firstOrNull())
             .withValue(CommonDataKinds.Phone.TYPE, CommonDataKinds.Phone.TYPE_MOBILE)
+
+        ops.add(op.build())
+
+        // Inserts the specified email and type as a Phone data row
+        op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+            .withValue(ContactsContract.Data.MIMETYPE, StructuredPostal.CONTENT_ITEM_TYPE)
+            .withValue(CommonDataKinds.Email.ADDRESS, contact.addresses.firstOrNull())
+            .withValue(CommonDataKinds.Email.TYPE, StructuredPostal.TYPE_HOME)
 
         ops.add(op.build())
 

@@ -21,7 +21,11 @@ import com.bnyro.contacts.util.ClipboardHelper
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ContactEntry(label: String, content: String, onClick: () -> Unit) {
+fun ContactEntry(
+    label: String,
+    content: String,
+    onClick: () -> Unit = {}
+) {
     val shape = RoundedCornerShape(20.dp)
     val context = LocalContext.current
 
