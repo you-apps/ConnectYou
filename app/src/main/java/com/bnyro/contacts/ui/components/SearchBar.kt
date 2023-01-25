@@ -19,9 +19,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.bnyro.contacts.R
 
 @Composable
 fun SearchBar(
@@ -59,7 +61,7 @@ fun SearchBar(
                             .padding(horizontal = 5.dp),
                         contentAlignment = Alignment.CenterStart
                     ) {
-                        if (state.value.text.isEmpty()) Text("Search")
+                        if (state.value.text.isEmpty()) Text(stringResource(R.string.search))
                         innerTextField()
                     }
                     if (state.value.text.isNotEmpty()) {

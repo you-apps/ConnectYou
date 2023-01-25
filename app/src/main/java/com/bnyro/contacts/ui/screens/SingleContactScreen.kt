@@ -30,10 +30,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.IntentActionType
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.ContactEntry
@@ -128,7 +130,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
             }
 
             contact.phoneNumber.forEach {
-                ContactEntry(label = "Phone", content = it) {}
+                ContactEntry(label = stringResource(R.string.phone), content = it) {}
             }
 
             if (showDelete) {
@@ -136,8 +138,8 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     onDismissRequest = {
                         showDelete = false
                     },
-                    title = "Delete contact",
-                    text = "Are you sure? This can't be undone!"
+                    title = stringResource(R.string.delete_account),
+                    text = stringResource(R.string.irreversible)
                 ) {
                     viewModel.deleteContact(contact)
                     onClose.invoke()

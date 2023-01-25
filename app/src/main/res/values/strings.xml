@@ -1,5 +1,9 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Connect You</string>
 
-
+    <string name="search" tools:ignore="PrivateResource">Search</string>
+    <string name="copied">Copied to clipboard</string>
+    <string name="delete_account">Delete account</string>
+    <string name="irreversible">Are you sure? This can\'t be undone!</string>
+    <string name="phone">Phone</string>
 </resources>

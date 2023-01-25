@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.os.Build
 import android.widget.Toast
+import com.bnyro.contacts.R
 
 class ClipboardHelper(private val context: Context) {
     val clipboard: ClipboardManager =
@@ -15,7 +16,8 @@ class ClipboardHelper(private val context: Context) {
         clipboard.setPrimaryClip(clip)
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            Toast.makeText(context, "Copied to clipboard: $text", Toast.LENGTH_SHORT).show()
+            val copiedText = context.getString(R.string.copied)
+            Toast.makeText(context, "$copiedText: $text", Toast.LENGTH_SHORT).show()
         }
     }
 }
