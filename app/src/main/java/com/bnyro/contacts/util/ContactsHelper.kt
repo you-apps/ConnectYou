@@ -51,16 +51,15 @@ class ContactsHelper(private val context: Context) {
                 }.takeIf { it >= 0 }
                 if (contactIndex != null) {
                     getString(CommonDataKinds.Phone.NUMBER)?.let {
-                        if (!contactList[contactIndex].phoneNumber.contains(it) && TextUtils.isPhoneNumber(
-                                it
-                            )
+                        if (!contactList[contactIndex].phoneNumber.contains(it) &&
+                            TextUtils.isPhoneNumber(it)
                         ) {
                             contactList[contactIndex].phoneNumber += it
                         }
                     }
                     getString(CommonDataKinds.Email.ADDRESS)?.let {
                         if (!contactList[contactIndex].emails.contains(it)) {
-                            contactList[contactIndex].emails += it
+                            if (it.contains('@')) contactList[contactIndex].emails += it
                         }
                     }
                     continue
@@ -76,7 +75,7 @@ class ContactsHelper(private val context: Context) {
                     if (TextUtils.isPhoneNumber(it)) contact.phoneNumber = listOf(it)
                 }
                 getString(CommonDataKinds.Email.ADDRESS)?.let {
-                    contact.emails = listOf(it)
+                    if (it.contains('@')) contact.emails = listOf(it)
                 }
                 contactList.add(contact)
             }
