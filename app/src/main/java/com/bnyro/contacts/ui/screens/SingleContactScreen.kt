@@ -141,7 +141,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     title = stringResource(R.string.delete_account),
                     text = stringResource(R.string.irreversible)
                 ) {
-                    viewModel.deleteContact(contact)
+                    viewModel.deleteContact(context, contact)
                     onClose.invoke()
                 }
             }
