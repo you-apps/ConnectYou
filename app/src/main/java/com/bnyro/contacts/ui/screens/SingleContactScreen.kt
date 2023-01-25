@@ -130,11 +130,15 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
             }
 
             contact.phoneNumber.forEach {
-                ContactEntry(label = stringResource(R.string.phone), content = it) {}
+                ContactEntry(label = stringResource(R.string.phone), content = it) {
+                    IntentHelper.launchAction(context, IntentActionType.DIAL, it)
+                }
             }
 
             contact.emails.forEach {
-                ContactEntry(label = stringResource(R.string.email), content = it) {}
+                ContactEntry(label = stringResource(R.string.email), content = it) {
+                    IntentHelper.launchAction(context, IntentActionType.EMAIL, it)
+                }
             }
 
             if (showDelete) {
