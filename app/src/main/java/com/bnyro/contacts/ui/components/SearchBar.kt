@@ -12,7 +12,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,11 +23,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
+import com.bnyro.contacts.ui.components.base.ClickableIcon
 
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
-    state: MutableState<TextFieldValue>
+    state: MutableState<TextFieldValue>,
+    customActions: @Composable () -> Unit = {}
 ) {
     Box(
         modifier = modifier.fillMaxWidth()
@@ -65,17 +66,14 @@ fun SearchBar(
                         innerTextField()
                     }
                     if (state.value.text.isNotEmpty()) {
-                        IconButton(
-                            onClick = {
-                                state.value = TextFieldValue("")
-                            }
+                        ClickableIcon(
+                            icon = Icons.Default.Close,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.Close,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
+                            state.value = TextFieldValue("")
                         }
+                    } else {
+                        customActions.invoke()
                     }
                 }
             }

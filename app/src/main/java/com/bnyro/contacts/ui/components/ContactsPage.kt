@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -19,10 +20,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.bnyro.contacts.R
+import com.bnyro.contacts.enums.SortOrder
 import com.bnyro.contacts.obj.ContactData
+import com.bnyro.contacts.ui.components.base.ClickableIcon
+import com.bnyro.contacts.ui.components.base.OptionMenu
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.EditorScreen
 
@@ -35,6 +41,10 @@ fun ContactsPage(contacts: List<ContactData>?) {
         mutableStateOf(false)
     }
 
+    var sortOrder by remember {
+        mutableStateOf(SortOrder.FIRSTNAME)
+    }
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -44,7 +54,31 @@ fun ContactsPage(contacts: List<ContactData>?) {
                     mutableStateOf(TextFieldValue())
                 }
 
-                SearchBar(Modifier.padding(horizontal = 10.dp, vertical = 15.dp), searchQuery)
+                SearchBar(Modifier.padding(horizontal = 10.dp, vertical = 15.dp), searchQuery) {
+                    var expanded by remember {
+                        mutableStateOf(false)
+                    }
+                    ClickableIcon(
+                        icon = Icons.Default.Sort
+                    ) {
+                        expanded = !expanded
+                    }
+                    OptionMenu(
+                        expanded = expanded,
+                        options = listOf(
+                            stringResource(R.string.display_name),
+                            stringResource(R.string.first_name),
+                            stringResource(R.string.surname)
+                        ),
+                        onDismissRequest = {
+                            expanded = false
+                        },
+                        onSelect = {
+                            sortOrder = SortOrder.fromInt(it)
+                            expanded = false
+                        }
+                    )
+                }
 
                 LazyColumn {
                     items(
@@ -52,6 +86,12 @@ fun ContactsPage(contacts: List<ContactData>?) {
                             it.displayName.orEmpty().lowercase().contains(
                                 searchQuery.value.text.lowercase()
                             )
+                        }.sortedBy {
+                            when (sortOrder) {
+                                SortOrder.NAME -> it.displayName
+                                SortOrder.FIRSTNAME -> it.givenName
+                                SortOrder.SURNAME -> it.familyName
+                            }
                         }
                     ) {
                         ContactItem(it)

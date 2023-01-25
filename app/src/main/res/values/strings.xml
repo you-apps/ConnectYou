@@ -11,4 +11,8 @@
     <string name="display_name">Display name</string>
     <string name="phone">Phone</string>
     <string name="email">Email</string>
+
+    <!-- Sorting -->
+    <string name="first_name">First name</string>
+    <string name="surname">Surname</string>
 </resources>
