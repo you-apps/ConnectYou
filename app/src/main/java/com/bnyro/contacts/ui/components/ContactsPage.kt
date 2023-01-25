@@ -12,16 +12,29 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.obj.ContactData
+import com.bnyro.contacts.ui.models.ContactsModel
+import com.bnyro.contacts.ui.screens.EditorScreen
 
 @Composable
 fun ContactsPage(contacts: List<ContactData>?) {
+    val viewModel: ContactsModel = viewModel()
+    val context = LocalContext.current
+
+    var showEditor by remember {
+        mutableStateOf(false)
+    }
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -49,7 +62,9 @@ fun ContactsPage(contacts: List<ContactData>?) {
                 modifier = Modifier
                     .padding(16.dp)
                     .align(Alignment.BottomEnd),
-                onClick = { /*TODO*/ }
+                onClick = {
+                    showEditor = true
+                }
             ) {
                 Icon(Icons.Default.Create, null)
             }
@@ -58,5 +73,16 @@ fun ContactsPage(contacts: List<ContactData>?) {
                 modifier = Modifier.align(Alignment.Center)
             )
         }
+    }
+
+    if (showEditor) {
+        EditorScreen(
+            onClose = {
+                showEditor = false
+            },
+            onSave = {
+                viewModel.createContact(context, it)
+            }
+        )
     }
 }

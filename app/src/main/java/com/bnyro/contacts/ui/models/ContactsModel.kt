@@ -19,19 +19,28 @@ class ContactsModel : ViewModel() {
 
     @SuppressLint("MissingPermission")
     fun loadContacts(context: Context) {
+        if (!PermissionHelper.checkPermissions(context, Manifest.permission.READ_CONTACTS)) return
         viewModelScope.launch {
             contactsHelper = ContactsHelper(context)
-            if (!PermissionHelper.checkPermissions(context, Manifest.permission.READ_CONTACTS)) return@launch
             contacts = contactsHelper!!.getContactList()
         }
     }
 
     @SuppressLint("MissingPermission")
     fun deleteContact(context: Context, contact: ContactData) {
+        if (!PermissionHelper.checkPermissions(context, Manifest.permission.READ_CONTACTS)) return
         viewModelScope.launch {
-            if (!PermissionHelper.checkPermissions(context, Manifest.permission.READ_CONTACTS)) return@launch
             contactsHelper?.deleteContacts(listOf(contact))
             contacts = contacts?.minus(contact)
+        }
+    }
+
+    @Suppress("MissingPermission")
+    fun createContact(context: Context, contact: ContactData) {
+        if (!PermissionHelper.checkPermissions(context, Manifest.permission.WRITE_CONTACTS)) return
+        viewModelScope.launch {
+            contactsHelper?.createContact(contact)
+            contacts = contacts?.plus(contact)
         }
     }
 }

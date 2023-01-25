@@ -6,4 +6,5 @@
     <string name="delete_account">Delete account</string>
     <string name="irreversible">Are you sure? This can\'t be undone!</string>
     <string name="phone">Phone</string>
+    <string name="display_name">Display name</string>
 </resources>

@@ -119,7 +119,7 @@ class ContactsHelper(private val context: Context) {
         op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
             .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
             .withValue(ContactsContract.Data.MIMETYPE, CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
-            .withValue(CommonDataKinds.Phone.NUMBER, contact.phoneNumber)
+            .withValue(CommonDataKinds.Phone.NUMBER, contact.phoneNumber.firstOrNull())
             .withValue(CommonDataKinds.Phone.TYPE, CommonDataKinds.Phone.TYPE_MOBILE)
 
         ops.add(op.build())
