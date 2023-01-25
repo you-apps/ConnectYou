@@ -11,7 +11,6 @@
     <string name="empty_name">Name can\'t be empty!</string>
 
     <!-- Data types -->
-    <string name="display_name">Display name</string>
     <string name="phone">Phone</string>
     <string name="email">Email</string>
     <string name="address">Address</string>

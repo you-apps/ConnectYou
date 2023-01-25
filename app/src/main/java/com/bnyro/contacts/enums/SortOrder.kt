@@ -1,9 +1,8 @@
 package com.bnyro.contacts.enums
 
 enum class SortOrder(val value: Int) {
-    NAME(0),
-    FIRSTNAME(1),
-    SURNAME(2);
+    FIRSTNAME(0),
+    SURNAME(1);
 
     companion object {
         fun fromInt(value: Int) = SortOrder.values().first { it.value == value }

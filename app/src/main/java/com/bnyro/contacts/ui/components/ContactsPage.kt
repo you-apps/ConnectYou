@@ -66,7 +66,6 @@ fun ContactsPage(contacts: List<ContactData>?) {
                     OptionMenu(
                         expanded = expanded,
                         options = listOf(
-                            stringResource(R.string.display_name),
                             stringResource(R.string.first_name),
                             stringResource(R.string.surname)
                         ),
@@ -88,13 +87,12 @@ fun ContactsPage(contacts: List<ContactData>?) {
                             )
                         }.sortedBy {
                             when (sortOrder) {
-                                SortOrder.NAME -> it.displayName
                                 SortOrder.FIRSTNAME -> it.firstName
                                 SortOrder.SURNAME -> it.surName
                             }
                         }
                     ) {
-                        ContactItem(it)
+                        ContactItem(it, sortOrder)
                     }
                 }
             }

@@ -24,12 +24,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.bnyro.contacts.enums.SortOrder
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.SingleContactScreen
 
 @Composable
-fun ContactItem(contact: ContactData) {
+fun ContactItem(contact: ContactData, sortOrder: SortOrder) {
     val shape = RoundedCornerShape(20.dp)
     var showContactScreen by remember {
         mutableStateOf(false)
@@ -63,7 +64,16 @@ fun ContactItem(contact: ContactData) {
                 )
             }
             Spacer(modifier = Modifier.width(20.dp))
-            Text(contact.displayName.orEmpty())
+            Text(
+                when (sortOrder) {
+                    SortOrder.FIRSTNAME -> "${contact.firstName} ${contact.surName}"
+                    SortOrder.SURNAME -> if (contact.surName != null) {
+                        "${contact.surName}, ${contact.firstName}"
+                    } else {
+                        contact.displayName.orEmpty()
+                    }
+                }
+            )
         }
     }
 
