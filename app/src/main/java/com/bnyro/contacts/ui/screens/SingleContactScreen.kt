@@ -1,5 +1,7 @@
 package com.bnyro.contacts.ui.screens
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +16,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,20 +30,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.bnyro.contacts.enums.IntentActionType
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.ContactEntry
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.models.ContactsModel
+import com.bnyro.contacts.util.IntentHelper
+
 
 @Composable
 fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
     val viewModel: ContactsModel = viewModel()
+    val context = LocalContext.current
     var showDelete by remember {
         mutableStateOf(false)
     }
@@ -97,6 +107,20 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                 Row(
                     modifier = Modifier.padding(10.dp)
                 ) {
+                    ClickableIcon(icon = Icons.Default.Call) {
+                        IntentHelper.launchAction(
+                            context,
+                            IntentActionType.DIAL,
+                            contact.phoneNumber.firstOrNull() ?: return@ClickableIcon
+                        )
+                    }
+                    ClickableIcon(icon = Icons.Default.Send) {
+                        IntentHelper.launchAction(
+                            context,
+                            IntentActionType.SMS,
+                            contact.phoneNumber.firstOrNull() ?: return@ClickableIcon
+                        )
+                    }
                     ClickableIcon(icon = Icons.Default.Delete) {
                         showDelete = true
                     }
@@ -106,8 +130,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
             Spacer(modifier = Modifier.height(20.dp))
 
             contact.phoneNumber.forEach {
-                ContactEntry(label = "Phone", content = it) {
-                }
+                ContactEntry(label = "Phone", content = it) {}
             }
 
             if (showDelete) {
