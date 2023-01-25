@@ -3,6 +3,7 @@ package com.bnyro.contacts.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,6 +13,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,12 +25,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.ContactEntry
+import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
+import com.bnyro.contacts.ui.models.ContactsModel
 
 @Composable
 fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
+    val viewModel: ContactsModel = viewModel()
+
     FullScreenDialog(onClose = onClose) {
         val scrollState = rememberScrollState()
         val shape = RoundedCornerShape(20.dp)
@@ -70,6 +78,13 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold
                     )
+                }
+            }
+
+            Row {
+                ClickableIcon(icon = Icons.Default.Delete) {
+                    viewModel.deleteContact(contact)
+                    onClose.invoke()
                 }
             }
 

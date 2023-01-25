@@ -2,16 +2,18 @@ package com.bnyro.contacts.util
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.ContentProviderOperation
 import android.content.Context
 import android.database.Cursor
 import android.provider.ContactsContract
+import android.provider.ContactsContract.AUTHORITY
 import android.provider.ContactsContract.CommonDataKinds
 import androidx.annotation.RequiresPermission
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
 import com.bnyro.contacts.obj.ContactData
 
-class ContactsHelper(context: Context) {
+class ContactsHelper(private val context: Context) {
     private val contentResolver = context.contentResolver
     private var cursor: Cursor? = null
 
@@ -70,6 +72,20 @@ class ContactsHelper(context: Context) {
         }
 
         return contactList
+    }
+
+    fun deleteContacts(contacts: List<ContactData>) {
+        val operations = ArrayList<ContentProviderOperation>()
+        val selection = "${ContactsContract.RawContacts._ID} = ?"
+        contacts.forEach {
+            ContentProviderOperation.newDelete(ContactsContract.RawContacts.CONTENT_URI).apply {
+                val selectionArgs = arrayOf(it.contactId.toString())
+                withSelection(selection, selectionArgs)
+                operations.add(build())
+            }
+        }
+
+        context.contentResolver.applyBatch(AUTHORITY, operations)
     }
 
     @SuppressLint("Range")

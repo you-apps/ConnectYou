@@ -16,10 +16,11 @@ import kotlinx.coroutines.launch
 
 class ContactsModel : ViewModel() {
     var contacts by mutableStateOf<List<ContactData>?>(null)
+    var contactsHelper: ContactsHelper? = null
 
     fun loadContacts(context: Context) {
         viewModelScope.launch {
-            val contactsHelper = ContactsHelper(context)
+            contactsHelper = ContactsHelper(context)
             if (ActivityCompat.checkSelfPermission(
                     context,
                     Manifest.permission.READ_CONTACTS
@@ -32,7 +33,11 @@ class ContactsModel : ViewModel() {
                 )
                 return@launch
             }
-            contacts = contactsHelper.getContactList()
+            contacts = contactsHelper!!.getContactList()
         }
+    }
+
+    fun deleteContact(contact: ContactData) {
+        contactsHelper?.deleteContacts(listOf(contact))
     }
 }
