@@ -160,12 +160,21 @@ class ContactsHelper(private val context: Context) {
 
         ops.add(op.build())
 
-        // Inserts the specified email and type as a Phone data row
+        // Inserts the specified address as a postal data row
         op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
             .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
             .withValue(ContactsContract.Data.MIMETYPE, StructuredPostal.CONTENT_ITEM_TYPE)
             .withValue(CommonDataKinds.Email.ADDRESS, contact.addresses.firstOrNull())
             .withValue(CommonDataKinds.Email.TYPE, StructuredPostal.TYPE_HOME)
+
+        ops.add(op.build())
+
+        op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI).apply {
+            withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+            withValue(ContactsContract.Data.MIMETYPE, CommonDataKinds.Event.CONTENT_ITEM_TYPE)
+            withValue(CommonDataKinds.Event.START_DATE, contact.events.firstOrNull())
+            withValue(CommonDataKinds.Event.TYPE, CommonDataKinds.Event.TYPE_BIRTHDAY)
+        }
 
         ops.add(op.build())
 

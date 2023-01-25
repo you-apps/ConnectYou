@@ -41,8 +41,13 @@ fun ContactEditor(
     }
 
     val address = remember {
-        mutableStateOf(contact?.emails?.firstOrNull().orEmpty())
+        mutableStateOf(contact?.addresses?.firstOrNull().orEmpty())
     }
+
+    val event = remember {
+        mutableStateOf(contact?.events?.firstOrNull().orEmpty())
+    }
+
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -71,6 +76,10 @@ fun ContactEditor(
                     label = R.string.address,
                     state = address
                 )
+                LabeledTextField(
+                    label = R.string.event,
+                    state = event
+                )
             }
         }
 
@@ -85,7 +94,8 @@ fun ContactEditor(
                     displayName = "${firstName.value.trim()} ${surName.value.trim()}",
                     phoneNumber = listOf(phoneNumber.value.trim()),
                     emails = listOf(email.value.trim()),
-                    addresses = listOf(address.value.trim())
+                    addresses = listOf(address.value.trim()),
+                    events = listOf(event.value.trim())
                 )
                 onSave.invoke(newContact)
             }

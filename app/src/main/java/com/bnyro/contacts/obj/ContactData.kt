@@ -8,5 +8,6 @@ data class ContactData(
     val surName: String? = null,
     var phoneNumber: List<String> = listOf(),
     var emails: List<String> = listOf(),
-    var addresses: List<String> = listOf()
+    var addresses: List<String> = listOf(),
+    var events: List<String> = listOf()
 )
