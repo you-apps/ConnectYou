@@ -6,6 +6,7 @@
     <string name="copied">Copied to clipboard</string>
     <string name="delete_contact">Delete contact</string>
     <string name="irreversible">Are you sure? This can\'t be undone!</string>
+    <string name="cancel">Cancel</string>
 
     <!-- Warnings -->
     <string name="empty_name">Name can\'t be empty!</string>
@@ -19,4 +20,18 @@
     <!-- Sorting -->
     <string name="first_name">First name</string>
     <string name="surname">Surname</string>
+
+    <!-- Types -->
+    <string name="type">Type</string>
+    <string name="home">Home</string>
+    <string name="work">Work</string>
+    <string name="mobile">Mobile</string>
+    <string name="other">Other</string>
+    <string name="custom">Custom</string>
+    <string name="car">Car</string>
+    <string name="fax_home">Fax home</string>
+    <string name="fax_work">Fax work</string>
+    <string name="assistant">Assistant</string>
+    <string name="birthday">Birthday</string>
+    <string name="anniversary">Anniversary</string>
 </resources>

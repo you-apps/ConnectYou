@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.FloatingActionButton
@@ -18,13 +19,23 @@ import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ValueWithType
+import com.bnyro.contacts.ui.components.EditorEntry
 import com.bnyro.contacts.ui.components.base.LabeledTextField
+import com.bnyro.contacts.util.ContactsHelper
 
 @Composable
 fun ContactEditor(
     contact: ContactData? = null,
     onSave: (contact: ContactData) -> Unit
 ) {
+    fun List<ValueWithType>?.fill(): List<ValueWithType> {
+        return if (this.isNullOrEmpty()) {
+            listOf(ValueWithType("", 0))
+        } else {
+            this
+        }
+    }
+
     val firstName = remember {
         mutableStateOf(contact?.displayName.orEmpty())
     }
@@ -34,19 +45,19 @@ fun ContactEditor(
     }
 
     val phoneNumber = remember {
-        mutableStateOf(contact?.phoneNumber?.firstOrNull()?.value.orEmpty())
+        contact?.phoneNumber.fill().map { mutableStateOf(it) }
     }
 
-    val email = remember {
-        mutableStateOf(contact?.emails?.firstOrNull()?.value.orEmpty())
+    val emails = remember {
+        contact?.emails.fill().map { mutableStateOf(it) }
     }
 
-    val address = remember {
-        mutableStateOf(contact?.addresses?.firstOrNull()?.value.orEmpty())
+    val addresses = remember {
+        contact?.addresses.fill().map { mutableStateOf(it) }
     }
 
-    val event = remember {
-        mutableStateOf(contact?.events?.firstOrNull()?.value.orEmpty())
+    val events = remember {
+        contact?.events.fill().map { mutableStateOf(it) }
     }
 
     Box(
@@ -60,26 +71,29 @@ fun ContactEditor(
                     label = R.string.first_name,
                     state = firstName
                 )
+            }
+
+            item {
                 LabeledTextField(
                     label = R.string.surname,
                     state = surName
                 )
-                LabeledTextField(
-                    label = R.string.phone,
-                    state = phoneNumber
-                )
-                LabeledTextField(
-                    label = R.string.email,
-                    state = email
-                )
-                LabeledTextField(
-                    label = R.string.address,
-                    state = address
-                )
-                LabeledTextField(
-                    label = R.string.event,
-                    state = event
-                )
+            }
+
+            items(phoneNumber) {
+                EditorEntry(R.string.phone, it, ContactsHelper.phoneNumberTypes)
+            }
+
+            items(emails) {
+                EditorEntry(R.string.email, it, ContactsHelper.emailTypes)
+            }
+
+            items(addresses) {
+                EditorEntry(R.string.address, it, ContactsHelper.addressTypes)
+            }
+
+            items(events) {
+                EditorEntry(R.string.event, it, ContactsHelper.eventTypes)
             }
         }
 
@@ -92,10 +106,10 @@ fun ContactEditor(
                     firstName = firstName.value.trim(),
                     surName = surName.value.trim(),
                     displayName = "${firstName.value.trim()} ${surName.value.trim()}",
-                    phoneNumber = listOf(ValueWithType(phoneNumber.value.trim())),
-                    emails = listOf(ValueWithType(email.value.trim())),
-                    addresses = listOf(ValueWithType(address.value.trim())),
-                    events = listOf(ValueWithType(event.value.trim()))
+                    phoneNumber = phoneNumber.map { it.value },
+                    emails = emails.map { it.value },
+                    addresses = addresses.map { it.value },
+                    events = events.map { it.value }
                 )
                 onSave.invoke(newContact)
             }

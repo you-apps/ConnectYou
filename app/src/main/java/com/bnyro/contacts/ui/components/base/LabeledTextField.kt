@@ -15,16 +15,19 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LabeledTextField(
+    modifier: Modifier = Modifier,
     @StringRes label: Int,
-    state: MutableState<String>
+    state: MutableState<String>,
+    onValueChange: (String) -> Unit = {}
 ) {
     OutlinedTextField(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp, vertical = 5.dp),
         value = state.value,
         onValueChange = {
             state.value = it
+            onValueChange(it)
         },
         label = {
             Text(text = stringResource(label))

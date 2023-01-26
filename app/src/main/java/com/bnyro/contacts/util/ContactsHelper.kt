@@ -12,10 +12,12 @@ import android.provider.ContactsContract.CommonDataKinds.StructuredName
 import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
 import android.provider.ContactsContract.RawContacts
 import androidx.annotation.RequiresPermission
+import com.bnyro.contacts.R
 import com.bnyro.contacts.ext.intValue
 import com.bnyro.contacts.ext.longValue
 import com.bnyro.contacts.ext.stringValue
 import com.bnyro.contacts.obj.ContactData
+import com.bnyro.contacts.obj.TranslatedType
 import com.bnyro.contacts.obj.ValueWithType
 
 class ContactsHelper(private val context: Context) {
@@ -193,7 +195,7 @@ class ContactsHelper(private val context: Context) {
                     Phone.NUMBER,
                     it.value,
                     Phone.TYPE,
-                    Phone.TYPE_MOBILE
+                    it.type
                 )
             }.toTypedArray(),
             *contact.emails.map {
@@ -202,7 +204,7 @@ class ContactsHelper(private val context: Context) {
                     Email.ADDRESS,
                     it.value,
                     Email.TYPE,
-                    Email.TYPE_HOME
+                    it.type
                 )
             }.toTypedArray(),
             *contact.addresses.map {
@@ -211,7 +213,7 @@ class ContactsHelper(private val context: Context) {
                     StructuredPostal.FORMATTED_ADDRESS,
                     it.value,
                     StructuredPostal.TYPE,
-                    StructuredPostal.TYPE_HOME
+                    it.type
                 )
             }.toTypedArray(),
             *contact.events.map {
@@ -220,7 +222,7 @@ class ContactsHelper(private val context: Context) {
                     Event.START_DATE,
                     it.value,
                     Event.TYPE,
-                    Event.TYPE_BIRTHDAY
+                    it.type
                 )
             }.toTypedArray()
         )
@@ -252,5 +254,41 @@ class ContactsHelper(private val context: Context) {
                 }
             }
             .build()
+    }
+
+    companion object {
+        val emailTypes = listOf(
+            TranslatedType(Email.TYPE_HOME, R.string.home),
+            TranslatedType(Email.TYPE_WORK, R.string.work),
+            TranslatedType(Email.TYPE_MOBILE, R.string.mobile),
+            TranslatedType(Email.TYPE_CUSTOM, R.string.custom),
+            TranslatedType(Email.TYPE_OTHER, R.string.other)
+        )
+
+        val phoneNumberTypes = listOf(
+            TranslatedType(Phone.TYPE_HOME, R.string.home),
+            TranslatedType(Phone.TYPE_MOBILE, R.string.mobile),
+            TranslatedType(Phone.TYPE_WORK, R.string.work),
+            TranslatedType(Phone.TYPE_CAR, R.string.car),
+            TranslatedType(Phone.TYPE_FAX_HOME, R.string.fax_home),
+            TranslatedType(Phone.TYPE_FAX_WORK, R.string.fax_work),
+            TranslatedType(Phone.TYPE_ASSISTANT, R.string.assistant),
+            TranslatedType(Phone.TYPE_CUSTOM, R.string.custom),
+            TranslatedType(Phone.TYPE_OTHER, R.string.other)
+        )
+
+        val addressTypes = listOf(
+            TranslatedType(StructuredPostal.TYPE_HOME, R.string.home),
+            TranslatedType(StructuredPostal.TYPE_WORK, R.string.work),
+            TranslatedType(StructuredPostal.TYPE_CUSTOM, R.string.custom),
+            TranslatedType(StructuredPostal.TYPE_OTHER, R.string.other)
+        )
+
+        val eventTypes = listOf(
+            TranslatedType(Event.TYPE_BIRTHDAY, R.string.birthday),
+            TranslatedType(Event.TYPE_ANNIVERSARY, R.string.anniversary),
+            TranslatedType(Event.TYPE_CUSTOM, R.string.custom),
+            TranslatedType(Event.TYPE_OTHER, R.string.other)
+        )
     }
 }
