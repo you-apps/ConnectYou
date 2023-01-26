@@ -1,18 +1,25 @@
 package com.bnyro.contacts.ui.components
 
+import android.os.Handler
+import android.os.Looper
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Sort
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,6 +46,7 @@ fun ContactsPage(
 ) {
     val viewModel: ContactsModel = viewModel()
     val context = LocalContext.current
+    val handler = Handler(Looper.getMainLooper())
 
     var showEditor by remember {
         mutableStateOf(showEditorDefault)
@@ -110,9 +118,30 @@ fun ContactsPage(
                 Icon(Icons.Default.Create, null)
             }
         } else {
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center)
-            )
+            Column(
+                modifier = Modifier.align(Alignment.Center),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                var showRetry by remember {
+                    mutableStateOf(false)
+                }
+                LaunchedEffect(showRetry) {
+                    handler.postDelayed({
+                        showRetry = true
+                    }, 2000)
+                }
+
+                CircularProgressIndicator()
+                if (showRetry) {
+                    Spacer(modifier = Modifier.height(40.dp))
+                    Button(onClick = {
+                        viewModel.loadContacts(context)
+                        showRetry = false
+                    }) {
+                        Text(stringResource(R.string.retry))
+                    }
+                }
+            }
         }
     }
 
