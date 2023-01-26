@@ -44,6 +44,7 @@ import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.models.ContactsModel
+import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.IntentHelper
 
 @Composable
@@ -138,23 +139,39 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
             }
 
             contact.phoneNumber.forEach {
-                ContactEntry(label = stringResource(R.string.phone), content = it.value) {
+                ContactEntry(
+                    label = stringResource(R.string.phone),
+                    content = it.value,
+                    type = ContactsHelper.phoneNumberTypes.firstOrNull { type -> it.type == type.id }?.title
+                ) {
                     IntentHelper.launchAction(context, IntentActionType.DIAL, it.value)
                 }
             }
 
             contact.emails.forEach {
-                ContactEntry(label = stringResource(R.string.email), content = it.value) {
+                ContactEntry(
+                    label = stringResource(R.string.email),
+                    content = it.value,
+                    type = ContactsHelper.emailTypes.firstOrNull { type -> it.type == type.id }?.title
+                ) {
                     IntentHelper.launchAction(context, IntentActionType.EMAIL, it.value)
                 }
             }
 
             contact.addresses.forEach {
-                ContactEntry(label = stringResource(R.string.address), content = it.value)
+                ContactEntry(
+                    label = stringResource(R.string.address),
+                    content = it.value,
+                    type = ContactsHelper.addressTypes.firstOrNull { type -> it.type == type.id }?.title
+                )
             }
 
             contact.events.forEach {
-                ContactEntry(label = stringResource(R.string.event), content = it.value)
+                ContactEntry(
+                    label = stringResource(R.string.event),
+                    content = it.value,
+                    type = ContactsHelper.eventTypes.firstOrNull { type -> it.type == type.id }?.title
+                )
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.bnyro.contacts.ui.components
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bnyro.contacts.util.ClipboardHelper
@@ -24,6 +26,7 @@ import com.bnyro.contacts.util.ClipboardHelper
 fun ContactEntry(
     label: String,
     content: String,
+    @StringRes type: Int? = null,
     onClick: () -> Unit = {}
 ) {
     val shape = RoundedCornerShape(20.dp)
@@ -47,7 +50,7 @@ fun ContactEntry(
             modifier = Modifier.padding(8.dp)
         ) {
             Text(
-                text = label.uppercase(),
+                text = (if (type == null) label else "$label (${stringResource(type)})").uppercase(),
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 10.sp
             )
