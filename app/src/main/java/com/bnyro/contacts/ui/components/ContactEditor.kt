@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -34,6 +35,10 @@ fun ContactEditor(
         } else {
             this
         }
+    }
+
+    fun List<MutableState<ValueWithType>>.clean(): List<ValueWithType> {
+        return this.filter { it.value.value.isNotBlank() }.map { it.value }
     }
 
     val firstName = remember {
@@ -106,10 +111,10 @@ fun ContactEditor(
                     firstName = firstName.value.trim(),
                     surName = surName.value.trim(),
                     displayName = "${firstName.value.trim()} ${surName.value.trim()}",
-                    phoneNumber = phoneNumber.map { it.value },
-                    emails = emails.map { it.value },
-                    addresses = addresses.map { it.value },
-                    events = events.map { it.value }
+                    phoneNumber = phoneNumber.clean(),
+                    emails = emails.clean(),
+                    addresses = addresses.clean(),
+                    events = events.clean()
                 )
                 onSave.invoke(newContact)
             }
