@@ -1,0 +1,1 @@
+Modern contacts app using Material Design 3 (You) and Jetpack Compose
