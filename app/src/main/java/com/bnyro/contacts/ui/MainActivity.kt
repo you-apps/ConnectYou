@@ -1,4 +1,4 @@
-package com.bnyro.contacts
+package com.bnyro.contacts.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

@@ -7,6 +7,7 @@
     <string name="delete_contact">Delete contact</string>
     <string name="irreversible">Are you sure? This can\'t be undone!</string>
     <string name="cancel">Cancel</string>
+    <string name="create_contact">Create contact</string>
 
     <!-- Warnings -->
     <string name="empty_name">Name can\'t be empty!</string>
