@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -27,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.TranslatedType
 import com.bnyro.contacts.obj.ValueWithType
+import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.LabeledTextField
 import com.bnyro.contacts.ui.components.dialogs.DialogButton
 
@@ -34,7 +37,8 @@ import com.bnyro.contacts.ui.components.dialogs.DialogButton
 fun EditorEntry(
     @StringRes label: Int,
     state: MutableState<ValueWithType>,
-    types: List<TranslatedType>
+    types: List<TranslatedType>,
+    onCreateNew: () -> Unit
 ) {
     val textState = remember {
         mutableStateOf(state.value.value)
@@ -65,6 +69,10 @@ fun EditorEntry(
                 it.id == state.value.type
             }?.title?.let { stringResource(it) }.orEmpty()
         )
+        Spacer(modifier = Modifier.width(10.dp))
+        ClickableIcon(icon = Icons.Default.Add) {
+            onCreateNew.invoke()
+        }
         Spacer(modifier = Modifier.width(10.dp))
     }
 

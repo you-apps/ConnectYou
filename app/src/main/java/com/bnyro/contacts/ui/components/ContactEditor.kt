@@ -12,8 +12,10 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -41,6 +43,8 @@ fun ContactEditor(
         return this.filter { it.value.value.isNotBlank() }.map { it.value }
     }
 
+    fun emptyMutable() = mutableStateOf(ValueWithType("", 0))
+
     val firstName = remember {
         mutableStateOf(contact?.firstName.orEmpty())
     }
@@ -49,20 +53,28 @@ fun ContactEditor(
         mutableStateOf(contact?.surName.orEmpty())
     }
 
-    val phoneNumber = remember {
-        contact?.phoneNumber.fillIfEmpty().map { mutableStateOf(it) }
+    var phoneNumber by remember {
+        mutableStateOf(
+            contact?.phoneNumber.fillIfEmpty().map { mutableStateOf(it) }
+        )
     }
 
-    val emails = remember {
-        contact?.emails.fillIfEmpty().map { mutableStateOf(it) }
+    var emails by remember {
+        mutableStateOf(
+            contact?.emails.fillIfEmpty().map { mutableStateOf(it) }
+        )
     }
 
-    val addresses = remember {
-        contact?.addresses.fillIfEmpty().map { mutableStateOf(it) }
+    var addresses by remember {
+        mutableStateOf(
+            contact?.addresses.fillIfEmpty().map { mutableStateOf(it) }
+        )
     }
 
-    val events = remember {
-        contact?.events.fillIfEmpty().map { mutableStateOf(it) }
+    var events by remember {
+        mutableStateOf(
+            contact?.events.fillIfEmpty().map { mutableStateOf(it) }
+        )
     }
 
     Box(
@@ -86,19 +98,27 @@ fun ContactEditor(
             }
 
             items(phoneNumber) {
-                EditorEntry(R.string.phone, it, ContactsHelper.phoneNumberTypes)
+                EditorEntry(R.string.phone, it, ContactsHelper.phoneNumberTypes) {
+                    phoneNumber = phoneNumber + emptyMutable()
+                }
             }
 
             items(emails) {
-                EditorEntry(R.string.email, it, ContactsHelper.emailTypes)
+                EditorEntry(R.string.email, it, ContactsHelper.emailTypes) {
+                    emails = emails + emptyMutable()
+                }
             }
 
             items(addresses) {
-                EditorEntry(R.string.address, it, ContactsHelper.addressTypes)
+                EditorEntry(R.string.address, it, ContactsHelper.addressTypes) {
+                    addresses = addresses + emptyMutable()
+                }
             }
 
             items(events) {
-                EditorEntry(R.string.event, it, ContactsHelper.eventTypes)
+                EditorEntry(R.string.event, it, ContactsHelper.eventTypes) {
+                    events = events + emptyMutable()
+                }
             }
         }
 
