@@ -22,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.enums.SortOrder
@@ -36,6 +37,7 @@ fun ContactItem(contact: ContactData, sortOrder: SortOrder) {
         mutableStateOf(false)
     }
     val viewModel: ContactsModel = viewModel()
+    val context = LocalContext.current
 
     ElevatedCard(
         modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp)
@@ -66,7 +68,7 @@ fun ContactItem(contact: ContactData, sortOrder: SortOrder) {
             Spacer(modifier = Modifier.width(20.dp))
             Text(
                 when (sortOrder) {
-                    SortOrder.FIRSTNAME -> "${contact.firstName} ${contact.surName}"
+                    SortOrder.FIRSTNAME -> "${contact.firstName ?: ""} ${contact.surName ?: ""}".trim()
                     SortOrder.SURNAME -> if (contact.surName != null) {
                         "${contact.surName}, ${contact.firstName}"
                     } else {
@@ -78,7 +80,7 @@ fun ContactItem(contact: ContactData, sortOrder: SortOrder) {
     }
 
     if (showContactScreen) {
-        SingleContactScreen(viewModel.loadAdvancedContactData(contact)) {
+        SingleContactScreen(viewModel.loadAdvancedContactData(context, contact)) {
             showContactScreen = false
         }
     }

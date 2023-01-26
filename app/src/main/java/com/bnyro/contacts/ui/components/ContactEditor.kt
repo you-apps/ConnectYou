@@ -29,7 +29,7 @@ fun ContactEditor(
     contact: ContactData? = null,
     onSave: (contact: ContactData) -> Unit
 ) {
-    fun List<ValueWithType>?.fill(): List<ValueWithType> {
+    fun List<ValueWithType>?.fillIfEmpty(): List<ValueWithType> {
         return if (this.isNullOrEmpty()) {
             listOf(ValueWithType("", 0))
         } else {
@@ -42,27 +42,27 @@ fun ContactEditor(
     }
 
     val firstName = remember {
-        mutableStateOf(contact?.displayName.orEmpty())
+        mutableStateOf(contact?.firstName.orEmpty())
     }
 
     val surName = remember {
-        mutableStateOf(contact?.displayName.orEmpty())
+        mutableStateOf(contact?.surName.orEmpty())
     }
 
     val phoneNumber = remember {
-        contact?.phoneNumber.fill().map { mutableStateOf(it) }
+        contact?.phoneNumber.fillIfEmpty().map { mutableStateOf(it) }
     }
 
     val emails = remember {
-        contact?.emails.fill().map { mutableStateOf(it) }
+        contact?.emails.fillIfEmpty().map { mutableStateOf(it) }
     }
 
     val addresses = remember {
-        contact?.addresses.fill().map { mutableStateOf(it) }
+        contact?.addresses.fillIfEmpty().map { mutableStateOf(it) }
     }
 
     val events = remember {
-        contact?.events.fill().map { mutableStateOf(it) }
+        contact?.events.fillIfEmpty().map { mutableStateOf(it) }
     }
 
     Box(

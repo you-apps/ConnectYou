@@ -47,15 +47,10 @@ class ContactsHelper(private val context: Context) {
 
         cursor.use {
             while (it.moveToNext()) {
-                val contactId = it.longValue(Phone.CONTACT_ID)!!
+                val contactId = it.longValue(RawContacts.CONTACT_ID)!!
 
-                // check whether already in the list
-                val contactIndex = contactList.indexOfFirst {
-                    it.contactId == contactId
-                }.takeIf { it >= 0 }
-                if (contactIndex != null) {
-                    continue
-                }
+                // avoid duplicates
+                if (contactList.any { it.contactId == contactId }) continue
 
                 val contact = ContactData(
                     contactId = contactId,
@@ -158,7 +153,7 @@ class ContactsHelper(private val context: Context) {
     @RequiresPermission(Manifest.permission.WRITE_CONTACTS)
     fun deleteContacts(contacts: List<ContactData>) {
         val operations = ArrayList<ContentProviderOperation>()
-        val selection = "${RawContacts._ID} = ?"
+        val selection = "${RawContacts.CONTACT_ID} = ?"
         contacts.forEach {
             ContentProviderOperation.newDelete(RawContacts.CONTENT_URI).apply {
                 val selectionArgs = arrayOf(it.contactId.toString())
@@ -173,7 +168,7 @@ class ContactsHelper(private val context: Context) {
     @RequiresPermission(Manifest.permission.WRITE_CONTACTS)
     fun createContact(contact: ContactData) {
         val ops = arrayListOf(
-            getCreateAction(contact.displayName.orEmpty()),
+            getCreateAction(contact.displayName.orEmpty(), contact.accountType),
             getInsertAction(
                 StructuredName.CONTENT_ITEM_TYPE,
                 StructuredName.DISPLAY_NAME,
@@ -230,9 +225,9 @@ class ContactsHelper(private val context: Context) {
         contentResolver.applyBatch(AUTHORITY, ops)
     }
 
-    private fun getCreateAction(accountName: String): ContentProviderOperation {
+    private fun getCreateAction(accountName: String, accountType: String?): ContentProviderOperation {
         return ContentProviderOperation.newInsert(RawContacts.CONTENT_URI)
-            .withValue(RawContacts.ACCOUNT_TYPE, androidAccountType)
+            .withValue(RawContacts.ACCOUNT_TYPE, accountType ?: androidAccountType)
             .withValue(RawContacts.ACCOUNT_NAME, accountName)
             .build()
     }

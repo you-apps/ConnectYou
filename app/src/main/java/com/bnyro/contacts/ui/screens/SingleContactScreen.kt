@@ -17,6 +17,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
@@ -50,6 +51,9 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
     val viewModel: ContactsModel = viewModel()
     val context = LocalContext.current
     var showDelete by remember {
+        mutableStateOf(false)
+    }
+    var showEditor by remember {
         mutableStateOf(false)
     }
 
@@ -123,6 +127,10 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                         )
                     }
                     Spacer(modifier = Modifier.width(5.dp))
+                    ClickableIcon(icon = Icons.Default.Edit) {
+                        showEditor = true
+                    }
+                    Spacer(modifier = Modifier.width(5.dp))
                     ClickableIcon(icon = Icons.Default.Delete) {
                         showDelete = true
                     }
@@ -148,19 +156,32 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
             contact.events.forEach {
                 ContactEntry(label = stringResource(R.string.event), content = it.value)
             }
+        }
+    }
 
-            if (showDelete) {
-                ConfirmationDialog(
-                    onDismissRequest = {
-                        showDelete = false
-                    },
-                    title = stringResource(R.string.delete_contact),
-                    text = stringResource(R.string.irreversible)
-                ) {
-                    viewModel.deleteContact(context, contact)
-                    onClose.invoke()
-                }
+    if (showEditor) {
+        EditorScreen(
+            contact = contact,
+            onClose = {
+                showEditor = false
+            },
+            onSave = {
+                viewModel.updateContact(context, it)
+                onClose.invoke()
             }
+        )
+    }
+
+    if (showDelete) {
+        ConfirmationDialog(
+            onDismissRequest = {
+                showDelete = false
+            },
+            title = stringResource(R.string.delete_contact),
+            text = stringResource(R.string.irreversible)
+        ) {
+            viewModel.deleteContact(context, contact)
+            onClose.invoke()
         }
     }
 }
