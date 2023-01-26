@@ -9,9 +9,12 @@ import com.bnyro.contacts.ui.theme.ConnectYouTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val showEditor = intent?.getStringExtra("action") == "create"
+
         setContent {
             ConnectYouTheme {
-                ContactsScreen()
+                ContactsScreen(showEditor)
             }
         }
     }

@@ -33,12 +33,15 @@ import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.EditorScreen
 
 @Composable
-fun ContactsPage(contacts: List<ContactData>?) {
+fun ContactsPage(
+    contacts: List<ContactData>?,
+    showEditorDefault: Boolean
+) {
     val viewModel: ContactsModel = viewModel()
     val context = LocalContext.current
 
     var showEditor by remember {
-        mutableStateOf(false)
+        mutableStateOf(showEditorDefault)
     }
 
     var sortOrder by remember {

@@ -12,7 +12,9 @@ import com.bnyro.contacts.ui.components.ContactsPage
 import com.bnyro.contacts.ui.models.ContactsModel
 
 @Composable
-fun ContactsScreen() {
+fun ContactsScreen(
+    showEditorDefault: Boolean
+) {
     val context = LocalContext.current
     val contactsModel: ContactsModel = viewModel()
 
@@ -24,6 +26,6 @@ fun ContactsScreen() {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        ContactsPage(contactsModel.contacts)
+        ContactsPage(contactsModel.contacts, showEditorDefault)
     }
 }
