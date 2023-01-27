@@ -68,14 +68,14 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
         ) {
             ElevatedCard(
                 modifier = Modifier
-                    .padding(horizontal = 10.dp, vertical = 5.dp)
+                    .padding(start = 15.dp, end = 15.dp, bottom = 5.dp, top = 20.dp)
                     .fillMaxWidth()
                     .clip(shape),
                 shape = shape
             ) {
                 Column(
                     modifier = Modifier
-                        .padding(horizontal = 10.dp, vertical = 50.dp)
+                        .padding(horizontal = 10.dp, vertical = 35.dp)
                         .fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
