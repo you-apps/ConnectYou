@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.SortOrder
+import com.bnyro.contacts.ext.notAName
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.models.ContactsModel
@@ -94,14 +95,16 @@ fun ContactItem(contact: ContactData, sortOrder: SortOrder) {
                     }
                     Spacer(modifier = Modifier.width(20.dp))
                     Text(
-                        when (sortOrder) {
-                            SortOrder.FIRSTNAME -> "${contact.firstName ?: ""} ${contact.surName ?: ""}".trim()
-                            SortOrder.SURNAME -> if (contact.surName != null) {
+                        when {
+                            contact.firstName.notAName() && contact.surName.notAName() -> contact.displayName.orEmpty()
+                            sortOrder == SortOrder.FIRSTNAME -> "${contact.firstName ?: ""} ${contact.surName ?: ""}"
+                            sortOrder == SortOrder.SURNAME -> if (contact.surName != null) {
                                 "${contact.surName}, ${contact.firstName}"
                             } else {
                                 contact.displayName.orEmpty()
                             }
-                        }
+                            else -> return@Row
+                        }.trim()
                     )
                 }
             }
