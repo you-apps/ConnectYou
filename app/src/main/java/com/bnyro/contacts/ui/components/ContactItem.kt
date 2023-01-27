@@ -98,12 +98,8 @@ fun ContactItem(contact: ContactData, sortOrder: SortOrder) {
                         when {
                             contact.firstName.notAName() && contact.surName.notAName() -> contact.displayName.orEmpty()
                             sortOrder == SortOrder.FIRSTNAME -> "${contact.firstName ?: ""} ${contact.surName ?: ""}"
-                            sortOrder == SortOrder.SURNAME -> if (contact.surName != null) {
-                                "${contact.surName}, ${contact.firstName}"
-                            } else {
-                                contact.displayName.orEmpty()
-                            }
-                            else -> return@Row
+                            sortOrder == SortOrder.SURNAME && contact.surName != null && contact.firstName != null -> "${contact.surName}, ${contact.firstName}"
+                            else -> contact.displayName.orEmpty()
                         }.trim()
                     )
                 }
