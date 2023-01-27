@@ -47,7 +47,7 @@ fun ContactEntry(
             )
     ) {
         Column(
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp)
         ) {
             Text(
                 text = (if (type == null) label else "$label (${stringResource(type)})").uppercase(),
