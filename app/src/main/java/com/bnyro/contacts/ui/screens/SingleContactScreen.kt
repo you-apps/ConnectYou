@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -45,6 +46,7 @@ import com.bnyro.contacts.ui.components.base.FullScreenDialog
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.util.ContactsHelper
+import com.bnyro.contacts.util.ExportHelper
 import com.bnyro.contacts.util.IntentHelper
 
 @Composable
@@ -130,6 +132,11 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     Spacer(modifier = Modifier.width(5.dp))
                     ClickableIcon(icon = Icons.Default.Edit) {
                         showEditor = true
+                    }
+                    Spacer(modifier = Modifier.width(5.dp))
+                    ClickableIcon(icon = Icons.Default.Share) {
+                        val tempFileUri = ExportHelper(context).exportContact(contact)
+                        IntentHelper.shareContactVcf(context, tempFileUri)
                     }
                     Spacer(modifier = Modifier.width(5.dp))
                     ClickableIcon(icon = Icons.Default.Delete) {

@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import androidx.core.content.FileProvider
 import com.bnyro.contacts.ext.pmap
 import com.bnyro.contacts.obj.ContactData
+import java.io.File
 
 class ExportHelper(private val context: Context) {
     private val contactsHelper = ContactsHelper(context)
@@ -29,5 +31,22 @@ class ExportHelper(private val context: Context) {
         contentResolver.openOutputStream(uri)?.use {
             it.write(vCardText.toByteArray())
         }
+    }
+
+    fun exportContact(minimalContact: ContactData): Uri {
+        val contact = contactsHelper.loadAdvancedData(minimalContact)
+        val vCardText = VcardHelper.exportVcard(listOf(contact))
+        val outputDir = File(context.cacheDir, "contacts").also {
+            if (!it.exists()) it.mkdir()
+        }
+        val outFile = File.createTempFile(contact.displayName.orEmpty(), ".vcf", outputDir)
+        contentResolver.openOutputStream(Uri.fromFile(outFile))?.use {
+            it.write(vCardText.toByteArray())
+        }
+        return FileProvider.getUriForFile(
+            context,
+            context.applicationContext.packageName + ".provider",
+            outFile
+        )
     }
 }

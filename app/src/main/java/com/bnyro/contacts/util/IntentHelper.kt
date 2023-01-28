@@ -3,6 +3,7 @@ package com.bnyro.contacts.util
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.IntentActionType
 
 object IntentHelper {
@@ -26,5 +27,16 @@ object IntentHelper {
             data = Uri.fromParts(actionScheme, query, null)
         }
         context.startActivity(intent)
+    }
+
+    fun shareContactVcf(context: Context, uri: Uri) {
+        val target = Intent().apply {
+            action = Intent.ACTION_SEND
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            type = context.contentResolver.getType(uri)
+            putExtra(Intent.EXTRA_STREAM, uri)
+        }
+        val chooser = Intent.createChooser(target, context.getString(R.string.share))
+        context.startActivity(chooser)
     }
 }
