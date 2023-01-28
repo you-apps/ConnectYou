@@ -4,13 +4,13 @@
     <string name="search" tools:ignore="PrivateResource">Ricerca</string>
     <string name="share">Condividi</string>
     <string name="phone">Telefono</string>
-    <string name="irreversible">Sei sicuro/a\? Questo non può essere annullato!</string>
+    <string name="irreversible">Sei sicuro\? Questo non può essere annullato!</string>
     <string name="export_success">Esportato.</string>
     <string name="cancel">Annulla</string>
     <string name="create_contact">Crea un contatto</string>
     <string name="import_success">Importato.</string>
     <string name="empty_name">Il nome non può essere vuoto!</string>
-    <string name="email">E-mail</string>
+    <string name="email">Email</string>
     <string name="about">Informazioni</string>
     <string name="copied">Copiato negli appunti</string>
     <string name="type">Tipo</string>
