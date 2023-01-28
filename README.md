@@ -30,6 +30,11 @@
 
 [<img src="ghbadge.png" alt="Get it on GitHub" height="80">](https://github.com/bnyro/connectyou/releases)
 
+## Translation
+<a href="https://hosted.weblate.org/projects/you-apps/connect-you/">
+<img src="https://hosted.weblate.org/widgets/you-apps/-/287x66-grey.png" alt="Translation status" />
+</a>
+
 ## License
 
 Connect You is licensed under the [**GNU General Public License**](https://www.gnu.org/licenses/gpl.html): You can use, study and share it as you want.
