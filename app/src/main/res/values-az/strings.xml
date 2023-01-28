@@ -15,7 +15,7 @@
     <string name="event">Hadisə</string>
     <string name="irreversible">Siz əminsiniz\? Bu geri qaytarıla bilməz!</string>
     <string name="cancel">Ləğv et</string>
-    <string name="export_success">Uğurla ixrac edildi!</string>
+    <string name="export_success">İxrac edildi!</string>
     <string name="phone">Telefon</string>
     <string name="empty_name">Ad boş olmamalıdır!</string>
     <string name="email">E-poçt</string>
@@ -30,7 +30,7 @@
     <string name="assistant">Köməkçi</string>
     <string name="birthday">Ad günü</string>
     <string name="anniversary">Yubiley</string>
-    <string name="import_success">Uğurla idxal edildi!</string>
+    <string name="import_success">İdxal edildi!</string>
     <string name="create_contact">Əlaqə yarat</string>
     <string name="share">Paylaş</string>
     <string name="type">Nümunə</string>
