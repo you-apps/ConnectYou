@@ -73,6 +73,11 @@ fun AboutScreen(onDismissRequest: () -> Unit) {
                     url = "https://github.com/Bnyro/"
                 )
                 AboutRow(
+                    title = stringResource(R.string.translation),
+                    summary = "Weblate",
+                    url = "https://hosted.weblate.org/projects/you-apps/connect-you/"
+                )
+                AboutRow(
                     title = stringResource(R.string.license),
                     summary = "GPL-3.0",
                     url = "https://www.gnu.org/licenses/gpl-3.0.html"

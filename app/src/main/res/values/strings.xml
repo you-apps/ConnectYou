@@ -49,4 +49,5 @@
     <string name="license">License</string>
     <string name="author">Author</string>
     <string name="version">Version</string>
+    <string name="translation">Translation</string>
 </resources>
