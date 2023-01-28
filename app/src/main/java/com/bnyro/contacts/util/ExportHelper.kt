@@ -3,7 +3,6 @@ package com.bnyro.contacts.util
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.core.content.FileProvider
 import com.bnyro.contacts.ext.pmap
 import com.bnyro.contacts.obj.ContactData
@@ -27,7 +26,6 @@ class ExportHelper(private val context: Context) {
     fun exportContacts(uri: Uri, minimalContacts: List<ContactData>) {
         val contacts = minimalContacts.pmap { contactsHelper.loadAdvancedData(it) }
         val vCardText = VcardHelper.exportVcard(contacts)
-        Log.e("vCard", vCardText)
         contentResolver.openOutputStream(uri)?.use {
             it.write(vCardText.toByteArray())
         }

@@ -123,7 +123,9 @@ fun ContactsPage(
                         onSelect = {
                             when (it) {
                                 0 -> {
-                                    importVcard.launch(arrayOf("text/vcard"))
+                                    importVcard.launch(
+                                        arrayOf("text/vcard", "text/v-card", "text/x-vcard")
+                                    )
                                 }
                                 1 -> {
                                     exportVcard.launch("contacts.vcf")

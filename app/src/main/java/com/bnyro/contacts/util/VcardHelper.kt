@@ -11,6 +11,7 @@ import ezvcard.VCardVersion
 import ezvcard.parameter.AddressType
 import ezvcard.parameter.EmailType
 import ezvcard.parameter.TelephoneType
+import ezvcard.property.Address
 import ezvcard.property.FormattedName
 import ezvcard.property.StructuredName
 
@@ -54,9 +55,29 @@ object VcardHelper {
             contact.numbers.forEach { number ->
                 val type = phoneNumberTypes.firstOrNull {
                     it.first == number.type
-                }?.second
+                }?.second ?: TelephoneType.PREF
                 runCatching {
                     addTelephoneNumber(number.value, type)
+                }
+            }
+            contact.emails.forEach { email ->
+                val type = emailTypes.firstOrNull {
+                    it.first == email.type
+                }?.second ?: EmailType.PREF
+                runCatching {
+                    addEmail(email.value, type)
+                }
+            }
+            contact.addresses.forEach { address ->
+                val addressType = addressTypes.firstOrNull {
+                    it.first == address.type
+                }?.second?.value ?: AddressType.PREF.value
+                runCatching {
+                    val newAddress = Address().apply {
+                        streetAddress = address.value
+                        parameters.addType(addressType)
+                    }
+                    addAddress(newAddress)
                 }
             }
         }
@@ -94,7 +115,7 @@ object VcardHelper {
                             address.region,
                             address.postalCode,
                             address.country
-                        ).filter { entry -> entry.isNotBlank() }.joinToString { " " }.trim(),
+                        ).filter { entry -> entry.isNotBlank() }.joinToString(" ").trim(),
                         addressTypes.firstOrNull { pair ->
                             pair.second == address.types.firstOrNull()
                         }?.first
