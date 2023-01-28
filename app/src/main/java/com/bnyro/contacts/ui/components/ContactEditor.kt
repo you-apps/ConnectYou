@@ -1,4 +1,4 @@
-package com.bnyro.contacts.ui.components.dialogs
+package com.bnyro.contacts.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ValueWithType
-import com.bnyro.contacts.ui.components.EditorEntry
 import com.bnyro.contacts.ui.components.base.LabeledTextField
 import com.bnyro.contacts.util.ContactsHelper
 

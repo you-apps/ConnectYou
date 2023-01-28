@@ -36,4 +36,8 @@
     <string name="assistant">Assistant</string>
     <string name="birthday">Birthday</string>
     <string name="anniversary">Anniversary</string>
+
+    <!-- Import & Export -->
+    <string name="import_vcf">Import VCard</string>
+    <string name="export_vcf">Export VCard</string>
 </resources>

@@ -52,12 +52,12 @@ object VcardHelper {
                 family = contact.surName
             }
             contact.numbers.forEach { number ->
-                addTelephoneNumber(
-                    number.value,
-                    phoneNumberTypes.firstOrNull {
-                        it.first == number.type
-                    }?.second
-                )
+                val type = phoneNumberTypes.firstOrNull {
+                    it.first == number.type
+                }?.second
+                runCatching {
+                    addTelephoneNumber(number.value, type)
+                }
             }
         }
     }
@@ -95,7 +95,7 @@ object VcardHelper {
                             address.postalCode,
                             address.country
                         ).filter { entry -> entry.isNotBlank() }.joinToString { " " }.trim(),
-                        phoneNumberTypes.firstOrNull { pair ->
+                        addressTypes.firstOrNull { pair ->
                             pair.second == address.types.firstOrNull()
                         }?.first
                     )

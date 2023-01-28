@@ -2,6 +2,8 @@ package com.bnyro.contacts.ui.components
 
 import android.os.Handler
 import android.os.Looper
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -38,6 +41,7 @@ import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.OptionMenu
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.EditorScreen
+import com.bnyro.contacts.util.ExportHelper
 
 @Composable
 fun ContactsPage(
@@ -47,6 +51,7 @@ fun ContactsPage(
     val viewModel: ContactsModel = viewModel()
     val context = LocalContext.current
     val handler = Handler(Looper.getMainLooper())
+    val exportHelper = ExportHelper(context)
 
     var showEditor by remember {
         mutableStateOf(showEditorDefault)
@@ -54,6 +59,16 @@ fun ContactsPage(
 
     var sortOrder by remember {
         mutableStateOf(SortOrder.FIRSTNAME)
+    }
+
+    val importVcard = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        uri?.let { exportHelper.importContacts(it) }
+    }
+
+    val exportVcard = rememberLauncherForActivityResult(
+        ActivityResultContracts.CreateDocument("text/vcard")
+    ) { uri ->
+        uri?.let { exportHelper.exportContacts(it, contacts.orEmpty()) }
     }
 
     Box(
@@ -66,26 +81,55 @@ fun ContactsPage(
                 }
 
                 SearchBar(Modifier.padding(horizontal = 10.dp, vertical = 15.dp), searchQuery) {
-                    var expanded by remember {
+                    var expandedSort by remember {
                         mutableStateOf(false)
                     }
                     ClickableIcon(
                         icon = Icons.Default.Sort
                     ) {
-                        expanded = !expanded
+                        expandedSort = !expandedSort
                     }
                     OptionMenu(
-                        expanded = expanded,
+                        expanded = expandedSort,
                         options = listOf(
                             stringResource(R.string.first_name),
                             stringResource(R.string.surname)
                         ),
                         onDismissRequest = {
-                            expanded = false
+                            expandedSort = false
                         },
                         onSelect = {
                             sortOrder = SortOrder.fromInt(it)
-                            expanded = false
+                            expandedSort = false
+                        }
+                    )
+                    var expandedOptions by remember {
+                        mutableStateOf(false)
+                    }
+                    ClickableIcon(
+                        icon = Icons.Default.MoreVert
+                    ) {
+                        expandedOptions = !expandedOptions
+                    }
+                    OptionMenu(
+                        expanded = expandedOptions,
+                        options = listOf(
+                            stringResource(R.string.import_vcf),
+                            stringResource(R.string.export_vcf)
+                        ),
+                        onDismissRequest = {
+                            expandedOptions = false
+                        },
+                        onSelect = {
+                            when (it) {
+                                0 -> {
+                                    importVcard.launch(arrayOf("text/vcard"))
+                                }
+                                1 -> {
+                                    exportVcard.launch("contacts.vcf")
+                                }
+                            }
+                            expandedOptions = false
                         }
                     )
                 }

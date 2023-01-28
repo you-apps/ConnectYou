@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
+import com.bnyro.contacts.ui.components.ContactEditor
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
-import com.bnyro.contacts.ui.components.dialogs.ContactEditor
 
 @Composable
 fun EditorScreen(
