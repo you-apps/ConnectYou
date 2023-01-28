@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="import_vcf">VCard\'ı idxal et</string>
-    <string name="export_vcf">VCard\'ı ixrac et</string>
+    <string name="import_vcf">vCard\'ı idxal et</string>
+    <string name="export_vcf">vCard\'ı ixrac et</string>
     <string name="about">Haqqında</string>
     <string name="license">Lisenziya</string>
     <string name="author">Müəllif</string>
@@ -15,7 +15,7 @@
     <string name="event">Hadisə</string>
     <string name="irreversible">Siz əminsiniz\? Bu geri qaytarıla bilməz!</string>
     <string name="cancel">Ləğv et</string>
-    <string name="export_success">İxrac edildi!</string>
+    <string name="export_success">İxrac edildi.</string>
     <string name="phone">Telefon</string>
     <string name="empty_name">Ad boş olmamalıdır!</string>
     <string name="email">E-poçt</string>
@@ -30,11 +30,11 @@
     <string name="assistant">Köməkçi</string>
     <string name="birthday">Ad günü</string>
     <string name="anniversary">Yubiley</string>
-    <string name="import_success">İdxal edildi!</string>
+    <string name="import_success">İdxal edildi.</string>
     <string name="create_contact">Əlaqə yarat</string>
     <string name="share">Paylaş</string>
     <string name="type">Nümunə</string>
     <string name="other">Digər</string>
     <string name="custom">Fərdi</string>
-    <string name="fax_work">Faks iş</string>
+    <string name="fax_work">İş faks</string>
 </resources>
