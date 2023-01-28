@@ -10,4 +10,5 @@
     <string name="create_contact">Crea un contatto</string>
     <string name="import_success">Importato.</string>
     <string name="empty_name">Il nome non può essere vuoto!</string>
+    <string name="email">E-mail</string>
 </resources>
