@@ -43,4 +43,10 @@
     <!-- Import & Export -->
     <string name="import_vcf">Import VCard</string>
     <string name="export_vcf">Export VCard</string>
+
+    <!-- About -->
+    <string name="about">About</string>
+    <string name="license">License</string>
+    <string name="author">Author</string>
+    <string name="version">Version</string>
 </resources>

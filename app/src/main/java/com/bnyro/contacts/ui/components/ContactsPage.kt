@@ -43,6 +43,7 @@ import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.OptionMenu
 import com.bnyro.contacts.ui.components.base.SearchBar
 import com.bnyro.contacts.ui.models.ContactsModel
+import com.bnyro.contacts.ui.screens.AboutScreen
 import com.bnyro.contacts.ui.screens.EditorScreen
 import com.bnyro.contacts.util.ExportHelper
 
@@ -62,6 +63,10 @@ fun ContactsPage(
 
     var sortOrder by remember {
         mutableStateOf(SortOrder.FIRSTNAME)
+    }
+
+    var showAbout by remember {
+        mutableStateOf(false)
     }
 
     val importVcard = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
@@ -132,7 +137,8 @@ fun ContactsPage(
                             expanded = expandedOptions,
                             options = listOf(
                                 stringResource(R.string.import_vcf),
-                                stringResource(R.string.export_vcf)
+                                stringResource(R.string.export_vcf),
+                                stringResource(R.string.about)
                             ),
                             onDismissRequest = {
                                 expandedOptions = false
@@ -146,6 +152,9 @@ fun ContactsPage(
                                     }
                                     1 -> {
                                         exportVcard.launch("contacts.vcf")
+                                    }
+                                    2 -> {
+                                        showAbout = true
                                     }
                                 }
                                 expandedOptions = false
@@ -218,5 +227,11 @@ fun ContactsPage(
                 viewModel.createContact(context, it)
             }
         )
+    }
+
+    if (showAbout) {
+        AboutScreen {
+            showAbout = false
+        }
     }
 }

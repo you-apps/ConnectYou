@@ -39,4 +39,9 @@ object IntentHelper {
         val chooser = Intent.createChooser(target, context.getString(R.string.share))
         context.startActivity(chooser)
     }
+
+    fun openUrl(context: Context, url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        context.startActivity(intent)
+    }
 }
