@@ -24,4 +24,10 @@
     <string name="export_success">Exportiert.</string>
     <string name="app_name">Connect You</string>
     <string name="custom">Benutzerdefiniert</string>
+    <string name="translation">Übersetzung</string>
+    <string name="version">Version</string>
+    <string name="license">Lizenz</string>
+    <string name="about">Über</string>
+    <string name="author">Autor</string>
+    <string name="export_vcf">vCard exportieren</string>
 </resources>
