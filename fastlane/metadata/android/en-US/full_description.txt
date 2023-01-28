@@ -4,4 +4,4 @@ It supports all the common features such as creating, modifying and deleting con
 
 <i>Connect You</i> uses the Android system's contacts API, thus all your contacts are in sync with your OS and usable in other apps as a dialer or messenger.
 
-It doesn't have any dependencies apart from the Android base and Material desing libraries, therefore the app is very lightweight.
+It doesn't have any dependencies apart from the Android base and Material design libraries, therefore the app is very lightweight.
