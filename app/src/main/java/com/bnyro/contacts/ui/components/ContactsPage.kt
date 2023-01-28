@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.SortOrder
+import com.bnyro.contacts.ext.toast
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.OptionMenu
@@ -62,13 +63,20 @@ fun ContactsPage(
     }
 
     val importVcard = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-        uri?.let { exportHelper.importContacts(it) }
+        uri?.let {
+            exportHelper.importContacts(it)
+            viewModel.loadContacts(context)
+            context.toast(R.string.import_success)
+        }
     }
 
     val exportVcard = rememberLauncherForActivityResult(
         ActivityResultContracts.CreateDocument("text/vcard")
     ) { uri ->
-        uri?.let { exportHelper.exportContacts(it, contacts.orEmpty()) }
+        uri?.let {
+            exportHelper.exportContacts(it, contacts.orEmpty())
+            context.toast(R.string.export_success)
+        }
     }
 
     Box(

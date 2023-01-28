@@ -13,6 +13,8 @@
 
     <!-- Warnings -->
     <string name="empty_name">Name can\'t be empty!</string>
+    <string name="import_success">Successfully imported!</string>
+    <string name="export_success">Successfully exported!</string>
 
     <!-- Data types -->
     <string name="phone">Phone</string>
