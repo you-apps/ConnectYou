@@ -1,2 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="retry">Réessayer</string>
+    <string name="empty_name">Le nom ne peut pas être vide !</string>
+    <string name="import_success">Importation réussie !</string>
+    <string name="address">Adresse</string>
+    <string name="event">Évènement</string>
+    <string name="first_name">Prénom</string>
+    <string name="surname">Nom de famille</string>
+    <string name="author">Auteur·e</string>
+    <string name="version">Version</string>
+    <string name="translation">Traduction</string>
+    <string name="app_name">Connect You</string>
+    <string name="copied">Copié dans le presse-papier</string>
+    <string name="delete_contact">Supprimer le contact</string>
+    <string name="cancel">Annuler</string>
+    <string name="share">Partager</string>
+    <string name="email">Courriel</string>
+    <string name="custom">Personnalisé</string>
+    <string name="export_success">Exportation réussie !</string>
+    <string name="phone">Téléphone</string>
+    <string name="fax_home">Fax domicile</string>
+    <string name="assistant">Assistant</string>
+    <string name="home">Accueil</string>
+    <string name="other">Autre</string>
+    <string name="birthday">Date de naissance</string>
+    <string name="license">Licence</string>
+    <string name="type">Type</string>
+    <string name="work">Travail</string>
+    <string name="mobile">Mobile</string>
+    <string name="car">Voiture</string>
+    <string name="fax_work">Fax travail</string>
+    <string name="anniversary">Anniversaire</string>
+    <string name="import_vcf">Importer une VCard</string>
+    <string name="export_vcf">Exporter une VCard</string>
+    <string name="about">À propos</string>
+    <string name="search" tools:ignore="PrivateResource">Recherche</string>
+    <string name="irreversible">Êtes-vous sûr·e \? Ceci ne peut pas être annulé !</string>
+    <string name="create_contact">Créer un contact</string>
+</resources>
