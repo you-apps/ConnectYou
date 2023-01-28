@@ -25,15 +25,15 @@
     <string name="author">Autore</string>
     <string name="version">Versione</string>
     <string name="address">Indirizzo</string>
-    <string name="fax_work">Fax lavoro</string>
+    <string name="fax_work">Fax del lavoro</string>
     <string name="delete_contact">Elimina il contatto</string>
     <string name="event">Evento</string>
     <string name="first_name">Nome</string>
     <string name="surname">Cognome</string>
-    <string name="mobile">Mobile</string>
+    <string name="mobile">Cellulare</string>
     <string name="translation">Traduzione</string>
     <string name="car">Auto</string>
-    <string name="fax_home">Fax casa</string>
+    <string name="fax_home">Fax di casa</string>
     <string name="birthday">Compleanno</string>
     <string name="anniversary">Anniversario</string>
 </resources>
