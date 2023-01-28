@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="translation">অনুবাদ</string>
+    <string name="cancel">বাতিল</string>
+    <string name="mobile">মোবাইল</string>
+    <string name="retry">পুনঃচেষ্টা</string>
+    <string name="share">শেয়ার</string>
+    <string name="create_contact">পরিচিতি তৈরী করুন</string>
+    <string name="surname">পদবী</string>
+    <string name="type">ধরণ</string>
+    <string name="work">কাজ</string>
+    <string name="birthday">জন্মদিন</string>
+    <string name="car">গাড়ি</string>
+    <string name="fax_home">বাড়ির ফ্যাক্স</string>
+    <string name="fax_work">কর্মক্ষেত্রের ফ্যাক্স</string>
+    <string name="import_vcf">ভিকার্ড ইম্পোর্ট করুন</string>
+    <string name="anniversary">বার্ষিকী</string>
+    <string name="license">লাইসেন্স</string>
+    <string name="email">ই-মেইল</string>
+    <string name="version">ভার্সন</string>
+    <string name="app_name">কানেক্ট ইউ</string>
+    <string name="search" tools:ignore="PrivateResource">খুঁজুন</string>
+    <string name="copied">ক্লিপবোর্ডে অনুলিপি করা হয়েছে</string>
+    <string name="delete_contact">পরিচিতি মুছুন</string>
+    <string name="export_success">সফলভাবে এক্সপোর্ট করা হয়েছে!</string>
+    <string name="address">ঠিকানা</string>
+    <string name="empty_name">নাম ফাঁকা হতে পারবে না!</string>
+    <string name="home">বাড়ি</string>
+    <string name="other">অনান্য</string>
+    <string name="custom">কাস্টম</string>
+    <string name="assistant">সহযোগী</string>
+    <string name="author">লেখক</string>
+    <string name="export_vcf">ভিকার্ড এক্সপোর্ট করুন</string>
+    <string name="about">সম্পর্কে</string>
+    <string name="irreversible">আপনি নিশ্চিত\? এটি আর পূর্বাবস্থায় ফেরত আনা যাবে না!</string>
+    <string name="import_success">সফলভাবে ইম্পোর্ট করা হয়েছে!</string>
+    <string name="phone">ফোন</string>
+    <string name="event">ঘটনা</string>
+    <string name="first_name">শুরুর নাম</string>
+</resources>
