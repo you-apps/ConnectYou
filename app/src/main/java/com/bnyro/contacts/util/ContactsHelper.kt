@@ -73,7 +73,7 @@ class ContactsHelper(private val context: Context) {
             Event.TYPE,
             Event.CONTENT_ITEM_TYPE
         )
-        contact.phoneNumber = getExtras(
+        contact.numbers = getExtras(
             contact.contactId,
             Phone.NUMBER,
             Phone.TYPE,
@@ -184,7 +184,7 @@ class ContactsHelper(private val context: Context) {
                 StructuredName.FAMILY_NAME,
                 contact.surName.orEmpty()
             ),
-            *contact.phoneNumber.map {
+            *contact.numbers.map {
                 getInsertAction(
                     Phone.CONTENT_ITEM_TYPE,
                     Phone.NUMBER,

@@ -116,7 +116,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                         IntentHelper.launchAction(
                             context,
                             IntentActionType.DIAL,
-                            contact.phoneNumber.firstOrNull()?.value ?: return@ClickableIcon
+                            contact.numbers.firstOrNull()?.value ?: return@ClickableIcon
                         )
                     }
                     Spacer(modifier = Modifier.width(5.dp))
@@ -124,7 +124,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                         IntentHelper.launchAction(
                             context,
                             IntentActionType.SMS,
-                            contact.phoneNumber.firstOrNull()?.value ?: return@ClickableIcon
+                            contact.numbers.firstOrNull()?.value ?: return@ClickableIcon
                         )
                     }
                     Spacer(modifier = Modifier.width(5.dp))
@@ -138,7 +138,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                 }
             }
 
-            contact.phoneNumber.forEach {
+            contact.numbers.forEach {
                 ContactEntry(
                     label = stringResource(R.string.phone),
                     content = it.value,

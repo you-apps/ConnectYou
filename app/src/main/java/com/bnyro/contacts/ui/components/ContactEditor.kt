@@ -55,7 +55,7 @@ fun ContactEditor(
 
     var phoneNumber by remember {
         mutableStateOf(
-            contact?.phoneNumber.fillIfEmpty().map { mutableStateOf(it) }
+            contact?.numbers.fillIfEmpty().map { mutableStateOf(it) }
         )
     }
 
@@ -131,7 +131,7 @@ fun ContactEditor(
                     firstName = firstName.value.trim(),
                     surName = surName.value.trim(),
                     displayName = "${firstName.value.trim()} ${surName.value.trim()}",
-                    phoneNumber = phoneNumber.clean(),
+                    numbers = phoneNumber.clean(),
                     emails = emails.clean(),
                     addresses = addresses.clean(),
                     events = events.clean()
