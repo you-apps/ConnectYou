@@ -6,6 +6,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -90,59 +91,67 @@ fun ContactsPage(
                 }
 
                 SearchBar(Modifier.padding(horizontal = 10.dp, vertical = 15.dp), searchQuery) {
-                    var expandedSort by remember {
-                        mutableStateOf(false)
-                    }
-                    ClickableIcon(
-                        icon = Icons.Default.Sort
+                    Box(
+                        modifier = Modifier.align(Alignment.End)
                     ) {
-                        expandedSort = !expandedSort
-                    }
-                    OptionMenu(
-                        expanded = expandedSort,
-                        options = listOf(
-                            stringResource(R.string.first_name),
-                            stringResource(R.string.surname)
-                        ),
-                        onDismissRequest = {
-                            expandedSort = false
-                        },
-                        onSelect = {
-                            sortOrder = SortOrder.fromInt(it)
-                            expandedSort = false
+                        var expandedSort by remember {
+                            mutableStateOf(false)
                         }
-                    )
-                    var expandedOptions by remember {
-                        mutableStateOf(false)
-                    }
-                    ClickableIcon(
-                        icon = Icons.Default.MoreVert
-                    ) {
-                        expandedOptions = !expandedOptions
-                    }
-                    OptionMenu(
-                        expanded = expandedOptions,
-                        options = listOf(
-                            stringResource(R.string.import_vcf),
-                            stringResource(R.string.export_vcf)
-                        ),
-                        onDismissRequest = {
-                            expandedOptions = false
-                        },
-                        onSelect = {
-                            when (it) {
-                                0 -> {
-                                    importVcard.launch(
-                                        arrayOf("text/vcard", "text/v-card", "text/x-vcard")
-                                    )
-                                }
-                                1 -> {
-                                    exportVcard.launch("contacts.vcf")
-                                }
+                        var expandedOptions by remember {
+                            mutableStateOf(false)
+                        }
+
+                        Row {
+                            ClickableIcon(
+                                icon = Icons.Default.Sort
+                            ) {
+                                expandedSort = !expandedSort
                             }
-                            expandedOptions = false
+                            ClickableIcon(
+                                icon = Icons.Default.MoreVert
+                            ) {
+                                expandedOptions = !expandedOptions
+                            }
                         }
-                    )
+
+                        OptionMenu(
+                            expanded = expandedSort,
+                            options = listOf(
+                                stringResource(R.string.first_name),
+                                stringResource(R.string.surname)
+                            ),
+                            onDismissRequest = {
+                                expandedSort = false
+                            },
+                            onSelect = {
+                                sortOrder = SortOrder.fromInt(it)
+                                expandedSort = false
+                            }
+                        )
+                        OptionMenu(
+                            expanded = expandedOptions,
+                            options = listOf(
+                                stringResource(R.string.import_vcf),
+                                stringResource(R.string.export_vcf)
+                            ),
+                            onDismissRequest = {
+                                expandedOptions = false
+                            },
+                            onSelect = {
+                                when (it) {
+                                    0 -> {
+                                        importVcard.launch(
+                                            arrayOf("text/vcard", "text/v-card", "text/x-vcard")
+                                        )
+                                    }
+                                    1 -> {
+                                        exportVcard.launch("contacts.vcf")
+                                    }
+                                }
+                                expandedOptions = false
+                            }
+                        )
+                    }
                 }
 
                 LazyColumn {
