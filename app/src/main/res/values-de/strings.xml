@@ -7,4 +7,5 @@
     <string name="surname">Familienname</string>
     <string name="work">Arbeit</string>
     <string name="address">Adresse</string>
+    <string name="email">E-Mail</string>
 </resources>
