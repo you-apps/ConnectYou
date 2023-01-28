@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="home">Startseite</string>
+    <string name="type">Typ</string>
+    <string name="event">Ereignis</string>
+    <string name="first_name">Vorname</string>
+    <string name="surname">Familienname</string>
+    <string name="work">Arbeit</string>
+    <string name="address">Adresse</string>
+</resources>
