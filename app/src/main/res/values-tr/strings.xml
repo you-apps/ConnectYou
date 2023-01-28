@@ -14,7 +14,7 @@
     <string name="fax_home">Ev faks</string>
     <string name="fax_work">İş faks</string>
     <string name="assistant">Asistan</string>
-    <string name="export_success">Başarıyla ihraç edildi!</string>
+    <string name="export_success">Başarıyla dışa aktarıldı!</string>
     <string name="email">E-posta</string>
     <string name="surname">Soyadı</string>
     <string name="type">Tip</string>
