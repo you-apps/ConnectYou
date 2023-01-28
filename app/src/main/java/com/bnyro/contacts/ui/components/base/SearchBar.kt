@@ -1,10 +1,9 @@
-package com.bnyro.contacts.ui.components
+package com.bnyro.contacts.ui.components.base
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
@@ -14,16 +13,17 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
-import com.bnyro.contacts.ui.components.base.ClickableIcon
 
 @Composable
 fun SearchBar(
@@ -31,6 +31,8 @@ fun SearchBar(
     state: MutableState<TextFieldValue>,
     customActions: @Composable () -> Unit = {}
 ) {
+    val textColor = MaterialTheme.colorScheme.onSurfaceVariant
+
     Box(
         modifier = modifier.fillMaxWidth()
     ) {
@@ -40,12 +42,12 @@ fun SearchBar(
                 state.value = it
             },
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.surfaceVariant, CircleShape)
-                .height(45.dp)
+                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp), CircleShape)
                 .fillMaxWidth(),
             singleLine = true,
             maxLines = 1,
-            textStyle = TextStyle.Default.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
+            cursorBrush = Brush.linearGradient(0f to textColor, 1f to textColor),
+            textStyle = TextStyle.Default.copy(color = textColor),
             decorationBox = { innerTextField ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -59,7 +61,7 @@ fun SearchBar(
                     Box(
                         modifier = Modifier
                             .weight(1f)
-                            .padding(horizontal = 5.dp),
+                            .padding(horizontal = 10.dp),
                         contentAlignment = Alignment.CenterStart
                     ) {
                         if (state.value.text.isEmpty()) Text(stringResource(R.string.search))

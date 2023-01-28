@@ -40,6 +40,7 @@ import com.bnyro.contacts.ext.toast
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.OptionMenu
+import com.bnyro.contacts.ui.components.base.SearchBar
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.EditorScreen
 import com.bnyro.contacts.util.ExportHelper
