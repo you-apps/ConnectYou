@@ -14,7 +14,7 @@
     <string name="fax_home">Ev faks</string>
     <string name="fax_work">İş faks</string>
     <string name="assistant">Asistan</string>
-    <string name="export_success">Başarıyla ihraç edildi!</string>
+    <string name="export_success">Dışa aktarıldı.</string>
     <string name="email">E-posta</string>
     <string name="surname">Soyadı</string>
     <string name="type">Tip</string>
@@ -24,13 +24,13 @@
     <string name="first_name">Adı</string>
     <string name="home">Ana sayfa</string>
     <string name="car">Araba</string>
-    <string name="import_vcf">VCard\'ı içe aktar</string>
+    <string name="import_vcf">vCard\'ı içe aktar</string>
     <string name="about">Hakkında</string>
     <string name="author">Yazar</string>
     <string name="anniversary">Yıl dönümü</string>
-    <string name="export_vcf">VCard\'ı dışa aktar</string>
+    <string name="export_vcf">vCard\'ı dışa aktar</string>
     <string name="translation">Tercüme</string>
-    <string name="import_success">Başarıyla içe aktarıldı!</string>
+    <string name="import_success">İçe aktarıldı.</string>
     <string name="phone">Telefon</string>
     <string name="app_name">Connect You</string>
     <string name="copied">Panoya kopyalandı</string>

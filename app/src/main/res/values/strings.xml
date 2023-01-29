@@ -1,6 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Connect You</string>
-
     <!-- Actions -->
     <string name="search" tools:ignore="PrivateResource">Search</string>
     <string name="copied">Copied to clipboard</string>
@@ -10,22 +10,18 @@
     <string name="create_contact">Create contact</string>
     <string name="retry">Retry</string>
     <string name="share">Share</string>
-
     <!-- Warnings -->
     <string name="empty_name">Name can\'t be empty!</string>
-    <string name="import_success">Successfully imported!</string>
-    <string name="export_success">Successfully exported!</string>
-
+    <string name="import_success">Imported.</string>
+    <string name="export_success">Exported.</string>
     <!-- Data types -->
     <string name="phone">Phone</string>
-    <string name="email">Email</string>
+    <string name="email">E-mail</string>
     <string name="address">Address</string>
     <string name="event">Event</string>
-
     <!-- Sorting -->
     <string name="first_name">First name</string>
     <string name="surname">Surname</string>
-
     <!-- Types -->
     <string name="type">Type</string>
     <string name="home">Home</string>
@@ -39,11 +35,9 @@
     <string name="assistant">Assistant</string>
     <string name="birthday">Birthday</string>
     <string name="anniversary">Anniversary</string>
-
     <!-- Import & Export -->
-    <string name="import_vcf">Import VCard</string>
-    <string name="export_vcf">Export VCard</string>
-
+    <string name="import_vcf">Import vCard</string>
+    <string name="export_vcf">Export vCard</string>
     <!-- About -->
     <string name="about">About</string>
     <string name="license">License</string>

@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="retry">Réessayer</string>
     <string name="empty_name">Le nom ne peut pas être vide !</string>
-    <string name="import_success">Importation réussie !</string>
+    <string name="import_success">Importé.</string>
     <string name="address">Adresse</string>
     <string name="event">Évènement</string>
     <string name="first_name">Prénom</string>
@@ -17,7 +17,7 @@
     <string name="share">Partager</string>
     <string name="email">Courriel</string>
     <string name="custom">Personnalisé</string>
-    <string name="export_success">Exportation réussie !</string>
+    <string name="export_success">Exporté.</string>
     <string name="phone">Téléphone</string>
     <string name="fax_home">Fax domicile</string>
     <string name="assistant">Assistant</string>
@@ -31,8 +31,8 @@
     <string name="car">Voiture</string>
     <string name="fax_work">Fax travail</string>
     <string name="anniversary">Anniversaire</string>
-    <string name="import_vcf">Importer une VCard</string>
-    <string name="export_vcf">Exporter une VCard</string>
+    <string name="import_vcf">Importer une vCard</string>
+    <string name="export_vcf">Exporter une vCard</string>
     <string name="about">À propos</string>
     <string name="search" tools:ignore="PrivateResource">Recherche</string>
     <string name="irreversible">Êtes-vous sûr·e \? Ceci ne peut pas être annulé !</string>

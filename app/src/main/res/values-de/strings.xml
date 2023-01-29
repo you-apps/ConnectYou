@@ -1,2 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="home">Startseite</string>
+    <string name="type">Typ</string>
+    <string name="event">Ereignis</string>
+    <string name="first_name">Vorname</string>
+    <string name="surname">Familienname</string>
+    <string name="work">Arbeit</string>
+    <string name="address">Adresse</string>
+    <string name="email">E-Mail</string>
+    <string name="copied">In die Zwischenablage kopiert</string>
+    <string name="phone">Telefon</string>
+    <string name="mobile">Mobil</string>
+    <string name="other">Andere</string>
+    <string name="search" tools:ignore="PrivateResource">Suche</string>
+    <string name="irreversible">Sind Sie sicher\? Das kann nicht rückgängig gemacht werden!</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="retry">Erneut versuchen</string>
+    <string name="delete_contact">Kontakt löschen</string>
+    <string name="create_contact">Kontakt erstellen</string>
+    <string name="empty_name">Der Name darf nicht leer sein!</string>
+    <string name="import_success">Importiert.</string>
+    <string name="share">Teilen</string>
+    <string name="export_success">Exportiert.</string>
+    <string name="app_name">Connect You</string>
+    <string name="custom">Benutzerdefiniert</string>
+    <string name="translation">Übersetzung</string>
+    <string name="version">Version</string>
+    <string name="license">Lizenz</string>
+    <string name="about">Über</string>
+    <string name="author">Autor</string>
+    <string name="export_vcf">vCard exportieren</string>
+</resources>

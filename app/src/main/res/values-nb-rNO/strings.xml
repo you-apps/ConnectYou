@@ -1,2 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Connect You</string>
+    <string name="delete_contact">Slett kontakt</string>
+    <string name="birthday">Geburtsdag</string>
+    <string name="anniversary">Jubileum</string>
+    <string name="license">Lisens</string>
+    <string name="export_vcf">Eksporter vCard</string>
+    <string name="author">Utvilker</string>
+    <string name="export_success">Eksportert</string>
+    <string name="import_success">Importert.</string>
+    <string name="search" tools:ignore="PrivateResource">Søk</string>
+    <string name="phone">Telefon</string>
+    <string name="address">Adresse</string>
+    <string name="event">Begivenhet</string>
+    <string name="first_name">Fornavn</string>
+    <string name="surname">Etternavn</string>
+    <string name="type">Type</string>
+    <string name="home">Hjem</string>
+    <string name="work">Arbeid</string>
+    <string name="mobile">Mobil</string>
+    <string name="other">Annet</string>
+    <string name="copied">Kopiert til utklippstavlen</string>
+    <string name="irreversible">Sikker\? Dette kan ikke angres.</string>
+    <string name="cancel">Avbryt</string>
+    <string name="retry">Prøv igjen</string>
+    <string name="share">Del</string>
+    <string name="empty_name">Navn må fylles ut.</string>
+    <string name="custom">Egendefinert</string>
+    <string name="car">Bil</string>
+    <string name="fax_home">Faks hjem</string>
+    <string name="version">Versjon</string>
+    <string name="translation">Oversettelse</string>
+    <string name="create_contact">Opprett kontakt</string>
+    <string name="fax_work">Faks arbeid</string>
+    <string name="assistant">Assistent</string>
+    <string name="about">Om</string>
+    <string name="email">E-post</string>
+    <string name="import_vcf">Importer vCard</string>
+</resources>
