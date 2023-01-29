@@ -15,6 +15,7 @@ import androidx.annotation.RequiresPermission
 import com.bnyro.contacts.R
 import com.bnyro.contacts.ext.intValue
 import com.bnyro.contacts.ext.longValue
+import com.bnyro.contacts.ext.notAName
 import com.bnyro.contacts.ext.stringValue
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.TranslatedType
@@ -50,14 +51,35 @@ class ContactsHelper(private val context: Context) {
                 val contactId = it.longValue(RawContacts.CONTACT_ID)!!
 
                 // avoid duplicates
-                if (contactList.any { it.contactId == contactId }) continue
+                if (contactList.any { contact -> contact.contactId == contactId }) continue
+
+                val displayName = it.stringValue(ContactsContract.Contacts.DISPLAY_NAME)
+                var firstName = it.stringValue(StructuredName.GIVEN_NAME)
+                var surName = it.stringValue(StructuredName.FAMILY_NAME)
+
+                // try parsing the display name to a proper name
+                if (firstName.notAName() && surName.notAName()) {
+                    val displayNameParts = displayName.orEmpty().split(" ")
+                    when {
+                        displayNameParts.size >= 2 -> {
+                            firstName = displayNameParts.subList(0, displayNameParts.size - 1).joinToString(
+                                " "
+                            )
+                            surName = displayNameParts.last()
+                        }
+                        displayNameParts.size == 1 -> {
+                            firstName = ""
+                            surName = displayNameParts.first()
+                        }
+                    }
+                }
 
                 val contact = ContactData(
                     contactId = contactId,
                     accountType = it.stringValue(RawContacts.ACCOUNT_TYPE),
-                    displayName = it.stringValue(ContactsContract.Contacts.DISPLAY_NAME),
-                    firstName = it.stringValue(StructuredName.GIVEN_NAME),
-                    surName = it.stringValue(StructuredName.FAMILY_NAME)
+                    displayName = displayName,
+                    firstName = firstName,
+                    surName = surName
                 )
                 contactList.add(contact)
             }
