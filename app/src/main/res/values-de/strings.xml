@@ -30,4 +30,10 @@
     <string name="about">Über</string>
     <string name="author">Autor</string>
     <string name="export_vcf">vCard exportieren</string>
+    <string name="fax_home">Fax zu Hause</string>
+    <string name="birthday">Geburtstag</string>
+    <string name="fax_work">Fax Arbeit</string>
+    <string name="car">Auto</string>
+    <string name="import_vcf">vCard importieren</string>
+    <string name="assistant">Assistent</string>
 </resources>

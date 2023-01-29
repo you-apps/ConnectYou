@@ -22,7 +22,7 @@
     <string name="search" tools:ignore="PrivateResource">খুঁজুন</string>
     <string name="copied">ক্লিপবোর্ডে অনুলিপি করা হয়েছে</string>
     <string name="delete_contact">পরিচিতি মুছুন</string>
-    <string name="export_success">সফলভাবে এক্সপোর্ট করা হয়েছে!</string>
+    <string name="export_success">এক্সপোর্ট করা হয়েছে।</string>
     <string name="address">ঠিকানা</string>
     <string name="empty_name">নাম ফাঁকা হতে পারবে না!</string>
     <string name="home">বাড়ি</string>
@@ -33,7 +33,7 @@
     <string name="export_vcf">ভিকার্ড এক্সপোর্ট করুন</string>
     <string name="about">সম্পর্কে</string>
     <string name="irreversible">আপনি নিশ্চিত\? এটি আর পূর্বাবস্থায় ফেরত আনা যাবে না!</string>
-    <string name="import_success">সফলভাবে ইম্পোর্ট করা হয়েছে!</string>
+    <string name="import_success">ইম্পোর্ট করা হয়েছে।</string>
     <string name="phone">ফোন</string>
     <string name="event">ঘটনা</string>
     <string name="first_name">শুরুর নাম</string>
