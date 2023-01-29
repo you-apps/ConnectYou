@@ -27,6 +27,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.SortOrder
+import com.bnyro.contacts.ext.rememberPreference
 import com.bnyro.contacts.ext.toast
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.base.ClickableIcon
@@ -61,9 +63,8 @@ fun ContactsPage(
         mutableStateOf(showEditorDefault)
     }
 
-    var sortOrder by remember {
-        mutableStateOf(SortOrder.FIRSTNAME)
-    }
+    var sortOrderPref by rememberPreference("sortOrder", SortOrder.FIRSTNAME.value.toString())
+    val sortOrder by rememberUpdatedState(SortOrder.fromInt(sortOrderPref.toInt()))
 
     var showAbout by remember {
         mutableStateOf(false)
@@ -129,7 +130,7 @@ fun ContactsPage(
                                 expandedSort = false
                             },
                             onSelect = {
-                                sortOrder = SortOrder.fromInt(it)
+                                sortOrderPref = it.toString()
                                 expandedSort = false
                             }
                         )
