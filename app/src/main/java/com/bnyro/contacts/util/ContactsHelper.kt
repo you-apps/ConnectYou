@@ -58,7 +58,7 @@ class ContactsHelper(private val context: Context) {
                 var surName = it.stringValue(StructuredName.FAMILY_NAME)
 
                 // try parsing the display name to a proper name
-                if (firstName.notAName() && surName.notAName()) {
+                if (firstName.notAName() || surName.notAName()) {
                     val displayNameParts = displayName.orEmpty().split(" ")
                     when {
                         displayNameParts.size >= 2 -> {
@@ -68,8 +68,8 @@ class ContactsHelper(private val context: Context) {
                             surName = displayNameParts.last()
                         }
                         displayNameParts.size == 1 -> {
-                            firstName = ""
-                            surName = displayNameParts.first()
+                            firstName = displayNameParts.first()
+                            surName = ""
                         }
                     }
                 }
