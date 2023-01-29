@@ -1,7 +1,8 @@
 package com.bnyro.contacts.ui.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,13 +12,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,7 +35,7 @@ import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.SingleContactScreen
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ContactItem(contact: ContactData, sortOrder: SortOrder) {
     val shape = RoundedCornerShape(20.dp)
@@ -52,59 +49,50 @@ fun ContactItem(contact: ContactData, sortOrder: SortOrder) {
         mutableStateOf(false)
     }
 
-    val state = rememberDismissState(
-        confirmValueChange = {
-            showDelete = true
-            false
-        }
-    )
-
-    SwipeToDismiss(
-        state = state,
-        background = {},
-        directions = setOf(DismissDirection.StartToEnd),
-        dismissContent = {
-            ElevatedCard(
-                modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp)
-                    .fillMaxWidth()
-                    .clip(shape)
-                    .clickable {
-                        showContactScreen = true
-                    },
-                shape = shape
-            ) {
-                Row(
-                    modifier = Modifier
-                        .padding(12.dp)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(40.dp)
-                            .background(
-                                shape = CircleShape,
-                                color = MaterialTheme.colorScheme.primary
-                            )
-                    ) {
-                        Text(
-                            modifier = Modifier.align(Alignment.Center),
-                            text = (contact.displayName?.firstOrNull() ?: "").toString(),
-                            color = MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(20.dp))
-                    Text(
-                        when {
-                            sortOrder == SortOrder.FIRSTNAME -> "${contact.firstName ?: ""} ${contact.surName ?: ""}"
-                            sortOrder == SortOrder.SURNAME && !contact.surName.notAName() && !contact.firstName.notAName() -> "${contact.surName}, ${contact.firstName}"
-                            else -> contact.displayName.orEmpty()
-                        }.trim()
-                    )
+    ElevatedCard(
+        modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp)
+            .fillMaxWidth()
+            .clip(shape)
+            .combinedClickable(
+                onClick = {
+                    showContactScreen = true
+                },
+                onLongClick = {
+                    showDelete = true
                 }
+            ),
+        shape = shape
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(12.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .background(
+                        shape = CircleShape,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+            ) {
+                Text(
+                    modifier = Modifier.align(Alignment.Center),
+                    text = (contact.displayName?.firstOrNull() ?: "").toString(),
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
             }
+            Spacer(modifier = Modifier.width(20.dp))
+            Text(
+                when {
+                    sortOrder == SortOrder.FIRSTNAME -> "${contact.firstName ?: ""} ${contact.surName ?: ""}"
+                    sortOrder == SortOrder.SURNAME && !contact.surName.notAName() && !contact.firstName.notAName() -> "${contact.surName}, ${contact.firstName}"
+                    else -> contact.displayName.orEmpty()
+                }.trim()
+            )
         }
-    )
+    }
 
     if (showContactScreen) {
         SingleContactScreen(viewModel.loadAdvancedContactData(context, contact)) {
