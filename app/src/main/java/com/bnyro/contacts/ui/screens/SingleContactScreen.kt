@@ -170,7 +170,9 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     label = stringResource(R.string.address),
                     content = it.value,
                     type = ContactsHelper.addressTypes.firstOrNull { type -> it.type == type.id }?.title
-                )
+                ) {
+                    IntentHelper.launchAction(context, IntentActionType.ADDRESS, it.value)
+                }
             }
 
             contact.events.forEach {

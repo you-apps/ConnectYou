@@ -10,17 +10,19 @@ object IntentHelper {
     fun launchAction(context: Context, type: IntentActionType, argument: String) {
         val query = when (type) {
             IntentActionType.EMAIL -> argument
+            IntentActionType.ADDRESS -> "0,0?q="
             else -> argument.replace("-", "")
         }
         val action = when (type) {
             IntentActionType.DIAL -> Intent.ACTION_DIAL
-            IntentActionType.SMS -> Intent.ACTION_VIEW
+            IntentActionType.SMS, IntentActionType.ADDRESS -> Intent.ACTION_VIEW
             IntentActionType.EMAIL -> Intent.ACTION_SENDTO
         }
         val actionScheme = when (type) {
             IntentActionType.DIAL -> "tel"
             IntentActionType.SMS -> "sms"
             IntentActionType.EMAIL -> "mailto"
+            IntentActionType.ADDRESS -> "geo"
         }
 
         val intent = Intent(action).apply {
