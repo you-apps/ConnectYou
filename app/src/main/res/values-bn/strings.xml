@@ -37,4 +37,6 @@
     <string name="phone">ফোন</string>
     <string name="event">ঘটনা</string>
     <string name="first_name">শুরুর নাম</string>
+    <string name="okay">আচ্ছা</string>
+    <string name="reset">রিসেট</string>
 </resources>
