@@ -1,2 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="translation">Переклад</string>
+    <string name="app_name">Connect You</string>
+    <string name="delete_contact">Видалити контакт</string>
+    <string name="cancel">Скасувати</string>
+    <string name="search" tools:ignore="PrivateResource">Пошук</string>
+    <string name="copied">Скопійовано в буфер обміну</string>
+    <string name="empty_name">Ім\'я не може бути порожнім!</string>
+    <string name="fax_home">Факс дому</string>
+    <string name="irreversible">Ви впевнені\? Це не можна відмінити!</string>
+    <string name="create_contact">Створити контакт</string>
+    <string name="share">Поділитися</string>
+    <string name="retry">Спробувати знову</string>
+    <string name="import_success">Імпортовано.</string>
+    <string name="event">Подія</string>
+    <string name="export_success">Експортовано.</string>
+    <string name="address">Адреса</string>
+    <string name="assistant">Помічник</string>
+    <string name="export_vcf">Експорт vCard</string>
+    <string name="type">Тип</string>
+    <string name="about">Про</string>
+    <string name="license">Ліцензія</string>
+    <string name="custom">Додати</string>
+    <string name="import_vcf">Імпорт vCard</string>
+    <string name="author">Автор</string>
+    <string name="first_name">Ім\'я</string>
+    <string name="version">Версія</string>
+    <string name="surname">Прізвище</string>
+    <string name="home">Головна</string>
+    <string name="work">Робота</string>
+    <string name="mobile">Мобільний</string>
+    <string name="other">Інше</string>
+    <string name="car">Автомобіль</string>
+    <string name="phone">Телефон</string>
+    <string name="fax_work">Факс роботи</string>
+    <string name="birthday">День народження</string>
+    <string name="anniversary">Річниця</string>
+    <string name="email">Ел. пошта</string>
+</resources>
