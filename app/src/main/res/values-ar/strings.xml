@@ -1,2 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="irreversible">أمتأكِّد؟ لا يمكن التراجع عن هذا!</string>
+    <string name="email">البريد الإلكترونيُّ</string>
+    <string name="other">أخرى</string>
+    <string name="car">سيَّارة</string>
+    <string name="cancel">ألغِ</string>
+    <string name="okay">حسنًا</string>
+    <string name="export_success">صُدِّر.</string>
+    <string name="surname">اسم العائلة</string>
+    <string name="phone">الهاتف</string>
+    <string name="mobile">جوَّال</string>
+    <string name="fax_work">فاكس عمل</string>
+    <string name="delete_contact">احذف جهة الاتِّصال</string>
+    <string name="share">شارك</string>
+    <string name="import_success">استُورِد.</string>
+    <string name="event">حدث</string>
+    <string name="type">النوع</string>
+    <string name="first_name">الاسم الأوَّل</string>
+    <string name="work">عمل</string>
+    <string name="home">منزل</string>
+    <string name="birthday">عيد ميلاد</string>
+    <string name="import_vcf">استورد vCard</string>
+    <string name="about">عن</string>
+    <string name="export_vcf">صدِّر vCard</string>
+    <string name="license">الترخيص</string>
+    <string name="anniversary">ذكرى سنويَّة</string>
+    <string name="author">المطوِّر</string>
+    <string name="translation">الترجمة</string>
+    <string name="copied">نُسخ للحافظة</string>
+    <string name="search" tools:ignore="PrivateResource">ابحث</string>
+    <string name="reset">أعد التعيين</string>
+    <string name="create_contact">أنشئ جهة اتِّصال</string>
+    <string name="retry">أعد المحاولة</string>
+    <string name="address">العنوان</string>
+    <string name="custom">مخصَّص</string>
+    <string name="assistant">مُساعِد</string>
+    <string name="empty_name">لا يمكن أن تكون خانة الاسم فارغةً!</string>
+    <string name="fax_home">فاكس منزل</string>
+    <string name="version">الإصدار</string>
+</resources>
