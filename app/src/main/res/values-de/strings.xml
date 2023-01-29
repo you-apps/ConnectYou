@@ -35,4 +35,5 @@
     <string name="fax_work">Fax Arbeit</string>
     <string name="car">Auto</string>
     <string name="import_vcf">vCard importieren</string>
+    <string name="assistant">Assistent</string>
 </resources>
