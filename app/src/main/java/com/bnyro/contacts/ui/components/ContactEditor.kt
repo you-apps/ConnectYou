@@ -23,6 +23,8 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.base.LabeledTextField
+import com.bnyro.contacts.ui.components.editor.DatePickerEditor
+import com.bnyro.contacts.ui.components.editor.TextFieldEditor
 import com.bnyro.contacts.util.ContactsHelper
 
 @Composable
@@ -97,25 +99,25 @@ fun ContactEditor(
             }
 
             items(phoneNumber) {
-                EditorEntry(R.string.phone, it, ContactsHelper.phoneNumberTypes) {
+                TextFieldEditor(R.string.phone, it, ContactsHelper.phoneNumberTypes) {
                     phoneNumber = phoneNumber + emptyMutable()
                 }
             }
 
             items(emails) {
-                EditorEntry(R.string.email, it, ContactsHelper.emailTypes) {
+                TextFieldEditor(R.string.email, it, ContactsHelper.emailTypes) {
                     emails = emails + emptyMutable()
                 }
             }
 
             items(addresses) {
-                EditorEntry(R.string.address, it, ContactsHelper.addressTypes) {
+                TextFieldEditor(R.string.address, it, ContactsHelper.addressTypes) {
                     addresses = addresses + emptyMutable()
                 }
             }
 
             items(events) {
-                EditorEntry(R.string.event, it, ContactsHelper.eventTypes) {
+                DatePickerEditor(R.string.event, it, ContactsHelper.eventTypes) {
                     events = events + emptyMutable()
                 }
             }

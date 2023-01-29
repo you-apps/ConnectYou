@@ -1,8 +1,8 @@
 package com.bnyro.contacts.ui.components
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -30,19 +30,15 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.TranslatedType
 import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.base.ClickableIcon
-import com.bnyro.contacts.ui.components.base.LabeledTextField
 import com.bnyro.contacts.ui.components.dialogs.DialogButton
 
 @Composable
 fun EditorEntry(
-    @StringRes label: Int,
     state: MutableState<ValueWithType>,
     types: List<TranslatedType>,
-    onCreateNew: () -> Unit
+    onCreateNew: () -> Unit,
+    content: @Composable RowScope.() -> Unit
 ) {
-    val textState = remember {
-        mutableStateOf(state.value.value)
-    }
     var showTypesDialog by remember {
         mutableStateOf(false)
     }
@@ -50,13 +46,7 @@ fun EditorEntry(
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        LabeledTextField(
-            modifier = Modifier.weight(1f),
-            label = label,
-            state = textState
-        ) {
-            state.value.value = it
-        }
+        content.invoke(this)
         Spacer(modifier = Modifier.width(5.dp))
         Text(
             modifier = Modifier
