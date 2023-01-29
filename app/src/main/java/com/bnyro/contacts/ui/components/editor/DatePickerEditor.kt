@@ -38,7 +38,11 @@ fun DatePickerEditor(
     var showPicker by remember {
         mutableStateOf(false)
     }
-    val datePickerState = rememberDatePickerState()
+    val datePickerState = rememberDatePickerState(
+        runCatching {
+            CalendarUtils.dateToMillis(state.value.value)
+        }.getOrDefault(null)
+    )
 
     LaunchedEffect(datePickerState.selectedDateMillis) {
         state.value.value = datePickerState.selectedDateMillis?.let {
