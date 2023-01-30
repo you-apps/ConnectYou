@@ -37,4 +37,6 @@
     <string name="other">Digər</string>
     <string name="custom">Fərdi</string>
     <string name="fax_work">İş faks</string>
+    <string name="okay">Oldu</string>
+    <string name="reset">Sıfırla</string>
 </resources>

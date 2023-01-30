@@ -37,4 +37,6 @@
     <string name="irreversible">Emin misin\? Bu geri alınamaz!</string>
     <string name="cancel">İptal</string>
     <string name="search" tools:ignore="PrivateResource">Arama</string>
+    <string name="okay">Tamam</string>
+    <string name="reset">Sıfırla</string>
 </resources>
