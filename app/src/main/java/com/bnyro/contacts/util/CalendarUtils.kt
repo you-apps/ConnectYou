@@ -10,11 +10,16 @@ object CalendarUtils {
     val isoDateFormat = SimpleDateFormat("yyyy-MM-dd")
     private val localizedFormat: DateFormat = SimpleDateFormat.getInstance()
 
-    fun formatMillisToDate(milliSeconds: String, formatter: DateFormat = localizedFormat): String {
+    fun millisToDate(milliSeconds: String, formatter: DateFormat = localizedFormat): String {
         val calendar: Calendar = Calendar.getInstance()
         calendar.timeInMillis = milliSeconds.toLong()
         return formatter.format(calendar.time)
     }
 
     fun dateToMillis(date: String) = isoDateFormat.parse(date)?.time
+
+    fun localizeIsoDate(isoDate: String): String {
+        val date = isoDateFormat.parse(isoDate) ?: return isoDate
+        return localizedFormat.format(date).split(" ").firstOrNull() ?: isoDate
+    }
 }

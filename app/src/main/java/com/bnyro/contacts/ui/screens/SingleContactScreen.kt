@@ -45,6 +45,7 @@ import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.models.ContactsModel
+import com.bnyro.contacts.util.CalendarUtils
 import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.ExportHelper
 import com.bnyro.contacts.util.IntentHelper
@@ -178,7 +179,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
             contact.events.forEach {
                 ContactEntry(
                     label = stringResource(R.string.event),
-                    content = it.value,
+                    content = CalendarUtils.localizeIsoDate(it.value),
                     type = ContactsHelper.eventTypes.firstOrNull { type -> it.type == type.id }?.title
                 )
             }

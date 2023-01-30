@@ -51,7 +51,7 @@ fun DatePickerEditor(
 
     LaunchedEffect(datePickerState.selectedDateMillis) {
         state.value.value = datePickerState.selectedDateMillis?.let {
-            CalendarUtils.formatMillisToDate(it.toString(), CalendarUtils.isoDateFormat)
+            CalendarUtils.millisToDate(it.toString(), CalendarUtils.isoDateFormat)
         } ?: ""
     }
 
@@ -78,7 +78,7 @@ fun DatePickerEditor(
                     "" -> ""
                     else -> runCatching {
                         CalendarUtils
-                            .formatMillisToDate(datePickerState.selectedDateMillis.toString())
+                            .millisToDate(datePickerState.selectedDateMillis.toString())
                             .substringBefore(" ")
                     }.getOrDefault(state.value.value)
                 }
