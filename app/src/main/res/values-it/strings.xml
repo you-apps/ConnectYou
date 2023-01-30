@@ -36,4 +36,6 @@
     <string name="fax_home">Fax di casa</string>
     <string name="birthday">Compleanno</string>
     <string name="anniversary">Anniversario</string>
+    <string name="okay">Ok</string>
+    <string name="reset">Azzera</string>
 </resources>
