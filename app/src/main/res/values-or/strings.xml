@@ -1,2 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="export_success">ରପ୍ତାନି ହୋଇଛି ।</string>
+    <string name="email">ଇ-ମେଲ୍</string>
+    <string name="event">ଘଟଣା</string>
+    <string name="first_name">ପ୍ରଥମ ନାମ</string>
+    <string name="type">ପ୍ରକାର ଗୁଡିକ</string>
+    <string name="home">ଘର</string>
+    <string name="work">କାମ</string>
+    <string name="other">ଅନ୍ୟମାନେ</string>
+    <string name="custom">କଷ୍ଟମ୍</string>
+    <string name="fax_work">ଫ୍ୟାକ୍ସ କାମ</string>
+    <string name="assistant">ସହକାରୀ</string>
+    <string name="birthday">ଜନ୍ମଦିନ</string>
+    <string name="anniversary">ବାର୍ଷିକୀ</string>
+    <string name="export_vcf">VCard ରପ୍ତାନି କରନ୍ତୁ</string>
+    <string name="about">ବିଷୟରେ</string>
+    <string name="license">ଲାଇସେନ୍ସ</string>
+    <string name="author">ଲେଖକ</string>
+    <string name="version">ସଂସ୍କରଣ</string>
+    <string name="irreversible">ତମେ ନିଶ୍ଚିତ କି\? ଏହା ପୂର୍ବବତ୍ ହୋଇପାରିବ ନାହିଁ!</string>
+    <string name="cancel">ବାତିଲ୍ କରନ୍ତୁ</string>
+    <string name="translation">ଅନୁବାଦ</string>
+    <string name="search" tools:ignore="PrivateResource">ସନ୍ଧାନ କର</string>
+    <string name="copied">କ୍ଲିପବୋର୍ଡରେ କପି କରାଯାଇଛି</string>
+    <string name="retry">ପୁନଃଚେଷ୍ଟା କରନ୍ତୁ</string>
+    <string name="create_contact">ସମ୍ପର୍କ ସୃଷ୍ଟି କରନ୍ତୁ</string>
+    <string name="okay">ଠିକ ଅଛି</string>
+    <string name="reset">ପୁନଃସେଟ୍ କରନ୍ତୁ</string>
+    <string name="share">ଅଂଶୀଦାର କରନ୍ତୁ</string>
+    <string name="import_success">ଆମଦାନୀ ହୋଇଛି ।</string>
+    <string name="empty_name">ନାମ ଖାଲି ହୋଇପାରିବ ନାହିଁ!</string>
+    <string name="mobile">ମୋବାଇଲ୍</string>
+    <string name="phone">ଫୋନ୍</string>
+    <string name="address">ଠିକଣା</string>
+    <string name="surname">ଉପନାମ</string>
+    <string name="fax_home">ଫ୍ୟାକ୍ସ ହୋମ୍</string>
+    <string name="import_vcf">VCard ଆମଦାନୀ କରନ୍ତୁ</string>
+    <string name="car">କାର୍</string>
+    <string name="delete_contact">ସମ୍ପର୍କ ବିଲୋପ କରନ୍ତୁ</string>
+</resources>
