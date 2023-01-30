@@ -18,18 +18,18 @@
     <string name="type">النوع</string>
     <string name="first_name">الاسم الأوَّل</string>
     <string name="work">عمل</string>
-    <string name="home">منزل</string>
+    <string name="home">المنزل</string>
     <string name="birthday">عيد ميلاد</string>
     <string name="import_vcf">استورد vCard</string>
     <string name="about">عن</string>
     <string name="export_vcf">صدِّر vCard</string>
     <string name="license">الترخيص</string>
     <string name="anniversary">ذكرى سنويَّة</string>
-    <string name="author">المطوِّر</string>
+    <string name="author">المؤلِّف</string>
     <string name="translation">الترجمة</string>
     <string name="copied">نُسخ للحافظة</string>
     <string name="search" tools:ignore="PrivateResource">ابحث</string>
-    <string name="reset">أعد التعيين</string>
+    <string name="reset">أعِد التعيين</string>
     <string name="create_contact">أنشئ جهة اتِّصال</string>
     <string name="retry">أعد المحاولة</string>
     <string name="address">العنوان</string>
