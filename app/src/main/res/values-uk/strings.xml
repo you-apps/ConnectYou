@@ -21,7 +21,7 @@
     <string name="type">Тип</string>
     <string name="about">Про</string>
     <string name="license">Ліцензія</string>
-    <string name="custom">Додати</string>
+    <string name="custom">Користувальницьке</string>
     <string name="import_vcf">Імпорт vCard</string>
     <string name="author">Автор</string>
     <string name="first_name">Ім\'я</string>
@@ -37,4 +37,6 @@
     <string name="birthday">День народження</string>
     <string name="anniversary">Річниця</string>
     <string name="email">Ел. пошта</string>
+    <string name="okay">Окей</string>
+    <string name="reset">Скидання</string>
 </resources>
