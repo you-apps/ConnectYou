@@ -1,2 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="search" tools:ignore="PrivateResource">Поиск</string>
+    <string name="copied">Скопированно в буфер обмена</string>
+    <string name="delete_contact">Удалить контакт</string>
+    <string name="fax_home">Домашний факс</string>
+    <string name="fax_work">Рабочий факс</string>
+    <string name="anniversary">Юбилей</string>
+    <string name="version">Версия</string>
+    <string name="irreversible">Вы уверены\? Это действие нельзя будет отменить!</string>
+    <string name="cancel">Отменить</string>
+    <string name="okay">Окей</string>
+    <string name="reset">Сброс</string>
+    <string name="create_contact">Создать контакт</string>
+    <string name="retry">Попробовать ещё раз</string>
+    <string name="share">Поделиться</string>
+    <string name="empty_name">Имя контакта не может быть пустым!</string>
+    <string name="import_success">Импортировано.</string>
+    <string name="mobile">Мобильный</string>
+    <string name="import_vcf">Импортировать vCard</string>
+    <string name="export_success">Экспортировано.</string>
+    <string name="email">Эл. почта</string>
+    <string name="event">Событие</string>
+    <string name="surname">Фамилия</string>
+    <string name="work">Работа</string>
+    <string name="first_name">Имя</string>
+    <string name="type">Тип</string>
+    <string name="home">Главная</string>
+    <string name="other">Другое</string>
+    <string name="car">Автомобиль</string>
+    <string name="export_vcf">Экспортировать vCard</string>
+    <string name="license">Лицензия</string>
+    <string name="custom">Пользовательское</string>
+    <string name="birthday">День рождения</string>
+    <string name="about">Про</string>
+    <string name="assistant">Помощник</string>
+    <string name="author">Автор</string>
+    <string name="translation">Перевод</string>
+    <string name="phone">Телефон</string>
+    <string name="address">Адреса</string>
+</resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="retry">Réessayer</string>
-    <string name="empty_name">Le nom ne peut pas être vide !</string>
+    <string name="empty_name">Le nom ne peut pas être vide!</string>
     <string name="import_success">Importé.</string>
     <string name="address">Adresse</string>
     <string name="event">Évènement</string>
@@ -35,6 +35,8 @@
     <string name="export_vcf">Exporter une vCard</string>
     <string name="about">À propos</string>
     <string name="search" tools:ignore="PrivateResource">Recherche</string>
-    <string name="irreversible">Êtes-vous sûr·e \? Ceci ne peut pas être annulé !</string>
+    <string name="irreversible">Êtes-vous sûr·e\? Ceci ne peut pas être annulé!</string>
     <string name="create_contact">Créer un contact</string>
+    <string name="reset">Réinitialiser à l\'usine</string>
+    <string name="okay">Okay</string>
 </resources>
