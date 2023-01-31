@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.MoreVert
@@ -44,6 +45,7 @@ import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.OptionMenu
 import com.bnyro.contacts.ui.components.base.SearchBar
+import com.bnyro.contacts.ui.components.modifier.scrollbar
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.AboutScreen
 import com.bnyro.contacts.ui.screens.EditorScreen
@@ -164,7 +166,13 @@ fun ContactsPage(
                     }
                 }
 
-                LazyColumn {
+                val state = rememberLazyListState()
+                LazyColumn(
+                    state = state,
+                    modifier = Modifier
+                        .padding(end = 5.dp)
+                        .scrollbar(state, false)
+                ) {
                     items(
                         contacts.filter {
                             it.displayName.orEmpty().lowercase().contains(
