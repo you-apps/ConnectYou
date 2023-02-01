@@ -2,7 +2,11 @@ package com.bnyro.contacts.util
 
 import android.Manifest
 import android.content.ContentProviderOperation
+import android.content.ContentUris
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.ContactsContract.AUTHORITY
 import android.provider.ContactsContract.CommonDataKinds.Email
@@ -271,6 +275,28 @@ class ContactsHelper(private val context: Context) {
                 }
             }
             .build()
+    }
+
+    fun getContactPhotoThumbnail(contactId: Long): Bitmap? {
+        val contactUri =
+            ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId)
+        val `is` = ContactsContract.Contacts.openContactPhotoInputStream(
+            context.contentResolver,
+            contactUri
+        )
+        return BitmapFactory.decodeStream(`is`)
+    }
+
+    fun getContactPhoto(contactId: Long): Bitmap? {
+        val contactUri =
+            ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId)
+        val displayPhotoUri =
+            Uri.withAppendedPath(contactUri, ContactsContract.Contacts.Photo.DISPLAY_PHOTO)
+        return runCatching {
+            context.contentResolver.openAssetFileDescriptor(displayPhotoUri, "r").use { fd ->
+                BitmapFactory.decodeStream(fd!!.createInputStream())
+            }
+        }.getOrNull()
     }
 
     companion object {

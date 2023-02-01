@@ -1,10 +1,13 @@
 package com.bnyro.contacts.ui.screens
 
+import android.graphics.Bitmap
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,6 +27,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -59,6 +64,14 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
     }
     var showEditor by remember {
         mutableStateOf(false)
+    }
+    var profilePicture by remember {
+        mutableStateOf<Bitmap?>(null)
+    }
+
+    LaunchedEffect(Unit) {
+        val contactsHelper = ContactsHelper(context)
+        profilePicture = contactsHelper.getContactPhoto(contact.contactId)
     }
 
     FullScreenDialog(onClose = onClose) {
@@ -90,12 +103,22 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                                 color = MaterialTheme.colorScheme.primary
                             )
                     ) {
-                        Text(
-                            modifier = Modifier.align(Alignment.Center),
-                            text = (contact.displayName?.firstOrNull() ?: "").toString(),
-                            color = MaterialTheme.colorScheme.onPrimary,
-                            fontSize = 65.sp
-                        )
+                        if (profilePicture == null) {
+                            Text(
+                                modifier = Modifier.align(Alignment.Center),
+                                text = (contact.displayName?.firstOrNull() ?: "").toString(),
+                                color = MaterialTheme.colorScheme.onPrimary,
+                                fontSize = 65.sp
+                            )
+                        } else {
+                            Image(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(CircleShape),
+                                bitmap = profilePicture!!.asImageBitmap(),
+                                contentDescription = null
+                            )
+                        }
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                     Text(
