@@ -1,2 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="retry">重试</string>
+    <string name="phone">电话</string>
+    <string name="email">电子邮件</string>
+    <string name="first_name">名</string>
+    <string name="work">工作</string>
+    <string name="other">其他</string>
+    <string name="license">许可</string>
+    <string name="version">版本</string>
+    <string name="search" tools:ignore="PrivateResource">搜索</string>
+    <string name="copied">已复制到剪贴板</string>
+    <string name="delete_contact">删除联系人</string>
+    <string name="irreversible">你确定吗？此操作无法逆转！</string>
+    <string name="cancel">取消</string>
+    <string name="okay">好的</string>
+    <string name="reset">重设</string>
+    <string name="create_contact">创建联系人</string>
+    <string name="share">分享</string>
+    <string name="address">地址</string>
+    <string name="empty_name">名称不能为空！</string>
+    <string name="import_success">已导入。</string>
+    <string name="export_success">已导出。</string>
+    <string name="type">类型</string>
+    <string name="custom">自定义</string>
+    <string name="fax_home">家庭传真</string>
+    <string name="fax_work">工作传真</string>
+    <string name="birthday">生日</string>
+    <string name="event">事件</string>
+    <string name="home">家庭</string>
+    <string name="import_vcf">导入 vCard</string>
+    <string name="about">关于</string>
+    <string name="car">汽车电话</string>
+    <string name="surname">姓</string>
+    <string name="assistant">助理</string>
+    <string name="mobile">移动电话</string>
+    <string name="anniversary">纪念日</string>
+    <string name="export_vcf">导出 vCard</string>
+    <string name="author">作者</string>
+    <string name="translation">翻译</string>
+</resources>
