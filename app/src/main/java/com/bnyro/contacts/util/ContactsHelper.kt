@@ -20,6 +20,7 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.ext.intValue
 import com.bnyro.contacts.ext.longValue
 import com.bnyro.contacts.ext.notAName
+import com.bnyro.contacts.ext.pmap
 import com.bnyro.contacts.ext.stringValue
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.TranslatedType
@@ -89,7 +90,12 @@ class ContactsHelper(private val context: Context) {
             }
         }
 
-        return contactList
+        return contactList.pmap {
+            it.apply {
+                thumbnail = getContactPhotoThumbnail(contactId)
+                photo = getContactPhoto(contactId)
+            }
+        }
     }
 
     fun loadAdvancedData(contact: ContactData): ContactData {
@@ -277,7 +283,7 @@ class ContactsHelper(private val context: Context) {
             .build()
     }
 
-    fun getContactPhotoThumbnail(contactId: Long): Bitmap? {
+    private fun getContactPhotoThumbnail(contactId: Long): Bitmap? {
         val contactUri =
             ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId)
         val `is` = ContactsContract.Contacts.openContactPhotoInputStream(
@@ -287,7 +293,7 @@ class ContactsHelper(private val context: Context) {
         return BitmapFactory.decodeStream(`is`)
     }
 
-    fun getContactPhoto(contactId: Long): Bitmap? {
+    private fun getContactPhoto(contactId: Long): Bitmap? {
         val contactUri =
             ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId)
         val displayPhotoUri =

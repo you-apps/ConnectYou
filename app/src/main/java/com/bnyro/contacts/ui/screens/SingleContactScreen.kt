@@ -1,6 +1,5 @@
 package com.bnyro.contacts.ui.screens
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -27,7 +26,6 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -65,14 +63,6 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
     var showEditor by remember {
         mutableStateOf(false)
     }
-    var profilePicture by remember {
-        mutableStateOf<Bitmap?>(null)
-    }
-
-    LaunchedEffect(Unit) {
-        val contactsHelper = ContactsHelper(context)
-        profilePicture = contactsHelper.getContactPhoto(contact.contactId)
-    }
 
     FullScreenDialog(onClose = onClose) {
         val scrollState = rememberScrollState()
@@ -103,7 +93,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                                 color = MaterialTheme.colorScheme.primary
                             )
                     ) {
-                        if (profilePicture == null) {
+                        if (contact.photo == null) {
                             Text(
                                 modifier = Modifier.align(Alignment.Center),
                                 text = (contact.displayName?.firstOrNull() ?: "").toString(),
@@ -115,7 +105,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .clip(CircleShape),
-                                bitmap = profilePicture!!.asImageBitmap(),
+                                bitmap = contact.photo!!.asImageBitmap(),
                                 contentDescription = null
                             )
                         }
