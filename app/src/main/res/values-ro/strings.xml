@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="event">Eveniment</string>
+    <string name="type">Tip</string>
+    <string name="other">Alte</string>
+    <string name="car">Mașină</string>
+    <string name="fax_work">Lucru de fax</string>
+    <string name="first_name">Prenume</string>
+    <string name="home">Acasă</string>
+    <string name="mobile">Mobil</string>
+    <string name="import_vcf">Importă vCard</string>
+    <string name="assistant">Asistent</string>
+    <string name="export_vcf">Export vCard</string>
+    <string name="irreversible">Eşti sigur\? Acest lucru nu poate fi anulat!</string>
+    <string name="search" tools:ignore="PrivateResource">Căutare</string>
+    <string name="reset">Resetați</string>
+    <string name="copied">Copiat în clipboard</string>
+    <string name="okay">Bine</string>
+    <string name="delete_contact">Ștergeți contactul</string>
+    <string name="cancel">Anulează</string>
+    <string name="create_contact">Creați un contact</string>
+    <string name="retry">Reîncercare</string>
+    <string name="phone">Telefon</string>
+    <string name="share">Partajați</string>
+    <string name="import_success">Importat.</string>
+    <string name="empty_name">Numele nu poate fi gol!</string>
+    <string name="anniversary">Aniversare</string>
+    <string name="surname">Nume de familie</string>
+    <string name="work">Muncă</string>
+    <string name="birthday">Ziua de naștere</string>
+    <string name="export_success">Exportat.</string>
+    <string name="email">E-mail</string>
+    <string name="custom">Personalizat</string>
+    <string name="fax_home">Fax acasă</string>
+    <string name="address">Adresă</string>
+</resources>
