@@ -1,12 +1,20 @@
 package com.bnyro.contacts.ui.components
 
+import android.graphics.BitmapFactory
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -18,6 +26,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
@@ -32,6 +43,8 @@ fun ContactEditor(
     contact: ContactData? = null,
     onSave: (contact: ContactData) -> Unit
 ) {
+    val context = LocalContext.current
+
     fun List<ValueWithType>?.fillIfEmpty(): List<ValueWithType> {
         return if (this.isNullOrEmpty()) {
             listOf(ValueWithType("", 0))
@@ -45,6 +58,10 @@ fun ContactEditor(
     }
 
     fun emptyMutable() = mutableStateOf(ValueWithType("", 0))
+
+    var profilePicture by remember {
+        mutableStateOf(contact?.photo)
+    }
 
     val firstName = remember {
         mutableStateOf(contact?.firstName.orEmpty())
@@ -78,12 +95,47 @@ fun ContactEditor(
         )
     }
 
+    val uploadImage = rememberLauncherForActivityResult(
+        ActivityResultContracts.OpenDocument()
+    ) {
+        context.contentResolver.openInputStream(it ?: return@rememberLauncherForActivityResult)?.use { stream ->
+            profilePicture = BitmapFactory.decodeStream(stream)
+        }
+    }
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            item {
+                Box(
+                    modifier = Modifier
+                        .padding(top = 50.dp, bottom = 15.dp)
+                        .size(180.dp)
+                        .clip(RoundedCornerShape(20.dp))
+                        .clickable {
+                            uploadImage.launch(arrayOf("image/*"))
+                        }
+                ) {
+                    profilePicture?.let {
+                        Image(
+                            modifier = Modifier.fillMaxSize(),
+                            bitmap = it.asImageBitmap(),
+                            contentDescription = null
+                        )
+                    } ?: run {
+                        Icon(
+                            modifier = Modifier.fillMaxSize(),
+                            imageVector = Icons.Default.Person,
+                            contentDescription = null
+                        )
+                    }
+                }
+            }
+
             item {
                 LabeledTextField(
                     label = R.string.first_name,
@@ -132,6 +184,7 @@ fun ContactEditor(
                     firstName = firstName.value.trim(),
                     surName = surName.value.trim(),
                     displayName = "${firstName.value.trim()} ${surName.value.trim()}",
+                    photo = profilePicture,
                     numbers = phoneNumber.clean(),
                     emails = emails.clean(),
                     addresses = addresses.clean(),

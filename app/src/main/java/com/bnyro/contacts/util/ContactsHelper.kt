@@ -348,12 +348,10 @@ class ContactsHelper(private val context: Context) {
         val baseUri = ContentUris.withAppendedId(RawContacts.CONTENT_URI, contactId)
         val displayPhotoUri = Uri.withAppendedPath(
             baseUri,
-            RawContacts.DisplayPhoto.CONTENT_DIRECTORY
+            ContactsContract.Contacts.Photo.DISPLAY_PHOTO
         )
-        context.contentResolver.openAssetFileDescriptor(displayPhotoUri, "rw").use { fd ->
-            fd?.createOutputStream().use { outputStream ->
-                outputStream?.write(fullSizePhotoData)
-            }
+        context.contentResolver.openOutputStream(displayPhotoUri)?.use {
+            it.write(fullSizePhotoData)
         }
     }
 
