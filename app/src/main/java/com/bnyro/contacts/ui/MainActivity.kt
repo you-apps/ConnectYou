@@ -1,5 +1,6 @@
 package com.bnyro.contacts.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,12 +11,24 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val showEditor = intent?.getStringExtra("action") == "create"
-
         setContent {
             ConnectYouTheme {
-                ContactsScreen(showEditor)
+                ContactsScreen(shouldShowEditor(), getInitialContactId())
             }
+        }
+    }
+
+    private fun shouldShowEditor(): Boolean {
+        return when (intent?.action) {
+            Intent.ACTION_INSERT -> true
+            else -> intent?.getStringExtra("action") == "create"
+        }
+    }
+
+    private fun getInitialContactId(): Long? {
+        return when (intent?.action) {
+            Intent.ACTION_EDIT, Intent.ACTION_VIEW -> intent?.data?.lastPathSegment?.toLongOrNull()
+            else -> null
         }
     }
 }

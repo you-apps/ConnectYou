@@ -49,12 +49,14 @@ import com.bnyro.contacts.ui.components.modifier.scrollbar
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.AboutScreen
 import com.bnyro.contacts.ui.screens.EditorScreen
+import com.bnyro.contacts.ui.screens.SingleContactScreen
 import com.bnyro.contacts.util.ExportHelper
 
 @Composable
 fun ContactsPage(
     contacts: List<ContactData>?,
-    showEditorDefault: Boolean
+    showEditorDefault: Boolean,
+    initialContactId: Long?
 ) {
     val viewModel: ContactsModel = viewModel()
     val context = LocalContext.current
@@ -70,6 +72,10 @@ fun ContactsPage(
 
     var showAbout by remember {
         mutableStateOf(false)
+    }
+
+    var visibleContactId by remember {
+        mutableStateOf(initialContactId)
     }
 
     val importVcard = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
@@ -241,6 +247,14 @@ fun ContactsPage(
     if (showAbout) {
         AboutScreen {
             showAbout = false
+        }
+    }
+
+    visibleContactId?.let { contactId ->
+        viewModel.contacts?.firstOrNull { it.contactId == contactId }?.let {
+            SingleContactScreen(it) {
+                visibleContactId = null
+            }
         }
     }
 }
