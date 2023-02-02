@@ -8,11 +8,7 @@ import androidx.core.app.ActivityCompat
 
 object PermissionHelper {
     fun checkPermissions(context: Context, permission: String): Boolean {
-        if (ActivityCompat.checkSelfPermission(
-                context,
-                permission
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
+        if (!hasPermission(context, permission)) {
             ActivityCompat.requestPermissions(
                 context as Activity,
                 arrayOf(permission, Manifest.permission.WRITE_CONTACTS),
@@ -21,5 +17,12 @@ object PermissionHelper {
             return false
         }
         return true
+    }
+
+    fun hasPermission(context: Context, permission: String): Boolean {
+        return ActivityCompat.checkSelfPermission(
+            context,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
     }
 }

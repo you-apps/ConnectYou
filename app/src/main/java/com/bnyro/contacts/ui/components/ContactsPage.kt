@@ -1,5 +1,6 @@
 package com.bnyro.contacts.ui.components
 
+import android.Manifest
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -7,9 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,11 +17,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Sort
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -51,6 +48,8 @@ import com.bnyro.contacts.ui.screens.AboutScreen
 import com.bnyro.contacts.ui.screens.EditorScreen
 import com.bnyro.contacts.ui.screens.SingleContactScreen
 import com.bnyro.contacts.util.ExportHelper
+import com.bnyro.contacts.util.PermissionHelper
+import kotlinx.coroutines.delay
 
 @Composable
 fun ContactsPage(
@@ -206,30 +205,16 @@ fun ContactsPage(
                 Icon(Icons.Default.Create, null)
             }
         } else {
-            Column(
-                modifier = Modifier.align(Alignment.Center),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                var showRetry by remember {
-                    mutableStateOf(false)
+            LaunchedEffect(Unit) {
+                if (PermissionHelper.hasPermission(context, Manifest.permission.READ_CONTACTS)) return@LaunchedEffect
+                while (!PermissionHelper.hasPermission(context, Manifest.permission.READ_CONTACTS)) {
+                    delay(100)
                 }
-                LaunchedEffect(showRetry) {
-                    handler.postDelayed({
-                        showRetry = true
-                    }, 2000)
-                }
-
-                CircularProgressIndicator()
-                if (showRetry) {
-                    Spacer(modifier = Modifier.height(40.dp))
-                    Button(onClick = {
-                        viewModel.loadContacts(context)
-                        showRetry = false
-                    }) {
-                        Text(stringResource(R.string.retry))
-                    }
-                }
+                viewModel.loadContacts(context)
             }
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+            )
         }
     }
 
