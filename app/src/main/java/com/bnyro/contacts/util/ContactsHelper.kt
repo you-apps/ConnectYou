@@ -1,6 +1,7 @@
 package com.bnyro.contacts.util
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.Context
@@ -18,7 +19,6 @@ import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
 import android.provider.ContactsContract.RawContacts
 import androidx.annotation.RequiresPermission
 import com.bnyro.contacts.R
-import com.bnyro.contacts.ext.convertToByteArray
 import com.bnyro.contacts.ext.intValue
 import com.bnyro.contacts.ext.longValue
 import com.bnyro.contacts.ext.notAName
@@ -27,6 +27,7 @@ import com.bnyro.contacts.ext.stringValue
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.TranslatedType
 import com.bnyro.contacts.obj.ValueWithType
+import java.io.ByteArrayOutputStream
 
 class ContactsHelper(private val context: Context) {
     private val contentResolver = context.contentResolver
@@ -199,6 +200,7 @@ class ContactsHelper(private val context: Context) {
         context.contentResolver.applyBatch(AUTHORITY, operations)
     }
 
+    @SuppressLint("MissingPermission")
     @RequiresPermission(Manifest.permission.WRITE_CONTACTS)
     fun createContact(contact: ContactData) {
         val ops = arrayListOf(
@@ -272,7 +274,7 @@ class ContactsHelper(private val context: Context) {
     private fun getInsertAction(
         mimeType: String,
         valueIndex: String,
-        value: String,
+        value: Any,
         typeIndex: String? = null,
         type: Int? = null
     ): ContentProviderOperation {
@@ -310,49 +312,12 @@ class ContactsHelper(private val context: Context) {
         }.getOrNull()
     }
 
-    private fun getPhotoThumbnailSize(): Int {
-        val uri = ContactsContract.DisplayPhoto.CONTENT_MAX_DIMENSIONS_URI
-        val projection = arrayOf(ContactsContract.DisplayPhoto.THUMBNAIL_MAX_DIM)
-        runCatching {
-            val cursor = contentResolver.query(uri, projection, null, null, null)
-            if (cursor?.moveToFirst() == true) {
-                return cursor.intValue(ContactsContract.DisplayPhoto.THUMBNAIL_MAX_DIM)!!
-            }
-            cursor?.close()
-        }
-        return 0
-    }
-
     private fun addPhoto(contact: ContactData): ContentProviderOperation? {
         val bitmap = contact.photo ?: return null
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 75, stream)
 
-        val thumbnailSize = getPhotoThumbnailSize()
-        val scaledPhoto = Bitmap.createScaledBitmap(bitmap, thumbnailSize, thumbnailSize, false)
-        val scaledSizePhotoData = scaledPhoto.convertToByteArray()
-        scaledPhoto.recycle()
-
-        val fullSizePhotoData = bitmap.convertToByteArray()
-        bitmap.recycle()
-
-        val operation = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI).apply {
-            withValue(ContactsContract.Data.RAW_CONTACT_ID, contact.contactId)
-            withValue(ContactsContract.Data.MIMETYPE, Photo.CONTENT_ITEM_TYPE)
-            withValue(Photo.PHOTO, scaledSizePhotoData)
-        }.build()
-
-        addFullSizePhoto(contact.contactId, fullSizePhotoData)
-        return operation
-    }
-
-    private fun addFullSizePhoto(contactId: Long, fullSizePhotoData: ByteArray) {
-        val baseUri = ContentUris.withAppendedId(RawContacts.CONTENT_URI, contactId)
-        val displayPhotoUri = Uri.withAppendedPath(
-            baseUri,
-            ContactsContract.Contacts.Photo.DISPLAY_PHOTO
-        )
-        context.contentResolver.openOutputStream(displayPhotoUri)?.use {
-            it.write(fullSizePhotoData)
-        }
+        return getInsertAction(Photo.CONTENT_ITEM_TYPE, Photo.PHOTO, stream.toByteArray())
     }
 
     companion object {
