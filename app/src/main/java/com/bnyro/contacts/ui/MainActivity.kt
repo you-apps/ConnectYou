@@ -2,6 +2,7 @@ package com.bnyro.contacts.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract.QuickContact
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.bnyro.contacts.ui.screens.ContactsScreen
@@ -27,7 +28,7 @@ class MainActivity : ComponentActivity() {
 
     private fun getInitialContactId(): Long? {
         return when (intent?.action) {
-            Intent.ACTION_EDIT, Intent.ACTION_VIEW -> intent?.data?.lastPathSegment?.toLongOrNull()
+            Intent.ACTION_EDIT, Intent.ACTION_VIEW, QuickContact.ACTION_QUICK_CONTACT-> intent?.data?.lastPathSegment?.toLongOrNull()
             else -> null
         }
     }
