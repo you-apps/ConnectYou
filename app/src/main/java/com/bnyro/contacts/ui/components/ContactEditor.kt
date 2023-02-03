@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
@@ -124,7 +125,8 @@ fun ContactEditor(
                         Image(
                             modifier = Modifier.fillMaxSize(),
                             bitmap = it.asImageBitmap(),
-                            contentDescription = null
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop
                         )
                     } ?: run {
                         Icon(
