@@ -237,7 +237,8 @@ fun ContactsPage(
 
     visibleContactId?.let { contactId ->
         viewModel.contacts?.firstOrNull { it.contactId == contactId }?.let {
-            SingleContactScreen(it) {
+            val contact = viewModel.loadAdvancedContactData(context, it)
+            SingleContactScreen(contact) {
                 visibleContactId = null
             }
         }

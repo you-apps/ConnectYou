@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
 
     private fun getInitialContactId(): Long? {
         return when (intent?.action) {
-            Intent.ACTION_EDIT, Intent.ACTION_VIEW, QuickContact.ACTION_QUICK_CONTACT-> intent?.data?.lastPathSegment?.toLongOrNull()
+            Intent.ACTION_EDIT, Intent.ACTION_VIEW, QuickContact.ACTION_QUICK_CONTACT -> intent?.data?.lastPathSegment?.toLongOrNull()
             else -> null
         }
     }
