@@ -10,5 +10,5 @@ data class ValuableType(
     val contactId: Long,
     val category: Int,
     val value: String,
-    val type: Int
+    val type: Int?
 )
