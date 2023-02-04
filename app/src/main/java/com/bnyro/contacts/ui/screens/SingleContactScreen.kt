@@ -2,6 +2,7 @@ package com.bnyro.contacts.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -45,6 +46,7 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.IntentActionType
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.ContactEntry
+import com.bnyro.contacts.ui.components.ContactProfilePicture
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
@@ -62,6 +64,9 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
         mutableStateOf(false)
     }
     var showEditor by remember {
+        mutableStateOf(false)
+    }
+    var showZoomablePhoto by remember {
         mutableStateOf(false)
     }
 
@@ -105,7 +110,10 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                             Image(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .clip(CircleShape),
+                                    .clip(CircleShape)
+                                    .clickable {
+                                        showZoomablePhoto = true
+                                    },
                                 bitmap = contact.photo!!.asImageBitmap(),
                                 contentDescription = null,
                                 contentScale = ContentScale.Crop
@@ -224,6 +232,12 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
         ) {
             viewModel.deleteContact(context, contact)
             onClose.invoke()
+        }
+    }
+
+    if (showZoomablePhoto) {
+        ContactProfilePicture(contact) {
+            showZoomablePhoto = false
         }
     }
 }
