@@ -61,7 +61,7 @@ fun ContactsScreen(
             Icons.Default.Storage
         ) {
             viewModel.contacts = null
-            viewModel.contactsHelper = LocalContactsHelper()
+            viewModel.contactsHelper = LocalContactsHelper(context)
             viewModel.loadContacts(context)
         }
     )
