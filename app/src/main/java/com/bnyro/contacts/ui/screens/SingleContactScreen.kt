@@ -52,7 +52,7 @@ import com.bnyro.contacts.ui.components.base.FullScreenDialog
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.util.CalendarUtils
-import com.bnyro.contacts.util.ContactsHelper
+import com.bnyro.contacts.util.DeviceContactsHelper
 import com.bnyro.contacts.util.ExportHelper
 import com.bnyro.contacts.util.IntentHelper
 
@@ -173,7 +173,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                 ContactEntry(
                     label = stringResource(R.string.phone),
                     content = it.value,
-                    type = ContactsHelper.phoneNumberTypes.firstOrNull { type -> it.type == type.id }?.title
+                    type = DeviceContactsHelper.phoneNumberTypes.firstOrNull { type -> it.type == type.id }?.title
                 ) {
                     IntentHelper.launchAction(context, IntentActionType.DIAL, it.value)
                 }
@@ -183,7 +183,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                 ContactEntry(
                     label = stringResource(R.string.email),
                     content = it.value,
-                    type = ContactsHelper.emailTypes.firstOrNull { type -> it.type == type.id }?.title
+                    type = DeviceContactsHelper.emailTypes.firstOrNull { type -> it.type == type.id }?.title
                 ) {
                     IntentHelper.launchAction(context, IntentActionType.EMAIL, it.value)
                 }
@@ -193,7 +193,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                 ContactEntry(
                     label = stringResource(R.string.address),
                     content = it.value,
-                    type = ContactsHelper.addressTypes.firstOrNull { type -> it.type == type.id }?.title
+                    type = DeviceContactsHelper.addressTypes.firstOrNull { type -> it.type == type.id }?.title
                 ) {
                     IntentHelper.launchAction(context, IntentActionType.ADDRESS, it.value)
                 }
@@ -203,7 +203,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                 ContactEntry(
                     label = stringResource(R.string.event),
                     content = CalendarUtils.localizeIsoDate(it.value),
-                    type = ContactsHelper.eventTypes.firstOrNull { type -> it.type == type.id }?.title
+                    type = DeviceContactsHelper.eventTypes.firstOrNull { type -> it.type == type.id }?.title
                 )
             }
         }

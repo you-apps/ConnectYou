@@ -110,7 +110,7 @@ fun ContactItem(contact: ContactData, sortOrder: SortOrder) {
     }
 
     if (showContactScreen) {
-        SingleContactScreen(viewModel.loadAdvancedContactData(context, contact)) {
+        SingleContactScreen(contact) {
             showContactScreen = false
         }
     }

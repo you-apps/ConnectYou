@@ -75,8 +75,7 @@ fun ContactsScreen(
         }
         visibleContact?.let { contactId ->
             viewModel.contacts?.firstOrNull { it.contactId == contactId }?.let {
-                val contact = viewModel.loadAdvancedContactData(context, it)
-                SingleContactScreen(contact) {
+                SingleContactScreen(it) {
                     visibleContact = null
                 }
             }

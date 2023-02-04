@@ -4,12 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import androidx.core.content.FileProvider
-import com.bnyro.contacts.ext.pmap
 import com.bnyro.contacts.obj.ContactData
 import java.io.File
 
 class ExportHelper(private val context: Context) {
-    private val contactsHelper = ContactsHelper(context)
+    private val contactsHelper = DeviceContactsHelper(context)
     private val contentResolver = context.contentResolver
 
     @SuppressLint("MissingPermission")
@@ -23,16 +22,14 @@ class ExportHelper(private val context: Context) {
         }
     }
 
-    fun exportContacts(uri: Uri, minimalContacts: List<ContactData>) {
-        val contacts = minimalContacts.pmap { contactsHelper.loadAdvancedData(it) }
+    fun exportContacts(uri: Uri, contacts: List<ContactData>) {
         val vCardText = VcardHelper.exportVcard(contacts)
         contentResolver.openOutputStream(uri)?.use {
             it.write(vCardText.toByteArray())
         }
     }
 
-    fun exportContact(minimalContact: ContactData): Uri {
-        val contact = contactsHelper.loadAdvancedData(minimalContact)
+    fun exportContact(contact: ContactData): Uri {
         val vCardText = VcardHelper.exportVcard(listOf(contact))
         val outputDir = File(context.cacheDir, "contacts").also {
             if (!it.exists()) it.mkdir()
