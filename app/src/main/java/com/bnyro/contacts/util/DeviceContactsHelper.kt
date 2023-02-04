@@ -18,14 +18,12 @@ import android.provider.ContactsContract.CommonDataKinds.StructuredName
 import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
 import android.provider.ContactsContract.RawContacts
 import androidx.annotation.RequiresPermission
-import com.bnyro.contacts.R
 import com.bnyro.contacts.ext.intValue
 import com.bnyro.contacts.ext.longValue
 import com.bnyro.contacts.ext.notAName
 import com.bnyro.contacts.ext.pmap
 import com.bnyro.contacts.ext.stringValue
 import com.bnyro.contacts.obj.ContactData
-import com.bnyro.contacts.obj.TranslatedType
 import com.bnyro.contacts.obj.ValueWithType
 
 class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
@@ -330,39 +328,5 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
 
     companion object {
         const val MAX_PHOTO_SIZE = 700f
-
-        val emailTypes = listOf(
-            TranslatedType(Email.TYPE_HOME, R.string.home),
-            TranslatedType(Email.TYPE_WORK, R.string.work),
-            TranslatedType(Email.TYPE_MOBILE, R.string.mobile),
-            TranslatedType(Email.TYPE_CUSTOM, R.string.custom),
-            TranslatedType(Email.TYPE_OTHER, R.string.other)
-        )
-
-        val phoneNumberTypes = listOf(
-            TranslatedType(Phone.TYPE_HOME, R.string.home),
-            TranslatedType(Phone.TYPE_MOBILE, R.string.mobile),
-            TranslatedType(Phone.TYPE_WORK, R.string.work),
-            TranslatedType(Phone.TYPE_CAR, R.string.car),
-            TranslatedType(Phone.TYPE_FAX_HOME, R.string.fax_home),
-            TranslatedType(Phone.TYPE_FAX_WORK, R.string.fax_work),
-            TranslatedType(Phone.TYPE_ASSISTANT, R.string.assistant),
-            TranslatedType(Phone.TYPE_CUSTOM, R.string.custom),
-            TranslatedType(Phone.TYPE_OTHER, R.string.other)
-        )
-
-        val addressTypes = listOf(
-            TranslatedType(StructuredPostal.TYPE_HOME, R.string.home),
-            TranslatedType(StructuredPostal.TYPE_WORK, R.string.work),
-            TranslatedType(StructuredPostal.TYPE_CUSTOM, R.string.custom),
-            TranslatedType(StructuredPostal.TYPE_OTHER, R.string.other)
-        )
-
-        val eventTypes = listOf(
-            TranslatedType(Event.TYPE_BIRTHDAY, R.string.birthday),
-            TranslatedType(Event.TYPE_ANNIVERSARY, R.string.anniversary),
-            TranslatedType(Event.TYPE_CUSTOM, R.string.custom),
-            TranslatedType(Event.TYPE_OTHER, R.string.other)
-        )
     }
 }

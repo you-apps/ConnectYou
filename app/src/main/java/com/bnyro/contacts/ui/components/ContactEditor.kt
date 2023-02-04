@@ -38,7 +38,7 @@ import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.base.LabeledTextField
 import com.bnyro.contacts.ui.components.editor.DatePickerEditor
 import com.bnyro.contacts.ui.components.editor.TextFieldEditor
-import com.bnyro.contacts.util.DeviceContactsHelper
+import com.bnyro.contacts.util.ContactsHelper
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -160,25 +160,25 @@ fun ContactEditor(
             }
 
             items(phoneNumber) {
-                TextFieldEditor(R.string.phone, it, DeviceContactsHelper.phoneNumberTypes) {
+                TextFieldEditor(R.string.phone, it, ContactsHelper.phoneNumberTypes) {
                     phoneNumber = phoneNumber + emptyMutable()
                 }
             }
 
             items(emails) {
-                TextFieldEditor(R.string.email, it, DeviceContactsHelper.emailTypes) {
+                TextFieldEditor(R.string.email, it, ContactsHelper.emailTypes) {
                     emails = emails + emptyMutable()
                 }
             }
 
             items(addresses) {
-                TextFieldEditor(R.string.address, it, DeviceContactsHelper.addressTypes) {
+                TextFieldEditor(R.string.address, it, ContactsHelper.addressTypes) {
                     addresses = addresses + emptyMutable()
                 }
             }
 
             items(events) {
-                DatePickerEditor(R.string.event, it, DeviceContactsHelper.eventTypes) {
+                DatePickerEditor(R.string.event, it, ContactsHelper.eventTypes) {
                     events = events + emptyMutable()
                 }
             }
