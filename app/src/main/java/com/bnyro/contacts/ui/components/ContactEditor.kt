@@ -3,8 +3,9 @@ package com.bnyro.contacts.ui.components
 import android.graphics.BitmapFactory
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,6 +40,7 @@ import com.bnyro.contacts.ui.components.editor.DatePickerEditor
 import com.bnyro.contacts.ui.components.editor.TextFieldEditor
 import com.bnyro.contacts.util.ContactsHelper
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ContactEditor(
     contact: ContactData? = null,
@@ -117,9 +119,14 @@ fun ContactEditor(
                         .padding(top = 50.dp, bottom = 15.dp)
                         .size(180.dp)
                         .clip(RoundedCornerShape(20.dp))
-                        .clickable {
-                            uploadImage.launch(arrayOf("image/*"))
-                        }
+                        .combinedClickable(
+                            onClick = {
+                                uploadImage.launch(arrayOf("image/*"))
+                            },
+                            onLongClick = {
+                                profilePicture = null
+                            }
+                        )
                 ) {
                     profilePicture?.let {
                         Image(

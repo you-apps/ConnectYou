@@ -27,7 +27,6 @@ import com.bnyro.contacts.ext.stringValue
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.TranslatedType
 import com.bnyro.contacts.obj.ValueWithType
-import java.io.ByteArrayOutputStream
 
 class ContactsHelper(private val context: Context) {
     private val contentResolver = context.contentResolver
@@ -257,8 +256,7 @@ class ContactsHelper(private val context: Context) {
                 )
             }.toTypedArray()
         ).apply {
-            val createPhoto = addPhoto(contact)
-            if (createPhoto != null) add(createPhoto)
+            addPhoto(contact)?.let { add(it) }
         }
 
         contentResolver.applyBatch(AUTHORITY, ops)
@@ -314,13 +312,26 @@ class ContactsHelper(private val context: Context) {
 
     private fun addPhoto(contact: ContactData): ContentProviderOperation? {
         val bitmap = contact.photo ?: return null
-        val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 75, stream)
+        var bytes: ByteArray = ImageHelper.bitmapToByteArray(bitmap)
 
-        return getInsertAction(Photo.CONTENT_ITEM_TYPE, Photo.PHOTO, stream.toByteArray())
+        // prevent crashes due to a too large transaction
+        if (bytes.size / 1024 > 900) {
+            val scaleFactor = MAX_PHOTO_SIZE / maxOf(bitmap.width, bitmap.height)
+            val scaledBitmap = Bitmap.createScaledBitmap(
+                bitmap,
+                (bitmap.width * scaleFactor).toInt(),
+                (bitmap.height * scaleFactor).toInt(),
+                false
+            )
+            bytes = ImageHelper.bitmapToByteArray(scaledBitmap)
+        }
+
+        return getInsertAction(Photo.CONTENT_ITEM_TYPE, Photo.PHOTO, bytes)
     }
 
     companion object {
+        const val MAX_PHOTO_SIZE = 700f
+
         val emailTypes = listOf(
             TranslatedType(Email.TYPE_HOME, R.string.home),
             TranslatedType(Email.TYPE_WORK, R.string.work),
