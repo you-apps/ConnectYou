@@ -35,7 +35,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.SortOrder
 import com.bnyro.contacts.ext.rememberPreference
-import com.bnyro.contacts.ext.toast
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.OptionMenu
@@ -44,7 +43,6 @@ import com.bnyro.contacts.ui.components.modifier.scrollbar
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.AboutScreen
 import com.bnyro.contacts.ui.screens.EditorScreen
-import com.bnyro.contacts.util.ExportHelper
 import com.bnyro.contacts.util.PermissionHelper
 import kotlinx.coroutines.delay
 
@@ -68,18 +66,13 @@ fun ContactsPage(
     }
 
     val importVcard = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-        uri?.let {
-        }
+        uri?.let { viewModel.importVcf(context, it) }
     }
 
     val exportVcard = rememberLauncherForActivityResult(
         ActivityResultContracts.CreateDocument("text/vcard")
     ) { uri ->
-        uri?.let {
-            val exportHelper = ExportHelper(context, viewModel.contactsHelper!!)
-            exportHelper.exportContacts(it, contacts.orEmpty())
-            context.toast(R.string.export_success)
-        }
+        uri?.let { viewModel.exportVcf(context, it) }
     }
 
     Box(

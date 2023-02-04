@@ -75,6 +75,12 @@ class ContactsModel : ViewModel() {
         }
     }
 
+    fun exportVcf(context: Context, uri: Uri) {
+        val exportHelper = ExportHelper(context, contactsHelper!!)
+        exportHelper.exportContacts(uri, contacts.orEmpty())
+        context.toast(R.string.export_success)
+    }
+
     fun exportSingleVcf(context: Context, contact: ContactData) {
         viewModelScope.launch {
             val exportHelper = ExportHelper(context, contactsHelper!!)
