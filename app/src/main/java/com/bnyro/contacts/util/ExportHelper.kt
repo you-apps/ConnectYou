@@ -7,13 +7,17 @@ import androidx.core.content.FileProvider
 import com.bnyro.contacts.ext.pmap
 import com.bnyro.contacts.obj.ContactData
 import java.io.File
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class ExportHelper(private val context: Context) {
-    private val contactsHelper = ContactsHelper(context)
+class ExportHelper(
+    private val context: Context,
+    private val contactsHelper: ContactsHelper
+) {
     private val contentResolver = context.contentResolver
 
     @SuppressLint("MissingPermission")
-    fun importContacts(uri: Uri) {
+    suspend fun importContacts(uri: Uri) {
         contentResolver.openInputStream(uri)?.use {
             val content = it.bufferedReader().readText()
             val contacts = VcardHelper.importVcard(content)
@@ -31,13 +35,15 @@ class ExportHelper(private val context: Context) {
         }
     }
 
-    fun exportContact(minimalContact: ContactData): Uri {
+    suspend fun exportContact(minimalContact: ContactData): Uri {
         val contact = contactsHelper.loadAdvancedData(minimalContact)
         val vCardText = VcardHelper.exportVcard(listOf(contact))
         val outputDir = File(context.cacheDir, "contacts").also {
             if (!it.exists()) it.mkdir()
         }
-        val outFile = File.createTempFile(contact.displayName.orEmpty(), ".vcf", outputDir)
+        val outFile = withContext(Dispatchers.IO) {
+            File.createTempFile(contact.displayName.orEmpty(), ".vcf", outputDir)
+        }
         contentResolver.openOutputStream(Uri.fromFile(outFile))?.use {
             it.write(vCardText.toByteArray())
         }

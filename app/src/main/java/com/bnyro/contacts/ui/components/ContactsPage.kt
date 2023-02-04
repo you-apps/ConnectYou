@@ -1,8 +1,6 @@
 package com.bnyro.contacts.ui.components
 
 import android.Manifest
-import android.os.Handler
-import android.os.Looper
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
@@ -37,7 +35,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.SortOrder
 import com.bnyro.contacts.ext.rememberPreference
-import com.bnyro.contacts.ext.toast
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.OptionMenu
@@ -46,21 +43,16 @@ import com.bnyro.contacts.ui.components.modifier.scrollbar
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.AboutScreen
 import com.bnyro.contacts.ui.screens.EditorScreen
-import com.bnyro.contacts.ui.screens.SingleContactScreen
-import com.bnyro.contacts.util.ExportHelper
 import com.bnyro.contacts.util.PermissionHelper
 import kotlinx.coroutines.delay
 
 @Composable
 fun ContactsPage(
     contacts: List<ContactData>?,
-    showEditorDefault: Boolean,
-    initialContactId: Long?
+    showEditorDefault: Boolean
 ) {
     val viewModel: ContactsModel = viewModel()
     val context = LocalContext.current
-    val handler = Handler(Looper.getMainLooper())
-    val exportHelper = ExportHelper(context)
 
     var showEditor by remember {
         mutableStateOf(showEditorDefault)
@@ -73,25 +65,14 @@ fun ContactsPage(
         mutableStateOf(false)
     }
 
-    var visibleContactId by remember {
-        mutableStateOf(initialContactId)
-    }
-
     val importVcard = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-        uri?.let {
-            exportHelper.importContacts(it)
-            viewModel.loadContacts(context)
-            context.toast(R.string.import_success)
-        }
+        uri?.let { viewModel.importVcf(context, it) }
     }
 
     val exportVcard = rememberLauncherForActivityResult(
         ActivityResultContracts.CreateDocument("text/vcard")
     ) { uri ->
-        uri?.let {
-            exportHelper.exportContacts(it, contacts.orEmpty())
-            context.toast(R.string.export_success)
-        }
+        uri?.let { viewModel.exportVcf(context, it) }
     }
 
     Box(
@@ -232,15 +213,6 @@ fun ContactsPage(
     if (showAbout) {
         AboutScreen {
             showAbout = false
-        }
-    }
-
-    visibleContactId?.let { contactId ->
-        viewModel.contacts?.firstOrNull { it.contactId == contactId }?.let {
-            val contact = viewModel.loadAdvancedContactData(context, it)
-            SingleContactScreen(contact) {
-                visibleContactId = null
-            }
         }
     }
 }
