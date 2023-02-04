@@ -1,8 +1,6 @@
 package com.bnyro.contacts.ui.components
 
 import android.Manifest
-import android.os.Handler
-import android.os.Looper
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
@@ -46,7 +44,6 @@ import com.bnyro.contacts.ui.components.modifier.scrollbar
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.AboutScreen
 import com.bnyro.contacts.ui.screens.EditorScreen
-import com.bnyro.contacts.ui.screens.SingleContactScreen
 import com.bnyro.contacts.util.ExportHelper
 import com.bnyro.contacts.util.PermissionHelper
 import kotlinx.coroutines.delay
@@ -54,12 +51,10 @@ import kotlinx.coroutines.delay
 @Composable
 fun ContactsPage(
     contacts: List<ContactData>?,
-    showEditorDefault: Boolean,
-    initialContactId: Long?
+    showEditorDefault: Boolean
 ) {
     val viewModel: ContactsModel = viewModel()
     val context = LocalContext.current
-    val handler = Handler(Looper.getMainLooper())
     val exportHelper = ExportHelper(context)
 
     var showEditor by remember {
@@ -71,10 +66,6 @@ fun ContactsPage(
 
     var showAbout by remember {
         mutableStateOf(false)
-    }
-
-    var visibleContactId by remember {
-        mutableStateOf(initialContactId)
     }
 
     val importVcard = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
@@ -232,15 +223,6 @@ fun ContactsPage(
     if (showAbout) {
         AboutScreen {
             showAbout = false
-        }
-    }
-
-    visibleContactId?.let { contactId ->
-        viewModel.contacts?.firstOrNull { it.contactId == contactId }?.let {
-            val contact = viewModel.loadAdvancedContactData(context, it)
-            SingleContactScreen(contact) {
-                visibleContactId = null
-            }
         }
     }
 }
