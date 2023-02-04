@@ -23,10 +23,11 @@ import androidx.compose.ui.layout.ContentScale
 fun ZoomableImage(
     modifier: Modifier = Modifier,
     bitmap: Bitmap,
+    initialScale: Float = 1.5f,
     minScale: Float = 1f,
     maxScale: Float = 3f
 ) {
-    var scale by remember { mutableStateOf(1f) }
+    var scale by remember { mutableStateOf(initialScale) }
     var offsetX by remember { mutableStateOf(0f) }
     var offsetY by remember { mutableStateOf(0f) }
     Box(
@@ -56,7 +57,7 @@ fun ZoomableImage(
                     translationY = offsetY
                 ),
             contentDescription = null,
-            contentScale = ContentScale.FillHeight
+            contentScale = ContentScale.FillWidth
         )
     }
 }
