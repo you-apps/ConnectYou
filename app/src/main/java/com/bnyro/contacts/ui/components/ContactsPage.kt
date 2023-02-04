@@ -55,7 +55,6 @@ fun ContactsPage(
 ) {
     val viewModel: ContactsModel = viewModel()
     val context = LocalContext.current
-    val exportHelper = ExportHelper(context)
 
     var showEditor by remember {
         mutableStateOf(showEditorDefault)
@@ -70,9 +69,6 @@ fun ContactsPage(
 
     val importVcard = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
         uri?.let {
-            exportHelper.importContacts(it)
-            viewModel.loadContacts(context)
-            context.toast(R.string.import_success)
         }
     }
 
@@ -80,6 +76,7 @@ fun ContactsPage(
         ActivityResultContracts.CreateDocument("text/vcard")
     ) { uri ->
         uri?.let {
+            val exportHelper = ExportHelper(context, viewModel.contactsHelper!!)
             exportHelper.exportContacts(it, contacts.orEmpty())
             context.toast(R.string.export_success)
         }

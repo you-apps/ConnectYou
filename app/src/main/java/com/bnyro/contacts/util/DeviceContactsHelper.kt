@@ -28,7 +28,7 @@ import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.TranslatedType
 import com.bnyro.contacts.obj.ValueWithType
 
-class DeviceContactsHelper(private val context: Context) {
+class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     private val contentResolver = context.contentResolver
     private val androidAccountType = "com.android.contacts"
 
@@ -41,7 +41,7 @@ class DeviceContactsHelper(private val context: Context) {
     )
 
     @RequiresPermission(Manifest.permission.READ_CONTACTS)
-    fun getContactList(): List<ContactData> {
+    override suspend fun getContactList(): List<ContactData> {
         val contactList = mutableListOf<ContactData>()
 
         @Suppress("SameParameterValue")
@@ -96,11 +96,11 @@ class DeviceContactsHelper(private val context: Context) {
             it.apply {
                 thumbnail = getContactPhotoThumbnail(contactId)
                 photo = getContactPhoto(contactId)
-            }.loadAdvancedData()
+            }
         }
     }
 
-    private fun ContactData.loadAdvancedData() = apply {
+    override suspend fun loadAdvancedData(contact: ContactData) = contact.apply {
         events = getExtras(
             contactId,
             Event.START_DATE,
@@ -184,7 +184,7 @@ class DeviceContactsHelper(private val context: Context) {
     }
 
     @RequiresPermission(Manifest.permission.WRITE_CONTACTS)
-    fun deleteContacts(contacts: List<ContactData>) {
+    override suspend fun deleteContacts(contacts: List<ContactData>) {
         val operations = ArrayList<ContentProviderOperation>()
         val selection = "${RawContacts.CONTACT_ID} = ?"
         contacts.forEach {
@@ -200,7 +200,7 @@ class DeviceContactsHelper(private val context: Context) {
 
     @SuppressLint("MissingPermission")
     @RequiresPermission(Manifest.permission.WRITE_CONTACTS)
-    fun createContact(contact: ContactData) {
+    override suspend fun createContact(contact: ContactData) {
         val ops = arrayListOf(
             getCreateAction(contact.displayName.orEmpty(), contact.accountType),
             getInsertAction(

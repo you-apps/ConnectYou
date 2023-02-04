@@ -3,9 +3,11 @@ package com.bnyro.contacts.util
 import com.bnyro.contacts.obj.ContactData
 
 abstract class ContactsHelper {
-    abstract fun createContact(contact: ContactData)
+    abstract suspend fun createContact(contact: ContactData)
 
-    abstract fun deleteContact(contact: ContactData)
+    abstract suspend fun deleteContacts(contacts: List<ContactData>)
 
-    abstract fun getAllContacts(): List<ContactData>
+    abstract suspend fun getContactList(): List<ContactData>
+
+    abstract suspend fun loadAdvancedData(contact: ContactData): ContactData
 }

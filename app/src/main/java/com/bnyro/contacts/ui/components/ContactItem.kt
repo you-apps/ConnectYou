@@ -38,6 +38,7 @@ import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.SingleContactScreen
+import kotlinx.coroutines.runBlocking
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -110,7 +111,10 @@ fun ContactItem(contact: ContactData, sortOrder: SortOrder) {
     }
 
     if (showContactScreen) {
-        SingleContactScreen(contact) {
+        val data = runBlocking {
+            viewModel.loadAdvancedContactData(contact)
+        }
+        SingleContactScreen(data) {
             showContactScreen = false
         }
     }

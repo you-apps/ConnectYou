@@ -53,7 +53,6 @@ import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.util.CalendarUtils
 import com.bnyro.contacts.util.DeviceContactsHelper
-import com.bnyro.contacts.util.ExportHelper
 import com.bnyro.contacts.util.IntentHelper
 
 @Composable
@@ -159,8 +158,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     }
                     Spacer(modifier = Modifier.width(5.dp))
                     ClickableIcon(icon = Icons.Default.Share) {
-                        val tempFileUri = ExportHelper(context).exportContact(contact)
-                        IntentHelper.shareContactVcf(context, tempFileUri)
+                        viewModel.exportSingleVcf(context, contact)
                     }
                     Spacer(modifier = Modifier.width(5.dp))
                     ClickableIcon(icon = Icons.Default.Delete) {

@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.LocalActivity
+import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -21,10 +21,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.bnyro.contacts.R
+import com.bnyro.contacts.obj.NavBarItem
 import com.bnyro.contacts.ui.components.ContactsPage
 import com.bnyro.contacts.ui.models.ContactsModel
+import com.bnyro.contacts.util.DeviceContactsHelper
+import com.bnyro.contacts.util.LocalContactsHelper
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,6 +47,25 @@ fun ContactsScreen(
         viewModel.loadContacts(context)
     }
 
+    val navItems = listOf(
+        NavBarItem(
+            stringResource(R.string.device),
+            Icons.Default.Home
+        ) {
+            viewModel.contacts = null
+            viewModel.contactsHelper = DeviceContactsHelper(context)
+            viewModel.loadContacts(context)
+        },
+        NavBarItem(
+            stringResource(R.string.local),
+            Icons.Default.Storage
+        ) {
+            viewModel.contacts = null
+            viewModel.contactsHelper = LocalContactsHelper()
+            viewModel.loadContacts(context)
+        }
+    )
+
     Scaffold(
         bottomBar = {
             NavigationBar(
@@ -50,17 +74,19 @@ fun ContactsScreen(
                 var selected by remember {
                     mutableStateOf(0)
                 }
-                listOf(Icons.Default.Home, Icons.Default.LocalActivity).forEachIndexed { index, navItem ->
+                navItems.forEachIndexed { index, navItem ->
                     NavigationBarItem(
                         selected = index == selected,
                         onClick = {
+                            if (selected == index) return@NavigationBarItem
                             selected = index
+                            navItem.onClick()
                         },
                         icon = {
-                            Icon(navItem, null)
+                            Icon(navItem.icon, null)
                         },
                         label = {
-                            Text(navItem.name)
+                            Text(navItem.label)
                         }
                     )
                 }
