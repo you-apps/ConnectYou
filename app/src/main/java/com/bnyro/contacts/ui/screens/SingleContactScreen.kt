@@ -18,11 +18,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Call
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Send
-import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -145,7 +141,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                         )
                     }
                     Spacer(modifier = Modifier.width(5.dp))
-                    ClickableIcon(icon = Icons.Default.Send) {
+                    ClickableIcon(icon = Icons.Default.Message) {
                         IntentHelper.launchAction(
                             context,
                             IntentActionType.SMS,
