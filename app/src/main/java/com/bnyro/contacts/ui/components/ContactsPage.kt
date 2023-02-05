@@ -85,142 +85,154 @@ fun ContactsPage(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        if (contacts != null) {
-            Column {
-                val searchQuery = remember {
-                    mutableStateOf(TextFieldValue())
-                }
+        Column {
+            val searchQuery = remember {
+                mutableStateOf(TextFieldValue())
+            }
 
-                SearchBar(Modifier.padding(horizontal = 10.dp, vertical = 15.dp), searchQuery) {
-                    Box(
-                        modifier = Modifier.align(Alignment.End)
-                    ) {
-                        var expandedSort by remember {
-                            mutableStateOf(false)
-                        }
-                        var expandedOptions by remember {
-                            mutableStateOf(false)
-                        }
-
-                        Row {
-                            ClickableIcon(
-                                icon = Icons.Default.Sort
-                            ) {
-                                expandedSort = !expandedSort
-                            }
-                            ClickableIcon(
-                                icon = Icons.Default.MoreVert
-                            ) {
-                                expandedOptions = !expandedOptions
-                            }
-                        }
-
-                        OptionMenu(
-                            expanded = expandedSort,
-                            options = listOf(
-                                stringResource(R.string.first_name),
-                                stringResource(R.string.surname)
-                            ),
-                            onDismissRequest = {
-                                expandedSort = false
-                            },
-                            onSelect = {
-                                sortOrderPref = it.toString()
-                                expandedSort = false
-                            }
-                        )
-                        OptionMenu(
-                            expanded = expandedOptions,
-                            options = listOf(
-                                stringResource(R.string.import_vcf),
-                                stringResource(R.string.export_vcf),
-                                stringResource(R.string.about)
-                            ),
-                            onDismissRequest = {
-                                expandedOptions = false
-                            },
-                            onSelect = {
-                                when (it) {
-                                    0 -> {
-                                        importVcard.launch(
-                                            arrayOf("text/vcard", "text/v-card", "text/x-vcard")
-                                        )
-                                    }
-                                    1 -> {
-                                        exportVcard.launch("contacts.vcf")
-                                    }
-                                    2 -> {
-                                        showAbout = true
-                                    }
-                                }
-                                expandedOptions = false
-                            }
-                        )
+            SearchBar(Modifier.padding(horizontal = 10.dp, vertical = 15.dp), searchQuery) {
+                Box(
+                    modifier = Modifier.align(Alignment.End)
+                ) {
+                    var expandedSort by remember {
+                        mutableStateOf(false)
                     }
-                }
+                    var expandedOptions by remember {
+                        mutableStateOf(false)
+                    }
 
-                if (contacts.isNotEmpty()) {
-                    val state = rememberLazyListState()
-                    LazyColumn(
-                        state = state,
-                        modifier = Modifier
-                            .padding(end = 5.dp)
-                            .scrollbar(state, false)
-                    ) {
-                        items(
-                            contacts.filter {
-                                it.displayName.orEmpty().lowercase().contains(
-                                    searchQuery.value.text.lowercase()
-                                )
-                            }.sortedBy {
-                                when (sortOrder) {
-                                    SortOrder.FIRSTNAME -> it.firstName
-                                    SortOrder.SURNAME -> it.surName
-                                }
-                            }
+                    Row {
+                        ClickableIcon(
+                            icon = Icons.Default.Sort
                         ) {
-                            ContactItem(it, sortOrder)
+                            expandedSort = !expandedSort
+                        }
+                        ClickableIcon(
+                            icon = Icons.Default.MoreVert
+                        ) {
+                            expandedOptions = !expandedOptions
                         }
                     }
-                } else {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
+
+                    OptionMenu(
+                        expanded = expandedSort,
+                        options = listOf(
+                            stringResource(R.string.first_name),
+                            stringResource(R.string.surname)
+                        ),
+                        onDismissRequest = {
+                            expandedSort = false
+                        },
+                        onSelect = {
+                            sortOrderPref = it.toString()
+                            expandedSort = false
+                        }
+                    )
+                    OptionMenu(
+                        expanded = expandedOptions,
+                        options = listOf(
+                            stringResource(R.string.import_vcf),
+                            stringResource(R.string.export_vcf),
+                            stringResource(R.string.about)
+                        ),
+                        onDismissRequest = {
+                            expandedOptions = false
+                        },
+                        onSelect = {
+                            when (it) {
+                                0 -> {
+                                    importVcard.launch(
+                                        arrayOf("text/vcard", "text/v-card", "text/x-vcard")
+                                    )
+                                }
+                                1 -> {
+                                    exportVcard.launch("contacts.vcf")
+                                }
+                                2 -> {
+                                    showAbout = true
+                                }
+                            }
+                            expandedOptions = false
+                        }
+                    )
+                }
+            }
+
+            if (contacts == null) {
+                LaunchedEffect(Unit) {
+                    if (PermissionHelper.hasPermission(
+                            context,
+                            Manifest.permission.READ_CONTACTS
+                        )
                     ) {
-                        Icon(
-                            modifier = Modifier.size(120.dp),
-                            imageVector = Icons.Default.ImportContacts,
-                            contentDescription = null
+                        return@LaunchedEffect
+                    }
+                    while (!PermissionHelper.hasPermission(
+                            context,
+                            Manifest.permission.READ_CONTACTS
                         )
-                        Spacer(Modifier.height(10.dp))
-                        Text(
-                            text = stringResource(R.string.nothing_here)
-                        )
+                    ) {
+                        delay(100)
+                    }
+                    viewModel.loadContacts(context)
+                }
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            } else if (contacts.isEmpty()) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        modifier = Modifier.size(120.dp),
+                        imageVector = Icons.Default.ImportContacts,
+                        contentDescription = null
+                    )
+                    Spacer(Modifier.height(10.dp))
+                    Text(
+                        text = stringResource(R.string.nothing_here)
+                    )
+                }
+            } else {
+                val state = rememberLazyListState()
+                LazyColumn(
+                    state = state,
+                    modifier = Modifier
+                        .padding(end = 5.dp)
+                        .scrollbar(state, false)
+                ) {
+                    items(
+                        contacts.filter {
+                            it.displayName.orEmpty().lowercase().contains(
+                                searchQuery.value.text.lowercase()
+                            )
+                        }.sortedBy {
+                            when (sortOrder) {
+                                SortOrder.FIRSTNAME -> it.firstName
+                                SortOrder.SURNAME -> it.surName
+                            }
+                        }
+                    ) {
+                        ContactItem(it, sortOrder)
                     }
                 }
             }
-            FloatingActionButton(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .align(Alignment.BottomEnd),
-                onClick = {
-                    showEditor = true
-                }
-            ) {
-                Icon(Icons.Default.Create, null)
+        }
+        FloatingActionButton(
+            modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.BottomEnd),
+            onClick = {
+                showEditor = true
             }
-        } else {
-            LaunchedEffect(Unit) {
-                if (PermissionHelper.hasPermission(context, Manifest.permission.READ_CONTACTS)) return@LaunchedEffect
-                while (!PermissionHelper.hasPermission(context, Manifest.permission.READ_CONTACTS)) {
-                    delay(100)
-                }
-                viewModel.loadContacts(context)
-            }
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center)
-            )
+        ) {
+            Icon(Icons.Default.Create, null)
         }
     }
 
