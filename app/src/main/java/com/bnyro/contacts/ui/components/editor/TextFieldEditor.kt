@@ -6,6 +6,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import com.bnyro.contacts.obj.TranslatedType
 import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.EditorEntry
@@ -16,6 +18,8 @@ fun TextFieldEditor(
     @StringRes label: Int,
     state: MutableState<ValueWithType>,
     types: List<TranslatedType>,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    imeAction: ImeAction = ImeAction.Next,
     onCreateNew: () -> Unit
 ) {
     val textState = remember {
@@ -26,7 +30,9 @@ fun TextFieldEditor(
         LabeledTextField(
             modifier = Modifier.weight(1f),
             label = label,
-            state = textState
+            state = textState,
+            keyboardType = keyboardType,
+            imeAction = imeAction
         ) {
             state.value.value = it
         }

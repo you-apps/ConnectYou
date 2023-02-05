@@ -31,6 +31,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
@@ -160,19 +162,24 @@ fun ContactEditor(
             }
 
             items(phoneNumber) {
-                TextFieldEditor(R.string.phone, it, ContactsHelper.phoneNumberTypes) {
+                TextFieldEditor(R.string.phone, it, ContactsHelper.phoneNumberTypes, keyboardType = KeyboardType.Phone) {
                     phoneNumber = phoneNumber + emptyMutable()
                 }
             }
 
             items(emails) {
-                TextFieldEditor(R.string.email, it, ContactsHelper.emailTypes) {
+                TextFieldEditor(R.string.email, it, ContactsHelper.emailTypes, keyboardType = KeyboardType.Email) {
                     emails = emails + emptyMutable()
                 }
             }
 
             items(addresses) {
-                TextFieldEditor(R.string.address, it, ContactsHelper.addressTypes) {
+                TextFieldEditor(
+                    R.string.address,
+                    it,
+                    ContactsHelper.addressTypes,
+                    imeAction = if (it == addresses.last()) ImeAction.Done else ImeAction.Next
+                ) {
                     addresses = addresses + emptyMutable()
                 }
             }
