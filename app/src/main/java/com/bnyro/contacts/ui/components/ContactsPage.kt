@@ -3,21 +3,28 @@ package com.bnyro.contacts.ui.components
 import android.Manifest
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.ImportContacts
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -152,26 +159,44 @@ fun ContactsPage(
                     }
                 }
 
-                val state = rememberLazyListState()
-                LazyColumn(
-                    state = state,
-                    modifier = Modifier
-                        .padding(end = 5.dp)
-                        .scrollbar(state, false)
-                ) {
-                    items(
-                        contacts.filter {
-                            it.displayName.orEmpty().lowercase().contains(
-                                searchQuery.value.text.lowercase()
-                            )
-                        }.sortedBy {
-                            when (sortOrder) {
-                                SortOrder.FIRSTNAME -> it.firstName
-                                SortOrder.SURNAME -> it.surName
-                            }
-                        }
+                if (contacts.isNotEmpty()) {
+                    val state = rememberLazyListState()
+                    LazyColumn(
+                        state = state,
+                        modifier = Modifier
+                            .padding(end = 5.dp)
+                            .scrollbar(state, false)
                     ) {
-                        ContactItem(it, sortOrder)
+                        items(
+                            contacts.filter {
+                                it.displayName.orEmpty().lowercase().contains(
+                                    searchQuery.value.text.lowercase()
+                                )
+                            }.sortedBy {
+                                when (sortOrder) {
+                                    SortOrder.FIRSTNAME -> it.firstName
+                                    SortOrder.SURNAME -> it.surName
+                                }
+                            }
+                        ) {
+                            ContactItem(it, sortOrder)
+                        }
+                    }
+                } else {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(120.dp),
+                            imageVector = Icons.Default.ImportContacts,
+                            contentDescription = null
+                        )
+                        Spacer(Modifier.height(10.dp))
+                        Text(
+                            text = stringResource(R.string.nothing_here)
+                        )
                     }
                 }
             }
