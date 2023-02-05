@@ -3,7 +3,7 @@
     <string name="event">Evento</string>
     <string name="import_vcf">Importar vCard</string>
     <string name="search" tools:ignore="PrivateResource">Procurar</string>
-    <string name="copied">Copiado para prancheta</string>
+    <string name="copied">Copiado para a área de transferência</string>
     <string name="delete_contact">Eliminar contacto</string>
     <string name="irreversible">Tem a certeza\? Isto não pode ser desfeito!</string>
     <string name="cancel">Cancelar</string>
@@ -16,26 +16,26 @@
     <string name="export_success">Exportado.</string>
     <string name="address">Endereço</string>
     <string name="surname">Apelido</string>
-    <string name="home">Casa</string>
+    <string name="home">Pessoal</string>
     <string name="phone">Telefone</string>
     <string name="email">E-mail</string>
     <string name="first_name">Primeiro nome</string>
     <string name="type">Tipo</string>
-    <string name="fax_home">Enviar fax para casa</string>
-    <string name="work">Trabalho</string>
+    <string name="fax_home">Fax pessoal</string>
+    <string name="work">Profissional</string>
     <string name="mobile">Móvel</string>
     <string name="other">Outro</string>
     <string name="car">Carro</string>
-    <string name="fax_work">Enviar fax para trabalho</string>
-    <string name="birthday">Data de aniversário</string>
+    <string name="fax_work">Fax profissional</string>
+    <string name="birthday">Data de nascimento</string>
     <string name="anniversary">Aniversário</string>
     <string name="version">Versão</string>
     <string name="custom">Personalizado</string>
     <string name="assistant">Assistente</string>
     <string name="export_vcf">Exportar vCard</string>
     <string name="author">Autor</string>
-    <string name="about">Sobre</string>
+    <string name="about">Acerca</string>
     <string name="license">Licença</string>
     <string name="translation">Tradução</string>
-    <string name="okay">Certo</string>
+    <string name="okay">Aceitar</string>
 </resources>
