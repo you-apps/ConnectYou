@@ -10,5 +10,5 @@ data class LocalContact(
     val id: Long = 0,
     @ColumnInfo val displayName: String? = null,
     @ColumnInfo val firstName: String? = null,
-    @ColumnInfo val surName: String? = null
+    @ColumnInfo val lastName: String? = null
 )

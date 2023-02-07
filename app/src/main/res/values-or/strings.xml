@@ -33,7 +33,7 @@
     <string name="mobile">ମୋବାଇଲ୍</string>
     <string name="phone">ଫୋନ୍</string>
     <string name="address">ଠିକଣା</string>
-    <string name="surname">ଉପନାମ</string>
+    <string name="last_name">ଉପନାମ</string>
     <string name="fax_home">ଫ୍ୟାକ୍ସ ହୋମ୍</string>
     <string name="import_vcf">VCard ଆମଦାନୀ କରନ୍ତୁ</string>
     <string name="car">କାର୍</string>

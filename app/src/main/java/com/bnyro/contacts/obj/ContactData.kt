@@ -7,7 +7,7 @@ data class ContactData(
     val accountType: String? = null,
     val displayName: String? = null,
     val firstName: String? = null,
-    val surName: String? = null,
+    val lastName: String? = null,
     var photo: Bitmap? = null,
     var thumbnail: Bitmap? = null,
     var numbers: List<ValueWithType> = listOf(),

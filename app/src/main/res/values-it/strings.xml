@@ -29,7 +29,7 @@
     <string name="delete_contact">Elimina il contatto</string>
     <string name="event">Evento</string>
     <string name="first_name">Nome</string>
-    <string name="surname">Cognome</string>
+    <string name="last_name">Cognome</string>
     <string name="mobile">Cellulare</string>
     <string name="translation">Traduzione</string>
     <string name="car">Auto</string>

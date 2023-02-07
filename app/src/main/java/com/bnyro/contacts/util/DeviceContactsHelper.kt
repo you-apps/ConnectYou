@@ -60,21 +60,21 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
 
                 val displayName = it.stringValue(ContactsContract.Contacts.DISPLAY_NAME)
                 var firstName = it.stringValue(StructuredName.GIVEN_NAME)
-                var surName = it.stringValue(StructuredName.FAMILY_NAME)
+                var lastName = it.stringValue(StructuredName.FAMILY_NAME)
 
                 // try parsing the display name to a proper name
-                if (firstName.notAName() || surName.notAName()) {
+                if (firstName.notAName() || lastName.notAName()) {
                     val displayNameParts = displayName.orEmpty().split(" ")
                     when {
                         displayNameParts.size >= 2 -> {
                             firstName = displayNameParts.subList(0, displayNameParts.size - 1).joinToString(
                                 " "
                             )
-                            surName = displayNameParts.last()
+                            lastName = displayNameParts.last()
                         }
                         displayNameParts.size == 1 -> {
                             firstName = displayNameParts.first()
-                            surName = ""
+                            lastName = ""
                         }
                     }
                 }
@@ -84,7 +84,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
                     accountType = it.stringValue(RawContacts.ACCOUNT_TYPE),
                     displayName = displayName,
                     firstName = firstName,
-                    surName = surName
+                    lastName = lastName
                 )
                 contactList.add(contact)
             }
@@ -214,7 +214,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
             getInsertAction(
                 StructuredName.CONTENT_ITEM_TYPE,
                 StructuredName.FAMILY_NAME,
-                contact.surName.orEmpty()
+                contact.lastName.orEmpty()
             ),
             *contact.numbers.map {
                 getInsertAction(

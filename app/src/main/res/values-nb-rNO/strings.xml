@@ -14,7 +14,7 @@
     <string name="address">Adresse</string>
     <string name="event">Begivenhet</string>
     <string name="first_name">Fornavn</string>
-    <string name="surname">Etternavn</string>
+    <string name="last_name">Etternavn</string>
     <string name="type">Type</string>
     <string name="home">Hjem</string>
     <string name="work">Arbeid</string>

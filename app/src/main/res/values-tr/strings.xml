@@ -16,7 +16,7 @@
     <string name="assistant">Asistan</string>
     <string name="export_success">Dışa aktarıldı.</string>
     <string name="email">E-posta</string>
-    <string name="surname">Soyadı</string>
+    <string name="last_name">Soyadı</string>
     <string name="type">Tip</string>
     <string name="license">Lisans</string>
     <string name="version">Sürüm</string>

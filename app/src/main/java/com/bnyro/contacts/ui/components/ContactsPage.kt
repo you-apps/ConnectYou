@@ -118,7 +118,7 @@ fun ContactsPage(
                         expanded = expandedSort,
                         options = listOf(
                             stringResource(R.string.first_name),
-                            stringResource(R.string.surname)
+                            stringResource(R.string.last_name)
                         ),
                         onDismissRequest = {
                             expandedSort = false
@@ -215,7 +215,7 @@ fun ContactsPage(
                         }.sortedBy {
                             when (sortOrder) {
                                 SortOrder.FIRSTNAME -> it.firstName
-                                SortOrder.SURNAME -> it.surName
+                                SortOrder.LAST_NAME -> it.lastName
                             }
                         }
                     ) {
