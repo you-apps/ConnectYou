@@ -38,4 +38,7 @@
     <string name="anniversary">Anniversario</string>
     <string name="okay">Ok</string>
     <string name="reset">Azzera</string>
+    <string name="device">Dispositivo</string>
+    <string name="nothing_here">Non c\'è niente qui.</string>
+    <string name="local">Locale</string>
 </resources>
