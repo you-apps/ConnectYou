@@ -38,4 +38,7 @@
     <string name="empty_name">لا يمكن أن تكون خانة الاسم فارغةً!</string>
     <string name="fax_home">فاكس منزل</string>
     <string name="version">الإصدار</string>
+    <string name="nothing_here">لا يوجد شيء هنا.</string>
+    <string name="device">الجهاز</string>
+    <string name="local">محليٌّ</string>
 </resources>

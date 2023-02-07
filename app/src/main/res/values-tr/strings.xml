@@ -39,4 +39,7 @@
     <string name="search" tools:ignore="PrivateResource">Arama</string>
     <string name="okay">Tamam</string>
     <string name="reset">Sıfırla</string>
+    <string name="device">Aygıt</string>
+    <string name="local">Yerel</string>
+    <string name="nothing_here">Burada bir şey yok.</string>
 </resources>

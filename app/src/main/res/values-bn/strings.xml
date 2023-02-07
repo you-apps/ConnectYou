@@ -39,4 +39,7 @@
     <string name="first_name">শুরুর নাম</string>
     <string name="okay">আচ্ছা</string>
     <string name="reset">রিসেট</string>
+    <string name="nothing_here">এখানে কিছুই নেই।</string>
+    <string name="device">ডিভাইস</string>
+    <string name="local">স্থানীয়</string>
 </resources>
