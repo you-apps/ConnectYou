@@ -3,6 +3,7 @@ package com.bnyro.contacts.ui.components
 import android.Manifest
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -53,6 +54,7 @@ import com.bnyro.contacts.ui.screens.EditorScreen
 import com.bnyro.contacts.util.PermissionHelper
 import kotlinx.coroutines.delay
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ContactsPage(
     contacts: List<ContactData>?,
@@ -90,7 +92,10 @@ fun ContactsPage(
                 mutableStateOf(TextFieldValue())
             }
 
-            SearchBar(Modifier.padding(horizontal = 10.dp, vertical = 15.dp), searchQuery) {
+            SearchBar(
+                modifier = Modifier.padding(horizontal = 10.dp).padding(top = 15.dp),
+                state = searchQuery
+            ) {
                 Box(
                     modifier = Modifier.align(Alignment.End)
                 ) {
@@ -207,19 +212,29 @@ fun ContactsPage(
                         .padding(end = 5.dp)
                         .scrollbar(state, false)
                 ) {
-                    items(
-                        contacts.filter {
-                            it.displayName.orEmpty().lowercase().contains(
-                                searchQuery.value.text.lowercase()
-                            )
-                        }.sortedBy {
-                            when (sortOrder) {
-                                SortOrder.FIRSTNAME -> it.firstName
-                                SortOrder.SURNAME -> it.surName
-                            }
+                    val contactGroups = contacts.filter {
+                        it.displayName.orEmpty().lowercase().contains(
+                            searchQuery.value.text.lowercase()
+                        )
+                    }.sortedBy {
+                        when (sortOrder) {
+                            SortOrder.FIRSTNAME -> it.firstName
+                            SortOrder.SURNAME -> it.surName
                         }
-                    ) {
-                        ContactItem(it, sortOrder)
+                    }.groupBy {
+                        when (sortOrder) {
+                            SortOrder.FIRSTNAME -> it.firstName?.firstOrNull()?.uppercase()
+                            SortOrder.SURNAME -> it.surName?.firstOrNull()?.uppercase()
+                        }
+                    }
+
+                    contactGroups.forEach { (firstLetter, groupedContacts) ->
+                        stickyHeader {
+                            CharacterHeader(firstLetter.orEmpty())
+                        }
+                        items(groupedContacts) {
+                            ContactItem(it, sortOrder)
+                        }
                     }
                 }
             }
