@@ -8,6 +8,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.provider.ContactsContract
 import android.provider.ContactsContract.AUTHORITY
 import android.provider.ContactsContract.CommonDataKinds.Email
@@ -16,7 +17,9 @@ import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.ContactsContract.CommonDataKinds.Photo
 import android.provider.ContactsContract.CommonDataKinds.StructuredName
 import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
+import android.provider.ContactsContract.Data
 import android.provider.ContactsContract.RawContacts
+import android.util.Log
 import androidx.annotation.RequiresPermission
 import com.bnyro.contacts.ext.intValue
 import com.bnyro.contacts.ext.longValue
@@ -31,6 +34,8 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     private val androidAccountType = "com.android.contacts"
 
     private val projection = arrayOf(
+        Data._ID,
+        RawContacts._ID,
         RawContacts.CONTACT_ID,
         ContactsContract.Contacts.DISPLAY_NAME,
         StructuredName.GIVEN_NAME,
@@ -44,7 +49,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
 
         @Suppress("SameParameterValue")
         val cursor = contentResolver.query(
-            ContactsContract.Data.CONTENT_URI,
+            Data.CONTENT_URI,
             projection,
             null,
             null,
@@ -80,6 +85,8 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
                 }
 
                 val contact = ContactData(
+                    dataId = it.intValue(Data._ID) ?: 0,
+                    rawContactId = it.intValue(RawContacts._ID) ?: 0,
                     contactId = contactId,
                     accountType = it.stringValue(RawContacts.ACCOUNT_TYPE),
                     displayName = displayName,
@@ -128,9 +135,9 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     @Suppress("SameParameterValue")
     private fun getExtras(contactId: Long, valueIndex: String, typeIndex: String, itemType: String): List<ValueWithType> {
         val entries = mutableListOf<ValueWithType>()
-        val uri = ContactsContract.Data.CONTENT_URI
+        val uri = Data.CONTENT_URI
         val projection = arrayOf(
-            ContactsContract.Data.CONTACT_ID,
+            Data.CONTACT_ID,
             valueIndex,
             typeIndex
         )
@@ -171,11 +178,11 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     private fun getSourcesSelection(addMimeType: Boolean = true, addContactId: Boolean = true): String {
         val strings = ArrayList<String>()
         if (addMimeType) {
-            strings.add("${ContactsContract.Data.MIMETYPE} = ?")
+            strings.add("${Data.MIMETYPE} = ?")
         }
 
         if (addContactId) {
-            strings.add("${ContactsContract.Data.CONTACT_ID} = ?")
+            strings.add("${Data.CONTACT_ID} = ?")
         }
 
         return strings.joinToString(" AND ")
@@ -253,10 +260,129 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
                 )
             }.toTypedArray()
         ).apply {
-            addPhoto(contact)?.let { add(it) }
+            contact.photo?.let {
+                add(
+                    getInsertAction(Photo.CONTENT_ITEM_TYPE, Photo.PHOTO, getBitmapBytes(it))
+                )
+            }
         }
 
         contentResolver.applyBatch(AUTHORITY, ops)
+    }
+
+    @RequiresPermission(Manifest.permission.WRITE_CONTACTS)
+    override suspend fun updateContact(contact: ContactData) {
+        val operations = ArrayList<ContentProviderOperation>()
+        val selection = "${Data.CONTACT_ID} = ? AND ${Data.MIMETYPE} = ?"
+
+        ContentProviderOperation.newUpdate(Data.CONTENT_URI).apply {
+            val sel = "${Data.CONTACT_ID} = ? AND ${Data.MIMETYPE} = ?"
+            val selectionArgs = arrayOf(
+                contact.contactId.toString(),
+                StructuredName.CONTENT_ITEM_TYPE
+            )
+            withSelection(sel, selectionArgs)
+            withValue(StructuredName.GIVEN_NAME, contact.firstName)
+            withValue(StructuredName.FAMILY_NAME, contact.surName)
+            withValue(StructuredName.DISPLAY_NAME, contact.displayName)
+            operations.add(build())
+        }
+
+        // delete phone numbers
+        ContentProviderOperation.newDelete(Data.CONTENT_URI).apply {
+            val selectionArgs = arrayOf(contact.contactId.toString(), Phone.CONTENT_ITEM_TYPE)
+            withSelection(selection, selectionArgs)
+            operations.add(build())
+        }
+
+        // add phone numbers
+        contact.numbers.forEach {
+            ContentProviderOperation.newInsert(Data.CONTENT_URI).apply {
+                withValue(Data.RAW_CONTACT_ID, contact.contactId)
+                withValue(Data.MIMETYPE, Phone.CONTENT_ITEM_TYPE)
+                withValue(Phone.NUMBER, it.value)
+                withValue(Phone.TYPE, it.type)
+                operations.add(build())
+            }
+        }
+
+        // delete emails
+        ContentProviderOperation.newDelete(Data.CONTENT_URI).apply {
+            val selectionArgs = arrayOf(contact.contactId.toString(), Email.CONTENT_ITEM_TYPE)
+            withSelection(selection, selectionArgs)
+            operations.add(build())
+        }
+
+        // add emails
+        contact.emails.forEach {
+            ContentProviderOperation.newInsert(Data.CONTENT_URI).apply {
+                withValue(Data.RAW_CONTACT_ID, contact.contactId)
+                withValue(Data.MIMETYPE, Email.CONTENT_ITEM_TYPE)
+                withValue(Email.DATA, it.value)
+                withValue(Email.TYPE, it.type)
+                operations.add(build())
+            }
+        }
+
+        // delete addresses
+        ContentProviderOperation.newDelete(Data.CONTENT_URI).apply {
+            val selectionArgs = arrayOf(
+                contact.contactId.toString(),
+                StructuredPostal.CONTENT_ITEM_TYPE
+            )
+            withSelection(selection, selectionArgs)
+            operations.add(build())
+        }
+
+        // add addresses
+        contact.addresses.forEach {
+            ContentProviderOperation.newInsert(Data.CONTENT_URI).apply {
+                withValue(Data.RAW_CONTACT_ID, contact.contactId)
+                withValue(Data.MIMETYPE, StructuredPostal.CONTENT_ITEM_TYPE)
+                withValue(StructuredPostal.FORMATTED_ADDRESS, it.value)
+                withValue(StructuredPostal.TYPE, it.type)
+                operations.add(build())
+            }
+        }
+
+        // delete events
+        ContentProviderOperation.newDelete(Data.CONTENT_URI).apply {
+            val selectionArgs = arrayOf(contact.contactId.toString(), Event.CONTENT_ITEM_TYPE)
+            withSelection(selection, selectionArgs)
+            operations.add(build())
+        }
+
+        // add events
+        contact.events.forEach {
+            ContentProviderOperation.newInsert(Data.CONTENT_URI).apply {
+                withValue(Data.RAW_CONTACT_ID, contact.contactId)
+                withValue(Data.MIMETYPE, Event.CONTENT_ITEM_TYPE)
+                withValue(Event.START_DATE, it.value)
+                withValue(Event.TYPE, it.type)
+                operations.add(build())
+            }
+        }
+
+        operations.add(deletePhoto(contact.contactId.toInt()))
+        contact.photo?.let {
+            operations.add(
+                getInsertAction(
+                    Photo.MIMETYPE,
+                    Photo.PHOTO,
+                    getBitmapBytes(it),
+                    rawContactId = contact.contactId.toInt()
+                )
+            )
+        }
+
+        Log.e("updating", contact.rawContactId.toString())
+
+        val result = context.contentResolver.applyBatch(AUTHORITY, operations)
+        result.forEach {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                Log.e("error", it.exception?.message.toString())
+            }
+        }
     }
 
     private fun getCreateAction(accountName: String, accountType: String?): ContentProviderOperation {
@@ -271,11 +397,12 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         valueIndex: String,
         value: Any,
         typeIndex: String? = null,
-        type: Int? = null
+        type: Int? = null,
+        rawContactId: Int? = null
     ): ContentProviderOperation {
-        return ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-            .withValue(ContactsContract.Data.MIMETYPE, mimeType)
+        return ContentProviderOperation.newInsert(Data.CONTENT_URI)
+            .withValueBackReference(Data.RAW_CONTACT_ID, rawContactId ?: 0)
+            .withValue(Data.MIMETYPE, mimeType)
             .withValue(valueIndex, value)
             .apply {
                 typeIndex?.let {
@@ -307,8 +434,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         }.getOrNull()
     }
 
-    private fun addPhoto(contact: ContactData): ContentProviderOperation? {
-        val bitmap = contact.photo ?: return null
+    private fun getBitmapBytes(bitmap: Bitmap): ByteArray {
         var bytes: ByteArray = ImageHelper.bitmapToByteArray(bitmap)
 
         // prevent crashes due to a too large transaction
@@ -323,7 +449,15 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
             bytes = ImageHelper.bitmapToByteArray(scaledBitmap)
         }
 
-        return getInsertAction(Photo.CONTENT_ITEM_TYPE, Photo.PHOTO, bytes)
+        return bytes
+    }
+
+    private fun deletePhoto(rawContactId: Int): ContentProviderOperation {
+        return ContentProviderOperation.newDelete(Data.CONTENT_URI).apply {
+            val selection = "${Data.RAW_CONTACT_ID} = ? AND ${Data.MIMETYPE} = ?"
+            val selectionArgs = arrayOf(rawContactId.toString(), Photo.CONTENT_ITEM_TYPE)
+            withSelection(selection, selectionArgs)
+        }.build()
     }
 
     companion object {

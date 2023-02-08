@@ -3,11 +3,13 @@ package com.bnyro.contacts.obj
 import android.graphics.Bitmap
 
 data class ContactData(
-    val contactId: Long = 0,
-    val accountType: String? = null,
-    val displayName: String? = null,
-    val firstName: String? = null,
-    val surName: String? = null,
+    var dataId: Int = 0,
+    var rawContactId: Int = 0,
+    var contactId: Long = 0,
+    var accountType: String? = null,
+    var displayName: String? = null,
+    var firstName: String? = null,
+    var surName: String? = null,
     var photo: Bitmap? = null,
     var thumbnail: Bitmap? = null,
     var numbers: List<ValueWithType> = listOf(),

@@ -82,7 +82,8 @@ fun ContactItem(contact: ContactData, sortOrder: SortOrder) {
                         color = MaterialTheme.colorScheme.primary
                     )
             ) {
-                if (contact.thumbnail == null) {
+                val thumbnail = contact.thumbnail ?: contact.photo
+                if (thumbnail == null) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
                         text = (contact.displayName?.firstOrNull() ?: "").toString(),
@@ -93,7 +94,7 @@ fun ContactItem(contact: ContactData, sortOrder: SortOrder) {
                         modifier = Modifier
                             .fillMaxSize()
                             .clip(CircleShape),
-                        bitmap = contact.thumbnail!!.asImageBitmap(),
+                        bitmap = thumbnail.asImageBitmap(),
                         contentDescription = null,
                         contentScale = ContentScale.Crop
                     )
