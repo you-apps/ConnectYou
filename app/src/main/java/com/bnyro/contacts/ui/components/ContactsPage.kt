@@ -18,7 +18,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.ImportContacts
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.CircularProgressIndicator
@@ -215,7 +214,7 @@ fun ContactsPage(
                         }.sortedBy {
                             when (sortOrder) {
                                 SortOrder.FIRSTNAME -> it.firstName
-                                SortOrder.LAST_NAME -> it.surName
+                                SortOrder.LASTNAME -> it.surName
                             }
                         }
                     ) {
