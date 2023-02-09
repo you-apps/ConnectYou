@@ -30,6 +30,7 @@ import com.bnyro.contacts.obj.ValueWithType
 class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     private val contentResolver = context.contentResolver
     private val androidAccountType = "com.android.contacts"
+    private val deviceContactName = "DEVICE"
 
     private val projection = arrayOf(
         Data.RAW_CONTACT_ID,
@@ -132,56 +133,25 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     private fun getExtras(contactId: Long, valueIndex: String, typeIndex: String, itemType: String): List<ValueWithType> {
         val entries = mutableListOf<ValueWithType>()
         val uri = Data.CONTENT_URI
-        val projection = arrayOf(
-            Data.CONTACT_ID,
-            valueIndex,
-            typeIndex
-        )
+        val projection = arrayOf(Data.CONTACT_ID, valueIndex, typeIndex)
 
         contentResolver.query(
             uri,
             projection,
-            getSourcesSelection(),
-            getSourcesSelectionArgs(itemType, contactId),
+            "${Data.MIMETYPE} = ? AND ${Data.CONTACT_ID} = ?",
+            arrayOf(itemType, contactId.toString()),
             null
         )?.use { cursor ->
             while (cursor.moveToNext()) {
-                val startDate = cursor.stringValue(valueIndex) ?: return@use
-                val type = cursor.intValue(typeIndex)
-
-                val event = ValueWithType(startDate, type)
-                if (!entries.contains(event)) entries.add(event)
+                val entry = ValueWithType(
+                    cursor.stringValue(valueIndex) ?: return@use,
+                    cursor.intValue(typeIndex)
+                )
+                if (!entries.contains(entry)) entries.add(entry)
             }
         }
 
         return entries
-    }
-
-    private fun getSourcesSelectionArgs(mimeType: String? = null, contactId: Long? = null): Array<String> {
-        val args = ArrayList<String>()
-
-        if (mimeType != null) {
-            args.add(mimeType)
-        }
-
-        if (contactId != null) {
-            args.add(contactId.toString())
-        }
-
-        return args.toTypedArray()
-    }
-
-    private fun getSourcesSelection(addMimeType: Boolean = true, addContactId: Boolean = true): String {
-        val strings = ArrayList<String>()
-        if (addMimeType) {
-            strings.add("${Data.MIMETYPE} = ?")
-        }
-
-        if (addContactId) {
-            strings.add("${Data.CONTACT_ID} = ?")
-        }
-
-        return strings.joinToString(" AND ")
     }
 
     @RequiresPermission(Manifest.permission.WRITE_CONTACTS)
@@ -203,7 +173,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     @RequiresPermission(Manifest.permission.WRITE_CONTACTS)
     override suspend fun createContact(contact: ContactData) {
         val ops = arrayListOf(
-            getCreateAction(contact.displayName.orEmpty(), contact.accountType),
+            getCreateAction(contact.accountType),
             getInsertAction(
                 StructuredName.CONTENT_ITEM_TYPE,
                 StructuredName.DISPLAY_NAME,
@@ -333,10 +303,10 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         context.contentResolver.applyBatch(AUTHORITY, operations)
     }
 
-    private fun getCreateAction(accountName: String, accountType: String?): ContentProviderOperation {
+    private fun getCreateAction(accountType: String? = null): ContentProviderOperation {
         return ContentProviderOperation.newInsert(RawContacts.CONTENT_URI)
             .withValue(RawContacts.ACCOUNT_TYPE, accountType ?: androidAccountType)
-            .withValue(RawContacts.ACCOUNT_NAME, accountName)
+            .withValue(RawContacts.ACCOUNT_NAME, deviceContactName)
             .build()
     }
 
