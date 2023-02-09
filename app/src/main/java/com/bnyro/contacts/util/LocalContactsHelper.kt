@@ -34,6 +34,11 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
         contact.photo?.let { saveProfileImage(contactId, it) }
     }
 
+    override suspend fun updateContact(contact: ContactData) {
+        deleteContacts(listOf(contact))
+        createContact(contact)
+    }
+
     override suspend fun deleteContacts(contacts: List<ContactData>) {
         contacts.forEach {
             with(DatabaseHolder.Db.localContactsDao()) {

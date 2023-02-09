@@ -51,6 +51,6 @@ fun LabeledTextField(
                 focusManager.clearFocus()
             },
             onNext = { focusManager.moveFocus(FocusDirection.Next) }
-        ),
+        )
     )
 }

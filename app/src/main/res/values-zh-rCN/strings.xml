@@ -38,4 +38,7 @@
     <string name="export_vcf">导出 vCard</string>
     <string name="author">作者</string>
     <string name="translation">翻译</string>
+    <string name="device">设备</string>
+    <string name="nothing_here">这里空无一物。</string>
+    <string name="local">本地</string>
 </resources>

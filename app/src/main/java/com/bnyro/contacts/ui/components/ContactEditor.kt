@@ -162,13 +162,23 @@ fun ContactEditor(
             }
 
             items(phoneNumber) {
-                TextFieldEditor(R.string.phone, it, ContactsHelper.phoneNumberTypes, keyboardType = KeyboardType.Phone) {
+                TextFieldEditor(
+                    R.string.phone,
+                    it,
+                    ContactsHelper.phoneNumberTypes,
+                    keyboardType = KeyboardType.Phone
+                ) {
                     phoneNumber = phoneNumber + emptyMutable()
                 }
             }
 
             items(emails) {
-                TextFieldEditor(R.string.email, it, ContactsHelper.emailTypes, keyboardType = KeyboardType.Email) {
+                TextFieldEditor(
+                    R.string.email,
+                    it,
+                    ContactsHelper.emailTypes,
+                    keyboardType = KeyboardType.Email
+                ) {
                     emails = emails + emptyMutable()
                 }
             }
@@ -196,17 +206,17 @@ fun ContactEditor(
                 .align(Alignment.BottomEnd)
                 .padding(16.dp),
             onClick = {
-                val newContact = ContactData(
-                    firstName = firstName.value.trim(),
-                    surName = surName.value.trim(),
-                    displayName = "${firstName.value.trim()} ${surName.value.trim()}",
-                    photo = profilePicture,
-                    numbers = phoneNumber.clean(),
-                    emails = emails.clean(),
-                    addresses = addresses.clean(),
-                    events = events.clean()
-                )
-                onSave.invoke(newContact)
+                val editedContact = (contact ?: ContactData()).also {
+                    it.firstName = firstName.value.trim()
+                    it.surName = surName.value.trim()
+                    it.displayName = "${firstName.value.trim()} ${surName.value.trim()}"
+                    it.photo = profilePicture
+                    it.numbers = phoneNumber.clean()
+                    it.emails = emails.clean()
+                    it.addresses = addresses.clean()
+                    it.events = events.clean()
+                }
+                onSave.invoke(editedContact)
             }
         ) {
             Icon(

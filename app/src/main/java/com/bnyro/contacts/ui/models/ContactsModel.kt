@@ -56,8 +56,8 @@ class ContactsModel : ViewModel() {
     fun updateContact(context: Context, contact: ContactData) {
         if (!PermissionHelper.checkPermissions(context, Manifest.permission.WRITE_CONTACTS)) return
         withIO {
-            contactsHelper?.deleteContacts(listOf(contact))
-            contactsHelper?.createContact(contact)
+            contactsHelper?.updateContact(contact)
+            loadContacts(context)
         }
     }
 
