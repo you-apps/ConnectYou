@@ -18,7 +18,7 @@
     <string name="address">Adresse</string>
     <string name="event">Hending</string>
     <string name="first_name">Førenamn</string>
-    <string name="surname">Etternamn</string>
+    <string name="last_name">Etternamn</string>
     <string name="type">Slag</string>
     <string name="home">Heim</string>
     <string name="work">Verksemd</string>
