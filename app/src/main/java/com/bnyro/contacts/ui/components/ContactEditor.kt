@@ -72,8 +72,8 @@ fun ContactEditor(
         mutableStateOf(contact?.firstName.orEmpty())
     }
 
-    val lastName = remember {
-        mutableStateOf(contact?.lastName.orEmpty())
+    val surName = remember {
+        mutableStateOf(contact?.surName.orEmpty())
     }
 
     var phoneNumber by remember {
@@ -157,7 +157,7 @@ fun ContactEditor(
             item {
                 LabeledTextField(
                     label = R.string.last_name,
-                    state = lastName
+                    state = surName
                 )
             }
 
@@ -198,8 +198,8 @@ fun ContactEditor(
             onClick = {
                 val newContact = ContactData(
                     firstName = firstName.value.trim(),
-                    lastName = lastName.value.trim(),
-                    displayName = "${firstName.value.trim()} ${lastName.value.trim()}",
+                    surName = surName.value.trim(),
+                    displayName = "${firstName.value.trim()} ${surName.value.trim()}",
                     photo = profilePicture,
                     numbers = phoneNumber.clean(),
                     emails = emails.clean(),

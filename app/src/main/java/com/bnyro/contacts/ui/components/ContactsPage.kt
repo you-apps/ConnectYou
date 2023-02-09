@@ -215,7 +215,7 @@ fun ContactsPage(
                         }.sortedBy {
                             when (sortOrder) {
                                 SortOrder.FIRSTNAME -> it.firstName
-                                SortOrder.LAST_NAME -> it.lastName
+                                SortOrder.LAST_NAME -> it.surName
                             }
                         }
                     ) {

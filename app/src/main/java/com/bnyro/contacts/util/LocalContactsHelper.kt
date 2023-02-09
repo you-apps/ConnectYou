@@ -21,7 +21,7 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
         val localContact = LocalContact(
             displayName = contact.displayName,
             firstName = contact.firstName,
-            lastName = contact.lastName
+            surName = contact.surName
         )
         val contactId = DatabaseHolder.Db.localContactsDao().insertContact(localContact)
         val dataItems = listOf(
@@ -51,7 +51,7 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
                 contactId = it.contact.id,
                 displayName = it.contact.displayName,
                 firstName = it.contact.firstName,
-                lastName = it.contact.lastName,
+                surName = it.contact.surName,
                 photo = profileImage,
                 thumbnail = profileImage,
                 numbers = it.dataItems.toValueWithType(DataCategory.NUMBER),

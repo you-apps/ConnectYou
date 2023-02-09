@@ -50,7 +50,7 @@ object VcardHelper {
             formattedName = FormattedName(contact.displayName)
             structuredName = StructuredName().apply {
                 given = contact.firstName
-                family = contact.lastName
+                family = contact.surName
             }
             contact.numbers.forEach { number ->
                 val type = phoneNumberTypes.firstOrNull {
@@ -90,7 +90,7 @@ object VcardHelper {
             ContactData(
                 displayName = it.formattedName.value,
                 firstName = it.structuredName.given,
-                lastName = it.structuredName.family,
+                surName = it.structuredName.family,
                 numbers = it.telephoneNumbers.map { number ->
                     ValueWithType(
                         number.text,
