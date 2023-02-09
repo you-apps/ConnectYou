@@ -1,2 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="search" tools:ignore="PrivateResource">Søk</string>
+    <string name="copied">Kopiert til utklippstavla</string>
+    <string name="delete_contact">Slett kontakten</string>
+    <string name="cancel">Avbryt</string>
+    <string name="okay">Greitt</string>
+    <string name="reset">Still attende</string>
+    <string name="create_contact">Lag ein kontakt</string>
+    <string name="retry">Røyn att</string>
+    <string name="share">Del</string>
+    <string name="empty_name">Lyt ha eit namn.</string>
+    <string name="import_success">Ført inn.</string>
+    <string name="export_success">Ført ut.</string>
+    <string name="nothing_here">Ingenting her.</string>
+    <string name="phone">Telefon</string>
+    <string name="email">E-post</string>
+    <string name="address">Adresse</string>
+    <string name="event">Hending</string>
+    <string name="first_name">Førenamn</string>
+    <string name="surname">Etternamn</string>
+    <string name="type">Slag</string>
+    <string name="home">Heim</string>
+    <string name="work">Verksemd</string>
+    <string name="mobile">Mobil</string>
+    <string name="other">Anna</string>
+    <string name="car">Bil</string>
+    <string name="fax_home">Faks heim</string>
+    <string name="irreversible">Er du viss\? Dette kan ikkje verta angra.</string>
+    <string name="fax_work">Faks verksemd</string>
+    <string name="assistant">Medhjelpar</string>
+    <string name="birthday">Fødselsdag</string>
+    <string name="anniversary">Jubileum</string>
+    <string name="device">Eining</string>
+    <string name="local">Lokalt</string>
+    <string name="import_vcf">Før inn vCard</string>
+    <string name="export_vcf">Før ut eit vCard</string>
+    <string name="about">Om</string>
+    <string name="license">Løyvet</string>
+    <string name="author">Skapar</string>
+    <string name="version">Utgåve</string>
+    <string name="translation">Omsetjing</string>
+</resources>
