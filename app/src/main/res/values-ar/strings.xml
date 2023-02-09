@@ -7,7 +7,7 @@
     <string name="cancel">ألغِ</string>
     <string name="okay">حسنًا</string>
     <string name="export_success">صُدِّر.</string>
-    <string name="surname">اسم العائلة</string>
+    <string name="last_name">اسم العائلة</string>
     <string name="phone">الهاتف</string>
     <string name="mobile">جوَّال</string>
     <string name="fax_work">فاكس عمل</string>

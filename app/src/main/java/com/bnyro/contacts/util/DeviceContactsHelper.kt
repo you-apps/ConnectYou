@@ -8,7 +8,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Build
 import android.provider.ContactsContract
 import android.provider.ContactsContract.AUTHORITY
 import android.provider.ContactsContract.CommonDataKinds.Email
@@ -19,7 +18,6 @@ import android.provider.ContactsContract.CommonDataKinds.StructuredName
 import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
 import android.provider.ContactsContract.Data
 import android.provider.ContactsContract.RawContacts
-import android.util.Log
 import androidx.annotation.RequiresPermission
 import com.bnyro.contacts.ext.intValue
 import com.bnyro.contacts.ext.longValue

@@ -4,7 +4,7 @@
     <string name="type">Typ</string>
     <string name="event">Ereignis</string>
     <string name="first_name">Vorname</string>
-    <string name="surname">Familienname</string>
+    <string name="last_name">Familienname</string>
     <string name="work">Arbeit</string>
     <string name="address">Adresse</string>
     <string name="email">E-Mail</string>

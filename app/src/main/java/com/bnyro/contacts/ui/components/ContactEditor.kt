@@ -156,7 +156,7 @@ fun ContactEditor(
 
             item {
                 LabeledTextField(
-                    label = R.string.surname,
+                    label = R.string.last_name,
                     state = surName
                 )
             }

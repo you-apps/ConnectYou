@@ -21,7 +21,7 @@
     <string name="export_success">Экспортировано.</string>
     <string name="email">Эл. почта</string>
     <string name="event">Событие</string>
-    <string name="surname">Фамилия</string>
+    <string name="last_name">Фамилия</string>
     <string name="work">Работа</string>
     <string name="first_name">Имя</string>
     <string name="type">Тип</string>

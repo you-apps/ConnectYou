@@ -19,7 +19,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.ImportContacts
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.CircularProgressIndicator
@@ -123,7 +122,7 @@ fun ContactsPage(
                         expanded = expandedSort,
                         options = listOf(
                             stringResource(R.string.first_name),
-                            stringResource(R.string.surname)
+                            stringResource(R.string.last_name)
                         ),
                         onDismissRequest = {
                             expandedSort = false
@@ -219,12 +218,12 @@ fun ContactsPage(
                     }.sortedBy {
                         when (sortOrder) {
                             SortOrder.FIRSTNAME -> it.firstName
-                            SortOrder.SURNAME -> it.surName
+                            SortOrder.LASTNAME -> it.surName
                         }
                     }.groupBy {
                         when (sortOrder) {
                             SortOrder.FIRSTNAME -> it.firstName?.firstOrNull()?.uppercase()
-                            SortOrder.SURNAME -> it.surName?.firstOrNull()?.uppercase()
+                            SortOrder.LASTNAME -> it.surName?.firstOrNull()?.uppercase()
                         }
                     }
 

@@ -25,7 +25,7 @@
     <string name="import_success">Importat.</string>
     <string name="empty_name">Numele nu poate fi gol!</string>
     <string name="anniversary">Aniversare</string>
-    <string name="surname">Nume de familie</string>
+    <string name="last_name">Nume de familie</string>
     <string name="work">Muncă</string>
     <string name="birthday">Ziua de naștere</string>
     <string name="export_success">Exportat.</string>

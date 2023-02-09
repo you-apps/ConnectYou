@@ -26,7 +26,7 @@
     <string name="author">Автор</string>
     <string name="first_name">Ім\'я</string>
     <string name="version">Версія</string>
-    <string name="surname">Прізвище</string>
+    <string name="last_name">Прізвище</string>
     <string name="home">Головна</string>
     <string name="work">Робота</string>
     <string name="mobile">Мобільний</string>

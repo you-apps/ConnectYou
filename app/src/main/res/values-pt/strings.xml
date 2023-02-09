@@ -15,7 +15,7 @@
     <string name="empty_name">O nome não pode estar vazio!</string>
     <string name="export_success">Exportado.</string>
     <string name="address">Endereço</string>
-    <string name="surname">Apelido</string>
+    <string name="last_name">Apelido</string>
     <string name="home">Pessoal</string>
     <string name="phone">Telefone</string>
     <string name="email">E-mail</string>

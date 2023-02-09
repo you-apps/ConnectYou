@@ -24,7 +24,7 @@
     <string name="event">Event</string>
     <!-- Sorting -->
     <string name="first_name">First name</string>
-    <string name="surname">Surname</string>
+    <string name="last_name">Last Name</string>
     <!-- Types -->
     <string name="type">Type</string>
     <string name="home">Home</string>
