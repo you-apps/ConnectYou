@@ -26,7 +26,7 @@
     <string name="car">Araba</string>
     <string name="import_vcf">vCard\'ı içe aktar</string>
     <string name="about">Hakkında</string>
-    <string name="author">Yazar</string>
+    <string name="author">Geliştirici</string>
     <string name="anniversary">Yıl dönümü</string>
     <string name="export_vcf">vCard\'ı dışa aktar</string>
     <string name="translation">Tercüme</string>
