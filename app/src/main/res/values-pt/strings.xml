@@ -38,4 +38,7 @@
     <string name="license">Licença</string>
     <string name="translation">Tradução</string>
     <string name="okay">Aceitar</string>
+    <string name="device">Dispositivo</string>
+    <string name="nothing_here">Nada aqui.</string>
+    <string name="local">Local</string>
 </resources>

@@ -1,2 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="device">Dispositivo</string>
+    <string name="local">Local</string>
+    <string name="car">Carro</string>
+    <string name="import_vcf">Importar vCard</string>
+    <string name="about">Sobre</string>
+    <string name="export_vcf">Exportar vCard</string>
+    <string name="search" tools:ignore="PrivateResource">Pesquisa</string>
+    <string name="copied">Copiado para a área de transferência</string>
+    <string name="delete_contact">Excluir contato</string>
+    <string name="irreversible">Você tem certeza\? Isto não pode ser desfeito!</string>
+    <string name="cancel">Cancelar</string>
+    <string name="okay">OK</string>
+    <string name="reset">Reiniciar</string>
+    <string name="create_contact">Criar contato</string>
+    <string name="retry">Repetir</string>
+    <string name="share">Compartilhar</string>
+    <string name="empty_name">O nome não estar vazio!</string>
+    <string name="import_success">Importado.</string>
+    <string name="export_success">Exportado.</string>
+    <string name="nothing_here">Nada aqui.</string>
+    <string name="phone">Telefone</string>
+    <string name="email">E-mail</string>
+    <string name="address">Endereço</string>
+    <string name="event">Evento</string>
+    <string name="first_name">Primeiro nome</string>
+    <string name="surname">Sobrenome</string>
+    <string name="type">Tipo</string>
+    <string name="home">Casa</string>
+    <string name="work">Trabalho</string>
+    <string name="mobile">Celular</string>
+    <string name="other">Outro</string>
+    <string name="custom">Personalizado</string>
+    <string name="fax_home">Fax de casa</string>
+    <string name="fax_work">Fax do trabalho</string>
+    <string name="assistant">Assistente</string>
+    <string name="birthday">Data do aniversário</string>
+    <string name="anniversary">Aniversário</string>
+    <string name="license">Licença</string>
+    <string name="author">Autor</string>
+    <string name="version">Versão</string>
+    <string name="translation">Tradução</string>
+</resources>
