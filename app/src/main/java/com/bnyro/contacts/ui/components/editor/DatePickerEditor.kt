@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.sp
 import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.TranslatedType
 import com.bnyro.contacts.obj.ValueWithType
-import com.bnyro.contacts.ui.components.EditorEntry
 import com.bnyro.contacts.ui.components.dialogs.DialogButton
 import com.bnyro.contacts.util.CalendarUtils
 

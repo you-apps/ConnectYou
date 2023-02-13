@@ -1,10 +1,12 @@
-package com.bnyro.contacts.ui.components
+package com.bnyro.contacts.ui.components.editor
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -48,20 +50,27 @@ fun EditorEntry(
     ) {
         content.invoke(this)
         Spacer(modifier = Modifier.width(5.dp))
-        Text(
-            modifier = Modifier
-                .clip(RoundedCornerShape(20.dp))
-                .clickable {
-                    showTypesDialog = true
-                }
-                .padding(10.dp),
-            text = types.firstOrNull {
-                it.id == state.value.type
-            }?.title?.let { stringResource(it) }.orEmpty()
-        )
-        Spacer(modifier = Modifier.width(10.dp))
-        ClickableIcon(icon = Icons.Default.Add) {
-            onCreateNew.invoke()
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                modifier = Modifier
+                    .offset(y = 10.dp)
+                    .clip(RoundedCornerShape(20.dp))
+                    .clickable {
+                        showTypesDialog = true
+                    }
+                    .padding(10.dp),
+                text = types.firstOrNull {
+                    it.id == state.value.type
+                }?.title?.let { stringResource(it) }.orEmpty()
+            )
+            ClickableIcon(
+                modifier = Modifier.offset(y = (-0).dp),
+                icon = Icons.Default.Add
+            ) {
+                onCreateNew.invoke()
+            }
         }
         Spacer(modifier = Modifier.width(10.dp))
     }

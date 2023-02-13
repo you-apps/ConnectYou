@@ -10,7 +10,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.bnyro.contacts.obj.TranslatedType
 import com.bnyro.contacts.obj.ValueWithType
-import com.bnyro.contacts.ui.components.EditorEntry
 import com.bnyro.contacts.ui.components.base.LabeledTextField
 
 @Composable
