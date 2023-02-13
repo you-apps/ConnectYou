@@ -37,6 +37,8 @@ fun DatePickerEditor(
     @StringRes label: Int,
     state: MutableState<ValueWithType>,
     types: List<TranslatedType>,
+    showDeleteAction: Boolean,
+    onDelete: () -> Unit,
     onCreateNew: () -> Unit
 ) {
     var showPicker by remember {
@@ -54,7 +56,13 @@ fun DatePickerEditor(
         } ?: ""
     }
 
-    EditorEntry(state = state, types = types, onCreateNew = onCreateNew) {
+    EditorEntry(
+        state = state,
+        types = types,
+        onCreateNew = onCreateNew,
+        onDelete = onDelete,
+        showDeleteAction = showDeleteAction
+    ) {
         Column(
             modifier = Modifier
                 .weight(1f)

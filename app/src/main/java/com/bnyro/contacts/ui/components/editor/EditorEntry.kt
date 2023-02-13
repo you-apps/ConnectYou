@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -38,7 +39,9 @@ import com.bnyro.contacts.ui.components.dialogs.DialogButton
 fun EditorEntry(
     state: MutableState<ValueWithType>,
     types: List<TranslatedType>,
+    showDeleteAction: Boolean,
     onCreateNew: () -> Unit,
+    onDelete: () -> Unit,
     content: @Composable RowScope.() -> Unit
 ) {
     var showTypesDialog by remember {
@@ -49,7 +52,6 @@ fun EditorEntry(
         verticalAlignment = Alignment.CenterVertically
     ) {
         content.invoke(this)
-        Spacer(modifier = Modifier.width(5.dp))
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -65,14 +67,24 @@ fun EditorEntry(
                     it.id == state.value.type
                 }?.title?.let { stringResource(it) }.orEmpty()
             )
-            ClickableIcon(
-                modifier = Modifier.offset(y = (-0).dp),
-                icon = Icons.Default.Add
-            ) {
-                onCreateNew.invoke()
+            Row {
+                ClickableIcon(
+                    modifier = Modifier.offset(x = if (showDeleteAction) 5.dp else 0.dp),
+                    icon = Icons.Default.Add
+                ) {
+                    onCreateNew.invoke()
+                }
+                if (showDeleteAction) {
+                    ClickableIcon(
+                        modifier = Modifier.offset(x = (-5).dp),
+                        icon = Icons.Default.Remove
+                    ) {
+                        onDelete.invoke()
+                    }
+                }
             }
         }
-        Spacer(modifier = Modifier.width(10.dp))
+        Spacer(modifier = Modifier.width(5.dp))
     }
 
     if (showTypesDialog) {

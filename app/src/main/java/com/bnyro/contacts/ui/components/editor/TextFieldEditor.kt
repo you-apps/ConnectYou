@@ -19,13 +19,21 @@ fun TextFieldEditor(
     types: List<TranslatedType>,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
+    showDeleteAction: Boolean,
+    onDelete: () -> Unit,
     onCreateNew: () -> Unit
 ) {
     val textState = remember {
         mutableStateOf(state.value.value)
     }
 
-    EditorEntry(state = state, types = types, onCreateNew = onCreateNew) {
+    EditorEntry(
+        state = state,
+        types = types,
+        onDelete = onDelete,
+        onCreateNew = onCreateNew,
+        showDeleteAction = showDeleteAction
+    ) {
         LabeledTextField(
             modifier = Modifier.weight(1f),
             label = label,

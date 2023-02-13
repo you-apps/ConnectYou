@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
@@ -163,10 +164,14 @@ fun ContactEditor(
 
             items(phoneNumber) {
                 TextFieldEditor(
-                    R.string.phone,
-                    it,
-                    ContactsHelper.phoneNumberTypes,
-                    keyboardType = KeyboardType.Phone
+                    label = R.string.phone,
+                    state = it,
+                    types = ContactsHelper.phoneNumberTypes,
+                    keyboardType = KeyboardType.Phone,
+                    onDelete = {
+                        phoneNumber = phoneNumber - it
+                    },
+                    showDeleteAction = phoneNumber.size > 1
                 ) {
                     phoneNumber = phoneNumber + emptyMutable()
                 }
@@ -174,10 +179,14 @@ fun ContactEditor(
 
             items(emails) {
                 TextFieldEditor(
-                    R.string.email,
-                    it,
-                    ContactsHelper.emailTypes,
-                    keyboardType = KeyboardType.Email
+                    label = R.string.email,
+                    state = it,
+                    types = ContactsHelper.emailTypes,
+                    keyboardType = KeyboardType.Email,
+                    onDelete = {
+                        emails = emails - it
+                    },
+                    showDeleteAction = emails.size > 1
                 ) {
                     emails = emails + emptyMutable()
                 }
@@ -185,17 +194,29 @@ fun ContactEditor(
 
             items(addresses) {
                 TextFieldEditor(
-                    R.string.address,
-                    it,
-                    ContactsHelper.addressTypes,
-                    imeAction = if (it == addresses.last()) ImeAction.Done else ImeAction.Next
+                    label = R.string.address,
+                    state = it,
+                    types = ContactsHelper.addressTypes,
+                    imeAction = if (it == addresses.last()) ImeAction.Done else ImeAction.Next,
+                    onDelete = {
+                        addresses = addresses - it
+                    },
+                    showDeleteAction = addresses.size > 1
                 ) {
                     addresses = addresses + emptyMutable()
                 }
             }
 
             items(events) {
-                DatePickerEditor(R.string.event, it, ContactsHelper.eventTypes) {
+                DatePickerEditor(
+                    label = R.string.event,
+                    state = it,
+                    types = ContactsHelper.eventTypes,
+                    onDelete = {
+                        events = events - it
+                    },
+                    showDeleteAction = events.size > 1
+                ) {
                     events = events + emptyMutable()
                 }
             }
