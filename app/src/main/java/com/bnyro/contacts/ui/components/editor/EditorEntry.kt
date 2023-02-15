@@ -55,18 +55,20 @@ fun EditorEntry(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                modifier = Modifier
-                    .offset(y = 10.dp)
-                    .clip(RoundedCornerShape(20.dp))
-                    .clickable {
-                        showTypesDialog = true
-                    }
-                    .padding(10.dp),
-                text = types.firstOrNull {
-                    it.id == state.value.type
-                }?.title?.let { stringResource(it) }.orEmpty()
-            )
+            if (types.isNotEmpty()) {
+                Text(
+                    modifier = Modifier
+                        .offset(y = 10.dp)
+                        .clip(RoundedCornerShape(20.dp))
+                        .clickable {
+                            showTypesDialog = true
+                        }
+                        .padding(10.dp),
+                    text = types.firstOrNull {
+                        it.id == state.value.type
+                    }?.title?.let { stringResource(it) }.orEmpty()
+                )
+            }
             Row {
                 ClickableIcon(
                     modifier = Modifier.offset(x = if (showDeleteAction) 5.dp else 0.dp),

@@ -15,5 +15,6 @@ data class ContactData(
     var numbers: List<ValueWithType> = listOf(),
     var emails: List<ValueWithType> = listOf(),
     var addresses: List<ValueWithType> = listOf(),
-    var events: List<ValueWithType> = listOf()
+    var events: List<ValueWithType> = listOf(),
+    var notes: List<ValueWithType> = listOf()
 )

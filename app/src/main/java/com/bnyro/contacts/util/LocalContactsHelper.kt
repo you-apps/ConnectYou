@@ -28,7 +28,8 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
             contact.numbers.toValuableType(contactId, DataCategory.NUMBER),
             contact.emails.toValuableType(contactId, DataCategory.EMAIL),
             contact.addresses.toValuableType(contactId, DataCategory.ADDRESS),
-            contact.events.toValuableType(contactId, DataCategory.EVENT)
+            contact.events.toValuableType(contactId, DataCategory.EVENT),
+            contact.notes.toValuableType(contactId, DataCategory.NOTE)
         ).flatten()
         DatabaseHolder.Db.localContactsDao().insertData(*dataItems.toTypedArray())
         contact.photo?.let { saveProfileImage(contactId, it) }
@@ -62,7 +63,8 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
                 numbers = it.dataItems.toValueWithType(DataCategory.NUMBER),
                 emails = it.dataItems.toValueWithType(DataCategory.EMAIL),
                 addresses = it.dataItems.toValueWithType(DataCategory.ADDRESS),
-                events = it.dataItems.toValueWithType(DataCategory.EVENT)
+                events = it.dataItems.toValueWithType(DataCategory.EVENT),
+                notes = it.dataItems.toValueWithType(DataCategory.NOTE)
             )
         }
     }

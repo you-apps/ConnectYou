@@ -200,6 +200,13 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     type = ContactsHelper.eventTypes.firstOrNull { type -> it.type == type.id }?.title
                 )
             }
+
+            contact.notes.forEach {
+                ContactEntry(
+                    label = stringResource(R.string.note),
+                    content = it.value
+                )
+            }
         }
     }
 

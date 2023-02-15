@@ -8,8 +8,10 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -102,6 +104,12 @@ fun ContactEditor(
         )
     }
 
+    val notes = remember {
+        mutableStateListOf(
+            *contact?.notes.fillIfEmpty().map { mutableStateOf(it) }.toTypedArray()
+        )
+    }
+
     val uploadImage = rememberLauncherForActivityResult(
         ActivityResultContracts.PickVisualMedia()
     ) {
@@ -114,7 +122,8 @@ fun ContactEditor(
         modifier = Modifier.fillMaxSize()
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
@@ -224,6 +233,25 @@ fun ContactEditor(
                     events.add(emptyMutable())
                 }
             }
+
+            itemsIndexed(notes) { index, it ->
+                TextFieldEditor(
+                    label = R.string.note,
+                    state = it,
+                    types = listOf(),
+                    imeAction = if (it == notes.last()) ImeAction.Done else ImeAction.Next,
+                    onDelete = {
+                        notes.removeAt(index)
+                    },
+                    showDeleteAction = notes.size > 1 && index == notes.size - 1
+                ) {
+                    notes.add(emptyMutable())
+                }
+            }
+
+            item {
+                Spacer(Modifier.height(100.dp))
+            }
         }
 
         FloatingActionButton(
@@ -240,6 +268,7 @@ fun ContactEditor(
                     it.emails = emails.clean()
                     it.addresses = addresses.clean()
                     it.events = events.clean()
+                    it.notes = notes.clean()
                 }
                 onSave.invoke(editedContact)
             }

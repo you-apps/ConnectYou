@@ -38,6 +38,7 @@
     <string name="assistant">Assistant</string>
     <string name="birthday">Birthday</string>
     <string name="anniversary">Anniversary</string>
+    <string name="note">Note</string>
     <!-- Storage locations -->
     <string name="device">Device</string>
     <string name="local">Local</string>

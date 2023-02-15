@@ -12,6 +12,7 @@ import android.provider.ContactsContract
 import android.provider.ContactsContract.AUTHORITY
 import android.provider.ContactsContract.CommonDataKinds.Email
 import android.provider.ContactsContract.CommonDataKinds.Event
+import android.provider.ContactsContract.CommonDataKinds.Note
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.ContactsContract.CommonDataKinds.Photo
 import android.provider.ContactsContract.CommonDataKinds.StructuredName
@@ -127,10 +128,16 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
             StructuredPostal.TYPE,
             StructuredPostal.CONTENT_ITEM_TYPE
         )
+        notes = getExtras(
+            contactId,
+            Note.NOTE,
+            Note.DATA2,
+            Note.CONTENT_ITEM_TYPE
+        )
     }
 
     @Suppress("SameParameterValue")
-    private fun getExtras(contactId: Long, valueIndex: String, typeIndex: String, itemType: String): List<ValueWithType> {
+    private fun getExtras(contactId: Long, valueIndex: String, typeIndex: String?, itemType: String): List<ValueWithType> {
         val entries = mutableListOf<ValueWithType>()
         val uri = Data.CONTENT_URI
         val projection = arrayOf(Data.CONTACT_ID, valueIndex, typeIndex)
@@ -145,7 +152,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
             while (cursor.moveToNext()) {
                 val entry = ValueWithType(
                     cursor.stringValue(valueIndex) ?: return@use,
-                    cursor.intValue(typeIndex)
+                    typeIndex?.let { cursor.intValue(it) }
                 )
                 if (!entries.contains(entry)) entries.add(entry)
             }
@@ -224,6 +231,13 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
                     Event.TYPE,
                     it.type
                 )
+            }.toTypedArray(),
+            *contact.notes.map {
+                getInsertAction(
+                    Note.CONTENT_ITEM_TYPE,
+                    Note.NOTE,
+                    it.value
+                )
             }.toTypedArray()
         ).apply {
             contact.photo?.let {
@@ -287,6 +301,15 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
                 Event.TYPE
             )
         )
+        operations.addAll(
+            getUpdateMultipleAction(
+                rawContactId,
+                Note.CONTENT_ITEM_TYPE,
+                contact.notes,
+                Note.NOTE,
+                null
+            )
+        )
 
         operations.add(deletePhoto(contact.contactId.toInt()))
         contact.photo?.let {
@@ -336,7 +359,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         mimeType: String,
         entries: List<ValueWithType>,
         valueIndex: String,
-        valueType: String
+        typeIndex: String?
     ): List<ContentProviderOperation> {
         val operations = mutableListOf<ContentProviderOperation>()
 
@@ -355,7 +378,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
                 withValue(Data.RAW_CONTACT_ID, contactId)
                 withValue(Data.MIMETYPE, mimeType)
                 withValue(valueIndex, it.value)
-                withValue(valueType, it.type)
+                typeIndex?.let { t -> withValue(t, it.type) }
                 operations.add(build())
             }
         }

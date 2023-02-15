@@ -80,6 +80,11 @@ object VcardHelper {
                     addAddress(newAddress)
                 }
             }
+            contact.notes.forEach { note ->
+                runCatching {
+                    addNote(note.value)
+                }
+            }
         }
     }
 
@@ -120,6 +125,9 @@ object VcardHelper {
                             pair.second == address.types.firstOrNull()
                         }?.first
                     )
+                },
+                notes = it.notes.map { note ->
+                    ValueWithType(note.value, null)
                 }
             )
         }
