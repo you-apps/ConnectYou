@@ -16,6 +16,7 @@ import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.DeviceContactsHelper
 import com.bnyro.contacts.util.ExportHelper
 import com.bnyro.contacts.util.IntentHelper
+import com.bnyro.contacts.util.LocalContactsHelper
 import com.bnyro.contacts.util.PermissionHelper
 
 class ContactsModel : ViewModel() {
@@ -59,6 +60,22 @@ class ContactsModel : ViewModel() {
             contactsHelper?.updateContact(contact)
             loadContacts(context)
         }
+    }
+
+    fun copyContact(context: Context, contact: ContactData) {
+        withIO {
+            val fullContact = loadAdvancedContactData(contact)
+            val otherHelper = when (contactsHelper) {
+                is DeviceContactsHelper -> LocalContactsHelper(context)
+                else -> DeviceContactsHelper(context)
+            }
+            otherHelper.createContact(fullContact)
+        }
+    }
+
+    fun moveContact(context: Context, contact: ContactData) {
+        copyContact(context, contact)
+        deleteContact(context, contact)
     }
 
     suspend fun loadAdvancedContactData(contact: ContactData): ContactData {

@@ -78,7 +78,7 @@ fun ContactEditor(
         mutableStateOf(contact?.surName.orEmpty())
     }
 
-    var phoneNumber = remember {
+    val phoneNumber = remember {
         mutableStateListOf(
             *contact?.numbers.fillIfEmpty().map { mutableStateOf(it) }.toTypedArray()
         )
@@ -90,13 +90,13 @@ fun ContactEditor(
         )
     }
 
-    var addresses = remember {
+    val addresses = remember {
         mutableStateListOf(
             *contact?.addresses.fillIfEmpty().map { mutableStateOf(it) }.toTypedArray()
         )
     }
 
-    var events = remember {
+    val events = remember {
         mutableStateListOf(
             *contact?.events.fillIfEmpty().map { mutableStateOf(it) }.toTypedArray()
         )
