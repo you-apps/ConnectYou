@@ -11,17 +11,22 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
+import com.bnyro.contacts.enums.ThemeMode
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
 import com.bnyro.contacts.ui.components.prefs.BlockPreference
 import com.bnyro.contacts.ui.components.prefs.SettingsCategory
 import com.bnyro.contacts.ui.components.prefs.SettingsContainer
+import com.bnyro.contacts.ui.models.ThemeModel
 import com.bnyro.contacts.util.Preferences
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(onDismissRequest: () -> Unit) {
+    val themeModel: ThemeModel = viewModel()
+
     FullScreenDialog(onClose = onDismissRequest) {
         Scaffold(
             topBar = {
@@ -41,6 +46,17 @@ fun SettingsScreen(onDismissRequest: () -> Unit) {
                 modifier = Modifier
                     .padding(pV)
             ) {
+                SettingsContainer {
+                    SettingsCategory(title = stringResource(R.string.theme))
+                    BlockPreference(
+                        preferenceKey = Preferences.themeKey,
+                        entries = listOf(R.string.system, R.string.light, R.string.dark).map {
+                            stringResource(it)
+                        }
+                    ) {
+                        themeModel.themeMode = ThemeMode.fromInt(it)
+                    }
+                }
                 SettingsContainer {
                     SettingsCategory(title = stringResource(R.string.start_tab))
                     BlockPreference(

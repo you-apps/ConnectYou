@@ -8,6 +8,7 @@ object Preferences {
     private lateinit var preferences: SharedPreferences
 
     const val homeTabKey = "homeTab"
+    const val themeKey = "theme"
 
     fun init(context: Context) {
         preferences = context.getSharedPreferences(prefFile, Context.MODE_PRIVATE)
