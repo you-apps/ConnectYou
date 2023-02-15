@@ -39,4 +39,11 @@
     <string name="fax_work">İş faks</string>
     <string name="okay">Oldu</string>
     <string name="reset">Sıfırla</string>
+    <string name="copy">Kopyala</string>
+    <string name="move">Köçürt</string>
+    <string name="settings">Tənzimləmələr</string>
+    <string name="start_tab">Başlanğıc paneli</string>
+    <string name="nothing_here">Bura boşdur.</string>
+    <string name="device">Cihaz</string>
+    <string name="local">Yerli</string>
 </resources>
