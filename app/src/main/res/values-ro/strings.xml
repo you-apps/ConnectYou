@@ -38,4 +38,7 @@
     <string name="author">Autor</string>
     <string name="version">Versiune</string>
     <string name="translation">Traducere</string>
+    <string name="local">Local</string>
+    <string name="nothing_here">Nimic aici.</string>
+    <string name="device">Dispozitiv</string>
 </resources>
