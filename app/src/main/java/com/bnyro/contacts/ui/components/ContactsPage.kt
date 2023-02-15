@@ -50,6 +50,7 @@ import com.bnyro.contacts.ui.components.modifier.scrollbar
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.AboutScreen
 import com.bnyro.contacts.ui.screens.EditorScreen
+import com.bnyro.contacts.ui.screens.SettingsScreen
 import com.bnyro.contacts.util.PermissionHelper
 import kotlinx.coroutines.delay
 
@@ -68,6 +69,10 @@ fun ContactsPage(
 
     var sortOrderPref by rememberPreference("sortOrder", SortOrder.FIRSTNAME.value.toString())
     val sortOrder by rememberUpdatedState(SortOrder.fromInt(sortOrderPref.toInt()))
+
+    var showSettings by remember {
+        mutableStateOf(false)
+    }
 
     var showAbout by remember {
         mutableStateOf(false)
@@ -137,6 +142,7 @@ fun ContactsPage(
                         options = listOf(
                             stringResource(R.string.import_vcf),
                             stringResource(R.string.export_vcf),
+                            stringResource(R.string.settings),
                             stringResource(R.string.about)
                         ),
                         onDismissRequest = {
@@ -153,6 +159,9 @@ fun ContactsPage(
                                     exportVcard.launch("contacts.vcf")
                                 }
                                 2 -> {
+                                    showSettings = true
+                                }
+                                3 -> {
                                     showAbout = true
                                 }
                             }
@@ -259,6 +268,12 @@ fun ContactsPage(
                 viewModel.createContact(context, it)
             }
         )
+    }
+
+    if (showSettings) {
+        SettingsScreen {
+            showSettings = false
+        }
     }
 
     if (showAbout) {
