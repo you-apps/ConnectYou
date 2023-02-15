@@ -2,6 +2,7 @@ package com.bnyro.contacts.ui.components
 
 import android.graphics.BitmapFactory
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -102,7 +103,7 @@ fun ContactEditor(
     }
 
     val uploadImage = rememberLauncherForActivityResult(
-        ActivityResultContracts.OpenDocument()
+        ActivityResultContracts.PickVisualMedia()
     ) {
         context.contentResolver.openInputStream(it ?: return@rememberLauncherForActivityResult)?.use { stream ->
             profilePicture = BitmapFactory.decodeStream(stream)
@@ -124,7 +125,8 @@ fun ContactEditor(
                         .clip(RoundedCornerShape(20.dp))
                         .combinedClickable(
                             onClick = {
-                                uploadImage.launch(arrayOf("image/*"))
+                                val request = PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                uploadImage.launch(request)
                             },
                             onLongClick = {
                                 profilePicture = null
