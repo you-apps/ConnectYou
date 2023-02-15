@@ -18,13 +18,17 @@ import com.bnyro.contacts.util.ExportHelper
 import com.bnyro.contacts.util.IntentHelper
 import com.bnyro.contacts.util.LocalContactsHelper
 import com.bnyro.contacts.util.PermissionHelper
+import com.bnyro.contacts.util.Preferences
 
 class ContactsModel : ViewModel() {
     var contacts by mutableStateOf<List<ContactData>?>(null)
     var contactsHelper by mutableStateOf<ContactsHelper?>(null)
 
     fun init(context: Context) {
-        contactsHelper = DeviceContactsHelper(context)
+        contactsHelper = when (Preferences.getInt(Preferences.homeTabKey, 0)) {
+            0 -> DeviceContactsHelper(context)
+            else -> LocalContactsHelper(context)
+        }
     }
 
     @SuppressLint("MissingPermission")

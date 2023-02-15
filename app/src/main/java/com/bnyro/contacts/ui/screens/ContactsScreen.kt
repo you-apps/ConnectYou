@@ -32,6 +32,7 @@ import com.bnyro.contacts.ui.components.ContactsPage
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.util.DeviceContactsHelper
 import com.bnyro.contacts.util.LocalContactsHelper
+import com.bnyro.contacts.util.Preferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -89,7 +90,7 @@ fun ContactsScreen(
                 tonalElevation = 10.dp
             ) {
                 var selected by remember {
-                    mutableStateOf(0)
+                    mutableStateOf(Preferences.getInt(Preferences.homeTabKey, 0))
                 }
                 navItems.forEachIndexed { index, navItem ->
                     NavigationBarItem(

@@ -11,9 +11,13 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
+import com.bnyro.contacts.ui.components.prefs.BlockPreference
+import com.bnyro.contacts.ui.components.prefs.SettingsCategory
+import com.bnyro.contacts.util.Preferences
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -34,8 +38,17 @@ fun SettingsScreen(onDismissRequest: () -> Unit) {
             }
         ) { pV ->
             Column(
-                modifier = Modifier.padding(pV)
+                modifier = Modifier
+                    .padding(pV)
+                    .padding(horizontal = 10.dp)
             ) {
+                SettingsCategory(title = stringResource(R.string.home_tab))
+                BlockPreference(
+                    preferenceKey = Preferences.homeTabKey,
+                    entries = listOf(R.string.device, R.string.local).map {
+                        stringResource(it)
+                    }
+                )
             }
         }
     }
