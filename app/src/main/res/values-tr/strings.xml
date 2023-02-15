@@ -42,4 +42,8 @@
     <string name="device">Aygıt</string>
     <string name="local">Yerel</string>
     <string name="nothing_here">Burada bir şey yok.</string>
+    <string name="move">Taşı</string>
+    <string name="start_tab">Başlangıç sekmesi</string>
+    <string name="settings">Ayarlar</string>
+    <string name="copy">Kopyala</string>
 </resources>
