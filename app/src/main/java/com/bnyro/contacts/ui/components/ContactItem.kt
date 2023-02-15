@@ -164,7 +164,9 @@ fun ContactItem(contact: ContactData, sortOrder: SortOrder) {
 
     OptionMenu(
         expanded = showDropDown,
-        options = listOf(R.string.copy, R.string.move, R.string.delete_contact).map { stringResource(it) },
+        options = listOf(R.string.copy, R.string.move, R.string.delete_contact).map {
+            stringResource(it)
+        },
         onDismissRequest = {
             showDropDown = false
         }

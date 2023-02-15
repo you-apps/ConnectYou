@@ -18,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -25,11 +26,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
+import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.NavBarItem
 import com.bnyro.contacts.ui.components.ContactsPage
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.util.DeviceContactsHelper
 import com.bnyro.contacts.util.LocalContactsHelper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,11 +45,23 @@ fun ContactsScreen(
     val context = LocalContext.current
     val viewModel: ContactsModel = viewModel()
     var visibleContact by remember {
-        mutableStateOf(initialContact)
+        mutableStateOf<ContactData?>(null)
     }
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         viewModel.loadContacts(context)
+    }
+
+    LaunchedEffect(viewModel.contacts) {
+        val ct = viewModel.contacts?.firstOrNull {
+            it.contactId == (initialContact ?: return@LaunchedEffect)
+        }
+        scope.launch {
+            withContext(Dispatchers.IO) {
+                visibleContact = viewModel.loadAdvancedContactData(ct ?: return@withContext)
+            }
+        }
     }
 
     val navItems = listOf(
@@ -99,11 +116,9 @@ fun ContactsScreen(
         ) {
             ContactsPage(viewModel.contacts, showEditorDefault)
         }
-        visibleContact?.let { contactId ->
-            viewModel.contacts?.firstOrNull { it.contactId == contactId }?.let {
-                SingleContactScreen(it) {
-                    visibleContact = null
-                }
+        visibleContact?.let {
+            SingleContactScreen(it) {
+                visibleContact = null
             }
         }
     }
