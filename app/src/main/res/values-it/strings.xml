@@ -41,4 +41,8 @@
     <string name="device">Dispositivo</string>
     <string name="nothing_here">Non c\'è niente qui.</string>
     <string name="local">Locale</string>
+    <string name="copy">Copia</string>
+    <string name="move">Sposta</string>
+    <string name="settings">Impostazioni</string>
+    <string name="start_tab">Pagina iniziale</string>
 </resources>
