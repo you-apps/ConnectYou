@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -24,6 +23,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -78,27 +78,27 @@ fun ContactEditor(
         mutableStateOf(contact?.surName.orEmpty())
     }
 
-    var phoneNumber by remember {
-        mutableStateOf(
-            contact?.numbers.fillIfEmpty().map { mutableStateOf(it) }
+    var phoneNumber = remember {
+        mutableStateListOf(
+            *contact?.numbers.fillIfEmpty().map { mutableStateOf(it) }.toTypedArray()
         )
     }
 
-    var emails by remember {
-        mutableStateOf(
-            contact?.emails.fillIfEmpty().map { mutableStateOf(it) }
+    val emails = remember {
+        mutableStateListOf(
+            *contact?.emails.fillIfEmpty().map { mutableStateOf(it) }.toTypedArray()
         )
     }
 
-    var addresses by remember {
-        mutableStateOf(
-            contact?.addresses.fillIfEmpty().map { mutableStateOf(it) }
+    var addresses = remember {
+        mutableStateListOf(
+            *contact?.addresses.fillIfEmpty().map { mutableStateOf(it) }.toTypedArray()
         )
     }
 
-    var events by remember {
-        mutableStateOf(
-            contact?.events.fillIfEmpty().map { mutableStateOf(it) }
+    var events = remember {
+        mutableStateListOf(
+            *contact?.events.fillIfEmpty().map { mutableStateOf(it) }.toTypedArray()
         )
     }
 
@@ -125,7 +125,9 @@ fun ContactEditor(
                         .clip(RoundedCornerShape(20.dp))
                         .combinedClickable(
                             onClick = {
-                                val request = PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                val request = PickVisualMediaRequest(
+                                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                                )
                                 uploadImage.launch(request)
                             },
                             onLongClick = {
@@ -164,62 +166,62 @@ fun ContactEditor(
                 )
             }
 
-            items(phoneNumber) {
+            itemsIndexed(phoneNumber) { index, it ->
                 TextFieldEditor(
                     label = R.string.phone,
                     state = it,
                     types = ContactsHelper.phoneNumberTypes,
                     keyboardType = KeyboardType.Phone,
                     onDelete = {
-                        phoneNumber = phoneNumber - it
+                        phoneNumber.removeAt(index)
                     },
-                    showDeleteAction = phoneNumber.size > 1
+                    showDeleteAction = phoneNumber.size > 1 && index == phoneNumber.size - 1
                 ) {
-                    phoneNumber = phoneNumber + emptyMutable()
+                    phoneNumber.add(emptyMutable())
                 }
             }
 
-            items(emails) {
+            itemsIndexed(emails) { index, it ->
                 TextFieldEditor(
                     label = R.string.email,
                     state = it,
                     types = ContactsHelper.emailTypes,
                     keyboardType = KeyboardType.Email,
                     onDelete = {
-                        emails = emails - it
+                        emails.removeAt(index)
                     },
-                    showDeleteAction = emails.size > 1
+                    showDeleteAction = emails.size > 1 && index == emails.size - 1
                 ) {
-                    emails = emails + emptyMutable()
+                    emails.add(emptyMutable())
                 }
             }
 
-            items(addresses) {
+            itemsIndexed(addresses) { index, it ->
                 TextFieldEditor(
                     label = R.string.address,
                     state = it,
                     types = ContactsHelper.addressTypes,
                     imeAction = if (it == addresses.last()) ImeAction.Done else ImeAction.Next,
                     onDelete = {
-                        addresses = addresses - it
+                        addresses.removeAt(index)
                     },
-                    showDeleteAction = addresses.size > 1
+                    showDeleteAction = addresses.size > 1 && index == addresses.size - 1
                 ) {
-                    addresses = addresses + emptyMutable()
+                    addresses.add(emptyMutable())
                 }
             }
 
-            items(events) {
+            itemsIndexed(events) { index, it ->
                 DatePickerEditor(
                     label = R.string.event,
                     state = it,
                     types = ContactsHelper.eventTypes,
                     onDelete = {
-                        events = events - it
+                        events.removeAt(index)
                     },
-                    showDeleteAction = events.size > 1
+                    showDeleteAction = events.size > 1 && index == events.size - 1
                 ) {
-                    events = events + emptyMutable()
+                    events.add(emptyMutable())
                 }
             }
         }
