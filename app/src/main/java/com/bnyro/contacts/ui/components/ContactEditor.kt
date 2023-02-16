@@ -1,6 +1,5 @@
 package com.bnyro.contacts.ui.components
 
-import android.graphics.BitmapFactory
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -45,6 +44,7 @@ import com.bnyro.contacts.ui.components.base.LabeledTextField
 import com.bnyro.contacts.ui.components.editor.DatePickerEditor
 import com.bnyro.contacts.ui.components.editor.TextFieldEditor
 import com.bnyro.contacts.util.ContactsHelper
+import com.bnyro.contacts.util.ImageHelper
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -112,9 +112,9 @@ fun ContactEditor(
 
     val uploadImage = rememberLauncherForActivityResult(
         ActivityResultContracts.PickVisualMedia()
-    ) {
-        context.contentResolver.openInputStream(it ?: return@rememberLauncherForActivityResult)?.use { stream ->
-            profilePicture = BitmapFactory.decodeStream(stream)
+    ) { uri ->
+        ImageHelper.getImageFromUri(context, uri ?: return@rememberLauncherForActivityResult)?.let { bitmap ->
+            profilePicture = bitmap
         }
     }
 

@@ -68,6 +68,9 @@ dependencies {
     // VCard
     implementation 'com.googlecode.ez-vcard:ez-vcard:0.11.3'
 
+    // Image parsing
+    implementation 'androidx.exifinterface:exifinterface:1.3.6'
+
     // Room database
     implementation 'androidx.room:room-ktx:2.5.0'
     kapt "androidx.room:room-compiler:2.5.0"
