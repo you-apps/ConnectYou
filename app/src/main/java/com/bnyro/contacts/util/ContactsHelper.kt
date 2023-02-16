@@ -6,6 +6,8 @@ import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.TranslatedType
 
 abstract class ContactsHelper {
+    abstract val label: String
+
     abstract suspend fun createContact(contact: ContactData)
 
     abstract suspend fun updateContact(contact: ContactData)
@@ -15,6 +17,8 @@ abstract class ContactsHelper {
     abstract suspend fun getContactList(): List<ContactData>
 
     abstract suspend fun loadAdvancedData(contact: ContactData): ContactData
+
+    abstract fun isAutoBackupEnabled(): Boolean
 
     companion object {
         val emailTypes = listOf(

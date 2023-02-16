@@ -2,6 +2,7 @@ package com.bnyro.contacts.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.bnyro.contacts.enums.BackupType
 
 object Preferences {
     private const val prefFile = "preferences"
@@ -9,6 +10,8 @@ object Preferences {
 
     const val homeTabKey = "homeTab"
     const val themeKey = "theme"
+    const val backupDirKey = "backupDir"
+    const val backupTypeKey = "backupType"
 
     fun init(context: Context) {
         preferences = context.getSharedPreferences(prefFile, Context.MODE_PRIVATE)
@@ -20,5 +23,9 @@ object Preferences {
 
     fun edit(action: SharedPreferences.Editor.() -> Unit) {
         preferences.edit().apply(action).apply()
+    }
+
+    fun getBackupType(): BackupType {
+        return BackupType.fromInt(getInt(backupTypeKey, BackupType.NONE.value))
     }
 }

@@ -16,6 +16,7 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.ThemeMode
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
+import com.bnyro.contacts.ui.components.prefs.BackupPref
 import com.bnyro.contacts.ui.components.prefs.BlockPreference
 import com.bnyro.contacts.ui.components.prefs.SettingsCategory
 import com.bnyro.contacts.ui.components.prefs.SettingsContainer
@@ -65,6 +66,9 @@ fun SettingsScreen(onDismissRequest: () -> Unit) {
                             stringResource(it)
                         }
                     )
+                }
+                SettingsContainer {
+                    BackupPref()
                 }
             }
         }

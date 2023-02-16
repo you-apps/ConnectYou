@@ -20,6 +20,8 @@ import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
 import android.provider.ContactsContract.Data
 import android.provider.ContactsContract.RawContacts
 import androidx.annotation.RequiresPermission
+import com.bnyro.contacts.R
+import com.bnyro.contacts.enums.BackupType
 import com.bnyro.contacts.ext.intValue
 import com.bnyro.contacts.ext.longValue
 import com.bnyro.contacts.ext.notAName
@@ -29,6 +31,8 @@ import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ValueWithType
 
 class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
+    override val label: String = context.getString(R.string.device)
+
     private val contentResolver = context.contentResolver
     private val androidAccountType = "com.android.contacts"
     private val deviceContactName = "DEVICE"
@@ -134,6 +138,10 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
             Note.DATA2,
             Note.CONTENT_ITEM_TYPE
         )
+    }
+
+    override fun isAutoBackupEnabled(): Boolean {
+        return Preferences.getBackupType() in listOf(BackupType.BOTH, BackupType.DEVICE)
     }
 
     @Suppress("SameParameterValue")

@@ -3,9 +3,11 @@ package com.bnyro.contacts.util
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import com.bnyro.contacts.R
 import com.bnyro.contacts.db.DatabaseHolder
 import com.bnyro.contacts.db.obj.LocalContact
 import com.bnyro.contacts.db.obj.ValuableType
+import com.bnyro.contacts.enums.BackupType
 import com.bnyro.contacts.enums.DataCategory
 import com.bnyro.contacts.ext.pmap
 import com.bnyro.contacts.obj.ContactData
@@ -13,6 +15,8 @@ import com.bnyro.contacts.obj.ValueWithType
 import java.io.File
 
 class LocalContactsHelper(context: Context) : ContactsHelper() {
+    override val label: String = context.getString(R.string.local)
+
     private val picturesDir = File(context.filesDir, "images").also {
         if (!it.exists()) it.mkdirs()
     }
@@ -105,4 +109,7 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
     }
 
     override suspend fun loadAdvancedData(contact: ContactData): ContactData = contact
+    override fun isAutoBackupEnabled(): Boolean {
+        return Preferences.getBackupType() in listOf(BackupType.BOTH, BackupType.LOCAL)
+    }
 }

@@ -54,6 +54,10 @@
     <string name="system">System</string>
     <string name="light">Light</string>
     <string name="dark">Dark</string>
+    <string name="auto_backup">Automatic Backup</string>
+    <string name="choose_dir">Choose directory</string>
+    <string name="both">Both</string>
+    <string name="none">None</string>
     <!-- About -->
     <string name="about">About</string>
     <string name="license">License</string>

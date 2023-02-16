@@ -1,7 +1,6 @@
 package com.bnyro.contacts.ui.models
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import androidx.compose.runtime.getValue
@@ -12,6 +11,7 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.ext.toast
 import com.bnyro.contacts.ext.withIO
 import com.bnyro.contacts.obj.ContactData
+import com.bnyro.contacts.util.BackupHelper
 import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.DeviceContactsHelper
 import com.bnyro.contacts.util.ExportHelper
@@ -31,7 +31,6 @@ class ContactsModel : ViewModel() {
         }
     }
 
-    @SuppressLint("MissingPermission")
     fun loadContacts(context: Context) {
         if (!PermissionHelper.checkPermissions(context, Manifest.permission.READ_CONTACTS)) return
         withIO {
@@ -39,30 +38,30 @@ class ContactsModel : ViewModel() {
         }
     }
 
-    @SuppressLint("MissingPermission")
     fun deleteContact(context: Context, contact: ContactData) {
         if (!PermissionHelper.checkPermissions(context, Manifest.permission.READ_CONTACTS)) return
         withIO {
             contactsHelper?.deleteContacts(listOf(contact))
             contacts = contacts?.filter { it.contactId != contact.contactId }
+            autoBackup(context)
         }
     }
 
-    @Suppress("MissingPermission")
     fun createContact(context: Context, contact: ContactData) {
         if (!PermissionHelper.checkPermissions(context, Manifest.permission.WRITE_CONTACTS)) return
         withIO {
             contactsHelper?.createContact(contact)
             loadContacts(context)
+            autoBackup(context)
         }
     }
 
-    @Suppress("MissingPermission")
     fun updateContact(context: Context, contact: ContactData) {
         if (!PermissionHelper.checkPermissions(context, Manifest.permission.WRITE_CONTACTS)) return
         withIO {
             contactsHelper?.updateContact(contact)
             loadContacts(context)
+            autoBackup(context)
         }
     }
 
@@ -74,12 +73,16 @@ class ContactsModel : ViewModel() {
                 else -> DeviceContactsHelper(context)
             }
             otherHelper.createContact(fullContact)
+            autoBackup(context)
         }
     }
 
     fun moveContact(context: Context, contact: ContactData) {
         copyContact(context, contact)
         deleteContact(context, contact)
+        withIO {
+            autoBackup(context)
+        }
     }
 
     suspend fun loadAdvancedContactData(contact: ContactData): ContactData {
@@ -106,6 +109,12 @@ class ContactsModel : ViewModel() {
             val exportHelper = ExportHelper(context, contactsHelper!!)
             val tempFileUri = exportHelper.exportContact(contact)
             IntentHelper.shareContactVcf(context, tempFileUri)
+        }
+    }
+
+    private suspend fun autoBackup(context: Context) {
+        contactsHelper?.let {
+            if (it.isAutoBackupEnabled()) BackupHelper.backup(context, it)
         }
     }
 }
