@@ -38,4 +38,11 @@
     <string name="import_vcf">VCard ଆମଦାନୀ କରନ୍ତୁ</string>
     <string name="car">କାର୍</string>
     <string name="delete_contact">ସମ୍ପର୍କ ବିଲୋପ କରନ୍ତୁ</string>
+    <string name="copy">ନକଲ କରନ୍ତୁ</string>
+    <string name="move">ଘୁଞ୍ଚାନ୍ତୁ</string>
+    <string name="settings">ସେଟିଂସମୂହ</string>
+    <string name="start_tab">ଆରମ୍ଭ ଟ୍ୟାବ୍</string>
+    <string name="nothing_here">ଏଠାରେ କିଛି ନାହିଁ ।</string>
+    <string name="device">ଉପକରଣ</string>
+    <string name="local">ସ୍ଥାନୀୟ</string>
 </resources>
