@@ -326,7 +326,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
                     Photo.MIMETYPE,
                     Photo.PHOTO,
                     getBitmapBytes(it),
-                    rawContactId = contact.contactId.toInt()
+                    rawContactId = contact.rawContactId
                 )
             )
         }
