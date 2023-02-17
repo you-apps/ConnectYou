@@ -42,4 +42,8 @@
     <string name="device">Appareil</string>
     <string name="local">Local</string>
     <string name="nothing_here">Rien ici.</string>
+    <string name="copy">Copier</string>
+    <string name="move">Déplacer</string>
+    <string name="settings">Paramètres</string>
+    <string name="start_tab">Onglet de démarrage</string>
 </resources>
