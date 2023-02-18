@@ -235,7 +235,7 @@ fun ContactsPage(
                     ) {
                         delay(100)
                     }
-                    viewModel.loadContacts()
+                    viewModel.loadContacts(context)
                 }
                 Box(
                     modifier = Modifier.fillMaxSize()

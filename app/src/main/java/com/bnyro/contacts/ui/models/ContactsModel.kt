@@ -1,5 +1,6 @@
 package com.bnyro.contacts.ui.models
 
+import android.Manifest
 import android.content.Context
 import android.net.Uri
 import androidx.compose.runtime.getValue
@@ -16,11 +17,16 @@ import com.bnyro.contacts.util.DeviceContactsHelper
 import com.bnyro.contacts.util.ExportHelper
 import com.bnyro.contacts.util.IntentHelper
 import com.bnyro.contacts.util.LocalContactsHelper
+import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.Preferences
 
 class ContactsModel : ViewModel() {
     var contacts by mutableStateOf<List<ContactData>?>(null)
     var contactsHelper by mutableStateOf<ContactsHelper?>(null)
+    private val permissions = arrayOf(
+        Manifest.permission.WRITE_CONTACTS,
+        Manifest.permission.READ_CONTACTS
+    )
 
     fun init(context: Context) {
         contactsHelper = when (Preferences.getInt(Preferences.homeTabKey, 0)) {
@@ -29,7 +35,8 @@ class ContactsModel : ViewModel() {
         }
     }
 
-    fun loadContacts() {
+    fun loadContacts(context: Context) {
+        if (!PermissionHelper.checkPermissions(context, permissions)) return
         withIO {
             contacts = contactsHelper?.getContactList()
         }
@@ -50,7 +57,7 @@ class ContactsModel : ViewModel() {
     fun createContact(context: Context, contact: ContactData) {
         withIO {
             contactsHelper?.createContact(contact)
-            loadContacts()
+            loadContacts(context)
             autoBackup(context)
         }
     }
@@ -58,7 +65,7 @@ class ContactsModel : ViewModel() {
     fun updateContact(context: Context, contact: ContactData) {
         withIO {
             contactsHelper?.updateContact(contact)
-            loadContacts()
+            loadContacts(context)
             autoBackup(context)
         }
     }
@@ -94,7 +101,7 @@ class ContactsModel : ViewModel() {
             val exportHelper = ExportHelper(context, contactsHelper!!)
             exportHelper.importContacts(uri)
             context.toast(R.string.import_success)
-            loadContacts()
+            loadContacts(context)
         }
     }
 

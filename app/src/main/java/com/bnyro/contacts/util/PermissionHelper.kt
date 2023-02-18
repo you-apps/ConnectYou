@@ -1,17 +1,16 @@
 package com.bnyro.contacts.util
 
-import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 
 object PermissionHelper {
-    fun checkPermissions(context: Context, permission: String): Boolean {
-        if (!hasPermission(context, permission)) {
+    fun checkPermissions(context: Context, permissions: Array<String>): Boolean {
+        if (!hasPermission(context, permissions.first())) {
             ActivityCompat.requestPermissions(
                 context as Activity,
-                arrayOf(permission, Manifest.permission.WRITE_CONTACTS),
+                permissions,
                 1
             )
             return false

@@ -60,18 +60,22 @@ fun FilterDialog(
                     }
                 )
                 Spacer(modifier = Modifier.height(10.dp))
-                ChipSelector(
-                    title = stringResource(R.string.account_type),
-                    entries = availableAccountTypes,
-                    selections = availableAccountTypes.filter { !hiddenAccountNames.contains(it) },
-                    onSelectionChanged = { index, newValue ->
-                        hiddenAccountNames = if (newValue) {
-                            hiddenAccountNames - availableAccountTypes[index]
-                        } else {
-                            hiddenAccountNames + availableAccountTypes[index]
+                if (availableAccountTypes.isNotEmpty()) {
+                    ChipSelector(
+                        title = stringResource(R.string.account_type),
+                        entries = availableAccountTypes,
+                        selections = availableAccountTypes.filter {
+                            !hiddenAccountNames.contains(it)
+                        },
+                        onSelectionChanged = { index, newValue ->
+                            hiddenAccountNames = if (newValue) {
+                                hiddenAccountNames - availableAccountTypes[index]
+                            } else {
+                                hiddenAccountNames + availableAccountTypes[index]
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
     )
