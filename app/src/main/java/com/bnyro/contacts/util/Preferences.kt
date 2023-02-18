@@ -12,7 +12,7 @@ object Preferences {
     const val themeKey = "theme"
     const val backupDirKey = "backupDir"
     const val backupTypeKey = "backupType"
-    const val sortOrder = "sortOrder"
+    const val sortOrderKey = "sorting"
 
     fun init(context: Context) {
         preferences = context.getSharedPreferences(prefFile, Context.MODE_PRIVATE)

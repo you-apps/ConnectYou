@@ -9,7 +9,7 @@ data class FilterOptions(
 ) {
     companion object {
         fun default(): FilterOptions {
-            val sortOrder = SortOrder.fromInt(Preferences.getInt(Preferences.sortOrder, 0))
+            val sortOrder = SortOrder.fromInt(Preferences.getInt(Preferences.sortOrderKey, 0))
             return FilterOptions(sortOrder, listOf())
         }
     }

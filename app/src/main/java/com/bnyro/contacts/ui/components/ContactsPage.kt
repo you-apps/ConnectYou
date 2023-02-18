@@ -370,7 +370,7 @@ fun ContactsPage(
                 showFilterDialog = false
             },
             onFilterChanged = {
-                Preferences.edit { putInt(Preferences.sortOrder, it.sortOder.value) }
+                Preferences.edit { putInt(Preferences.sortOrderKey, it.sortOder.value) }
                 filterOptions = it
             },
             initialFilters = filterOptions,
