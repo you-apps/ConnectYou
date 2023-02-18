@@ -373,7 +373,10 @@ fun ContactsPage(
                 Preferences.edit { putInt(Preferences.sortOrder, it.sortOder.value) }
                 filterOptions = it
             },
-            initialFilters = filterOptions
+            initialFilters = filterOptions,
+            availableAccountTypes = viewModel.contacts.orEmpty().mapNotNull {
+                it.accountName
+            }.distinct()
         )
     }
 }

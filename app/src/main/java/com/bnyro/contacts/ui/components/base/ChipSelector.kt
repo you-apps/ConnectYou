@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 fun ChipSelector(
     title: String,
     entries: List<String>,
-    selections: List<Int>,
+    selections: List<String>,
     onSelectionChanged: (Int, Boolean) -> Unit
 ) {
     Text(
@@ -42,16 +42,18 @@ fun ChipSelector(
                 label = {
                     Text(entry)
                 },
-                selected = selections.contains(index),
+                selected = selections.contains(entry),
                 onClick = {
-                    onSelectionChanged(index, selections.contains(index))
+                    onSelectionChanged(index, !selections.contains(entry))
                 },
                 leadingIcon = {
-                    if (selections.contains(index)) Icon(
-                        Icons.Default.Check,
-                        contentDescription = null,
-                        modifier = Modifier.scale(0.6f)
-                    )
+                    if (selections.contains(entry)) {
+                        Icon(
+                            Icons.Default.Check,
+                            contentDescription = null,
+                            modifier = Modifier.scale(0.6f)
+                        )
+                    }
                 }
             )
         }
