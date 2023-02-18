@@ -204,15 +204,24 @@ fun ContactsPage(
                                 Text(stringResource(R.string.app_name))
                             },
                             actions = {
-                                ClickableIcon(icon = Icons.Default.CopyAll, contentDescription = R.string.copy) {
+                                ClickableIcon(
+                                    icon = Icons.Default.CopyAll,
+                                    contentDescription = R.string.copy
+                                ) {
                                     viewModel.copyContacts(context, selectedContacts.toList())
                                     selectedContacts.clear()
                                 }
-                                ClickableIcon(icon = Icons.Default.MoveToInbox, contentDescription = R.string.move) {
+                                ClickableIcon(
+                                    icon = Icons.Default.MoveToInbox,
+                                    contentDescription = R.string.move
+                                ) {
                                     viewModel.moveContacts(context, selectedContacts.toList())
                                     selectedContacts.clear()
                                 }
-                                ClickableIcon(icon = Icons.Default.Delete, contentDescription = R.string.delete) {
+                                ClickableIcon(
+                                    icon = Icons.Default.Delete,
+                                    contentDescription = R.string.delete
+                                ) {
                                     showDelete = true
                                 }
                             }
@@ -300,9 +309,9 @@ fun ContactsPage(
                                         false
                                     } else {
                                         if (selectedContacts.contains(it)) {
-                                            selectedContacts.add(it)
-                                        } else {
                                             selectedContacts.remove(it)
+                                        } else {
+                                            selectedContacts.add(it)
                                         }
                                         true
                                     }

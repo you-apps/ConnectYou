@@ -38,9 +38,11 @@ class ContactsModel : ViewModel() {
     fun deleteContacts(context: Context, contactsToDelete: List<ContactData>) {
         withIO {
             contactsHelper?.deleteContacts(contactsToDelete)
-            contacts = contacts?.filter { ct -> contactsToDelete.none {
-                it.contactId == ct.contactId
-            } }
+            contacts = contacts?.filter { ct ->
+                contactsToDelete.none {
+                    it.contactId == ct.contactId
+                }
+            }
             autoBackup(context)
         }
     }

@@ -14,11 +14,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
@@ -96,10 +98,7 @@ fun ContactItem(
                             onLongPress.invoke()
                         }
                     ),
-                shape = shape,
-                elevation = CardDefaults.elevatedCardElevation(
-                    defaultElevation = if (selected) 10.dp else 2.dp
-                )
+                shape = shape
             ) {
                 Row(
                     modifier = Modifier
@@ -116,7 +115,14 @@ fun ContactItem(
                             )
                     ) {
                         val thumbnail = contact.thumbnail ?: contact.photo
-                        if (thumbnail == null) {
+                        if (selected) {
+                            Icon(
+                                modifier = Modifier.align(Alignment.Center),
+                                imageVector = Icons.Default.Check,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.background
+                            )
+                        } else if (thumbnail == null) {
                             Text(
                                 modifier = Modifier.align(Alignment.Center),
                                 text = (contact.displayName?.firstOrNull() ?: "").toString(),
