@@ -41,4 +41,8 @@
     <string name="device">设备</string>
     <string name="nothing_here">这里空无一物。</string>
     <string name="local">本地</string>
+    <string name="copy">复制</string>
+    <string name="move">移动</string>
+    <string name="settings">设置</string>
+    <string name="start_tab">起始标签页</string>
 </resources>

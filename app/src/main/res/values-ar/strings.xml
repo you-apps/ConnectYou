@@ -41,4 +41,8 @@
     <string name="nothing_here">لا يوجد شيء هنا.</string>
     <string name="device">الجهاز</string>
     <string name="local">محليٌّ</string>
+    <string name="copy">انسخ</string>
+    <string name="move">انقل</string>
+    <string name="settings">الإعدادات</string>
+    <string name="start_tab">لسان البداية</string>
 </resources>

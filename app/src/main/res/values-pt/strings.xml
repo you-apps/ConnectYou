@@ -8,7 +8,7 @@
     <string name="irreversible">Tem a certeza\? Isto não pode ser desfeito!</string>
     <string name="cancel">Cancelar</string>
     <string name="create_contact">Criar contacto</string>
-    <string name="reset">Repor</string>
+    <string name="reset">Reiniciar</string>
     <string name="retry">Tentar novamente</string>
     <string name="import_success">Importado.</string>
     <string name="share">Partilhar</string>
@@ -16,10 +16,10 @@
     <string name="export_success">Exportado.</string>
     <string name="address">Endereço</string>
     <string name="last_name">Apelido</string>
-    <string name="home">Pessoal</string>
+    <string name="home">Início</string>
     <string name="phone">Telefone</string>
     <string name="email">E-mail</string>
-    <string name="first_name">Primeiro nome</string>
+    <string name="first_name">Nome</string>
     <string name="type">Tipo</string>
     <string name="fax_home">Fax pessoal</string>
     <string name="work">Profissional</string>
@@ -34,11 +34,15 @@
     <string name="assistant">Assistente</string>
     <string name="export_vcf">Exportar vCard</string>
     <string name="author">Autor</string>
-    <string name="about">Acerca</string>
+    <string name="about">Sobre</string>
     <string name="license">Licença</string>
     <string name="translation">Tradução</string>
     <string name="okay">Aceitar</string>
     <string name="device">Dispositivo</string>
     <string name="nothing_here">Nada aqui.</string>
     <string name="local">Local</string>
+    <string name="copy">Copiar</string>
+    <string name="start_tab">Separador inicial</string>
+    <string name="move">Mover</string>
+    <string name="settings">Definições</string>
 </resources>

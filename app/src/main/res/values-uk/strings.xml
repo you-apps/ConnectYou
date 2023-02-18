@@ -21,7 +21,7 @@
     <string name="type">Тип</string>
     <string name="about">Про додаток</string>
     <string name="license">Ліцензія</string>
-    <string name="custom">Користувальницьке</string>
+    <string name="custom">Власне</string>
     <string name="import_vcf">Імпорт vCard</string>
     <string name="author">Автор</string>
     <string name="first_name">Ім\'я</string>
@@ -42,4 +42,8 @@
     <string name="nothing_here">Тут нічого немає.</string>
     <string name="device">Пристрій</string>
     <string name="local">Локально</string>
+    <string name="copy">Копіювати</string>
+    <string name="settings">Налаштування</string>
+    <string name="move">Перемістити</string>
+    <string name="start_tab">Початкова вкладка</string>
 </resources>
