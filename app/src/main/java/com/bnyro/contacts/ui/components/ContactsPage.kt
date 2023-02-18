@@ -204,15 +204,15 @@ fun ContactsPage(
                                 Text(stringResource(R.string.app_name))
                             },
                             actions = {
-                                ClickableIcon(icon = Icons.Default.CopyAll) {
+                                ClickableIcon(icon = Icons.Default.CopyAll, contentDescription = R.string.copy) {
                                     viewModel.copyContacts(context, selectedContacts.toList())
                                     selectedContacts.clear()
                                 }
-                                ClickableIcon(icon = Icons.Default.MoveToInbox) {
+                                ClickableIcon(icon = Icons.Default.MoveToInbox, contentDescription = R.string.move) {
                                     viewModel.moveContacts(context, selectedContacts.toList())
                                     selectedContacts.clear()
                                 }
-                                ClickableIcon(icon = Icons.Default.Delete) {
+                                ClickableIcon(icon = Icons.Default.Delete, contentDescription = R.string.delete) {
                                     showDelete = true
                                 }
                             }
