@@ -68,20 +68,11 @@
                 <action android:name="android.intent.action.EDIT" />
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:host="contacts"/>
                 <data android:mimeType="vnd.android.cursor.item/person"/>
-                <data android:host="com.android.contacts"/>
                 <data android:mimeType="vnd.android.cursor.item/contact"/>
-                <data android:host="com.android.contacts"/>
                 <data android:mimeType="vnd.android.cursor.item/raw_contact"/>
             </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.EDIT" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="vnd.android.cursor.item/group" />
-            </intent-filter>
-
+            
         </activity>
 
         <provider

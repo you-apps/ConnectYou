@@ -55,12 +55,14 @@ fun ContactsScreen(
     }
 
     LaunchedEffect(viewModel.contacts) {
-        val ct = viewModel.contacts?.firstOrNull {
-            it.contactId == (initialContact ?: return@LaunchedEffect)
-        }
-        scope.launch {
-            withContext(Dispatchers.IO) {
-                visibleContact = viewModel.loadAdvancedContactData(ct ?: return@withContext)
+        initialContact ?: return@LaunchedEffect
+        viewModel.contacts?.firstOrNull {
+            it.contactId == initialContact
+        }?.let {
+            scope.launch {
+                withContext(Dispatchers.IO) {
+                    visibleContact = viewModel.loadAdvancedContactData(it)
+                }
             }
         }
     }
