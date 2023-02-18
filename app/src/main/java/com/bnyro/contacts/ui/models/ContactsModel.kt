@@ -1,6 +1,5 @@
 package com.bnyro.contacts.ui.models
 
-import android.Manifest
 import android.content.Context
 import android.net.Uri
 import androidx.compose.runtime.getValue
@@ -17,7 +16,6 @@ import com.bnyro.contacts.util.DeviceContactsHelper
 import com.bnyro.contacts.util.ExportHelper
 import com.bnyro.contacts.util.IntentHelper
 import com.bnyro.contacts.util.LocalContactsHelper
-import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.Preferences
 
 class ContactsModel : ViewModel() {
@@ -31,55 +29,55 @@ class ContactsModel : ViewModel() {
         }
     }
 
-    fun loadContacts(context: Context) {
-        if (!PermissionHelper.checkPermissions(context, Manifest.permission.READ_CONTACTS)) return
+    fun loadContacts() {
         withIO {
             contacts = contactsHelper?.getContactList()
         }
     }
 
-    fun deleteContact(context: Context, contact: ContactData) {
-        if (!PermissionHelper.checkPermissions(context, Manifest.permission.READ_CONTACTS)) return
+    fun deleteContacts(context: Context, contactsToDelete: List<ContactData>) {
         withIO {
-            contactsHelper?.deleteContacts(listOf(contact))
-            contacts = contacts?.filter { it.contactId != contact.contactId }
+            contactsHelper?.deleteContacts(contactsToDelete)
+            contacts = contacts?.filter { ct -> contactsToDelete.none {
+                it.contactId == ct.contactId
+            } }
             autoBackup(context)
         }
     }
 
     fun createContact(context: Context, contact: ContactData) {
-        if (!PermissionHelper.checkPermissions(context, Manifest.permission.WRITE_CONTACTS)) return
         withIO {
             contactsHelper?.createContact(contact)
-            loadContacts(context)
+            loadContacts()
             autoBackup(context)
         }
     }
 
     fun updateContact(context: Context, contact: ContactData) {
-        if (!PermissionHelper.checkPermissions(context, Manifest.permission.WRITE_CONTACTS)) return
         withIO {
             contactsHelper?.updateContact(contact)
-            loadContacts(context)
+            loadContacts()
             autoBackup(context)
         }
     }
 
-    fun copyContact(context: Context, contact: ContactData) {
+    fun copyContacts(context: Context, contacts: List<ContactData>) {
         withIO {
-            val fullContact = loadAdvancedContactData(contact)
-            val otherHelper = when (contactsHelper) {
-                is DeviceContactsHelper -> LocalContactsHelper(context)
-                else -> DeviceContactsHelper(context)
+            contacts.forEach { contact ->
+                val fullContact = loadAdvancedContactData(contact)
+                val otherHelper = when (contactsHelper) {
+                    is DeviceContactsHelper -> LocalContactsHelper(context)
+                    else -> DeviceContactsHelper(context)
+                }
+                otherHelper.createContact(fullContact)
             }
-            otherHelper.createContact(fullContact)
             autoBackup(context)
         }
     }
 
-    fun moveContact(context: Context, contact: ContactData) {
-        copyContact(context, contact)
-        deleteContact(context, contact)
+    fun moveContacts(context: Context, contacts: List<ContactData>) {
+        copyContacts(context, contacts)
+        deleteContacts(context, contacts)
         withIO {
             autoBackup(context)
         }
@@ -94,7 +92,7 @@ class ContactsModel : ViewModel() {
             val exportHelper = ExportHelper(context, contactsHelper!!)
             exportHelper.importContacts(uri)
             context.toast(R.string.import_success)
-            loadContacts(context)
+            loadContacts()
         }
     }
 

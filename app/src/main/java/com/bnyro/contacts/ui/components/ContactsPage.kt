@@ -3,6 +3,7 @@ package com.bnyro.contacts.ui.components
 import android.Manifest
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,17 +18,23 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CopyAll
 import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.ImportContacts
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.MoveToInbox
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
@@ -46,6 +53,7 @@ import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.OptionMenu
 import com.bnyro.contacts.ui.components.base.SearchBar
+import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.components.modifier.scrollbar
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.AboutScreen
@@ -54,7 +62,7 @@ import com.bnyro.contacts.ui.screens.SettingsScreen
 import com.bnyro.contacts.util.PermissionHelper
 import kotlinx.coroutines.delay
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ContactsPage(
     contacts: List<ContactData>?,
@@ -63,8 +71,16 @@ fun ContactsPage(
     val viewModel: ContactsModel = viewModel()
     val context = LocalContext.current
 
+    val selectedContacts = remember {
+        mutableStateListOf<ContactData>()
+    }
+
     var showEditor by remember {
         mutableStateOf(showEditorDefault)
+    }
+
+    var showDelete by remember {
+        mutableStateOf(false)
     }
 
     var sortOrderPref by rememberPreference("sortOrder", SortOrder.FIRSTNAME.value.toString())
@@ -78,9 +94,10 @@ fun ContactsPage(
         mutableStateOf(false)
     }
 
-    val importVcard = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-        uri?.let { viewModel.importVcf(context, it) }
-    }
+    val importVcard =
+        rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            uri?.let { viewModel.importVcf(context, it) }
+        }
 
     val exportVcard = rememberLauncherForActivityResult(
         ActivityResultContracts.CreateDocument("text/vcard")
@@ -96,78 +113,111 @@ fun ContactsPage(
                 mutableStateOf(TextFieldValue())
             }
 
-            SearchBar(
-                modifier = Modifier.padding(horizontal = 10.dp).padding(top = 15.dp),
-                state = searchQuery
-            ) {
-                Box(
-                    modifier = Modifier.align(Alignment.End)
-                ) {
-                    var expandedSort by remember {
-                        mutableStateOf(false)
-                    }
-                    var expandedOptions by remember {
-                        mutableStateOf(false)
-                    }
-
-                    Row {
-                        ClickableIcon(
-                            icon = Icons.Default.Sort
+            Crossfade(targetState = selectedContacts.isEmpty()) { state ->
+                when (state) {
+                    true -> {
+                        SearchBar(
+                            modifier = Modifier.padding(horizontal = 10.dp).padding(top = 15.dp),
+                            state = searchQuery
                         ) {
-                            expandedSort = !expandedSort
-                        }
-                        ClickableIcon(
-                            icon = Icons.Default.MoreVert
-                        ) {
-                            expandedOptions = !expandedOptions
+                            Box(
+                                modifier = Modifier.align(Alignment.End)
+                            ) {
+                                var expandedSort by remember {
+                                    mutableStateOf(false)
+                                }
+                                var expandedOptions by remember {
+                                    mutableStateOf(false)
+                                }
+
+                                Row {
+                                    ClickableIcon(
+                                        icon = Icons.Default.Sort
+                                    ) {
+                                        expandedSort = !expandedSort
+                                    }
+                                    ClickableIcon(
+                                        icon = Icons.Default.MoreVert
+                                    ) {
+                                        expandedOptions = !expandedOptions
+                                    }
+                                }
+
+                                OptionMenu(
+                                    expanded = expandedSort,
+                                    options = listOf(
+                                        stringResource(R.string.first_name),
+                                        stringResource(R.string.last_name)
+                                    ),
+                                    onDismissRequest = {
+                                        expandedSort = false
+                                    },
+                                    onSelect = {
+                                        sortOrderPref = it.toString()
+                                        expandedSort = false
+                                    }
+                                )
+                                OptionMenu(
+                                    expanded = expandedOptions,
+                                    options = listOf(
+                                        stringResource(R.string.import_vcf),
+                                        stringResource(R.string.export_vcf),
+                                        stringResource(R.string.settings),
+                                        stringResource(R.string.about)
+                                    ),
+                                    onDismissRequest = {
+                                        expandedOptions = false
+                                    },
+                                    onSelect = {
+                                        when (it) {
+                                            0 -> {
+                                                importVcard.launch(
+                                                    arrayOf(
+                                                        "text/vcard",
+                                                        "text/v-card",
+                                                        "text/x-vcard"
+                                                    )
+                                                )
+                                            }
+
+                                            1 -> {
+                                                exportVcard.launch("contacts.vcf")
+                                            }
+
+                                            2 -> {
+                                                showSettings = true
+                                            }
+
+                                            3 -> {
+                                                showAbout = true
+                                            }
+                                        }
+                                        expandedOptions = false
+                                    }
+                                )
+                            }
                         }
                     }
-
-                    OptionMenu(
-                        expanded = expandedSort,
-                        options = listOf(
-                            stringResource(R.string.first_name),
-                            stringResource(R.string.last_name)
-                        ),
-                        onDismissRequest = {
-                            expandedSort = false
-                        },
-                        onSelect = {
-                            sortOrderPref = it.toString()
-                            expandedSort = false
-                        }
-                    )
-                    OptionMenu(
-                        expanded = expandedOptions,
-                        options = listOf(
-                            stringResource(R.string.import_vcf),
-                            stringResource(R.string.export_vcf),
-                            stringResource(R.string.settings),
-                            stringResource(R.string.about)
-                        ),
-                        onDismissRequest = {
-                            expandedOptions = false
-                        },
-                        onSelect = {
-                            when (it) {
-                                0 -> {
-                                    importVcard.launch(
-                                        arrayOf("text/vcard", "text/v-card", "text/x-vcard")
-                                    )
+                    false -> {
+                        TopAppBar(
+                            title = {
+                                Text(stringResource(R.string.app_name))
+                            },
+                            actions = {
+                                ClickableIcon(icon = Icons.Default.CopyAll) {
+                                    viewModel.copyContacts(context, selectedContacts.toList())
+                                    selectedContacts.clear()
                                 }
-                                1 -> {
-                                    exportVcard.launch("contacts.vcf")
+                                ClickableIcon(icon = Icons.Default.MoveToInbox) {
+                                    viewModel.moveContacts(context, selectedContacts.toList())
+                                    selectedContacts.clear()
                                 }
-                                2 -> {
-                                    showSettings = true
-                                }
-                                3 -> {
-                                    showAbout = true
+                                ClickableIcon(icon = Icons.Default.Delete) {
+                                    showDelete = true
                                 }
                             }
-                            expandedOptions = false
-                        }
-                    )
+                        )
+                    }
                 }
             }
 
@@ -187,7 +237,7 @@ fun ContactsPage(
                     ) {
                         delay(100)
                     }
-                    viewModel.loadContacts(context)
+                    viewModel.loadContacts()
                 }
                 Box(
                     modifier = Modifier.fillMaxSize()
@@ -241,7 +291,26 @@ fun ContactsPage(
                             CharacterHeader(firstLetter.orEmpty())
                         }
                         items(groupedContacts) {
-                            ContactItem(it, sortOrder)
+                            ContactItem(
+                                contact = it,
+                                sortOrder = sortOrder,
+                                selected = selectedContacts.contains(it),
+                                onSinglePress = {
+                                    if (selectedContacts.isEmpty()) {
+                                        false
+                                    } else {
+                                        if (selectedContacts.contains(it)) {
+                                            selectedContacts.add(it)
+                                        } else {
+                                            selectedContacts.remove(it)
+                                        }
+                                        true
+                                    }
+                                },
+                                onLongPress = {
+                                    if (!selectedContacts.contains(it)) selectedContacts.add(it)
+                                }
+                            )
                         }
                     }
                 }
@@ -279,6 +348,19 @@ fun ContactsPage(
     if (showAbout) {
         AboutScreen {
             showAbout = false
+        }
+    }
+
+    if (showDelete) {
+        ConfirmationDialog(
+            onDismissRequest = {
+                showDelete = false
+            },
+            title = stringResource(R.string.delete_contact),
+            text = stringResource(R.string.irreversible)
+        ) {
+            viewModel.deleteContacts(context, selectedContacts.toList())
+            selectedContacts.clear()
         }
     }
 }

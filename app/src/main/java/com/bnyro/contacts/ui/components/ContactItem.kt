@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ElevatedCard
@@ -40,7 +41,6 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.SortOrder
 import com.bnyro.contacts.ext.notAName
 import com.bnyro.contacts.obj.ContactData
-import com.bnyro.contacts.ui.components.base.OptionMenu
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.SingleContactScreen
@@ -48,7 +48,13 @@ import kotlinx.coroutines.runBlocking
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun ContactItem(contact: ContactData, sortOrder: SortOrder) {
+fun ContactItem(
+    contact: ContactData,
+    sortOrder: SortOrder,
+    selected: Boolean,
+    onSinglePress: () -> Boolean,
+    onLongPress: () -> Unit
+) {
     val shape = RoundedCornerShape(20.dp)
     val viewModel: ContactsModel = viewModel()
     val context = LocalContext.current
@@ -57,10 +63,6 @@ fun ContactItem(contact: ContactData, sortOrder: SortOrder) {
         mutableStateOf(false)
     }
     var showDelete by remember {
-        mutableStateOf(false)
-    }
-
-    var showDropDown by remember {
         mutableStateOf(false)
     }
 
@@ -88,13 +90,16 @@ fun ContactItem(contact: ContactData, sortOrder: SortOrder) {
                     .clip(shape)
                     .combinedClickable(
                         onClick = {
-                            showContactScreen = true
+                            if (!onSinglePress()) showContactScreen = true
                         },
                         onLongClick = {
-                            showDropDown = true
+                            onLongPress.invoke()
                         }
                     ),
-                shape = shape
+                shape = shape,
+                elevation = CardDefaults.elevatedCardElevation(
+                    defaultElevation = if (selected) 10.dp else 2.dp
+                )
             ) {
                 Row(
                     modifier = Modifier
@@ -158,28 +163,7 @@ fun ContactItem(contact: ContactData, sortOrder: SortOrder) {
             title = stringResource(R.string.delete_contact),
             text = stringResource(R.string.irreversible)
         ) {
-            viewModel.deleteContact(context, contact)
+            viewModel.deleteContacts(context, listOf(contact))
         }
-    }
-
-    OptionMenu(
-        expanded = showDropDown,
-        options = listOf(R.string.copy, R.string.move, R.string.delete_contact).map {
-            stringResource(it)
-        },
-        onDismissRequest = {
-            showDropDown = false
-        }
-    ) {
-        when (it) {
-            0 -> {
-                viewModel.copyContact(context, contact)
-            }
-            1 -> {
-                viewModel.moveContact(context, contact)
-            }
-            2 -> showDelete = true
-        }
-        showDropDown = false
     }
 }

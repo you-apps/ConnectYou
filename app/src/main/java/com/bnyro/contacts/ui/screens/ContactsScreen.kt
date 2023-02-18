@@ -51,7 +51,7 @@ fun ContactsScreen(
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
-        viewModel.loadContacts(context)
+        viewModel.loadContacts()
     }
 
     LaunchedEffect(viewModel.contacts) {
@@ -72,7 +72,7 @@ fun ContactsScreen(
         ) {
             viewModel.contacts = null
             viewModel.contactsHelper = DeviceContactsHelper(context)
-            viewModel.loadContacts(context)
+            viewModel.loadContacts()
         },
         NavBarItem(
             stringResource(R.string.local),
@@ -80,7 +80,7 @@ fun ContactsScreen(
         ) {
             viewModel.contacts = null
             viewModel.contactsHelper = LocalContactsHelper(context)
-            viewModel.loadContacts(context)
+            viewModel.loadContacts()
         }
     )
 
