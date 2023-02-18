@@ -2,6 +2,7 @@ package com.bnyro.contacts.util
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
 import androidx.exifinterface.media.ExifInterface
@@ -15,6 +16,17 @@ object ImageHelper {
     }
 
     fun getImageFromUri(context: Context, uri: Uri): Bitmap? {
+        return getImageWithExif(context, uri) ?: getImageNormal(context, uri)
+    }
+
+    private fun getImageNormal(context: Context, uri: Uri): Bitmap? {
+        context.contentResolver.openInputStream(uri)?.use { stream ->
+            return BitmapFactory.decodeStream(stream)
+        }
+        return null
+    }
+
+    private fun getImageWithExif(context: Context, uri: Uri): Bitmap? {
         context.contentResolver.openInputStream(uri)?.use { stream ->
             val exifInterface = ExifInterface(stream)
             val bitmap = exifInterface.thumbnailBitmap ?: return null
