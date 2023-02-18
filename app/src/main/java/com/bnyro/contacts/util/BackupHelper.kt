@@ -15,9 +15,7 @@ object BackupHelper {
 
         val backupDir = DocumentFile.fromTreeUri(context, Uri.parse(backupDirPref)) ?: return
 
-        val currentTime = CalendarUtils.getCurrentDateTime()
-
-        val fullName = "${contactsHelper.label}-$currentTime.vcf"
+        val fullName = "${contactsHelper.label.lowercase()}-backup.vcf"
 
         runCatching {
             backupDir.findFile(fullName)?.delete()

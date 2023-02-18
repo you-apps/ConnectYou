@@ -59,8 +59,8 @@ fun FilterDialog(
                         sortOrder = SortOrder.fromInt(index)
                     }
                 )
-                Spacer(modifier = Modifier.height(10.dp))
                 if (availableAccountTypes.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(10.dp))
                     ChipSelector(
                         title = stringResource(R.string.account_type),
                         entries = availableAccountTypes,
