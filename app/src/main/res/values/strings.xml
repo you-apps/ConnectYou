@@ -22,7 +22,9 @@
     <string name="email">E-mail</string>
     <string name="address">Address</string>
     <string name="event">Event</string>
-    <!-- Sorting -->
+    <!-- Sorting and filter -->
+    <string name="sort_order">Sort order</string>
+    <string name="account_type">Account type</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last Name</string>
     <!-- Types -->

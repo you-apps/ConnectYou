@@ -7,6 +7,7 @@ data class ContactData(
     var rawContactId: Int = 0,
     var contactId: Long = 0,
     var accountType: String? = null,
+    var accountName: String? = null,
     var displayName: String? = null,
     var firstName: String? = null,
     var surName: String? = null,

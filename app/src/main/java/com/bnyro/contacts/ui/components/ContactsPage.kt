@@ -37,7 +37,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,18 +47,20 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.SortOrder
-import com.bnyro.contacts.ext.rememberPreference
 import com.bnyro.contacts.obj.ContactData
+import com.bnyro.contacts.obj.FilterOptions
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.OptionMenu
 import com.bnyro.contacts.ui.components.base.SearchBar
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
+import com.bnyro.contacts.ui.components.dialogs.FilterDialog
 import com.bnyro.contacts.ui.components.modifier.scrollbar
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.AboutScreen
 import com.bnyro.contacts.ui.screens.EditorScreen
 import com.bnyro.contacts.ui.screens.SettingsScreen
 import com.bnyro.contacts.util.PermissionHelper
+import com.bnyro.contacts.util.Preferences
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
@@ -83,14 +84,19 @@ fun ContactsPage(
         mutableStateOf(false)
     }
 
-    var sortOrderPref by rememberPreference("sortOrder", SortOrder.FIRSTNAME.value.toString())
-    val sortOrder by rememberUpdatedState(SortOrder.fromInt(sortOrderPref.toInt()))
+    var filterOptions by remember {
+        mutableStateOf(FilterOptions.default())
+    }
 
     var showSettings by remember {
         mutableStateOf(false)
     }
 
     var showAbout by remember {
+        mutableStateOf(false)
+    }
+
+    var showFilterDialog by remember {
         mutableStateOf(false)
     }
 
@@ -123,9 +129,6 @@ fun ContactsPage(
                             Box(
                                 modifier = Modifier.align(Alignment.End)
                             ) {
-                                var expandedSort by remember {
-                                    mutableStateOf(false)
-                                }
                                 var expandedOptions by remember {
                                     mutableStateOf(false)
                                 }
@@ -134,7 +137,7 @@ fun ContactsPage(
                                     ClickableIcon(
                                         icon = Icons.Default.Sort
                                     ) {
-                                        expandedSort = !expandedSort
+                                        showFilterDialog = true
                                     }
                                     ClickableIcon(
                                         icon = Icons.Default.MoreVert
@@ -143,20 +146,6 @@ fun ContactsPage(
                                     }
                                 }
 
-                                OptionMenu(
-                                    expanded = expandedSort,
-                                    options = listOf(
-                                        stringResource(R.string.first_name),
-                                        stringResource(R.string.last_name)
-                                    ),
-                                    onDismissRequest = {
-                                        expandedSort = false
-                                    },
-                                    onSelect = {
-                                        sortOrderPref = it.toString()
-                                        expandedSort = false
-                                    }
-                                )
                                 OptionMenu(
                                     expanded = expandedOptions,
                                     options = listOf(
@@ -283,13 +272,15 @@ fun ContactsPage(
                         it.displayName.orEmpty().lowercase().contains(
                             searchQuery.value.text.lowercase()
                         )
+                    }.filter {
+                        !filterOptions.hiddenAccountNames.contains(it.accountName)
                     }.sortedBy {
-                        when (sortOrder) {
+                        when (filterOptions.sortOder) {
                             SortOrder.FIRSTNAME -> it.firstName
                             SortOrder.LASTNAME -> it.surName
                         }
                     }.groupBy {
-                        when (sortOrder) {
+                        when (filterOptions.sortOder) {
                             SortOrder.FIRSTNAME -> it.firstName?.firstOrNull()?.uppercase()
                             SortOrder.LASTNAME -> it.surName?.firstOrNull()?.uppercase()
                         }
@@ -302,7 +293,7 @@ fun ContactsPage(
                         items(groupedContacts) {
                             ContactItem(
                                 contact = it,
-                                sortOrder = sortOrder,
+                                sortOrder = filterOptions.sortOder,
                                 selected = selectedContacts.contains(it),
                                 onSinglePress = {
                                     if (selectedContacts.isEmpty()) {
@@ -371,5 +362,18 @@ fun ContactsPage(
             viewModel.deleteContacts(context, selectedContacts.toList())
             selectedContacts.clear()
         }
+    }
+
+    if (showFilterDialog) {
+        FilterDialog(
+            onDismissRequest = {
+                showFilterDialog = false
+            },
+            onFilterChanged = {
+                Preferences.edit { putInt(Preferences.sortOrder, it.sortOder.value) }
+                filterOptions = it
+            },
+            initialFilters = filterOptions
+        )
     }
 }

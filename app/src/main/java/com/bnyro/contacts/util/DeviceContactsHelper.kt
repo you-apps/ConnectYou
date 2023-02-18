@@ -43,7 +43,8 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         ContactsContract.Contacts.DISPLAY_NAME,
         StructuredName.GIVEN_NAME,
         StructuredName.FAMILY_NAME,
-        RawContacts.ACCOUNT_TYPE
+        RawContacts.ACCOUNT_TYPE,
+        RawContacts.ACCOUNT_NAME
     )
 
     @RequiresPermission(Manifest.permission.READ_CONTACTS)
@@ -91,6 +92,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
                     rawContactId = it.intValue(Data.RAW_CONTACT_ID) ?: 0,
                     contactId = contactId,
                     accountType = it.stringValue(RawContacts.ACCOUNT_TYPE),
+                    accountName = it.stringValue(RawContacts.ACCOUNT_NAME),
                     displayName = displayName,
                     firstName = firstName,
                     surName = surName
