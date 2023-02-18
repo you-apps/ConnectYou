@@ -22,7 +22,9 @@ object CalendarUtils {
     fun dateToMillis(date: String) = isoDateFormat.parse(date)?.time
 
     fun localizeIsoDate(isoDate: String): String {
-        val date = isoDateFormat.parse(isoDate) ?: return isoDate
+        val date = runCatching {
+            isoDateFormat.parse(isoDate) ?: return isoDate
+        }.getOrNull() ?: return isoDate
         return localizedFormat.format(date).split(" ").firstOrNull() ?: isoDate
     }
 
