@@ -45,4 +45,16 @@
     <string name="nothing_here">ଏଠାରେ କିଛି ନାହିଁ ।</string>
     <string name="device">ଉପକରଣ</string>
     <string name="local">ସ୍ଥାନୀୟ</string>
+    <string name="note">ଧ୍ୟାନ ଦିଅନ୍ତୁ</string>
+    <string name="delete">ବିଲୋପ କରନ୍ତୁ</string>
+    <string name="theme">ଥିମ୍</string>
+    <string name="system">ସିଷ୍ଟମ୍</string>
+    <string name="dark">ଅନ୍ଧାର</string>
+    <string name="auto_backup">ସ୍ୱୟଂଚାଳିତ ବ୍ୟାକଅପ୍</string>
+    <string name="choose_dir">ଡିରେକ୍ଟୋରୀ ବାଛନ୍ତୁ</string>
+    <string name="both">ଉଭୟ</string>
+    <string name="sort_order">କ୍ରମ ସର୍ଟ କରନ୍ତୁ</string>
+    <string name="account_type">ଖାତା ପ୍ରକାର</string>
+    <string name="light">ଆଲୋକ</string>
+    <string name="none">କିଛି ନୁହେଁ</string>
 </resources>
