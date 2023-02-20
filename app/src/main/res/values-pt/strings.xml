@@ -45,4 +45,16 @@
     <string name="start_tab">Separador inicial</string>
     <string name="move">Mover</string>
     <string name="settings">Definições</string>
+    <string name="choose_dir">Escolher diretório</string>
+    <string name="none">Nenhum</string>
+    <string name="both">Ambos</string>
+    <string name="sort_order">Ordenar ordem</string>
+    <string name="light">Claro</string>
+    <string name="dark">Escuro</string>
+    <string name="system">Sistema</string>
+    <string name="account_type">Tipo de conta</string>
+    <string name="note">Nota</string>
+    <string name="delete">Eliminar</string>
+    <string name="auto_backup">Cópia de segurança automática</string>
+    <string name="theme">Tema</string>
 </resources>
