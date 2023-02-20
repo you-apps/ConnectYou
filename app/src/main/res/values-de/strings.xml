@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="home">Startseite</string>
+    <string name="home">Privat</string>
     <string name="type">Typ</string>
     <string name="event">Ereignis</string>
     <string name="first_name">Vorname</string>
@@ -36,4 +36,26 @@
     <string name="car">Auto</string>
     <string name="import_vcf">vCard importieren</string>
     <string name="assistant">Assistent</string>
+    <string name="nothing_here">Keine Kontakte gefunden.</string>
+    <string name="anniversary">Jubiläum</string>
+    <string name="device">Gerät</string>
+    <string name="move">Verschieben</string>
+    <string name="delete">Löschen</string>
+    <string name="settings">Einstellungen</string>
+    <string name="start_tab">Startseite</string>
+    <string name="system">System</string>
+    <string name="light">Hell</string>
+    <string name="dark">Dunkel</string>
+    <string name="sort_order">Sortieren nach</string>
+    <string name="account_type">Kontotyp</string>
+    <string name="note">Notiz</string>
+    <string name="copy">Kopieren</string>
+    <string name="theme">Erscheinungsbild</string>
+    <string name="local">Lokal</string>
+    <string name="auto_backup">Automatische Backups</string>
+    <string name="both">Beide</string>
+    <string name="none">Keine</string>
+    <string name="choose_dir">Ordner Wählen</string>
+    <string name="reset">Zurücksetzen</string>
+    <string name="okay">Ja</string>
 </resources>
