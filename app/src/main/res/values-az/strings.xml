@@ -46,4 +46,16 @@
     <string name="nothing_here">Bura boşdur.</string>
     <string name="device">Cihaz</string>
     <string name="local">Yerli</string>
+    <string name="sort_order">Çeşid sırası</string>
+    <string name="account_type">Hesab növü</string>
+    <string name="note">Qeyd</string>
+    <string name="delete">Sil</string>
+    <string name="theme">Tema</string>
+    <string name="system">Sistem</string>
+    <string name="light">İşıqlı</string>
+    <string name="dark">Qaranlıq</string>
+    <string name="auto_backup">Avtomatik Nüsxələmə</string>
+    <string name="choose_dir">Kataloq seç</string>
+    <string name="both">Hər ikisi</string>
+    <string name="none">Heç biri</string>
 </resources>
