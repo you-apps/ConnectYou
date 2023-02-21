@@ -4,7 +4,7 @@
     <string name="search" tools:ignore="PrivateResource">Ricerca</string>
     <string name="share">Condividi</string>
     <string name="phone">Telefono</string>
-    <string name="irreversible">Sei sicuro/sicura\? Questo non può essere annullato!</string>
+    <string name="irreversible">Sei sicuro\? Quest\'azione non può essere annullata!</string>
     <string name="export_success">Esportato.</string>
     <string name="cancel">Annulla</string>
     <string name="create_contact">Crea un contatto</string>
@@ -36,7 +36,7 @@
     <string name="fax_home">Fax di casa</string>
     <string name="birthday">Compleanno</string>
     <string name="anniversary">Anniversario</string>
-    <string name="okay">D\'accordo</string>
+    <string name="okay">Ok</string>
     <string name="reset">Azzera</string>
     <string name="device">Dispositivo</string>
     <string name="nothing_here">Non c\'è niente qui.</string>
@@ -52,7 +52,7 @@
     <string name="light">Chiaro</string>
     <string name="dark">Scuro</string>
     <string name="auto_backup">Backup automatico</string>
-    <string name="choose_dir">Scegli cartella</string>
+    <string name="choose_dir">Scegli la cartella</string>
     <string name="both">Entrambi</string>
     <string name="none">Nessuno</string>
     <string name="sort_order">Ordina per</string>
