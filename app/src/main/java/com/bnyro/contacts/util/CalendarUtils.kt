@@ -11,7 +11,7 @@ object CalendarUtils {
 
     @SuppressLint("SimpleDateFormat")
     val isoTimeFormat = SimpleDateFormat("yyyy-MM-dd-HH:mm:ss")
-    private val localizedFormat: DateFormat = SimpleDateFormat.getInstance()
+    private val localizedFormat get() = DateFormat.getDateInstance()
 
     fun millisToDate(milliSeconds: String, formatter: DateFormat = localizedFormat): String {
         val calendar: Calendar = Calendar.getInstance()
@@ -25,7 +25,7 @@ object CalendarUtils {
         val date = runCatching {
             isoDateFormat.parse(isoDate) ?: return isoDate
         }.getOrNull() ?: return isoDate
-        return localizedFormat.format(date).split(" ").firstOrNull() ?: isoDate
+        return localizedFormat.format(date) ?: isoDate
     }
 
     fun getCurrentDateTime(): String {

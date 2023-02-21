@@ -86,7 +86,6 @@ fun DatePickerEditor(
                     else -> runCatching {
                         CalendarUtils
                             .millisToDate(datePickerState.selectedDateMillis.toString())
-                            .substringBefore(" ")
                     }.getOrDefault(state.value.value)
                 }
             )
