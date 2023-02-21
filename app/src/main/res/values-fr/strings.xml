@@ -35,7 +35,7 @@
     <string name="export_vcf">Exporter une vCard</string>
     <string name="about">À propos</string>
     <string name="search" tools:ignore="PrivateResource">Recherche</string>
-    <string name="irreversible">Êtes-vous sûr·e \? Ceci ne peut pas être annulé !</string>
+    <string name="irreversible">Êtes vous sûr \? Cela ne peut pas être annulé !</string>
     <string name="create_contact">Créer un contact</string>
     <string name="reset">Réinitialiser</string>
     <string name="okay">D\'accord</string>
@@ -46,4 +46,16 @@
     <string name="move">Déplacer</string>
     <string name="settings">Paramètres</string>
     <string name="start_tab">Onglet de démarrage</string>
+    <string name="delete">Supprimer</string>
+    <string name="choose_dir">Choisissez le répertoire</string>
+    <string name="sort_order">Ordre de tri</string>
+    <string name="account_type">Type de compte</string>
+    <string name="note">Note</string>
+    <string name="theme">Thème</string>
+    <string name="system">Système</string>
+    <string name="light">Clair</string>
+    <string name="dark">Sombre</string>
+    <string name="auto_backup">Sauvegarde automatique</string>
+    <string name="both">Les deux</string>
+    <string name="none">Aucun</string>
 </resources>
