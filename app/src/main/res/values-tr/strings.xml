@@ -46,4 +46,16 @@
     <string name="start_tab">Başlangıç sekmesi</string>
     <string name="settings">Ayarlar</string>
     <string name="copy">Kopyala</string>
+    <string name="delete">Sil</string>
+    <string name="choose_dir">Dizin seç</string>
+    <string name="sort_order">Sıralama düzeni</string>
+    <string name="account_type">Hesap türü</string>
+    <string name="note">Not</string>
+    <string name="theme">Tema</string>
+    <string name="system">Sistem</string>
+    <string name="light">Açık</string>
+    <string name="dark">Koyu</string>
+    <string name="auto_backup">Otomatik Yedekleme</string>
+    <string name="both">Her ikisi de</string>
+    <string name="none">Hiçbiri</string>
 </resources>
