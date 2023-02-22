@@ -42,14 +42,18 @@ class ContactsModel : ViewModel() {
         }
     }
 
+    private suspend fun deleteContactsSuspend(contactsToDelete: List<ContactData>) {
+        contactsHelper?.deleteContacts(contactsToDelete)
+        contacts = contacts?.filter { ct ->
+            contactsToDelete.none {
+                it.contactId == ct.contactId
+            }
+        }
+    }
+
     fun deleteContacts(context: Context, contactsToDelete: List<ContactData>) {
         withIO {
-            contactsHelper?.deleteContacts(contactsToDelete)
-            contacts = contacts?.filter { ct ->
-                contactsToDelete.none {
-                    it.contactId == ct.contactId
-                }
-            }
+            deleteContactsSuspend(contactsToDelete)
             autoBackup(context)
         }
     }
@@ -70,24 +74,28 @@ class ContactsModel : ViewModel() {
         }
     }
 
+    private suspend fun copyContactsSuspend(context: Context, contacts: List<ContactData>) {
+        contacts.forEach { contact ->
+            val fullContact = loadAdvancedContactData(contact)
+            val otherHelper = when (contactsHelper) {
+                is DeviceContactsHelper -> LocalContactsHelper(context)
+                else -> DeviceContactsHelper(context)
+            }
+            otherHelper.createContact(fullContact)
+        }
+    }
+
     fun copyContacts(context: Context, contacts: List<ContactData>) {
         withIO {
-            contacts.forEach { contact ->
-                val fullContact = loadAdvancedContactData(contact)
-                val otherHelper = when (contactsHelper) {
-                    is DeviceContactsHelper -> LocalContactsHelper(context)
-                    else -> DeviceContactsHelper(context)
-                }
-                otherHelper.createContact(fullContact)
-            }
+            copyContactsSuspend(context, contacts)
             autoBackup(context)
         }
     }
 
     fun moveContacts(context: Context, contacts: List<ContactData>) {
-        copyContacts(context, contacts)
-        deleteContacts(context, contacts)
         withIO {
+            copyContactsSuspend(context, contacts)
+            deleteContactsSuspend(contacts)
             autoBackup(context)
         }
     }
