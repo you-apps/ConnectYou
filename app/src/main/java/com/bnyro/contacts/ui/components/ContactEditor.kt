@@ -24,10 +24,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -81,33 +81,23 @@ fun ContactEditor(
     }
 
     val phoneNumber = remember {
-        mutableStateListOf(
-            *contact?.numbers.fillIfEmpty().map { mutableStateOf(it) }.toTypedArray()
-        )
+        contact?.numbers.fillIfEmpty().map { mutableStateOf(it) }.toMutableStateList()
     }
 
     val emails = remember {
-        mutableStateListOf(
-            *contact?.emails.fillIfEmpty().map { mutableStateOf(it) }.toTypedArray()
-        )
+        contact?.emails.fillIfEmpty().map { mutableStateOf(it) }.toMutableStateList()
     }
 
     val addresses = remember {
-        mutableStateListOf(
-            *contact?.addresses.fillIfEmpty().map { mutableStateOf(it) }.toTypedArray()
-        )
+        contact?.addresses.fillIfEmpty().map { mutableStateOf(it) }.toMutableStateList()
     }
 
     val events = remember {
-        mutableStateListOf(
-            *contact?.events.fillIfEmpty().map { mutableStateOf(it) }.toTypedArray()
-        )
+        contact?.events.fillIfEmpty().map { mutableStateOf(it) }.toMutableStateList()
     }
 
     val notes = remember {
-        mutableStateListOf(
-            *contact?.notes.fillIfEmpty().map { mutableStateOf(it) }.toTypedArray()
-        )
+        contact?.notes.fillIfEmpty().map { mutableStateOf(it) }.toMutableStateList()
     }
 
     val uploadImage = rememberLauncherForActivityResult(
