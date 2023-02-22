@@ -93,9 +93,15 @@ object VcardHelper {
 
         return vCard.all().map {
             ContactData(
-                displayName = it.formattedName.value,
-                firstName = it.structuredName.given,
-                surName = it.structuredName.family,
+                displayName = runCatching {
+                    it.formattedName.value
+                }.getOrNull(),
+                firstName = runCatching {
+                    it.structuredName.given
+                }.getOrNull(),
+                surName = runCatching {
+                    it.structuredName.family
+                }.getOrNull(),
                 numbers = it.telephoneNumbers.map { number ->
                     ValueWithType(
                         number.text,
