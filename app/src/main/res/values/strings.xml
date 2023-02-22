@@ -47,6 +47,7 @@
     <string name="copy">Copy</string>
     <string name="move">Move</string>
     <string name="delete">Delete</string>
+    <string name="selected">%1$s selected</string>
     <!-- Import & Export -->
     <string name="import_vcf">Import vCard</string>
     <string name="export_vcf">Export vCard</string>
