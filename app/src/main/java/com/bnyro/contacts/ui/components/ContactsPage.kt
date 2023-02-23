@@ -384,7 +384,7 @@ fun ContactsPage(
             title = stringResource(R.string.delete_contact),
             text = stringResource(R.string.irreversible)
         ) {
-            viewModel.deleteContacts(context, selectedContacts.toList())
+            viewModel.deleteContacts(selectedContacts.toList())
             selectedContacts.clear()
         }
     }

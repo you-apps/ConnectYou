@@ -14,8 +14,11 @@ object BackupHelper {
         } ?: return
 
         val backupDir = DocumentFile.fromTreeUri(context, Uri.parse(backupDirPref)) ?: return
+        val maxBackupAmount = Preferences.getString(Preferences.maxBackupAmountKey, "5")!!.toInt()
 
-        val fullName = "${contactsHelper.label.lowercase()}-backup.vcf"
+        val dateTime = CalendarUtils.getCurrentDateTime()
+
+        val fullName = "${contactsHelper.label.lowercase()}-backup-$dateTime.vcf"
 
         runCatching {
             backupDir.findFile(fullName)?.delete()
@@ -29,5 +32,15 @@ object BackupHelper {
         val contacts = contactsHelper.getContactList()
         val exportHelper = ExportHelper(context, contactsHelper)
         exportHelper.exportContacts(file.uri, contacts)
+
+        // delete all the old backup files
+        val backupFiles = backupDir.listFiles().filter {
+            it.name.orEmpty().startsWith(contactsHelper.label.lowercase())
+        }
+        if (backupFiles.size <= maxBackupAmount) return
+
+        backupFiles.sortedBy { it.name.orEmpty() }
+            .take(backupFiles.size - maxBackupAmount)
+            .forEach { it.delete() }
     }
 }

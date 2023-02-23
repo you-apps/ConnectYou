@@ -4,6 +4,7 @@ import android.app.Application
 import com.bnyro.contacts.db.DatabaseHolder
 import com.bnyro.contacts.util.Preferences
 import com.bnyro.contacts.util.ShortcutHelper
+import com.bnyro.contacts.workers.BackupWorker
 
 class App : Application() {
     override fun onCreate() {
@@ -14,5 +15,7 @@ class App : Application() {
         DatabaseHolder.init(this)
 
         Preferences.init(this)
+
+        BackupWorker.enqueue(this)
     }
 }

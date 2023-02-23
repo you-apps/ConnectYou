@@ -13,6 +13,8 @@ object Preferences {
     const val backupDirKey = "backupDir"
     const val backupTypeKey = "backupType"
     const val sortOrderKey = "sorting"
+    const val backupIntervalKey = "backupInterval"
+    const val maxBackupAmountKey = "maxBackupAmount"
 
     fun init(context: Context) {
         preferences = context.getSharedPreferences(prefFile, Context.MODE_PRIVATE)

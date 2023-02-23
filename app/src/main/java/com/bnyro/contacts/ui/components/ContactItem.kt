@@ -169,7 +169,7 @@ fun ContactItem(
             title = stringResource(R.string.delete_contact),
             text = stringResource(R.string.irreversible)
         ) {
-            viewModel.deleteContacts(context, listOf(contact))
+            viewModel.deleteContacts(listOf(contact))
         }
     }
 }

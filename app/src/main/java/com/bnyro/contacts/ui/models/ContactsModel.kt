@@ -11,7 +11,6 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.ext.toast
 import com.bnyro.contacts.ext.withIO
 import com.bnyro.contacts.obj.ContactData
-import com.bnyro.contacts.util.BackupHelper
 import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.DeviceContactsHelper
 import com.bnyro.contacts.util.ExportHelper
@@ -51,10 +50,9 @@ class ContactsModel : ViewModel() {
         }
     }
 
-    fun deleteContacts(context: Context, contactsToDelete: List<ContactData>) {
+    fun deleteContacts(contactsToDelete: List<ContactData>) {
         withIO {
             deleteContactsSuspend(contactsToDelete)
-            autoBackup(context)
         }
     }
 
@@ -62,7 +60,6 @@ class ContactsModel : ViewModel() {
         withIO {
             contactsHelper?.createContact(contact)
             loadContacts(context)
-            autoBackup(context)
         }
     }
 
@@ -70,7 +67,6 @@ class ContactsModel : ViewModel() {
         withIO {
             contactsHelper?.updateContact(contact)
             loadContacts(context)
-            autoBackup(context)
         }
     }
 
@@ -88,7 +84,6 @@ class ContactsModel : ViewModel() {
     fun copyContacts(context: Context, contacts: List<ContactData>) {
         withIO {
             copyContactsSuspend(context, contacts)
-            autoBackup(context)
         }
     }
 
@@ -96,7 +91,6 @@ class ContactsModel : ViewModel() {
         withIO {
             copyContactsSuspend(context, contacts)
             deleteContactsSuspend(contacts)
-            autoBackup(context)
         }
     }
 
@@ -124,12 +118,6 @@ class ContactsModel : ViewModel() {
             val exportHelper = ExportHelper(context, contactsHelper!!)
             val tempFileUri = exportHelper.exportContact(contact)
             IntentHelper.shareContactVcf(context, tempFileUri)
-        }
-    }
-
-    private suspend fun autoBackup(context: Context) {
-        contactsHelper?.let {
-            if (it.isAutoBackupEnabled()) BackupHelper.backup(context, it)
         }
     }
 }
