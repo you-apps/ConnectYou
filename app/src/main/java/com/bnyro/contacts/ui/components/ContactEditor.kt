@@ -7,15 +7,16 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Save
@@ -111,61 +112,58 @@ fun ContactEditor(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        LazyColumn(
+        val scrollState = rememberScrollState()
+
+        Column(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .verticalScroll(scrollState),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            item {
-                Box(
-                    modifier = Modifier
-                        .padding(top = 50.dp, bottom = 15.dp)
-                        .size(180.dp)
-                        .clip(RoundedCornerShape(20.dp))
-                        .combinedClickable(
-                            onClick = {
-                                val request = PickVisualMediaRequest(
-                                    ActivityResultContracts.PickVisualMedia.ImageOnly
-                                )
-                                uploadImage.launch(request)
-                            },
-                            onLongClick = {
-                                profilePicture = null
-                            }
-                        )
-                ) {
-                    profilePicture?.let {
-                        Image(
-                            modifier = Modifier.fillMaxSize(),
-                            bitmap = it.asImageBitmap(),
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop
-                        )
-                    } ?: run {
-                        Icon(
-                            modifier = Modifier.fillMaxSize(),
-                            imageVector = Icons.Default.Person,
-                            contentDescription = null
-                        )
-                    }
+            Box(
+                modifier = Modifier
+                    .padding(top = 50.dp, bottom = 15.dp)
+                    .size(180.dp)
+                    .clip(RoundedCornerShape(20.dp))
+                    .combinedClickable(
+                        onClick = {
+                            val request = PickVisualMediaRequest(
+                                ActivityResultContracts.PickVisualMedia.ImageOnly
+                            )
+                            uploadImage.launch(request)
+                        },
+                        onLongClick = {
+                            profilePicture = null
+                        }
+                    )
+            ) {
+                profilePicture?.let {
+                    Image(
+                        modifier = Modifier.fillMaxSize(),
+                        bitmap = it.asImageBitmap(),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop
+                    )
+                } ?: run {
+                    Icon(
+                        modifier = Modifier.fillMaxSize(),
+                        imageVector = Icons.Default.Person,
+                        contentDescription = null
+                    )
                 }
             }
 
-            item {
-                LabeledTextField(
-                    label = R.string.first_name,
-                    state = firstName
-                )
-            }
+            LabeledTextField(
+                label = R.string.first_name,
+                state = firstName
+            )
 
-            item {
-                LabeledTextField(
-                    label = R.string.last_name,
-                    state = surName
-                )
-            }
+            LabeledTextField(
+                label = R.string.last_name,
+                state = surName
+            )
 
-            itemsIndexed(phoneNumber) { index, it ->
+            phoneNumber.forEachIndexed { index, it ->
                 TextFieldEditor(
                     label = R.string.phone,
                     state = it,
@@ -180,7 +178,7 @@ fun ContactEditor(
                 }
             }
 
-            itemsIndexed(emails) { index, it ->
+            emails.forEachIndexed { index, it ->
                 TextFieldEditor(
                     label = R.string.email,
                     state = it,
@@ -195,7 +193,7 @@ fun ContactEditor(
                 }
             }
 
-            itemsIndexed(addresses) { index, it ->
+            addresses.forEachIndexed { index, it ->
                 TextFieldEditor(
                     label = R.string.address,
                     state = it,
@@ -210,7 +208,7 @@ fun ContactEditor(
                 }
             }
 
-            itemsIndexed(events) { index, it ->
+            events.forEachIndexed { index, it ->
                 DatePickerEditor(
                     label = R.string.event,
                     state = it,
@@ -224,7 +222,7 @@ fun ContactEditor(
                 }
             }
 
-            itemsIndexed(notes) { index, it ->
+            notes.forEachIndexed { index, it ->
                 TextFieldEditor(
                     label = R.string.note,
                     state = it,
@@ -239,9 +237,7 @@ fun ContactEditor(
                 }
             }
 
-            item {
-                Spacer(Modifier.height(100.dp))
-            }
+            Spacer(Modifier.height(100.dp))
         }
 
         FloatingActionButton(

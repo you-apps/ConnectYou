@@ -19,7 +19,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.BackupType
-import com.bnyro.contacts.util.BackupHelper
 import com.bnyro.contacts.util.PickFolderContract
 import com.bnyro.contacts.util.Preferences
 import com.bnyro.contacts.workers.BackupWorker
