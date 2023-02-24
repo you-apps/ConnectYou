@@ -10,8 +10,10 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.ContactsContract.AUTHORITY
+import android.provider.ContactsContract.CALLER_IS_SYNCADAPTER
 import android.provider.ContactsContract.CommonDataKinds.Email
 import android.provider.ContactsContract.CommonDataKinds.Event
+import android.provider.ContactsContract.CommonDataKinds.GroupMembership
 import android.provider.ContactsContract.CommonDataKinds.Note
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.ContactsContract.CommonDataKinds.Photo
@@ -50,6 +52,8 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     @RequiresPermission(Manifest.permission.READ_CONTACTS)
     override suspend fun getContactList(): List<ContactData> {
         val contactList = mutableListOf<ContactData>()
+
+        val storedGroups = getStoredGroups()
 
         @Suppress("SameParameterValue")
         val cursor = contentResolver.query(
@@ -105,6 +109,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
             it.apply {
                 thumbnail = getContactPhotoThumbnail(contactId)
                 photo = getContactPhoto(contactId)
+                groups = getGroups(contactId, storedGroups)
             }
         }
     }
@@ -140,6 +145,87 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
             Note.DATA2,
             Note.CONTENT_ITEM_TYPE
         )
+    }
+
+    private fun getGroups(contactId: Long, storedGroups: List<ValueWithType>): List<ValueWithType> {
+        val groups = getExtras(
+            contactId,
+            GroupMembership.GROUP_ROW_ID,
+            GroupMembership.DATA2,
+            GroupMembership.CONTENT_ITEM_TYPE
+        )
+        return groups.mapNotNull { group ->
+            storedGroups.firstOrNull { it.type == group.value.toInt() }?.let {
+                ValueWithType(it.value, it.type)
+            }
+        }
+    }
+
+    override suspend fun createGroup(groupName: String, accountName: String, accountType: String): ValueWithType? {
+        val operations = ArrayList<ContentProviderOperation>()
+        ContentProviderOperation.newInsert(ContactsContract.Groups.CONTENT_URI).apply {
+            withValue(ContactsContract.Groups.TITLE, groupName)
+            withValue(ContactsContract.Groups.GROUP_VISIBLE, 1)
+            withValue(ContactsContract.Groups.ACCOUNT_NAME, accountName)
+            withValue(ContactsContract.Groups.ACCOUNT_TYPE, accountType)
+            operations.add(build())
+        }
+
+        runCatching {
+            val results = context.contentResolver.applyBatch(AUTHORITY, operations)
+            val rawId = ContentUris.parseId(results[0].uri!!)
+            return ValueWithType(groupName, rawId.toInt())
+        }
+        return null
+    }
+
+    override suspend fun renameGroup(group: ValueWithType) {
+        val operations = ArrayList<ContentProviderOperation>()
+        ContentProviderOperation.newUpdate(ContactsContract.Groups.CONTENT_URI).apply {
+            val selection = "${ContactsContract.Groups._ID} = ?"
+            val selectionArgs = arrayOf(group.type.toString())
+            withSelection(selection, selectionArgs)
+            withValue(ContactsContract.Groups.TITLE, group.value)
+            operations.add(build())
+        }
+
+        runCatching {
+            context.contentResolver.applyBatch(AUTHORITY, operations)
+        }
+    }
+
+    override suspend fun deleteGroup(groupId: Long) {
+        val operations = ArrayList<ContentProviderOperation>()
+        val uri = ContentUris.withAppendedId(ContactsContract.Groups.CONTENT_URI, groupId).buildUpon()
+            .appendQueryParameter(CALLER_IS_SYNCADAPTER, "true")
+            .build()
+
+        operations.add(ContentProviderOperation.newDelete(uri).build())
+
+        runCatching {
+            context.contentResolver.applyBatch(AUTHORITY, operations)
+        }
+    }
+
+    private fun getStoredGroups(): List<ValueWithType> {
+        val groups = ArrayList<ValueWithType>()
+
+        val uri = ContactsContract.Groups.CONTENT_URI
+        val projection = arrayOf(
+            ContactsContract.Groups._ID,
+            ContactsContract.Groups.TITLE
+        )
+
+        contentResolver.query(uri, projection, null, arrayOf(), null)?.use { cursor ->
+            while (cursor.moveToNext()) {
+                val id = cursor.intValue(ContactsContract.Groups._ID)
+                val title = cursor.stringValue(ContactsContract.Groups.TITLE) ?: return@use
+
+                val group = ValueWithType(title, id)
+                if (groups.none { it.value == title }) groups.add(group)
+            }
+        }
+        return groups
     }
 
     override fun isAutoBackupEnabled(): Boolean {

@@ -4,6 +4,7 @@ import android.provider.ContactsContract
 import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.TranslatedType
+import com.bnyro.contacts.obj.ValueWithType
 
 abstract class ContactsHelper {
     abstract val label: String
@@ -19,6 +20,12 @@ abstract class ContactsHelper {
     abstract suspend fun loadAdvancedData(contact: ContactData): ContactData
 
     abstract fun isAutoBackupEnabled(): Boolean
+
+    abstract suspend fun createGroup(groupName: String, accountName: String, accountType: String): ValueWithType?
+
+    abstract suspend fun renameGroup(group: ValueWithType)
+
+    abstract suspend fun deleteGroup(groupId: Long)
 
     companion object {
         val emailTypes = listOf(

@@ -68,7 +68,8 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
                 emails = it.dataItems.toValueWithType(DataCategory.EMAIL),
                 addresses = it.dataItems.toValueWithType(DataCategory.ADDRESS),
                 events = it.dataItems.toValueWithType(DataCategory.EVENT),
-                notes = it.dataItems.toValueWithType(DataCategory.NOTE)
+                notes = it.dataItems.toValueWithType(DataCategory.NOTE),
+                groups = it.dataItems.toValueWithType(DataCategory.GROUP)
             )
         }
     }
@@ -111,5 +112,21 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
     override suspend fun loadAdvancedData(contact: ContactData): ContactData = contact
     override fun isAutoBackupEnabled(): Boolean {
         return Preferences.getBackupType() in listOf(BackupType.BOTH, BackupType.LOCAL)
+    }
+
+    override suspend fun createGroup(
+        groupName: String,
+        accountName: String,
+        accountType: String
+    ): ValueWithType? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun renameGroup(group: ValueWithType) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteGroup(groupId: Long) {
+        TODO("Not yet implemented")
     }
 }

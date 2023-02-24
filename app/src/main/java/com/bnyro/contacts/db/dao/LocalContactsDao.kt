@@ -25,4 +25,6 @@ interface LocalContactsDao {
 
     @Query("DELETE FROM valuableTypes WHERE contactId = :contactId")
     suspend fun deleteDataByContactID(contactId: Long)
+
+
 }
