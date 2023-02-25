@@ -120,4 +120,6 @@ class ContactsModel : ViewModel() {
             IntentHelper.shareContactVcf(context, tempFileUri)
         }
     }
+
+    fun getAvailableGroups() = contacts?.map { it.groups }?.flatten().orEmpty().distinct()
 }

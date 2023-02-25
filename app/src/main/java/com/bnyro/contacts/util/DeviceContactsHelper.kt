@@ -162,13 +162,13 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         }
     }
 
-    override suspend fun createGroup(groupName: String, accountName: String, accountType: String): ContactsGroup? {
+    override suspend fun createGroup(groupName: String): ContactsGroup? {
         val operations = ArrayList<ContentProviderOperation>()
         ContentProviderOperation.newInsert(ContactsContract.Groups.CONTENT_URI).apply {
             withValue(ContactsContract.Groups.TITLE, groupName)
             withValue(ContactsContract.Groups.GROUP_VISIBLE, 1)
-            withValue(ContactsContract.Groups.ACCOUNT_NAME, accountName)
-            withValue(ContactsContract.Groups.ACCOUNT_TYPE, accountType)
+            withValue(ContactsContract.Groups.ACCOUNT_NAME, deviceContactName)
+            withValue(ContactsContract.Groups.ACCOUNT_TYPE, androidAccountType)
             operations.add(build())
         }
 

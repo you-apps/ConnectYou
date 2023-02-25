@@ -117,11 +117,7 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
         return Preferences.getBackupType() in listOf(BackupType.BOTH, BackupType.LOCAL)
     }
 
-    override suspend fun createGroup(
-        groupName: String,
-        accountName: String,
-        accountType: String
-    ): ContactsGroup? {
+    override suspend fun createGroup(groupName: String): ContactsGroup? {
         TODO("Not yet implemented")
     }
 

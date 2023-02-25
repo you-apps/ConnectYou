@@ -21,7 +21,7 @@ abstract class ContactsHelper {
 
     abstract fun isAutoBackupEnabled(): Boolean
 
-    abstract suspend fun createGroup(groupName: String, accountName: String, accountType: String): ContactsGroup?
+    abstract suspend fun createGroup(groupName: String): ContactsGroup?
 
     abstract suspend fun renameGroup(group: ContactsGroup, newName: String)
 
