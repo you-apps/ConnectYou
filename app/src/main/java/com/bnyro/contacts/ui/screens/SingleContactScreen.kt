@@ -207,6 +207,13 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     content = it.value
                 )
             }
+
+            if (contact.groups.isNotEmpty()) {
+                ContactEntry(
+                    label = stringResource(R.string.groups),
+                    content = contact.groups.joinToString(", ") { it.title }
+                )
+            }
         }
     }
 

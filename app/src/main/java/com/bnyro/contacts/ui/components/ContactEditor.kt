@@ -20,8 +20,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material3.Button
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -35,6 +37,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -42,6 +45,7 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.base.LabeledTextField
+import com.bnyro.contacts.ui.components.dialogs.GroupsDialog
 import com.bnyro.contacts.ui.components.editor.DatePickerEditor
 import com.bnyro.contacts.ui.components.editor.TextFieldEditor
 import com.bnyro.contacts.util.ContactsHelper
@@ -99,6 +103,14 @@ fun ContactEditor(
 
     val notes = remember {
         contact?.notes.fillIfEmpty().map { mutableStateOf(it) }.toMutableStateList()
+    }
+
+    var showGroupsDialog by remember {
+        mutableStateOf(false)
+    }
+
+    var groups by remember {
+        mutableStateOf(contact?.groups.orEmpty())
     }
 
     val uploadImage = rememberLauncherForActivityResult(
@@ -237,7 +249,18 @@ fun ContactEditor(
                 }
             }
 
-            Spacer(Modifier.height(100.dp))
+            Button(
+                modifier = Modifier
+                    .align(Alignment.Start)
+                    .padding(top = 10.dp, start = 10.dp),
+                onClick = {
+                    showGroupsDialog = true
+                }
+            ) {
+                Text(stringResource(R.string.manage_groups))
+            }
+
+            Spacer(Modifier.height(30.dp))
         }
 
         FloatingActionButton(
@@ -255,6 +278,7 @@ fun ContactEditor(
                     it.addresses = addresses.clean()
                     it.events = events.clean()
                     it.notes = notes.clean()
+                    it.groups = groups
                 }
                 onSave.invoke(editedContact)
             }
@@ -263,6 +287,15 @@ fun ContactEditor(
                 imageVector = Icons.Default.Save,
                 contentDescription = null
             )
+        }
+    }
+
+    if (showGroupsDialog) {
+        GroupsDialog(
+            onDismissRequest = { showGroupsDialog = false },
+            participatingGroups = groups
+        ) {
+            groups = it
         }
     }
 }

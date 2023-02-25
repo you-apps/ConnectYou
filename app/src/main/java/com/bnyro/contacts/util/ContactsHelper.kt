@@ -3,6 +3,7 @@ package com.bnyro.contacts.util
 import android.provider.ContactsContract
 import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
+import com.bnyro.contacts.obj.ContactsGroup
 import com.bnyro.contacts.obj.TranslatedType
 
 abstract class ContactsHelper {
@@ -19,6 +20,12 @@ abstract class ContactsHelper {
     abstract suspend fun loadAdvancedData(contact: ContactData): ContactData
 
     abstract fun isAutoBackupEnabled(): Boolean
+
+    abstract suspend fun createGroup(groupName: String): ContactsGroup?
+
+    abstract suspend fun renameGroup(group: ContactsGroup, newName: String)
+
+    abstract suspend fun deleteGroup(group: ContactsGroup)
 
     companion object {
         val emailTypes = listOf(

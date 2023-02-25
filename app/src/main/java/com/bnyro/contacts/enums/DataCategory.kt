@@ -5,5 +5,6 @@ enum class DataCategory(val value: Int) {
     EMAIL(1),
     ADDRESS(2),
     EVENT(3),
-    NOTE(4)
+    NOTE(4),
+    GROUP(5)
 }
