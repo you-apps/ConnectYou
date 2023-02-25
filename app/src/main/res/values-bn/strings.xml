@@ -32,7 +32,7 @@
     <string name="author">লেখক</string>
     <string name="export_vcf">ভিকার্ড এক্সপোর্ট করুন</string>
     <string name="about">সম্পর্কে</string>
-    <string name="irreversible">আপনি নিশ্চিত\? এটি আর পূর্বাবস্থায় ফেরত আনা যাবে না!</string>
+    <string name="irreversible">আপনি নিশ্চিত\? এটি পূর্বাবস্থায় ফেরত নেয়া সম্ভব হবে না!</string>
     <string name="import_success">ইম্পোর্ট করা হয়েছে।</string>
     <string name="phone">ফোন</string>
     <string name="event">ঘটনা</string>
@@ -41,5 +41,7 @@
     <string name="reset">রিসেট</string>
     <string name="nothing_here">এখানে কিছুই নেই।</string>
     <string name="device">ডিভাইস</string>
-    <string name="local">স্থানীয়</string>
+    <string name="local">লোকাল</string>
+    <string name="delete">মুছুন</string>
+    <string name="choose_dir">ডাইরেক্টরি বাছুন</string>
 </resources>
