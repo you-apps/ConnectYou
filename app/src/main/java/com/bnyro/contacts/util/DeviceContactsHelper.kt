@@ -30,6 +30,7 @@ import com.bnyro.contacts.ext.notAName
 import com.bnyro.contacts.ext.pmap
 import com.bnyro.contacts.ext.stringValue
 import com.bnyro.contacts.obj.ContactData
+import com.bnyro.contacts.obj.ContactsGroup
 import com.bnyro.contacts.obj.ValueWithType
 
 class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
@@ -147,7 +148,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         )
     }
 
-    private fun getGroups(contactId: Long, storedGroups: List<ValueWithType>): List<ValueWithType> {
+    private fun getGroups(contactId: Long, storedGroups: List<ValueWithType>): List<ContactsGroup> {
         val groups = getExtras(
             contactId,
             GroupMembership.GROUP_ROW_ID,
@@ -156,12 +157,12 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         )
         return groups.mapNotNull { group ->
             storedGroups.firstOrNull { it.type == group.value.toInt() }?.let {
-                ValueWithType(it.value, it.type)
+                it.type?.let { type -> ContactsGroup(it.value, type) }
             }
         }
     }
 
-    override suspend fun createGroup(groupName: String, accountName: String, accountType: String): ValueWithType? {
+    override suspend fun createGroup(groupName: String, accountName: String, accountType: String): ContactsGroup? {
         val operations = ArrayList<ContentProviderOperation>()
         ContentProviderOperation.newInsert(ContactsContract.Groups.CONTENT_URI).apply {
             withValue(ContactsContract.Groups.TITLE, groupName)
@@ -174,18 +175,18 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         runCatching {
             val results = context.contentResolver.applyBatch(AUTHORITY, operations)
             val rawId = ContentUris.parseId(results[0].uri!!)
-            return ValueWithType(groupName, rawId.toInt())
+            return ContactsGroup(groupName, rawId.toInt())
         }
         return null
     }
 
-    override suspend fun renameGroup(group: ValueWithType) {
+    override suspend fun renameGroup(group: ContactsGroup, newName: String) {
         val operations = ArrayList<ContentProviderOperation>()
         ContentProviderOperation.newUpdate(ContactsContract.Groups.CONTENT_URI).apply {
             val selection = "${ContactsContract.Groups._ID} = ?"
-            val selectionArgs = arrayOf(group.type.toString())
+            val selectionArgs = arrayOf(group.rowId.toString())
             withSelection(selection, selectionArgs)
-            withValue(ContactsContract.Groups.TITLE, group.value)
+            withValue(ContactsContract.Groups.TITLE, newName)
             operations.add(build())
         }
 
@@ -194,9 +195,13 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         }
     }
 
-    override suspend fun deleteGroup(groupId: Long) {
+    override suspend fun deleteGroup(group: ContactsGroup) {
         val operations = ArrayList<ContentProviderOperation>()
-        val uri = ContentUris.withAppendedId(ContactsContract.Groups.CONTENT_URI, groupId).buildUpon()
+        val uri = ContentUris.withAppendedId(
+            ContactsContract.Groups.CONTENT_URI,
+            group.rowId.toLong()
+        )
+            .buildUpon()
             .appendQueryParameter(CALLER_IS_SYNCADAPTER, "true")
             .build()
 
@@ -334,6 +339,13 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
                     Note.NOTE,
                     it.value
                 )
+            }.toTypedArray(),
+            *contact.groups.map {
+                getInsertAction(
+                    GroupMembership.CONTENT_ITEM_TYPE,
+                    GroupMembership.GROUP_ROW_ID,
+                    it.rowId.toString()
+                )
             }.toTypedArray()
         ).apply {
             contact.photo?.let {
@@ -403,6 +415,16 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
                 Note.CONTENT_ITEM_TYPE,
                 contact.notes,
                 Note.NOTE,
+                null
+            )
+        )
+        operations.addAll(
+            getUpdateMultipleAction(
+                rawContactId,
+                GroupMembership.CONTENT_ITEM_TYPE,
+                // The value to be saved here is only the row id!
+                contact.groups.map { ValueWithType(it.rowId.toString(), null) },
+                GroupMembership.GROUP_ROW_ID,
                 null
             )
         )

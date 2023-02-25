@@ -11,6 +11,7 @@ import com.bnyro.contacts.enums.BackupType
 import com.bnyro.contacts.enums.DataCategory
 import com.bnyro.contacts.ext.pmap
 import com.bnyro.contacts.obj.ContactData
+import com.bnyro.contacts.obj.ContactsGroup
 import com.bnyro.contacts.obj.ValueWithType
 import java.io.File
 
@@ -69,7 +70,9 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
                 addresses = it.dataItems.toValueWithType(DataCategory.ADDRESS),
                 events = it.dataItems.toValueWithType(DataCategory.EVENT),
                 notes = it.dataItems.toValueWithType(DataCategory.NOTE),
-                groups = it.dataItems.toValueWithType(DataCategory.GROUP)
+                groups = it.dataItems.filter { d -> d.category == DataCategory.NOTE.value }.mapNotNull { group ->
+                    group.type?.let { t -> ContactsGroup(group.value, t) }
+                }
             )
         }
     }
@@ -118,15 +121,15 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
         groupName: String,
         accountName: String,
         accountType: String
-    ): ValueWithType? {
+    ): ContactsGroup? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun renameGroup(group: ValueWithType) {
+    override suspend fun renameGroup(group: ContactsGroup, newName: String) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteGroup(groupId: Long) {
+    override suspend fun deleteGroup(group: ContactsGroup) {
         TODO("Not yet implemented")
     }
 }
