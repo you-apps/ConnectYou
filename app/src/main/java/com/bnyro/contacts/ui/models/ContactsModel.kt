@@ -121,5 +121,9 @@ class ContactsModel : ViewModel() {
         }
     }
 
+    fun getAvailableAccountTypes() = contacts.orEmpty().mapNotNull {
+        it.accountName
+    }.distinct()
+
     fun getAvailableGroups() = contacts?.map { it.groups }?.flatten().orEmpty().distinct()
 }

@@ -293,12 +293,20 @@ fun ContactsPage(
                         .padding(end = 5.dp)
                         .scrollbar(state, false)
                 ) {
-                    val contactGroups = contacts.filter {
+                    val contactGroups = contacts.asSequence().filter {
                         it.displayName.orEmpty().lowercase().contains(
                             searchQuery.value.text.lowercase()
                         )
                     }.filter {
                         !filterOptions.hiddenAccountNames.contains(it.accountName)
+                    }.filter {
+                        if (filterOptions.visibleGroups.isEmpty()) {
+                            true
+                        } else {
+                            filterOptions.visibleGroups.any { group ->
+                                it.groups.contains(group)
+                            }
+                        }
                     }.sortedBy {
                         when (filterOptions.sortOder) {
                             SortOrder.FIRSTNAME -> it.firstName
@@ -399,9 +407,8 @@ fun ContactsPage(
                 filterOptions = it
             },
             initialFilters = filterOptions,
-            availableAccountTypes = viewModel.contacts.orEmpty().mapNotNull {
-                it.accountName
-            }.distinct()
+            availableAccountTypes = viewModel.getAvailableAccountTypes(),
+            availableGroups = viewModel.getAvailableGroups()
         )
     }
 }

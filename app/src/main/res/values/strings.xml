@@ -47,6 +47,7 @@
     <string name="title">Title</string>
     <string name="new_group">New</string>
     <string name="group_already_exists">Group already exists</string>
+    <string name="groups">Groups</string>
     <!-- Storage locations -->
     <string name="device">Device</string>
     <string name="local">Local</string>

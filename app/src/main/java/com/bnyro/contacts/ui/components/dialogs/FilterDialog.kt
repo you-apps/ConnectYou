@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.SortOrder
+import com.bnyro.contacts.obj.ContactsGroup
 import com.bnyro.contacts.obj.FilterOptions
 import com.bnyro.contacts.ui.components.base.ChipSelector
 
@@ -21,6 +22,7 @@ import com.bnyro.contacts.ui.components.base.ChipSelector
 fun FilterDialog(
     initialFilters: FilterOptions,
     availableAccountTypes: List<String>,
+    availableGroups: List<ContactsGroup>,
     onDismissRequest: () -> Unit,
     onFilterChanged: (FilterOptions) -> Unit
 ) {
@@ -32,11 +34,15 @@ fun FilterDialog(
         mutableStateOf(initialFilters.hiddenAccountNames)
     }
 
+    var visibleGroups by remember {
+        mutableStateOf(initialFilters.visibleGroups)
+    }
+
     AlertDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
             DialogButton(text = stringResource(R.string.okay)) {
-                val options = FilterOptions(sortOrder, hiddenAccountNames)
+                val options = FilterOptions(sortOrder, hiddenAccountNames, visibleGroups)
                 onFilterChanged.invoke(options)
                 onDismissRequest.invoke()
             }
@@ -72,6 +78,23 @@ fun FilterDialog(
                                 hiddenAccountNames - availableAccountTypes[index]
                             } else {
                                 hiddenAccountNames + availableAccountTypes[index]
+                            }
+                        }
+                    )
+                }
+                if (availableGroups.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(10.dp))
+                    ChipSelector(
+                        title = stringResource(R.string.groups),
+                        entries = availableGroups.map { it.title },
+                        selections = availableGroups.filter {
+                            visibleGroups.contains(it)
+                        }.map { it.title },
+                        onSelectionChanged = { index, newValue ->
+                            visibleGroups = if (newValue) {
+                                visibleGroups + availableGroups[index]
+                            } else {
+                                visibleGroups - availableGroups[index]
                             }
                         }
                     )
