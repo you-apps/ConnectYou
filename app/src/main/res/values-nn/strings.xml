@@ -40,4 +40,6 @@
     <string name="author">Skapar</string>
     <string name="version">Utgåve</string>
     <string name="translation">Omsetjing</string>
+    <string name="delete">Slett</string>
+    <string name="choose_dir">Vel mappe</string>
 </resources>
