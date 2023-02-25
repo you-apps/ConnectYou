@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.TranslatedType
@@ -51,8 +52,13 @@ fun EditorEntry(
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        content.invoke(this)
+        Row(
+            modifier = Modifier.weight(1f)
+        ) {
+            content.invoke(this)
+        }
         Column(
+            modifier = Modifier.width(100.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (types.isNotEmpty()) {
@@ -66,7 +72,9 @@ fun EditorEntry(
                         .padding(10.dp),
                     text = types.firstOrNull {
                         it.id == state.value.type
-                    }?.title?.let { stringResource(it) }.orEmpty()
+                    }?.title?.let { stringResource(it) }.orEmpty(),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
             Row {
