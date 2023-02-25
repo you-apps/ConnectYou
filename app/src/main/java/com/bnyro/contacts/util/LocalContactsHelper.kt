@@ -134,7 +134,9 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
     }
 
     override suspend fun deleteGroup(group: ContactsGroup) {
-        DatabaseHolder.Db.localContactsDao()
-            .deleteDataByCategoryAndValue(DataCategory.GROUP.value, group.title)
+        DatabaseHolder.Db.localContactsDao().deleteDataByCategoryAndValue(
+            DataCategory.GROUP.value,
+            group.title
+        )
     }
 }

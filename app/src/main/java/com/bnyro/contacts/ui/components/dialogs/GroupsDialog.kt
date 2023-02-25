@@ -105,6 +105,9 @@ fun GroupsDialog(
                     contactsModel.contactsHelper?.deleteGroup(it)
                 }
                 contactGroups = contactGroups - it
+                if (participatingGroups.contains(it)) {
+                    onContactGroupsChanges(participatingGroups - it)
+                }
             }
         }
     }
