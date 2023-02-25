@@ -1,6 +1,8 @@
 package com.bnyro.contacts.ui.components.editor
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -36,6 +38,7 @@ import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.dialogs.DialogButton
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun EditorEntry(
     state: MutableState<ValueWithType>,
@@ -43,6 +46,7 @@ fun EditorEntry(
     showDeleteAction: Boolean,
     onCreateNew: () -> Unit,
     onDelete: () -> Unit,
+    moveToTop: () -> Unit = {},
     content: @Composable RowScope.() -> Unit
 ) {
     var showTypesDialog by remember {
@@ -66,9 +70,14 @@ fun EditorEntry(
                     modifier = Modifier
                         .offset(y = 10.dp)
                         .clip(RoundedCornerShape(20.dp))
-                        .clickable {
-                            showTypesDialog = true
-                        }
+                        .combinedClickable(
+                            onClick = {
+                                showTypesDialog = true
+                            },
+                            onLongClick = {
+                                moveToTop.invoke()
+                            }
+                        )
                         .padding(10.dp),
                     text = types.firstOrNull {
                         it.id == state.value.type

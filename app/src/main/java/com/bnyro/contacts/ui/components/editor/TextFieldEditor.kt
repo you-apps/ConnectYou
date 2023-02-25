@@ -1,10 +1,10 @@
 package com.bnyro.contacts.ui.components.editor
 
+import android.annotation.SuppressLint
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -12,6 +12,7 @@ import com.bnyro.contacts.obj.TranslatedType
 import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.base.LabeledTextField
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
 fun TextFieldEditor(
     @StringRes label: Int,
@@ -21,18 +22,18 @@ fun TextFieldEditor(
     imeAction: ImeAction = ImeAction.Next,
     showDeleteAction: Boolean,
     onDelete: () -> Unit,
+    moveToTop: () -> Unit = {},
     onCreateNew: () -> Unit
 ) {
-    val textState = remember {
-        mutableStateOf(state.value.value)
-    }
+    val textState = mutableStateOf(state.value.value)
 
     EditorEntry(
         state = state,
         types = types,
         onDelete = onDelete,
         onCreateNew = onCreateNew,
-        showDeleteAction = showDeleteAction
+        showDeleteAction = showDeleteAction,
+        moveToTop = moveToTop
     ) {
         LabeledTextField(
             modifier = Modifier.weight(1f),

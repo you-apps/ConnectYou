@@ -184,7 +184,11 @@ fun ContactEditor(
                     onDelete = {
                         phoneNumber.removeAt(index)
                     },
-                    showDeleteAction = phoneNumber.size > 1 && index == phoneNumber.size - 1
+                    showDeleteAction = phoneNumber.size > 1,
+                    moveToTop = {
+                        phoneNumber.add(0, it)
+                        phoneNumber.removeAt(index + 1)
+                    }
                 ) {
                     phoneNumber.add(emptyMutable())
                 }
@@ -199,7 +203,7 @@ fun ContactEditor(
                     onDelete = {
                         emails.removeAt(index)
                     },
-                    showDeleteAction = emails.size > 1 && index == emails.size - 1
+                    showDeleteAction = emails.size > 1
                 ) {
                     emails.add(emptyMutable())
                 }
@@ -214,7 +218,7 @@ fun ContactEditor(
                     onDelete = {
                         addresses.removeAt(index)
                     },
-                    showDeleteAction = addresses.size > 1 && index == addresses.size - 1
+                    showDeleteAction = addresses.size > 1
                 ) {
                     addresses.add(emptyMutable())
                 }
@@ -228,7 +232,7 @@ fun ContactEditor(
                     onDelete = {
                         events.removeAt(index)
                     },
-                    showDeleteAction = events.size > 1 && index == events.size - 1
+                    showDeleteAction = events.size > 1
                 ) {
                     events.add(emptyMutable())
                 }
@@ -243,7 +247,7 @@ fun ContactEditor(
                     onDelete = {
                         notes.removeAt(index)
                     },
-                    showDeleteAction = notes.size > 1 && index == notes.size - 1
+                    showDeleteAction = notes.size > 1
                 ) {
                     notes.add(emptyMutable())
                 }
