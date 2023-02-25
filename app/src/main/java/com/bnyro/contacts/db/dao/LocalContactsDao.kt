@@ -25,4 +25,7 @@ interface LocalContactsDao {
 
     @Query("DELETE FROM valuableTypes WHERE contactId = :contactId")
     suspend fun deleteDataByContactID(contactId: Long)
+
+    @Query("DELETE FROM valuableTypes WHERE category = :category AND value = :value")
+    suspend fun deleteDataByCategoryAndValue(category: Int, value: String)
 }

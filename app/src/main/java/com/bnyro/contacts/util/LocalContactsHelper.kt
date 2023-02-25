@@ -34,7 +34,15 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
             contact.emails.toValuableType(contactId, DataCategory.EMAIL),
             contact.addresses.toValuableType(contactId, DataCategory.ADDRESS),
             contact.events.toValuableType(contactId, DataCategory.EVENT),
-            contact.notes.toValuableType(contactId, DataCategory.NOTE)
+            contact.notes.toValuableType(contactId, DataCategory.NOTE),
+            contact.groups.map {
+                ValuableType(
+                    contactId = contactId,
+                    category = DataCategory.GROUP.value,
+                    value = it.title,
+                    type = -1
+                )
+            }
         ).flatten()
         DatabaseHolder.Db.localContactsDao().insertData(*dataItems.toTypedArray())
         contact.photo?.let { saveProfileImage(contactId, it) }
@@ -70,9 +78,8 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
                 addresses = it.dataItems.toValueWithType(DataCategory.ADDRESS),
                 events = it.dataItems.toValueWithType(DataCategory.EVENT),
                 notes = it.dataItems.toValueWithType(DataCategory.NOTE),
-                groups = it.dataItems.filter { d -> d.category == DataCategory.NOTE.value }.mapNotNull { group ->
-                    group.type?.let { t -> ContactsGroup(group.value, t) }
-                }
+                groups = it.dataItems.filter { d -> d.category == DataCategory.GROUP.value }
+                    .map { group -> ContactsGroup(group.value, -1) }
             )
         }
     }
@@ -117,8 +124,9 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
         return Preferences.getBackupType() in listOf(BackupType.BOTH, BackupType.LOCAL)
     }
 
-    override suspend fun createGroup(groupName: String): ContactsGroup? {
-        TODO("Not yet implemented")
+    override suspend fun createGroup(groupName: String): ContactsGroup {
+        // Groups don't need to be created here additionally since they are just stored inside the contacts
+        return ContactsGroup(groupName, -1)
     }
 
     override suspend fun renameGroup(group: ContactsGroup, newName: String) {
@@ -126,6 +134,7 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
     }
 
     override suspend fun deleteGroup(group: ContactsGroup) {
-        TODO("Not yet implemented")
+        DatabaseHolder.Db.localContactsDao()
+            .deleteDataByCategoryAndValue(DataCategory.GROUP.value, group.title)
     }
 }
