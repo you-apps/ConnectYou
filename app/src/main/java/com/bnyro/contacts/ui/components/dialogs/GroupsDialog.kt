@@ -131,6 +131,9 @@ fun GroupsDialog(
                     }
                 }
             },
+            title = {
+                Text(stringResource(R.string.new_group))
+            },
             text = {
                 OutlinedTextField(
                     value = title,
