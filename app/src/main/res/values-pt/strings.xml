@@ -37,7 +37,7 @@
     <string name="about">Sobre</string>
     <string name="license">Licença</string>
     <string name="translation">Tradução</string>
-    <string name="okay">OK</string>
+    <string name="okay">Está bem</string>
     <string name="device">Dispositivo</string>
     <string name="nothing_here">Nada aqui.</string>
     <string name="local">Local</string>
@@ -57,4 +57,13 @@
     <string name="delete">Apagar</string>
     <string name="auto_backup">Cópia de segurança automática</string>
     <string name="theme">Tema</string>
+    <string name="delete_group">Eliminar grupo globalmente</string>
+    <string name="title">Título</string>
+    <string name="new_group">Novo</string>
+    <string name="groups">Grupos</string>
+    <string name="max_backup_amount">Montante máximo de cópias de segurança</string>
+    <string name="manage_groups">Gerir grupos</string>
+    <string name="group_already_exists">O grupo já existe</string>
+    <string name="selected">%1$s selecionado</string>
+    <string name="backup_interval">Intervalo de copia de segurança</string>
 </resources>
