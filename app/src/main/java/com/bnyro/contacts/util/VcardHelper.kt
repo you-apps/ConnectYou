@@ -102,7 +102,10 @@ object VcardHelper {
                 surName = runCatching {
                     it.structuredName.family
                 }.getOrNull(),
-                numbers = it.telephoneNumbers.map { number ->
+                numbers = it.telephoneNumbers.sortedBy { tel ->
+                    // rank the number labeled with pref as the first one
+                    if (tel.types.contains(TelephoneType.PREF)) -1 else 1
+                }.map { number ->
                     ValueWithType(
                         number.text,
                         phoneNumberTypes.firstOrNull { pair ->
