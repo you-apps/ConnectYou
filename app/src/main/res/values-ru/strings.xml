@@ -38,4 +38,20 @@
     <string name="translation">Перевод</string>
     <string name="phone">Телефон</string>
     <string name="address">Адреса</string>
+    <string name="copy">Копировать</string>
+    <string name="settings">Настройки</string>
+    <string name="start_tab">Начальная вкладка</string>
+    <string name="nothing_here">Здесь ничего нет.</string>
+    <string name="local">Локально</string>
+    <string name="sort_order">Порядок сортировки</string>
+    <string name="account_type">Тип учетной записи</string>
+    <string name="note">Примечание</string>
+    <string name="device">Устройство</string>
+    <string name="theme">Тема</string>
+    <string name="system">Системная</string>
+    <string name="light">Светлая</string>
+    <string name="dark">Темная</string>
+    <string name="auto_backup">Автоматическое резервное копирование</string>
+    <string name="both">Оба способа</string>
+    <string name="none">Выкл</string>
 </resources>
