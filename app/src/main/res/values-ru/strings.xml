@@ -7,9 +7,9 @@
     <string name="fax_work">Рабочий факс</string>
     <string name="anniversary">Юбилей</string>
     <string name="version">Версия</string>
-    <string name="irreversible">Вы уверены\? Это действие нельзя будет отменить!</string>
+    <string name="irreversible">Вы уверены\? Это нельзя будет отменить!</string>
     <string name="cancel">Отменить</string>
-    <string name="okay">Окей</string>
+    <string name="okay">Ввод</string>
     <string name="reset">Сброс</string>
     <string name="create_contact">Создать контакт</string>
     <string name="retry">Попробовать ещё раз</string>
@@ -38,4 +38,22 @@
     <string name="translation">Перевод</string>
     <string name="phone">Телефон</string>
     <string name="address">Адреса</string>
+    <string name="copy">Копировать</string>
+    <string name="settings">Настройки</string>
+    <string name="start_tab">Начальная вкладка</string>
+    <string name="nothing_here">Здесь ничего нет.</string>
+    <string name="local">Локально</string>
+    <string name="sort_order">Порядок сортировки</string>
+    <string name="account_type">Тип учетной записи</string>
+    <string name="note">Примечание</string>
+    <string name="device">Устройство</string>
+    <string name="theme">Тема</string>
+    <string name="system">Системная</string>
+    <string name="light">Светлая</string>
+    <string name="dark">Темная</string>
+    <string name="auto_backup">Автоматическое резервное копирование</string>
+    <string name="both">Оба способа</string>
+    <string name="none">Выкл</string>
+    <string name="delete">Удалить</string>
+    <string name="choose_dir">Выбрать папку</string>
 </resources>

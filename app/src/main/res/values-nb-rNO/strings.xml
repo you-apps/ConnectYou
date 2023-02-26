@@ -21,7 +21,7 @@
     <string name="mobile">Mobil</string>
     <string name="other">Annet</string>
     <string name="copied">Kopiert til utklippstavlen</string>
-    <string name="irreversible">Sikker\? Dette kan ikke angres.</string>
+    <string name="irreversible">Utfør uten mulighet for angring\?</string>
     <string name="cancel">Avbryt</string>
     <string name="retry">Prøv igjen</string>
     <string name="share">Del</string>
@@ -37,4 +37,7 @@
     <string name="about">Om</string>
     <string name="email">E-post</string>
     <string name="import_vcf">Importer vCard</string>
+    <string name="delete">Slett</string>
+    <string name="choose_dir">Velg mappe</string>
+    <string name="okay">OK</string>
 </resources>
