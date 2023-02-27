@@ -57,4 +57,13 @@
     <string name="none">Nessuno</string>
     <string name="sort_order">Ordina per</string>
     <string name="account_type">Tipo di account</string>
+    <string name="title">Titolo</string>
+    <string name="new_group">Nuovo</string>
+    <string name="group_already_exists">Il gruppo esiste già</string>
+    <string name="groups">Gruppi</string>
+    <string name="selected">%1$s selezionati</string>
+    <string name="max_backup_amount">Massimo numero di backup</string>
+    <string name="manage_groups">Gestisci gruppi</string>
+    <string name="backup_interval">Intervallo di backup</string>
+    <string name="delete_group">Cancella gruppo globalmente</string>
 </resources>
