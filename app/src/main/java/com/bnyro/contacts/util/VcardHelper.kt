@@ -52,18 +52,20 @@ object VcardHelper {
                 given = contact.firstName
                 family = contact.surName
             }
-            contact.numbers.forEach { number ->
+            contact.numbers.forEachIndexed { index, number ->
                 val type = phoneNumberTypes.firstOrNull {
                     it.first == number.type
-                }?.second ?: TelephoneType.PREF
+                }?.second ?: TelephoneType.HOME
                 runCatching {
-                    addTelephoneNumber(number.value, type)
+                    addTelephoneNumber(number.value, type).also {
+                        if (index == 0) it.types.add(TelephoneType.PREF)
+                    }
                 }
             }
             contact.emails.forEach { email ->
                 val type = emailTypes.firstOrNull {
                     it.first == email.type
-                }?.second ?: EmailType.PREF
+                }?.second ?: EmailType.HOME
                 runCatching {
                     addEmail(email.value, type)
                 }
@@ -71,7 +73,7 @@ object VcardHelper {
             contact.addresses.forEach { address ->
                 val addressType = addressTypes.firstOrNull {
                     it.first == address.type
-                }?.second?.value ?: AddressType.PREF.value
+                }?.second?.value ?: AddressType.HOME.value
                 runCatching {
                     val newAddress = Address().apply {
                         streetAddress = address.value
