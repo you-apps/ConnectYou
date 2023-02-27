@@ -36,7 +36,7 @@
     <string name="car">Auto</string>
     <string name="import_vcf">vCard importieren</string>
     <string name="assistant">Assistent</string>
-    <string name="nothing_here">Keine Kontakte vorhanden.</string>
+    <string name="nothing_here">Hier gibt es nichts.</string>
     <string name="anniversary">Jubiläum</string>
     <string name="device">Gerät</string>
     <string name="move">Verschieben</string>
@@ -58,4 +58,13 @@
     <string name="choose_dir">Ordner Wählen</string>
     <string name="reset">Zurücksetzen</string>
     <string name="okay">OK</string>
+    <string name="manage_groups">Gruppen verwalten</string>
+    <string name="delete_group">Gruppe global löschen</string>
+    <string name="title">Titel</string>
+    <string name="backup_interval">Intervall der Sicherung</string>
+    <string name="groups">Gruppen</string>
+    <string name="selected">%1$s ausgewählt</string>
+    <string name="new_group">Neu</string>
+    <string name="group_already_exists">Gruppe existiert bereits</string>
+    <string name="max_backup_amount">Maximale Anzahl von Backups</string>
 </resources>
