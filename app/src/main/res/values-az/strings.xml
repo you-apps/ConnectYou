@@ -58,4 +58,13 @@
     <string name="choose_dir">Kataloq seç</string>
     <string name="both">Hər ikisi</string>
     <string name="none">Heç biri</string>
+    <string name="manage_groups">Qrupları idarə et</string>
+    <string name="delete_group">Qrupu ümumi olaraq sil</string>
+    <string name="title">Başlıq</string>
+    <string name="new_group">Yeni</string>
+    <string name="group_already_exists">Qrup artıq var</string>
+    <string name="groups">Qruplar</string>
+    <string name="max_backup_amount">Nüsxələrin maksimum miqdarı</string>
+    <string name="selected">%1$s seçildi</string>
+    <string name="backup_interval">Nüsxələmə intervalı</string>
 </resources>

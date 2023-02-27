@@ -58,4 +58,13 @@
     <string name="auto_backup">Otomatik Yedekleme</string>
     <string name="both">Her ikisi de</string>
     <string name="none">Hiçbiri</string>
+    <string name="selected">%1$s seçildi</string>
+    <string name="max_backup_amount">En fazla yedekleme sayısı</string>
+    <string name="delete_group">Grubu genel olarak sil</string>
+    <string name="group_already_exists">Grup zaten var</string>
+    <string name="new_group">Yeni</string>
+    <string name="manage_groups">Grupları yönet</string>
+    <string name="backup_interval">Yedekleme aralığı</string>
+    <string name="title">Başlık</string>
+    <string name="groups">Gruplar</string>
 </resources>
