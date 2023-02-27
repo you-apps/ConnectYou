@@ -57,4 +57,13 @@
     <string name="choose_dir">اختر مجلَّدًا</string>
     <string name="none">لا شيء</string>
     <string name="both">كلاهما</string>
+    <string name="manage_groups">أدر المجموعات</string>
+    <string name="delete_group">احذف المجموعة من كلِّ مكان</string>
+    <string name="title">العنوان</string>
+    <string name="new_group">جديد</string>
+    <string name="group_already_exists">توجد المجموعة بالفعل</string>
+    <string name="selected">حُدِّد %1$s</string>
+    <string name="max_backup_amount">أقصى عدد للنسخ الاحتياطية</string>
+    <string name="groups">المجموعات</string>
+    <string name="backup_interval">فاصل النسخ الاحتياطيِّ</string>
 </resources>
