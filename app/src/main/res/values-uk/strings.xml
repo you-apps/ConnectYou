@@ -58,4 +58,13 @@
     <string name="delete">Видалити</string>
     <string name="none">Жодного</string>
     <string name="light">Світла</string>
+    <string name="manage_groups">Керувати групами</string>
+    <string name="delete_group">Видалити групу глобально</string>
+    <string name="title">Назва</string>
+    <string name="group_already_exists">Група вже існує</string>
+    <string name="selected">%1$s обрано</string>
+    <string name="backup_interval">Інтервал</string>
+    <string name="max_backup_amount">Максимальна кількість копій</string>
+    <string name="new_group">Нова</string>
+    <string name="groups">Групи</string>
 </resources>
