@@ -5,21 +5,27 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -41,13 +47,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.base.LabeledTextField
+import com.bnyro.contacts.ui.components.dialogs.DialogButton
 import com.bnyro.contacts.ui.components.dialogs.GroupsDialog
 import com.bnyro.contacts.ui.components.editor.DatePickerEditor
 import com.bnyro.contacts.ui.components.editor.TextFieldEditor
+import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.ImageHelper
 
@@ -55,9 +64,11 @@ import com.bnyro.contacts.util.ImageHelper
 @Composable
 fun ContactEditor(
     contact: ContactData? = null,
+    isCreatingNewDeviceContact: Boolean,
     onSave: (contact: ContactData) -> Unit
 ) {
     val context = LocalContext.current
+    val contactsModel: ContactsModel = viewModel()
 
     fun List<ValueWithType>?.fillIfEmpty(): List<ValueWithType> {
         return if (this.isNullOrEmpty()) {
@@ -109,8 +120,20 @@ fun ContactEditor(
         mutableStateOf(false)
     }
 
+    var showAccountTypeDialog by remember {
+        mutableStateOf(false)
+    }
+
     var groups by remember {
         mutableStateOf(contact?.groups.orEmpty())
+    }
+
+    var selectedAccountType by remember {
+        mutableStateOf(contact?.accountType to contact?.accountName)
+    }
+
+    val availableAccountTypes = remember {
+        contactsModel.getAvailableAccountTypesAndNames()
     }
 
     val uploadImage = rememberLauncherForActivityResult(
@@ -253,15 +276,29 @@ fun ContactEditor(
                 }
             }
 
-            Button(
+            Row(
                 modifier = Modifier
                     .align(Alignment.Start)
-                    .padding(top = 10.dp, start = 10.dp),
-                onClick = {
-                    showGroupsDialog = true
-                }
+                    .padding(top = 10.dp, start = 10.dp)
             ) {
-                Text(stringResource(R.string.manage_groups))
+                Button(
+                    onClick = {
+                        showGroupsDialog = true
+                    }
+                ) {
+                    Text(stringResource(R.string.manage_groups))
+                }
+
+                if (isCreatingNewDeviceContact && availableAccountTypes.size > 1) {
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Button(
+                        onClick = {
+                            showAccountTypeDialog = true
+                        }
+                    ) {
+                        Text(stringResource(R.string.account_type))
+                    }
+                }
             }
 
             Spacer(Modifier.height(30.dp))
@@ -277,6 +314,8 @@ fun ContactEditor(
                     it.surName = surName.value.trim()
                     it.displayName = "${firstName.value.trim()} ${surName.value.trim()}"
                     it.photo = profilePicture
+                    it.accountType = selectedAccountType.first
+                    it.accountName = selectedAccountType.second
                     it.numbers = phoneNumber.clean()
                     it.emails = emails.clean()
                     it.addresses = addresses.clean()
@@ -301,5 +340,38 @@ fun ContactEditor(
         ) {
             groups = it
         }
+    }
+
+    if (showAccountTypeDialog) {
+        AlertDialog(
+            onDismissRequest = { showAccountTypeDialog = false },
+            confirmButton = {
+                DialogButton(text = stringResource(R.string.cancel)) {
+                    showAccountTypeDialog = false
+                }
+            },
+            title = {
+                Text(text = stringResource(R.string.account_type))
+            },
+            text = {
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    items(availableAccountTypes) {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(20.dp))
+                                .clickable {
+                                    selectedAccountType = it
+                                    showAccountTypeDialog = false
+                                }
+                                .padding(vertical = 15.dp, horizontal = 20.dp),
+                            text = it.second.orEmpty()
+                        )
+                    }
+                }
+            }
+        )
     }
 }

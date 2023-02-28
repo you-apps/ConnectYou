@@ -12,6 +12,7 @@ import com.bnyro.contacts.ui.components.base.FullScreenDialog
 fun EditorScreen(
     contact: ContactData? = null,
     onClose: () -> Unit,
+    isCreatingNewDeviceContact: Boolean = false,
     onSave: (ContactData) -> Unit
 ) {
     val context = LocalContext.current
@@ -19,6 +20,7 @@ fun EditorScreen(
     FullScreenDialog(onClose = onClose) {
         ContactEditor(
             contact = contact,
+            isCreatingNewDeviceContact = isCreatingNewDeviceContact,
             onSave = {
                 if (it.displayName.orEmpty().isBlank()) {
                     Toast.makeText(context, R.string.empty_name, Toast.LENGTH_SHORT).show()

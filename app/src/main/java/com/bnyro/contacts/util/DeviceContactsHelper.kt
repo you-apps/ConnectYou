@@ -281,7 +281,10 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     @RequiresPermission(Manifest.permission.WRITE_CONTACTS)
     override suspend fun createContact(contact: ContactData) {
         val ops = arrayListOf(
-            getCreateAction(contact.accountType),
+            getCreateAction(
+                contact.accountType ?: androidAccountType,
+                contact.accountType ?: androidAccountType
+            ),
             getInsertAction(
                 StructuredName.CONTENT_ITEM_TYPE,
                 StructuredName.DISPLAY_NAME,
@@ -444,10 +447,10 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         context.contentResolver.applyBatch(AUTHORITY, operations)
     }
 
-    private fun getCreateAction(accountType: String? = null): ContentProviderOperation {
+    private fun getCreateAction(accountType: String, accountName: String): ContentProviderOperation {
         return ContentProviderOperation.newInsert(RawContacts.CONTENT_URI)
-            .withValue(RawContacts.ACCOUNT_TYPE, accountType ?: androidAccountType)
-            .withValue(RawContacts.ACCOUNT_NAME, deviceContactName)
+            .withValue(RawContacts.ACCOUNT_TYPE, accountType)
+            .withValue(RawContacts.ACCOUNT_NAME, accountName)
             .build()
     }
 

@@ -125,5 +125,9 @@ class ContactsModel : ViewModel() {
         it.accountName
     }.distinct()
 
+    fun getAvailableAccountTypesAndNames() = contacts.orEmpty().mapNotNull {
+        it.accountType?.let { type -> type to it.accountName }
+    }.distinct().toMutableList()
+
     fun getAvailableGroups() = contacts?.map { it.groups }?.flatten().orEmpty().distinct()
 }

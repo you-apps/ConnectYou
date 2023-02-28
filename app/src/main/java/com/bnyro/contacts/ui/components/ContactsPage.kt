@@ -62,6 +62,7 @@ import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.AboutScreen
 import com.bnyro.contacts.ui.screens.EditorScreen
 import com.bnyro.contacts.ui.screens.SettingsScreen
+import com.bnyro.contacts.util.DeviceContactsHelper
 import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.Preferences
 import kotlinx.coroutines.delay
@@ -366,6 +367,7 @@ fun ContactsPage(
             onClose = {
                 showEditor = false
             },
+            isCreatingNewDeviceContact = viewModel.contactsHelper is DeviceContactsHelper,
             onSave = {
                 viewModel.createContact(context, it)
             }
