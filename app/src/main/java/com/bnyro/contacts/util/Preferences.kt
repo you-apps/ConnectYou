@@ -15,6 +15,7 @@ object Preferences {
     const val sortOrderKey = "sorting"
     const val backupIntervalKey = "backupInterval"
     const val maxBackupAmountKey = "maxBackupAmount"
+    const val collapseBottomBarKey = "collapseBottomBar"
 
     fun init(context: Context) {
         preferences = context.getSharedPreferences(prefFile, Context.MODE_PRIVATE)

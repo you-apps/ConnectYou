@@ -43,6 +43,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
@@ -71,7 +73,8 @@ import kotlinx.coroutines.delay
 @Composable
 fun ContactsPage(
     contacts: List<ContactData>?,
-    showEditorDefault: Boolean
+    showEditorDefault: Boolean,
+    scrollConnection: NestedScrollConnection?
 ) {
     val viewModel: ContactsModel = viewModel()
     val context = LocalContext.current
@@ -118,7 +121,9 @@ fun ContactsPage(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        Column {
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
             val searchQuery = remember {
                 mutableStateOf(TextFieldValue())
             }
@@ -291,8 +296,11 @@ fun ContactsPage(
                 LazyColumn(
                     state = state,
                     modifier = Modifier
-                        .padding(end = 5.dp)
+                        .padding(end = 5.dp, bottom = 10.dp)
                         .scrollbar(state, false)
+                        .let { modifier ->
+                            scrollConnection?.let { modifier.nestedScroll(it) } ?: modifier
+                        }
                 ) {
                     val contactGroups = contacts.asSequence().filter {
                         it.displayName.orEmpty().lowercase().contains(

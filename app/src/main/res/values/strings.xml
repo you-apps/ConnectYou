@@ -71,6 +71,8 @@
     <string name="choose_dir">Choose directory</string>
     <string name="both">Both</string>
     <string name="none">None</string>
+    <string name="misc">Misc</string>
+    <string name="collapse_bottom_bar">Collapse bottom bar on scroll</string>
     <!-- About -->
     <string name="about">About</string>
     <string name="license">License</string>
