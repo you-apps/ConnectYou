@@ -109,7 +109,7 @@ fun DatePickerEditor(
                 },
                 text = {
                     DatePicker(
-                        datePickerState = datePickerState,
+                        state = datePickerState,
                         title = {}
                     )
                 }
