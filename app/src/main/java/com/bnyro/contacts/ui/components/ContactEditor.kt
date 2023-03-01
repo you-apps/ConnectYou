@@ -289,7 +289,7 @@ fun ContactEditor(
                     Text(stringResource(R.string.manage_groups))
                 }
 
-                if (isCreatingNewDeviceContact && availableAccountTypes.size > 1) {
+                if (isCreatingNewDeviceContact && availableAccountTypes.size >= 1) {
                     Spacer(modifier = Modifier.width(10.dp))
                     Button(
                         onClick = {
