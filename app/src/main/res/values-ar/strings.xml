@@ -4,7 +4,7 @@
     <string name="email">البريد الإلكترونيُّ</string>
     <string name="other">أخرى</string>
     <string name="car">سيَّارة</string>
-    <string name="cancel">ألغِ</string>
+    <string name="cancel">إلغاء</string>
     <string name="okay">حسنًا</string>
     <string name="export_success">صُدِّر.</string>
     <string name="last_name">اسم العائلة</string>
@@ -12,7 +12,7 @@
     <string name="mobile">جوَّال</string>
     <string name="fax_work">فاكس عمل</string>
     <string name="delete_contact">احذف جهة الاتِّصال</string>
-    <string name="share">شارك</string>
+    <string name="share">مشاركة</string>
     <string name="import_success">استُورِد.</string>
     <string name="event">حدث</string>
     <string name="type">النوع</string>
@@ -48,7 +48,7 @@
     <string name="sort_order">ترتيب الفرز</string>
     <string name="account_type">نوع الحساب</string>
     <string name="note">ملاحظة</string>
-    <string name="delete">احذف</string>
+    <string name="delete">حذف</string>
     <string name="theme">السمة</string>
     <string name="system">النظام</string>
     <string name="light">فاتح</string>
@@ -66,4 +66,6 @@
     <string name="max_backup_amount">أقصى عدد للنسخ الاحتياطية</string>
     <string name="groups">المجموعات</string>
     <string name="backup_interval">فاصل النسخ الاحتياطيِّ</string>
+    <string name="misc">متفرقات</string>
+    <string name="collapse_bottom_bar">طي الشريط السفلي عند التمرير</string>
 </resources>
