@@ -18,18 +18,18 @@
     <string name="type">النوع</string>
     <string name="first_name">الاسم الأوَّل</string>
     <string name="work">عمل</string>
-    <string name="home">المنزل</string>
+    <string name="home">الرئيسية</string>
     <string name="birthday">عيد ميلاد</string>
     <string name="import_vcf">استورد vCard</string>
-    <string name="about">عن</string>
+    <string name="about">حول التطبيق</string>
     <string name="export_vcf">صدِّر vCard</string>
     <string name="license">الترخيص</string>
     <string name="anniversary">ذكرى سنويَّة</string>
     <string name="author">المؤلِّف</string>
     <string name="translation">الترجمة</string>
     <string name="copied">نُسخ للحافظة</string>
-    <string name="search" tools:ignore="PrivateResource">ابحث</string>
-    <string name="reset">أعِد التعيين</string>
+    <string name="search" tools:ignore="PrivateResource">البحث</string>
+    <string name="reset">اعادة تعيين</string>
     <string name="create_contact">أنشئ جهة اتِّصال</string>
     <string name="retry">أعد المحاولة</string>
     <string name="address">العنوان</string>
@@ -43,7 +43,7 @@
     <string name="local">محليٌّ</string>
     <string name="copy">انسخ</string>
     <string name="move">انقل</string>
-    <string name="settings">الإعدادات</string>
+    <string name="settings">الاعدادات</string>
     <string name="start_tab">لسان البداية</string>
     <string name="sort_order">ترتيب الفرز</string>
     <string name="account_type">نوع الحساب</string>
@@ -55,14 +55,14 @@
     <string name="dark">داكن</string>
     <string name="auto_backup">نسخ احتياطيٌّ تلقائيٌّ</string>
     <string name="choose_dir">اختر مجلَّدًا</string>
-    <string name="none">لا شيء</string>
+    <string name="none">لاشيء</string>
     <string name="both">كلاهما</string>
     <string name="manage_groups">أدر المجموعات</string>
     <string name="delete_group">احذف المجموعة من كلِّ مكان</string>
     <string name="title">العنوان</string>
     <string name="new_group">جديد</string>
     <string name="group_already_exists">توجد المجموعة بالفعل</string>
-    <string name="selected">حُدِّد %1$s</string>
+    <string name="selected">تم تحديد %1$s</string>
     <string name="max_backup_amount">أقصى عدد للنسخ الاحتياطية</string>
     <string name="groups">المجموعات</string>
     <string name="backup_interval">فاصل النسخ الاحتياطيِّ</string>
