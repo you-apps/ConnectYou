@@ -72,7 +72,17 @@
                 <data android:mimeType="vnd.android.cursor.item/contact"/>
                 <data android:mimeType="vnd.android.cursor.item/raw_contact"/>
             </intent-filter>
-            
+
+            <!-- Add to existing contact -->
+            <intent-filter>
+                <action android:name="android.intent.action.INSERT_OR_EDIT" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="vnd.android.cursor.item/person"/>
+                <data android:mimeType="vnd.android.cursor.item/contact"/>
+                <data android:mimeType="vnd.android.cursor.item/raw_contact"/>
+            </intent-filter>
+
         </activity>
 
         <provider

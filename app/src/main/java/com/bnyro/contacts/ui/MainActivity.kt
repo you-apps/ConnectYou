@@ -9,12 +9,15 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import com.bnyro.contacts.enums.ThemeMode
+import com.bnyro.contacts.ui.components.dialogs.AddToContactDialog
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.ThemeModel
 import com.bnyro.contacts.ui.screens.ContactsScreen
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
 
 class MainActivity : ComponentActivity() {
+    private val phoneNumberExtra = "phone"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,6 +35,9 @@ class MainActivity : ComponentActivity() {
                 }
             ) {
                 ContactsScreen(shouldShowEditor(), getInitialContactId())
+                updatedContactNumber()?.let {
+                    AddToContactDialog(it)
+                }
             }
         }
     }
@@ -46,6 +52,13 @@ class MainActivity : ComponentActivity() {
     private fun getInitialContactId(): Long? {
         return when (intent?.action) {
             Intent.ACTION_EDIT, Intent.ACTION_VIEW, QuickContact.ACTION_QUICK_CONTACT -> intent?.data?.lastPathSegment?.toLongOrNull()
+            else -> null
+        }
+    }
+
+    private fun updatedContactNumber(): String? {
+        return when (intent?.action) {
+            Intent.ACTION_INSERT_OR_EDIT -> intent?.getStringExtra(phoneNumberExtra)
             else -> null
         }
     }
