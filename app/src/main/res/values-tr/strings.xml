@@ -69,4 +69,5 @@
     <string name="groups">Gruplar</string>
     <string name="misc">Çeşitli</string>
     <string name="collapse_bottom_bar">Kaydırıldığında alt çubuğu daralt</string>
+    <string name="add_to_contact">Kişiye ekle</string>
 </resources>
