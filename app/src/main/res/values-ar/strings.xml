@@ -68,4 +68,5 @@
     <string name="backup_interval">فاصل النسخ الاحتياطيِّ</string>
     <string name="misc">متفرقات</string>
     <string name="collapse_bottom_bar">طي الشريط السفلي عند التمرير</string>
+    <string name="add_to_contact">أضف لجهة الاتصال</string>
 </resources>
