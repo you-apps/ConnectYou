@@ -66,4 +66,6 @@
     <string name="manage_groups">Gestisci gruppi</string>
     <string name="backup_interval">Intervallo di backup</string>
     <string name="delete_group">Cancella gruppo globalmente</string>
+    <string name="misc">Vario</string>
+    <string name="collapse_bottom_bar">Nascondi la barra quando si scrolla</string>
 </resources>

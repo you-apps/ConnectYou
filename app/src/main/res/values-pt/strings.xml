@@ -45,7 +45,7 @@
     <string name="start_tab">Separador inicial</string>
     <string name="move">Mover</string>
     <string name="settings">Definições</string>
-    <string name="choose_dir">Escolher diretório</string>
+    <string name="choose_dir">Escolher directório</string>
     <string name="none">Nenhum</string>
     <string name="both">Ambos</string>
     <string name="sort_order">Ordenar ordem</string>
@@ -66,4 +66,6 @@
     <string name="group_already_exists">O grupo já existe</string>
     <string name="selected">%1$s selecionado</string>
     <string name="backup_interval">Intervalo de copia de segurança</string>
+    <string name="misc">Misc</string>
+    <string name="collapse_bottom_bar">Colapso da barra inferior no scroll</string>
 </resources>

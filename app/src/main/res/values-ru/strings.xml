@@ -56,4 +56,16 @@
     <string name="none">Выкл</string>
     <string name="delete">Удалить</string>
     <string name="choose_dir">Выбрать папку</string>
+    <string name="manage_groups">Управление группами</string>
+    <string name="delete_group">Удалить группу глобально</string>
+    <string name="title">Название</string>
+    <string name="new_group">Новый</string>
+    <string name="group_already_exists">Группа уже существует</string>
+    <string name="groups">Группы</string>
+    <string name="max_backup_amount">Максимальное количество резервных копий</string>
+    <string name="selected">%1$s выбрано</string>
+    <string name="backup_interval">Интервал резервного копирования</string>
+    <string name="move">Переместить</string>
+    <string name="misc">Разное</string>
+    <string name="collapse_bottom_bar">Свернуть нижнюю панель при прокрутке</string>
 </resources>

@@ -67,4 +67,6 @@
     <string name="backup_interval">Yedekleme aralığı</string>
     <string name="title">Başlık</string>
     <string name="groups">Gruplar</string>
+    <string name="misc">Çeşitli</string>
+    <string name="collapse_bottom_bar">Kaydırıldığında alt çubuğu daralt</string>
 </resources>

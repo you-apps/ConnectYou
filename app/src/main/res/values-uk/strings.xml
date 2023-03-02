@@ -67,4 +67,6 @@
     <string name="max_backup_amount">Максимальна кількість копій</string>
     <string name="new_group">Нова</string>
     <string name="groups">Групи</string>
+    <string name="misc">Різне</string>
+    <string name="collapse_bottom_bar">Згорнути нижню панель під час прокручування</string>
 </resources>
