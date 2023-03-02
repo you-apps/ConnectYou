@@ -432,11 +432,11 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
             )
         )
 
-        operations.add(deletePhoto(contact.contactId.toInt()))
+        operations.add(deletePhoto(contact.rawContactId))
         contact.photo?.let {
             operations.add(
                 getInsertAction(
-                    Photo.MIMETYPE,
+                    Photo.CONTENT_ITEM_TYPE,
                     Photo.PHOTO,
                     getBitmapBytes(it),
                     rawContactId = contact.rawContactId
@@ -463,7 +463,12 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         rawContactId: Int? = null
     ): ContentProviderOperation {
         return ContentProviderOperation.newInsert(Data.CONTENT_URI)
-            .withValueBackReference(Data.RAW_CONTACT_ID, rawContactId ?: 0)
+            .let { builder ->
+                // if creating a new contact, the previous contact id is going to be taken
+                // if updating an already existing contact, don't worry about the previous batch id
+                rawContactId?.let { builder.withValue(Data.RAW_CONTACT_ID, it) }
+                    ?: builder.withValueBackReference(Data.RAW_CONTACT_ID, 0)
+            }
             .withValue(Data.MIMETYPE, mimeType)
             .withValue(valueIndex, value)
             .apply {
