@@ -68,4 +68,5 @@
     <string name="delete_group">Cancella gruppo globalmente</string>
     <string name="misc">Vario</string>
     <string name="collapse_bottom_bar">Nascondi la barra quando si scrolla</string>
+    <string name="add_to_contact">Aggiungi ai contatti</string>
 </resources>
