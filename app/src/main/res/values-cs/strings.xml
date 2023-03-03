@@ -26,7 +26,7 @@
     <string name="other">Jiné</string>
     <string name="delete">Odstranit</string>
     <string name="empty_name">Jméno nemůže být prázdné!</string>
-    <string name="nothing_here">Nic tu není.</string>
+    <string name="nothing_here">Nic zde není.</string>
     <string name="phone">Telefon</string>
     <string name="type">Typ</string>
     <string name="account_type">Typ účtu</string>
@@ -66,4 +66,7 @@
     <string name="author">Autor</string>
     <string name="license">Licence</string>
     <string name="version">Verze</string>
+    <string name="misc">Různé</string>
+    <string name="add_to_contact">Přidat ke kontaktu</string>
+    <string name="collapse_bottom_bar">Sbalit spodní lištu při posouvání</string>
 </resources>
