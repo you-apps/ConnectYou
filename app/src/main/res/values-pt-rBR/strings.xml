@@ -43,7 +43,7 @@
     <string name="last_name">Ultimo Nome</string>
     <string name="manage_groups">Gerenciar grupos</string>
     <string name="groups">Grupos</string>
-    <string name="delete">Apagar</string>
+    <string name="delete">Excluir</string>
     <string name="selected">%1$s selecionado</string>
     <string name="title">Título</string>
     <string name="new_group">Novo</string>
