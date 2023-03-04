@@ -39,6 +39,7 @@ import com.bnyro.contacts.ext.notAName
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.SingleContactScreen
+import com.bnyro.contacts.util.ColorUtils
 import com.bnyro.contacts.util.Preferences
 import kotlinx.coroutines.runBlocking
 
@@ -82,9 +83,7 @@ fun ContactItem(
             val colorfulIcons = Preferences.getBoolean(Preferences.colorfulContactIconsKey, false)
 
             val backgroundColor = if (colorfulIcons) {
-                remember {
-                    Color(getRandomColor())
-                }
+                remember { Color(ColorUtils.getRandomColor()) }
             } else {
                 MaterialTheme.colorScheme.primary
             }
@@ -146,5 +145,3 @@ fun ContactItem(
         }
     }
 }
-
-fun getRandomColor(): Int = (Math.random() * 16777215).toInt() or (0xFF shl 24)
