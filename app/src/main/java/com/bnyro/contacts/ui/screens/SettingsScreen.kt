@@ -77,6 +77,10 @@ fun SettingsScreen(onDismissRequest: () -> Unit) {
                         prefKey = Preferences.collapseBottomBarKey,
                         title = stringResource(R.string.collapse_bottom_bar)
                     )
+                    CheckboxPref(
+                        prefKey = Preferences.colorfulContactIconsKey,
+                        title = stringResource(R.string.colorful_contact_icons)
+                    )
                 }
             }
         }

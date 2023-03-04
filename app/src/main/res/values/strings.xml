@@ -74,6 +74,7 @@
     <string name="none">None</string>
     <string name="misc">Misc</string>
     <string name="collapse_bottom_bar">Collapse bottom bar on scroll</string>
+    <string name="colorful_contact_icons">Colorful contact icons</string>
     <!-- About -->
     <string name="about">About</string>
     <string name="license">License</string>
