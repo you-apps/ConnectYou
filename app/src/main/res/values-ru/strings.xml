@@ -32,7 +32,7 @@
     <string name="license">Лицензия</string>
     <string name="custom">Пользовательское</string>
     <string name="birthday">День рождения</string>
-    <string name="about">О приложении</string>
+    <string name="about">Информация</string>
     <string name="assistant">Помощник</string>
     <string name="author">Автор</string>
     <string name="translation">Перевод</string>
@@ -68,4 +68,5 @@
     <string name="move">Переместить</string>
     <string name="misc">Разное</string>
     <string name="collapse_bottom_bar">Свернуть нижнюю панель при прокрутке</string>
+    <string name="add_to_contact">Добавить к контакту</string>
 </resources>

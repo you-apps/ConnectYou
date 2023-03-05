@@ -49,10 +49,10 @@
     <string name="account_type">نوع الحساب</string>
     <string name="note">ملاحظة</string>
     <string name="delete">حذف</string>
-    <string name="theme">السمة</string>
+    <string name="theme">الموضوع</string>
     <string name="system">النظام</string>
     <string name="light">فاتح</string>
-    <string name="dark">داكن</string>
+    <string name="dark">اسود</string>
     <string name="auto_backup">نسخ احتياطيٌّ تلقائيٌّ</string>
     <string name="choose_dir">اختر مجلَّدًا</string>
     <string name="none">لاشيء</string>
