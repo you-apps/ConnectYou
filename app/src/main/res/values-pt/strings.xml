@@ -68,4 +68,6 @@
     <string name="backup_interval">Intervalo de copia de segurança</string>
     <string name="misc">Misc</string>
     <string name="collapse_bottom_bar">Colapso da barra inferior no scroll</string>
+    <string name="colorful_contact_icons">Ícones coloridos</string>
+    <string name="add_to_contact">Adicionar a contacto</string>
 </resources>
