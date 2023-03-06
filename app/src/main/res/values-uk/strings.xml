@@ -19,7 +19,7 @@
     <string name="assistant">Помічник</string>
     <string name="export_vcf">Експорт vCard</string>
     <string name="type">Тип</string>
-    <string name="about">Про додаток</string>
+    <string name="about">Про застосунок</string>
     <string name="license">Ліцензія</string>
     <string name="custom">Власне</string>
     <string name="import_vcf">Імпорт vCard</string>
@@ -46,7 +46,7 @@
     <string name="settings">Налаштування</string>
     <string name="move">Перемістити</string>
     <string name="start_tab">Початкова вкладка</string>
-    <string name="system">Система</string>
+    <string name="system">Системна</string>
     <string name="sort_order">Порядок сортування</string>
     <string name="account_type">Тип облікового запису</string>
     <string name="note">Примітка</string>
@@ -70,4 +70,5 @@
     <string name="misc">Різне</string>
     <string name="collapse_bottom_bar">Згорнути нижню панель під час прокручування</string>
     <string name="add_to_contact">Додати до контакту</string>
+    <string name="colorful_contact_icons">Кольорові іконки контактів</string>
 </resources>
