@@ -39,7 +39,7 @@
     <string name="author">作者</string>
     <string name="translation">翻译</string>
     <string name="device">设备</string>
-    <string name="nothing_here">这里空无一物。</string>
+    <string name="nothing_here">这里空无一物.</string>
     <string name="local">本地</string>
     <string name="copy">复制</string>
     <string name="move">移动</string>
@@ -69,4 +69,5 @@
     <string name="manage_groups">管理群组</string>
     <string name="collapse_bottom_bar">滚动时折叠底栏</string>
     <string name="selected">选中了 %1$s</string>
+    <string name="colorful_contact_icons">彩色联系人图标</string>
 </resources>
