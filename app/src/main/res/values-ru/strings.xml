@@ -69,4 +69,5 @@
     <string name="misc">Разное</string>
     <string name="collapse_bottom_bar">Свернуть нижнюю панель при прокрутке</string>
     <string name="add_to_contact">Добавить к контакту</string>
+    <string name="colorful_contact_icons">Красочные иконки контактов</string>
 </resources>
