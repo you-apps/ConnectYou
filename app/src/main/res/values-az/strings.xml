@@ -67,4 +67,8 @@
     <string name="max_backup_amount">Nüsxələrin maksimum miqdarı</string>
     <string name="selected">%1$s seçildi</string>
     <string name="backup_interval">Nüsxələmə intervalı</string>
+    <string name="colorful_contact_icons">Rəngbərəng əlaqə nişanları</string>
+    <string name="add_to_contact">Əlaqəyə əlavə et</string>
+    <string name="misc">Müxtəlif</string>
+    <string name="collapse_bottom_bar">Sürüşdürdükdə alt çubuğu yığcamlaşdır</string>
 </resources>
