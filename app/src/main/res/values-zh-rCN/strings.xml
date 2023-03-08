@@ -69,4 +69,5 @@
     <string name="manage_groups">管理群组</string>
     <string name="collapse_bottom_bar">滚动时折叠底栏</string>
     <string name="selected">选中了 %1$s</string>
+    <string name="colorful_contact_icons">彩色联系人图标</string>
 </resources>
