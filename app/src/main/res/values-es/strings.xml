@@ -4,9 +4,9 @@
     <string name="search" tools:ignore="PrivateResource">Buscar</string>
     <string name="copied">Copiado al portapapeles</string>
     <string name="cancel">Cancelar</string>
-    <string name="okay">Vale</string>
+    <string name="okay">De acuerdo</string>
     <string name="reset">Restablecer</string>
-    <string name="nothing_here">No hay nada aquí.</string>
+    <string name="nothing_here">Nada aquí.</string>
     <string name="phone">Teléfono</string>
     <string name="email">Correo electrónico</string>
     <string name="address">Dirección</string>
@@ -29,7 +29,7 @@
     <string name="device">Dispositivo</string>
     <string name="local">Local</string>
     <string name="copy">Copiar</string>
-    <string name="selected">%1$s seleccionado</string>
+    <string name="selected">Seleccionado %1$s</string>
     <string name="import_vcf">Importar vCard</string>
     <string name="export_vcf">Exportar vCard</string>
     <string name="settings">Configuración</string>
@@ -38,7 +38,7 @@
     <string name="system">Sistema</string>
     <string name="backup_interval">Intervalo de copia de seguridad</string>
     <string name="colorful_contact_icons">Iconos de contacto de colores</string>
-    <string name="irreversible">¿Está seguro\? ¡Esto no se puede deshacer!</string>
+    <string name="irreversible">¿Estás seguro\? ¡Esto no se puede deshacer!</string>
     <string name="share">Compartir</string>
     <string name="about">Acerca de</string>
     <string name="license">Licencia</string>
@@ -62,7 +62,7 @@
     <string name="auto_backup">Copia de seguridad automática</string>
     <string name="new_group">Nuevo</string>
     <string name="move">Mover</string>
-    <string name="delete">Eliminar</string>
+    <string name="delete">Borrar</string>
     <string name="max_backup_amount">Número máximo de copias de seguridad</string>
     <string name="choose_dir">Seleccionar directorio</string>
     <string name="light">Claro</string>
