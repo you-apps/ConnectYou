@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.enums.SortOrder
 import com.bnyro.contacts.ext.contentColor
-import com.bnyro.contacts.ext.notAName
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.SingleContactScreen
@@ -58,6 +57,11 @@ fun ContactItem(
     var showContactScreen by remember {
         mutableStateOf(false)
     }
+
+    val contactName = when (sortOrder) {
+        SortOrder.FIRSTNAME -> contact.displayName
+        SortOrder.LASTNAME -> contact.alternativeName
+    }.orEmpty().trim()
 
     ElevatedCard(
         modifier = Modifier
@@ -111,7 +115,7 @@ fun ContactItem(
                 } else if (thumbnail == null) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
-                        text = (contact.displayName?.firstOrNull() ?: "").toString(),
+                        text = (contactName.firstOrNull() ?: "").toString(),
                         color = contentColor // MaterialTheme.colorScheme.onPrimary
                     )
                 } else {
@@ -126,13 +130,7 @@ fun ContactItem(
                 }
             }
             Spacer(modifier = Modifier.width(20.dp))
-            Text(
-                when {
-                    sortOrder == SortOrder.FIRSTNAME -> "${contact.firstName ?: ""} ${contact.surName ?: ""}"
-                    sortOrder == SortOrder.LASTNAME && !contact.surName.notAName() && !contact.firstName.notAName() -> "${contact.surName}, ${contact.firstName}"
-                    else -> contact.displayName.orEmpty()
-                }.trim()
-            )
+            Text(contactName)
         }
     }
 

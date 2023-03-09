@@ -19,6 +19,7 @@ import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.ContactsContract.CommonDataKinds.Photo
 import android.provider.ContactsContract.CommonDataKinds.StructuredName
 import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
+import android.provider.ContactsContract.Contacts
 import android.provider.ContactsContract.Data
 import android.provider.ContactsContract.RawContacts
 import androidx.annotation.RequiresPermission
@@ -43,7 +44,8 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     private val projection = arrayOf(
         Data.RAW_CONTACT_ID,
         RawContacts.CONTACT_ID,
-        ContactsContract.Contacts.DISPLAY_NAME,
+        Contacts.DISPLAY_NAME,
+        Contacts.DISPLAY_NAME_ALTERNATIVE,
         StructuredName.GIVEN_NAME,
         StructuredName.FAMILY_NAME,
         RawContacts.ACCOUNT_TYPE,
@@ -72,7 +74,8 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
                 // avoid duplicates
                 if (contactList.any { contact -> contact.contactId == contactId }) continue
 
-                val displayName = it.stringValue(ContactsContract.Contacts.DISPLAY_NAME)
+                val displayName = it.stringValue(Contacts.DISPLAY_NAME)
+                val alternativeName = it.stringValue(Contacts.DISPLAY_NAME_ALTERNATIVE)
                 var firstName = it.stringValue(StructuredName.GIVEN_NAME)
                 var surName = it.stringValue(StructuredName.FAMILY_NAME)
 
@@ -99,9 +102,11 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
                     accountType = it.stringValue(RawContacts.ACCOUNT_TYPE),
                     accountName = it.stringValue(RawContacts.ACCOUNT_NAME),
                     displayName = displayName,
+                    alternativeName = alternativeName,
                     firstName = firstName,
                     surName = surName
                 )
+
                 contactList.add(contact)
             }
         }

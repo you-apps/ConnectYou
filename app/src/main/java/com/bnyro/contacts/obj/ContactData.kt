@@ -9,6 +9,7 @@ data class ContactData(
     var accountType: String? = null,
     var accountName: String? = null,
     var displayName: String? = null,
+    var alternativeName: String? = null,
     var firstName: String? = null,
     var surName: String? = null,
     var photo: Bitmap? = null,

@@ -69,6 +69,9 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
             ContactData(
                 contactId = it.contact.id,
                 displayName = it.contact.displayName,
+                alternativeName = listOf(it.contact.surName, it.contact.firstName).joinToString(
+                    ", "
+                ),
                 firstName = it.contact.firstName,
                 surName = it.contact.surName,
                 photo = profileImage,

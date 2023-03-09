@@ -318,14 +318,14 @@ fun ContactsPage(
                         }
                     }.sortedBy {
                         when (filterOptions.sortOder) {
-                            SortOrder.FIRSTNAME -> it.firstName
-                            SortOrder.LASTNAME -> it.surName
+                            SortOrder.FIRSTNAME -> it.displayName
+                            SortOrder.LASTNAME -> it.alternativeName
                         }
                     }.groupBy {
                         when (filterOptions.sortOder) {
-                            SortOrder.FIRSTNAME -> it.firstName?.firstOrNull()?.uppercase()
-                            SortOrder.LASTNAME -> it.surName?.firstOrNull()?.uppercase()
-                        }
+                            SortOrder.FIRSTNAME -> it.displayName
+                            SortOrder.LASTNAME -> it.alternativeName
+                        }?.firstOrNull()?.uppercase()
                     }
 
                     contactGroups.forEach { (firstLetter, groupedContacts) ->
