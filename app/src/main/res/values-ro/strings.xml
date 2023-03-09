@@ -69,4 +69,5 @@
     <string name="account_type">Tipul contului</string>
     <string name="note">Notă</string>
     <string name="add_to_contact">Adăugați la contact</string>
+    <string name="colorful_contact_icons">Pictograme de contact colorate</string>
 </resources>
