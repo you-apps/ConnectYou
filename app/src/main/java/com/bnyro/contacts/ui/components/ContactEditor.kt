@@ -63,6 +63,7 @@ import com.bnyro.contacts.util.ImageHelper
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ContactEditor(
+    modifier: Modifier = Modifier,
     contact: ContactData? = null,
     isCreatingNewDeviceContact: Boolean,
     onSave: (contact: ContactData) -> Unit
@@ -145,7 +146,7 @@ fun ContactEditor(
     }
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         val scrollState = rememberScrollState()
 
