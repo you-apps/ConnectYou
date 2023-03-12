@@ -2,6 +2,8 @@ package com.bnyro.contacts.ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -44,9 +46,12 @@ fun SettingsScreen(onDismissRequest: () -> Unit) {
                 )
             }
         ) { pV ->
+            val scrollState = rememberScrollState()
+
             Column(
                 modifier = Modifier
                     .padding(pV)
+                    .verticalScroll(scrollState)
             ) {
                 SettingsContainer {
                     SettingsCategory(title = stringResource(R.string.theme))
