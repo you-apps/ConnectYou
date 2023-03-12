@@ -1,5 +1,6 @@
 package com.bnyro.contacts
 
+import com.bnyro.contacts.util.CalendarUtils
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -10,7 +11,9 @@ import org.junit.Test
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun dateConversion() {
+        val date = "2023-05-09"
+        val str = CalendarUtils.dateToMillis(date)
+        assertEquals(date, CalendarUtils.millisToDate(str.toString(), CalendarUtils.isoDateFormat))
     }
 }

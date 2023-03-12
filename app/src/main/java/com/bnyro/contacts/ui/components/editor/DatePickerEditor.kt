@@ -1,5 +1,6 @@
 package com.bnyro.contacts.ui.components.editor
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -41,19 +42,24 @@ fun DatePickerEditor(
     onDelete: () -> Unit,
     onCreateNew: () -> Unit
 ) {
+    val datePickerOffset = 1000 * 3600 * 23
+
     var showPicker by remember {
         mutableStateOf(false)
     }
     val datePickerState = rememberDatePickerState(
         runCatching {
             CalendarUtils.dateToMillis(state.value.value)
-        }.getOrDefault(null)
+        }.getOrDefault(null)?.also {
+            Log.e("init", it.toString())
+        }
     )
 
     LaunchedEffect(datePickerState.selectedDateMillis) {
         state.value.value = datePickerState.selectedDateMillis?.let {
-            CalendarUtils.millisToDate(it.toString(), CalendarUtils.isoDateFormat)
-        } ?: ""
+            val millis = it + datePickerOffset
+            CalendarUtils.millisToDate(millis.toString(), CalendarUtils.isoDateFormat)
+        }.orEmpty()
     }
 
     EditorEntry(
@@ -81,13 +87,10 @@ fun DatePickerEditor(
                 color = MaterialTheme.colorScheme.primary
             )
             Text(
-                text = when (state.value.value) {
-                    "" -> ""
-                    else -> runCatching {
-                        CalendarUtils
-                            .millisToDate(datePickerState.selectedDateMillis.toString())
-                    }.getOrDefault(state.value.value)
-                }
+                text = state.value.value.takeIf { it.isNotEmpty() }?.runCatching {
+                    val millis = datePickerState.selectedDateMillis?.plus(datePickerOffset)
+                    CalendarUtils.millisToDate(millis.toString())
+                }?.getOrNull() ?: state.value.value
             )
         }
 
