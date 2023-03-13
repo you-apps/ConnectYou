@@ -288,7 +288,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         val ops = arrayListOf(
             getCreateAction(
                 contact.accountType ?: androidAccountType,
-                contact.accountType ?: androidAccountType
+                contact.accountName ?: deviceContactName
             ),
             getInsertAction(
                 StructuredName.CONTENT_ITEM_TYPE,
