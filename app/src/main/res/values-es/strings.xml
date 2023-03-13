@@ -6,7 +6,7 @@
     <string name="cancel">Cancelar</string>
     <string name="okay">De acuerdo</string>
     <string name="reset">Restablecer</string>
-    <string name="nothing_here">No hay nada aquí.</string>
+    <string name="nothing_here">Nada aquí.</string>
     <string name="phone">Teléfono</string>
     <string name="email">Correo electrónico</string>
     <string name="address">Dirección</string>
@@ -29,7 +29,7 @@
     <string name="device">Dispositivo</string>
     <string name="local">Local</string>
     <string name="copy">Copiar</string>
-    <string name="selected">%1$s seleccionado</string>
+    <string name="selected">Seleccionado %1$s</string>
     <string name="import_vcf">Importar vCard</string>
     <string name="export_vcf">Exportar vCard</string>
     <string name="settings">Configuración</string>
