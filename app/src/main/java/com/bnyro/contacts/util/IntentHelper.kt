@@ -8,6 +8,10 @@ import com.bnyro.contacts.enums.IntentActionType
 
 object IntentHelper {
     fun launchAction(context: Context, type: IntentActionType, argument: String) {
+        context.startActivity(getLaunchIntent(type, argument))
+    }
+
+    fun getLaunchIntent(type: IntentActionType, argument: String): Intent {
         val query = when (type) {
             IntentActionType.EMAIL -> argument
             IntentActionType.ADDRESS -> "0,0?q="
@@ -25,10 +29,9 @@ object IntentHelper {
             IntentActionType.ADDRESS -> "geo"
         }
 
-        val intent = Intent(action).apply {
+        return Intent(action).apply {
             data = Uri.fromParts(actionScheme, query, null)
         }
-        context.startActivity(intent)
     }
 
     fun shareContactVcf(context: Context, uri: Uri) {
