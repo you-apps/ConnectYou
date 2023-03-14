@@ -20,8 +20,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,11 +49,13 @@ import com.bnyro.contacts.ui.components.ContactProfilePicture
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
+import com.bnyro.contacts.ui.components.dialogs.ShortcutDialog
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.util.CalendarUtils
 import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.IntentHelper
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
     val viewModel: ContactsModel = viewModel()
@@ -64,155 +69,176 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
     var showZoomablePhoto by remember {
         mutableStateOf(false)
     }
+    var showShortcutDialog by remember {
+        mutableStateOf(false)
+    }
 
     FullScreenDialog(onClose = onClose) {
-        val scrollState = rememberScrollState()
-        val shape = RoundedCornerShape(20.dp)
-
-        Column(
-            modifier = Modifier.verticalScroll(scrollState),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            ElevatedCard(
-                modifier = Modifier
-                    .padding(start = 15.dp, end = 15.dp, bottom = 5.dp, top = 20.dp)
-                    .fillMaxWidth()
-                    .clip(shape),
-                shape = shape
-            ) {
-                Column(
-                    modifier = Modifier
-                        .padding(horizontal = 10.dp, vertical = 35.dp)
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(135.dp)
-                            .background(
-                                shape = CircleShape,
-                                color = MaterialTheme.colorScheme.primary
-                            )
-                    ) {
-                        if (contact.photo == null) {
-                            Text(
-                                modifier = Modifier.align(Alignment.Center),
-                                text = (contact.displayName?.firstOrNull() ?: "").toString(),
-                                color = MaterialTheme.colorScheme.onPrimary,
-                                fontSize = 65.sp
-                            )
-                        } else {
-                            Image(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .clip(CircleShape)
-                                    .clickable {
-                                        showZoomablePhoto = true
-                                    },
-                                bitmap = contact.photo!!.asImageBitmap(),
-                                contentDescription = null,
-                                contentScale = ContentScale.Crop
-                            )
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {},
+                    navigationIcon = {
+                        ClickableIcon(icon = Icons.Default.ArrowBack) {
+                            onClose.invoke()
+                        }
+                    },
+                    actions = {
+                        ClickableIcon(icon = Icons.Default.Shortcut) {
+                            showShortcutDialog = true
                         }
                     }
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Text(
-                        text = contact.displayName.orEmpty(),
-                        fontSize = 30.sp,
-                        fontWeight = FontWeight.Bold
+                )
+            }
+        ) { pV ->
+            val scrollState = rememberScrollState()
+            val shape = RoundedCornerShape(20.dp)
+
+            Column(
+                modifier = Modifier.verticalScroll(scrollState).padding(pV),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                ElevatedCard(
+                    modifier = Modifier
+                        .padding(start = 15.dp, end = 15.dp, bottom = 5.dp, top = 20.dp)
+                        .fillMaxWidth()
+                        .clip(shape),
+                    shape = shape
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .padding(horizontal = 10.dp, vertical = 35.dp)
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(135.dp)
+                                .background(
+                                    shape = CircleShape,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                        ) {
+                            if (contact.photo == null) {
+                                Text(
+                                    modifier = Modifier.align(Alignment.Center),
+                                    text = (contact.displayName?.firstOrNull() ?: "").toString(),
+                                    color = MaterialTheme.colorScheme.onPrimary,
+                                    fontSize = 65.sp
+                                )
+                            } else {
+                                Image(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clip(CircleShape)
+                                        .clickable {
+                                            showZoomablePhoto = true
+                                        },
+                                    bitmap = contact.photo!!.asImageBitmap(),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.Crop
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Text(
+                            text = contact.displayName.orEmpty(),
+                            fontSize = 30.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+
+                ElevatedCard(
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .align(Alignment.CenterHorizontally),
+                    shape = RoundedCornerShape(24.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.padding(vertical = 10.dp, horizontal = 15.dp)
+                    ) {
+                        ClickableIcon(icon = Icons.Default.Call) {
+                            IntentHelper.launchAction(
+                                context,
+                                IntentActionType.DIAL,
+                                contact.numbers.firstOrNull()?.value ?: return@ClickableIcon
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(5.dp))
+                        ClickableIcon(icon = Icons.Default.Message) {
+                            IntentHelper.launchAction(
+                                context,
+                                IntentActionType.SMS,
+                                contact.numbers.firstOrNull()?.value ?: return@ClickableIcon
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(5.dp))
+                        ClickableIcon(icon = Icons.Default.Edit) {
+                            showEditor = true
+                        }
+                        Spacer(modifier = Modifier.width(5.dp))
+                        ClickableIcon(icon = Icons.Default.Share) {
+                            viewModel.exportSingleVcf(context, contact)
+                        }
+                        Spacer(modifier = Modifier.width(5.dp))
+                        ClickableIcon(icon = Icons.Default.Delete) {
+                            showDelete = true
+                        }
+                    }
+                }
+
+                contact.numbers.forEach {
+                    ContactEntry(
+                        label = stringResource(R.string.phone),
+                        content = it.value,
+                        type = ContactsHelper.phoneNumberTypes.firstOrNull { type -> it.type == type.id }?.title
+                    ) {
+                        IntentHelper.launchAction(context, IntentActionType.DIAL, it.value)
+                    }
+                }
+
+                contact.emails.forEach {
+                    ContactEntry(
+                        label = stringResource(R.string.email),
+                        content = it.value,
+                        type = ContactsHelper.emailTypes.firstOrNull { type -> it.type == type.id }?.title
+                    ) {
+                        IntentHelper.launchAction(context, IntentActionType.EMAIL, it.value)
+                    }
+                }
+
+                contact.addresses.forEach {
+                    ContactEntry(
+                        label = stringResource(R.string.address),
+                        content = it.value,
+                        type = ContactsHelper.addressTypes.firstOrNull { type -> it.type == type.id }?.title
+                    ) {
+                        IntentHelper.launchAction(context, IntentActionType.ADDRESS, it.value)
+                    }
+                }
+
+                contact.events.forEach {
+                    ContactEntry(
+                        label = stringResource(R.string.event),
+                        content = CalendarUtils.localizeIsoDate(it.value),
+                        type = ContactsHelper.eventTypes.firstOrNull { type -> it.type == type.id }?.title
                     )
                 }
-            }
 
-            ElevatedCard(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .align(Alignment.CenterHorizontally),
-                shape = RoundedCornerShape(24.dp)
-            ) {
-                Row(
-                    modifier = Modifier.padding(vertical = 10.dp, horizontal = 15.dp)
-                ) {
-                    ClickableIcon(icon = Icons.Default.Call) {
-                        IntentHelper.launchAction(
-                            context,
-                            IntentActionType.DIAL,
-                            contact.numbers.firstOrNull()?.value ?: return@ClickableIcon
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(5.dp))
-                    ClickableIcon(icon = Icons.Default.Message) {
-                        IntentHelper.launchAction(
-                            context,
-                            IntentActionType.SMS,
-                            contact.numbers.firstOrNull()?.value ?: return@ClickableIcon
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(5.dp))
-                    ClickableIcon(icon = Icons.Default.Edit) {
-                        showEditor = true
-                    }
-                    Spacer(modifier = Modifier.width(5.dp))
-                    ClickableIcon(icon = Icons.Default.Share) {
-                        viewModel.exportSingleVcf(context, contact)
-                    }
-                    Spacer(modifier = Modifier.width(5.dp))
-                    ClickableIcon(icon = Icons.Default.Delete) {
-                        showDelete = true
-                    }
+                contact.notes.forEach {
+                    ContactEntry(
+                        label = stringResource(R.string.note),
+                        content = it.value
+                    )
                 }
-            }
 
-            contact.numbers.forEach {
-                ContactEntry(
-                    label = stringResource(R.string.phone),
-                    content = it.value,
-                    type = ContactsHelper.phoneNumberTypes.firstOrNull { type -> it.type == type.id }?.title
-                ) {
-                    IntentHelper.launchAction(context, IntentActionType.DIAL, it.value)
+                if (contact.groups.isNotEmpty()) {
+                    ContactEntry(
+                        label = stringResource(R.string.groups),
+                        content = contact.groups.joinToString(", ") { it.title }
+                    )
                 }
-            }
-
-            contact.emails.forEach {
-                ContactEntry(
-                    label = stringResource(R.string.email),
-                    content = it.value,
-                    type = ContactsHelper.emailTypes.firstOrNull { type -> it.type == type.id }?.title
-                ) {
-                    IntentHelper.launchAction(context, IntentActionType.EMAIL, it.value)
-                }
-            }
-
-            contact.addresses.forEach {
-                ContactEntry(
-                    label = stringResource(R.string.address),
-                    content = it.value,
-                    type = ContactsHelper.addressTypes.firstOrNull { type -> it.type == type.id }?.title
-                ) {
-                    IntentHelper.launchAction(context, IntentActionType.ADDRESS, it.value)
-                }
-            }
-
-            contact.events.forEach {
-                ContactEntry(
-                    label = stringResource(R.string.event),
-                    content = CalendarUtils.localizeIsoDate(it.value),
-                    type = ContactsHelper.eventTypes.firstOrNull { type -> it.type == type.id }?.title
-                )
-            }
-
-            contact.notes.forEach {
-                ContactEntry(
-                    label = stringResource(R.string.note),
-                    content = it.value
-                )
-            }
-
-            if (contact.groups.isNotEmpty()) {
-                ContactEntry(
-                    label = stringResource(R.string.groups),
-                    content = contact.groups.joinToString(", ") { it.title }
-                )
             }
         }
     }
@@ -246,6 +272,12 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
     if (showZoomablePhoto) {
         ContactProfilePicture(contact) {
             showZoomablePhoto = false
+        }
+    }
+
+    if (showShortcutDialog) {
+        ShortcutDialog(contact) {
+            showShortcutDialog = false
         }
     }
 }

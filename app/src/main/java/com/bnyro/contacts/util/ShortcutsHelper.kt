@@ -22,7 +22,13 @@ object ShortcutHelper {
     }
     private val shortcuts = listOf(AppShortcut.CreateContact)
 
-    private fun createShortcut(context: Context, intent: Intent, label: String, id: String, icon: IconCompat) {
+    private fun createShortcut(
+        context: Context,
+        intent: Intent,
+        label: String,
+        id: String,
+        icon: IconCompat
+    ) {
         val shortcut = ShortcutInfoCompat.Builder(context, id)
             .setShortLabel(label)
             .setLongLabel(label)
@@ -50,7 +56,11 @@ object ShortcutHelper {
         }
     }
 
-    fun createContactShortcut(context: Context, contact: ContactData, intentActionType: IntentActionType) {
+    fun createContactShortcut(
+        context: Context,
+        contact: ContactData,
+        intentActionType: IntentActionType
+    ) {
         val intent = IntentHelper.getLaunchIntent(
             intentActionType,
             when (intentActionType) {
@@ -61,10 +71,18 @@ object ShortcutHelper {
         )
 
         val icon = when (intentActionType) {
+            IntentActionType.DIAL -> R.drawable.ic_call
+            IntentActionType.SMS -> R.drawable.ic_message
             IntentActionType.EMAIL -> R.drawable.ic_add
             else -> return
         }
 
-        createShortcut(context, intent, contact.displayName.orEmpty(), System.currentTimeMillis().toString(), IconCompat.createWithResource(context, icon))
+        createShortcut(
+            context,
+            intent,
+            contact.displayName.orEmpty(),
+            System.currentTimeMillis().toString(),
+            IconCompat.createWithResource(context, icon)
+        )
     }
 }
