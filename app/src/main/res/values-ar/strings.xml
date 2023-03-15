@@ -70,4 +70,7 @@
     <string name="collapse_bottom_bar">اطوِ الشريط السفلي عند التمرير</string>
     <string name="add_to_contact">أضف لجهة الاتصال</string>
     <string name="colorful_contact_icons">أيقونات جهات اتِّصال ملوَّنة</string>
+    <string name="create_shortcut">إنشاء اختصار</string>
+    <string name="dial">اتصل</string>
+    <string name="message">رسالة</string>
 </resources>
