@@ -71,4 +71,7 @@
     <string name="collapse_bottom_bar">Згорнути нижню панель під час прокручування</string>
     <string name="add_to_contact">Додати до контакту</string>
     <string name="colorful_contact_icons">Кольорові іконки контактів</string>
+    <string name="create_shortcut">Створити ярлик</string>
+    <string name="dial">Набрати</string>
+    <string name="message">Повідомити</string>
 </resources>
