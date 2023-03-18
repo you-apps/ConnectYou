@@ -74,7 +74,7 @@ import kotlinx.coroutines.delay
 fun ContactsPage(
     contacts: List<ContactData>?,
     showEditorDefault: Boolean,
-    scrollConnection: NestedScrollConnection?,
+    scrollConnection: NestedScrollConnection?
 ) {
     val viewModel: ContactsModel = viewModel()
     val context = LocalContext.current
@@ -113,16 +113,16 @@ fun ContactsPage(
         }
 
     val exportVcard = rememberLauncherForActivityResult(
-        ActivityResultContracts.CreateDocument("text/vcard"),
+        ActivityResultContracts.CreateDocument("text/vcard")
     ) { uri ->
         uri?.let { viewModel.exportVcf(context, it) }
     }
 
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize()
         ) {
             val searchQuery = remember {
                 mutableStateOf(TextFieldValue())
@@ -133,10 +133,10 @@ fun ContactsPage(
                     true -> {
                         SearchBar(
                             modifier = Modifier.padding(horizontal = 10.dp).padding(top = 15.dp),
-                            state = searchQuery,
+                            state = searchQuery
                         ) {
                             Box(
-                                modifier = Modifier.align(Alignment.End),
+                                modifier = Modifier.align(Alignment.End)
                             ) {
                                 var expandedOptions by remember {
                                     mutableStateOf(false)
@@ -144,12 +144,12 @@ fun ContactsPage(
 
                                 Row {
                                     ClickableIcon(
-                                        icon = Icons.Default.Sort,
+                                        icon = Icons.Default.Sort
                                     ) {
                                         showFilterDialog = true
                                     }
                                     ClickableIcon(
-                                        icon = Icons.Default.MoreVert,
+                                        icon = Icons.Default.MoreVert
                                     ) {
                                         expandedOptions = !expandedOptions
                                     }
@@ -161,7 +161,7 @@ fun ContactsPage(
                                         stringResource(R.string.import_vcf),
                                         stringResource(R.string.export_vcf),
                                         stringResource(R.string.settings),
-                                        stringResource(R.string.about),
+                                        stringResource(R.string.about)
                                     ),
                                     onDismissRequest = {
                                         expandedOptions = false
@@ -173,8 +173,8 @@ fun ContactsPage(
                                                     arrayOf(
                                                         "text/vcard",
                                                         "text/v-card",
-                                                        "text/x-vcard",
-                                                    ),
+                                                        "text/x-vcard"
+                                                    )
                                                 )
                                             }
 
@@ -191,7 +191,7 @@ fun ContactsPage(
                                             }
                                         }
                                         expandedOptions = false
-                                    },
+                                    }
                                 )
                             }
                         }
@@ -200,7 +200,7 @@ fun ContactsPage(
                         TopAppBar(
                             title = {
                                 Row(
-                                    verticalAlignment = Alignment.CenterVertically,
+                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Checkbox(
                                         checked = selectedContacts.containsAll(contacts.orEmpty()),
@@ -211,40 +211,40 @@ fun ContactsPage(
                                                 selectedContacts.clear()
                                                 selectedContacts.addAll(contacts.orEmpty())
                                             }
-                                        },
+                                        }
                                     )
                                     Spacer(modifier = Modifier.width(5.dp))
                                     Text(
                                         text = stringResource(
                                             R.string.selected,
-                                            selectedContacts.size.toString(),
+                                            selectedContacts.size.toString()
                                         ),
-                                        style = MaterialTheme.typography.titleMedium,
+                                        style = MaterialTheme.typography.titleMedium
                                     )
                                 }
                             },
                             actions = {
                                 ClickableIcon(
                                     icon = Icons.Default.CopyAll,
-                                    contentDescription = R.string.copy,
+                                    contentDescription = R.string.copy
                                 ) {
                                     viewModel.copyContacts(context, selectedContacts.toList())
                                     selectedContacts.clear()
                                 }
                                 ClickableIcon(
                                     icon = Icons.Default.MoveToInbox,
-                                    contentDescription = R.string.move,
+                                    contentDescription = R.string.move
                                 ) {
                                     viewModel.moveContacts(context, selectedContacts.toList())
                                     selectedContacts.clear()
                                 }
                                 ClickableIcon(
                                     icon = Icons.Default.Delete,
-                                    contentDescription = R.string.delete,
+                                    contentDescription = R.string.delete
                                 ) {
                                     showDelete = true
                                 }
-                            },
+                            }
                         )
                     }
                 }
@@ -254,14 +254,14 @@ fun ContactsPage(
                 LaunchedEffect(Unit) {
                     if (PermissionHelper.hasPermission(
                             context,
-                            Manifest.permission.READ_CONTACTS,
+                            Manifest.permission.READ_CONTACTS
                         )
                     ) {
                         return@LaunchedEffect
                     }
                     while (!PermissionHelper.hasPermission(
                             context,
-                            Manifest.permission.READ_CONTACTS,
+                            Manifest.permission.READ_CONTACTS
                         )
                     ) {
                         delay(100)
@@ -269,26 +269,26 @@ fun ContactsPage(
                     viewModel.loadContacts(context)
                 }
                 Box(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center),
+                        modifier = Modifier.align(Alignment.Center)
                     )
                 }
             } else if (contacts.isEmpty()) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Icon(
                         modifier = Modifier.size(120.dp),
                         imageVector = Icons.Default.ImportContacts,
-                        contentDescription = null,
+                        contentDescription = null
                     )
                     Spacer(Modifier.height(10.dp))
                     Text(
-                        text = stringResource(R.string.nothing_here),
+                        text = stringResource(R.string.nothing_here)
                     )
                 }
             } else {
@@ -300,11 +300,11 @@ fun ContactsPage(
                         .scrollbar(state, false)
                         .let { modifier ->
                             scrollConnection?.let { modifier.nestedScroll(it) } ?: modifier
-                        },
+                        }
                 ) {
                     val contactGroups = contacts.asSequence().filter {
                         it.displayName.orEmpty().lowercase().contains(
-                            searchQuery.value.text.lowercase(),
+                            searchQuery.value.text.lowercase()
                         )
                     }.filter {
                         !filterOptions.hiddenAccountNames.contains(it.accountName)
@@ -351,7 +351,7 @@ fun ContactsPage(
                                 },
                                 onLongPress = {
                                     if (!selectedContacts.contains(it)) selectedContacts.add(it)
-                                },
+                                }
                             )
                         }
                     }
@@ -368,7 +368,7 @@ fun ContactsPage(
                 .align(Alignment.BottomEnd),
             onClick = {
                 showEditor = true
-            },
+            }
         ) {
             Icon(Icons.Default.Create, null)
         }
@@ -382,7 +382,7 @@ fun ContactsPage(
             isCreatingNewDeviceContact = viewModel.contactsHelper is DeviceContactsHelper,
             onSave = {
                 viewModel.createContact(context, it)
-            },
+            }
         )
     }
 
@@ -404,7 +404,7 @@ fun ContactsPage(
                 showDelete = false
             },
             title = stringResource(R.string.delete_contact),
-            text = stringResource(R.string.irreversible),
+            text = stringResource(R.string.irreversible)
         ) {
             viewModel.deleteContacts(selectedContacts.toList())
             selectedContacts.clear()
@@ -422,7 +422,7 @@ fun ContactsPage(
             },
             initialFilters = filterOptions,
             availableAccountTypes = viewModel.getAvailableAccountTypes(),
-            availableGroups = viewModel.getAvailableGroups(),
+            availableGroups = viewModel.getAvailableGroups()
         )
     }
 }
