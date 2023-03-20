@@ -47,6 +47,10 @@ fun AddToContactDialog(
         mutableStateOf<ContactData?>(null)
     }
 
+    var isNewContact by remember {
+        mutableStateOf(false)
+    }
+
     val scope = rememberCoroutineScope()
 
     if (showDialog) {
@@ -59,6 +63,12 @@ fun AddToContactDialog(
             confirmButton = {
                 DialogButton(text = stringResource(R.string.cancel)) {
                     showDialog = false
+                }
+            },
+            dismissButton = {
+                DialogButton(text = stringResource(R.string.new_contact)) {
+                    isNewContact = true
+                    contactToEdit = ContactData()
                 }
             },
             title = {
@@ -117,7 +127,11 @@ fun AddToContactDialog(
             contact = it,
             onClose = { contactToEdit = null }
         ) { contact ->
-            contactsModel.updateContact(context, contact)
+            if (isNewContact) {
+                contactsModel.createContact(context, contact)
+            } else {
+                contactsModel.updateContact(context, contact)
+            }
             contactToEdit = null
         }
     }
