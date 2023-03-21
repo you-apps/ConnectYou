@@ -43,7 +43,7 @@
     <string name="move">Köçürt</string>
     <string name="settings">Tənzimləmələr</string>
     <string name="start_tab">Başlanğıc paneli</string>
-    <string name="nothing_here">Bura boşdur.</string>
+    <string name="nothing_here">Burada heç nə yoxdur.</string>
     <string name="device">Cihaz</string>
     <string name="local">Yerli</string>
     <string name="sort_order">Çeşid sırası</string>
@@ -71,4 +71,7 @@
     <string name="add_to_contact">Əlaqəyə əlavə et</string>
     <string name="misc">Müxtəlif</string>
     <string name="collapse_bottom_bar">Sürüşdürdükdə alt çubuğu yığcamlaşdır</string>
+    <string name="create_shortcut">Qısayol Yarat</string>
+    <string name="message">Məktub</string>
+    <string name="dial">Zəng et</string>
 </resources>

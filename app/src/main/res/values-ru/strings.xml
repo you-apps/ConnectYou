@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="search" tools:ignore="PrivateResource">Поиск</string>
-    <string name="copied">Скопированно в буфер обмена</string>
+    <string name="copied">Скопировано</string>
     <string name="delete_contact">Удалить контакт</string>
     <string name="fax_home">Домашний факс</string>
     <string name="fax_work">Рабочий факс</string>
@@ -9,12 +9,12 @@
     <string name="version">Версия</string>
     <string name="irreversible">Вы уверены\? Это нельзя будет отменить!</string>
     <string name="cancel">Отменить</string>
-    <string name="okay">Ввод</string>
+    <string name="okay">Хорошо</string>
     <string name="reset">Сброс</string>
     <string name="create_contact">Создать контакт</string>
-    <string name="retry">Попробовать ещё раз</string>
+    <string name="retry">Заново</string>
     <string name="share">Поделиться</string>
-    <string name="empty_name">Имя контакта не может быть пустым!</string>
+    <string name="empty_name">Имя не может быть пустым!</string>
     <string name="import_success">Импортировано.</string>
     <string name="mobile">Мобильный</string>
     <string name="import_vcf">Импортировать vCard</string>
@@ -22,7 +22,7 @@
     <string name="email">Эл. почта</string>
     <string name="event">Событие</string>
     <string name="last_name">Фамилия</string>
-    <string name="work">Работа</string>
+    <string name="work">Рабочий</string>
     <string name="first_name">Имя</string>
     <string name="type">Тип</string>
     <string name="home">Главная</string>
@@ -37,11 +37,11 @@
     <string name="author">Автор</string>
     <string name="translation">Перевод</string>
     <string name="phone">Телефон</string>
-    <string name="address">Адреса</string>
+    <string name="address">Адрес</string>
     <string name="copy">Копировать</string>
     <string name="settings">Настройки</string>
     <string name="start_tab">Начальная вкладка</string>
-    <string name="nothing_here">Здесь ничего нет.</string>
+    <string name="nothing_here">Пусто.</string>
     <string name="local">Локально</string>
     <string name="sort_order">Порядок сортировки</string>
     <string name="account_type">Тип учетной записи</string>
@@ -53,7 +53,7 @@
     <string name="dark">Темный</string>
     <string name="auto_backup">Автоматическое резервное копирование</string>
     <string name="both">Оба способа</string>
-    <string name="none">Выкл</string>
+    <string name="none">Ничего</string>
     <string name="delete">Удалить</string>
     <string name="choose_dir">Выбрать папку</string>
     <string name="manage_groups">Управление группами</string>
@@ -63,11 +63,14 @@
     <string name="group_already_exists">Группа уже существует</string>
     <string name="groups">Группы</string>
     <string name="max_backup_amount">Максимальное количество резервных копий</string>
-    <string name="selected">%1$s выбрано</string>
+    <string name="selected">%1$s выбрано (-ы)</string>
     <string name="backup_interval">Интервал резервного копирования</string>
     <string name="move">Переместить</string>
     <string name="misc">Разное</string>
     <string name="collapse_bottom_bar">Свернуть нижнюю панель при прокрутке</string>
     <string name="add_to_contact">Добавить к контакту</string>
     <string name="colorful_contact_icons">Красочные иконки контактов</string>
+    <string name="dial">Набрать</string>
+    <string name="create_shortcut">Создать ярлык</string>
+    <string name="message">Написать</string>
 </resources>

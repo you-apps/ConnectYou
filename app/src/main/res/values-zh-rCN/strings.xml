@@ -70,4 +70,7 @@
     <string name="collapse_bottom_bar">滚动时折叠底栏</string>
     <string name="selected">选中了 %1$s</string>
     <string name="colorful_contact_icons">彩色联系人图标</string>
+    <string name="create_shortcut">创建快捷方式</string>
+    <string name="dial">拨号</string>
+    <string name="message">信息</string>
 </resources>

@@ -56,7 +56,7 @@
     <string name="auto_backup">Backup automat</string>
     <string name="backup_interval">Interval de backup</string>
     <string name="both">Ambele</string>
-    <string name="max_backup_amount">Cantitatea maximă de rezervă</string>
+    <string name="max_backup_amount">Cantitatea maximă de backup-uri</string>
     <string name="copy">Copiați</string>
     <string name="move">Mută</string>
     <string name="settings">Setări</string>

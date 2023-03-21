@@ -6,7 +6,7 @@
     <string name="anniversary">Jubileum</string>
     <string name="license">Lisens</string>
     <string name="export_vcf">Eksporter vCard</string>
-    <string name="author">Utvilker</string>
+    <string name="author">Utvikler</string>
     <string name="export_success">Eksportert</string>
     <string name="import_success">Importert.</string>
     <string name="search" tools:ignore="PrivateResource">Søk</string>
@@ -40,4 +40,9 @@
     <string name="delete">Slett</string>
     <string name="choose_dir">Velg mappe</string>
     <string name="okay">OK</string>
+    <string name="settings">Innstillinger</string>
+    <string name="theme">Drakt</string>
+    <string name="system">System</string>
+    <string name="light">Lys</string>
+    <string name="dark">Mørk</string>
 </resources>
