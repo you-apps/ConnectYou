@@ -73,4 +73,5 @@
     <string name="dial">Marcar</string>
     <string name="create_shortcut">Criar atalho</string>
     <string name="message">Mensagem</string>
+    <string name="new_contact">Novo contacto</string>
 </resources>
