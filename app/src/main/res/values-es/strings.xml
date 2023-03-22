@@ -29,7 +29,7 @@
     <string name="device">Dispositivo</string>
     <string name="local">Local</string>
     <string name="copy">Copiar</string>
-    <string name="selected">%1$s seleccionado</string>
+    <string name="selected">Seleccionado %1$s</string>
     <string name="import_vcf">Importar vCard</string>
     <string name="export_vcf">Exportar vCard</string>
     <string name="settings">Configuración</string>
@@ -73,4 +73,5 @@
     <string name="create_shortcut">Crear un acceso directo</string>
     <string name="dial">Dial</string>
     <string name="message">Mensaje</string>
+    <string name="new_contact">Nuevo contacto</string>
 </resources>
