@@ -74,4 +74,5 @@
     <string name="message">Mesaj gönder</string>
     <string name="create_shortcut">Kısayol oluştur</string>
     <string name="dial">Ara</string>
+    <string name="new_contact">Yeni kişi</string>
 </resources>
