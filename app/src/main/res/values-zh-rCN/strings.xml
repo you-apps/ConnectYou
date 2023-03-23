@@ -73,4 +73,5 @@
     <string name="create_shortcut">创建快捷方式</string>
     <string name="dial">拨号</string>
     <string name="message">信息</string>
+    <string name="new_contact">新建联系人</string>
 </resources>
