@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="search" tools:ignore="PrivateResource">Поиск</string>
-    <string name="copied">Скопировано</string>
+    <string name="copied">Скопировано в буфер обмена</string>
     <string name="delete_contact">Удалить контакт</string>
     <string name="fax_home">Домашний факс</string>
     <string name="fax_work">Рабочий факс</string>
     <string name="anniversary">Юбилей</string>
     <string name="version">Версия</string>
     <string name="irreversible">Вы уверены\? Это нельзя будет отменить!</string>
-    <string name="cancel">Отменить</string>
-    <string name="okay">Хорошо</string>
+    <string name="cancel">Отмена</string>
+    <string name="okay">ОК</string>
     <string name="reset">Сброс</string>
     <string name="create_contact">Создать контакт</string>
     <string name="retry">Заново</string>
@@ -40,17 +40,17 @@
     <string name="address">Адрес</string>
     <string name="copy">Копировать</string>
     <string name="settings">Настройки</string>
-    <string name="start_tab">Начальная вкладка</string>
+    <string name="start_tab">Стартовая вкладка</string>
     <string name="nothing_here">Здесь ничего нет.</string>
     <string name="local">Локальный</string>
     <string name="sort_order">Порядок сортировки</string>
-    <string name="account_type">Тип учетной записи</string>
+    <string name="account_type">Тип учётной записи</string>
     <string name="note">Примечание</string>
     <string name="device">Устройство</string>
     <string name="theme">Тема</string>
-    <string name="system">Система</string>
-    <string name="light">Светлый</string>
-    <string name="dark">Темный</string>
+    <string name="system">Системная</string>
+    <string name="light">Светлая</string>
+    <string name="dark">Тёмная</string>
     <string name="auto_backup">Автоматическое резервное копирование</string>
     <string name="both">На оба экрана</string>
     <string name="none">Ничего</string>
@@ -74,4 +74,5 @@
     <string name="create_shortcut">Создать ярлык</string>
     <string name="message">Написать</string>
     <string name="new_contact">Новый контакт</string>
+    <string name="contact">Контакт</string>
 </resources>
