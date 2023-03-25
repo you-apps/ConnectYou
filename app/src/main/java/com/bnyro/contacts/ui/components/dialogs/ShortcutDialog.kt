@@ -27,6 +27,7 @@ fun ShortcutDialog(
     val context = LocalContext.current
 
     val actionTypes = listOf(
+        IntentActionType.CONTACT to R.string.contact,
         IntentActionType.DIAL to R.string.dial,
         IntentActionType.SMS to R.string.message,
         IntentActionType.EMAIL to R.string.email
@@ -44,17 +45,21 @@ fun ShortcutDialog(
         },
         text = {
             LazyColumn {
-                items(actionTypes) {
+                items(actionTypes) { actionType ->
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(20.dp))
                             .clickable {
-                                ShortcutHelper.createContactShortcut(context, contact, it.first)
+                                ShortcutHelper.createContactShortcut(
+                                    context,
+                                    contact,
+                                    actionType.first
+                                )
                                 onDismissRequest.invoke()
                             }
                             .padding(vertical = 15.dp, horizontal = 20.dp),
-                        text = stringResource(it.second)
+                        text = stringResource(actionType.second)
                     )
                 }
             }

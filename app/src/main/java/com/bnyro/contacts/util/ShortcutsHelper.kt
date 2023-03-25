@@ -66,6 +66,7 @@ object ShortcutHelper {
             when (intentActionType) {
                 IntentActionType.DIAL, IntentActionType.SMS -> contact.numbers.firstOrNull()?.value
                 IntentActionType.EMAIL -> contact.emails.firstOrNull()?.value
+                IntentActionType.CONTACT -> contact.contactId.toString()
                 else -> contact.addresses.firstOrNull()?.value
             }.orEmpty()
         )
@@ -74,6 +75,7 @@ object ShortcutHelper {
             IntentActionType.DIAL -> R.drawable.ic_call
             IntentActionType.SMS -> R.drawable.ic_message
             IntentActionType.EMAIL -> R.drawable.ic_add
+            IntentActionType.CONTACT -> R.drawable.ic_contact
             else -> return
         }
 

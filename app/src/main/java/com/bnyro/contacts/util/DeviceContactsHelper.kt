@@ -519,8 +519,8 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
 
     private fun getContactPhotoThumbnail(contactId: Long): Bitmap? {
         val contactUri =
-            ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId)
-        val `is` = ContactsContract.Contacts.openContactPhotoInputStream(
+            ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId)
+        val `is` = Contacts.openContactPhotoInputStream(
             context.contentResolver,
             contactUri
         )
@@ -529,9 +529,9 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
 
     private fun getContactPhoto(contactId: Long): Bitmap? {
         val contactUri =
-            ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId)
+            ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId)
         val displayPhotoUri =
-            Uri.withAppendedPath(contactUri, ContactsContract.Contacts.Photo.DISPLAY_PHOTO)
+            Uri.withAppendedPath(contactUri, Contacts.Photo.DISPLAY_PHOTO)
         return runCatching {
             context.contentResolver.openAssetFileDescriptor(displayPhotoUri, "r").use { fd ->
                 BitmapFactory.decodeStream(fd!!.createInputStream())

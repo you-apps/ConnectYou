@@ -1,8 +1,10 @@
 package com.bnyro.contacts.util
 
+import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.provider.ContactsContract
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.IntentActionType
 
@@ -12,6 +14,12 @@ object IntentHelper {
     }
 
     fun getLaunchIntent(type: IntentActionType, argument: String): Intent {
+        if (type == IntentActionType.CONTACT) {
+            val contactUri =
+                ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, argument.toLong())
+            return Intent(Intent.ACTION_VIEW, contactUri)
+        }
+
         val query = when (type) {
             IntentActionType.EMAIL -> argument
             IntentActionType.ADDRESS -> "0,0?q="
@@ -21,12 +29,14 @@ object IntentHelper {
             IntentActionType.DIAL -> Intent.ACTION_DIAL
             IntentActionType.SMS, IntentActionType.ADDRESS -> Intent.ACTION_VIEW
             IntentActionType.EMAIL -> Intent.ACTION_SENDTO
+            else -> throw IllegalArgumentException()
         }
         val actionScheme = when (type) {
             IntentActionType.DIAL -> "tel"
             IntentActionType.SMS -> "sms"
             IntentActionType.EMAIL -> "mailto"
             IntentActionType.ADDRESS -> "geo"
+            else -> throw IllegalArgumentException()
         }
 
         return Intent(action).apply {
