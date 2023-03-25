@@ -74,4 +74,5 @@
     <string name="create_shortcut">Criar atalho</string>
     <string name="message">Mensagem</string>
     <string name="new_contact">Novo contacto</string>
+    <string name="contact">Contacto</string>
 </resources>
