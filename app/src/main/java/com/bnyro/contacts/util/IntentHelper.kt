@@ -31,6 +31,7 @@ object IntentHelper {
 
         return Intent(action).apply {
             data = Uri.fromParts(actionScheme, query, null)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
     }
 
