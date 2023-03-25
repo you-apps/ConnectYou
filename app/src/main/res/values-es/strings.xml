@@ -15,7 +15,7 @@
     <string name="first_name">Nombre</string>
     <string name="last_name">Apellidos</string>
     <string name="type">Tipo</string>
-    <string name="home">Inicio</string>
+    <string name="home">Pantalla de inicio</string>
     <string name="car">Coche</string>
     <string name="assistant">Asistente</string>
     <string name="birthday">Cumpleaños</string>
