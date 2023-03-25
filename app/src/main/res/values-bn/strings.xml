@@ -25,7 +25,7 @@
     <string name="export_success">এক্সপোর্ট করা হয়েছে।</string>
     <string name="address">ঠিকানা</string>
     <string name="empty_name">নাম ফাঁকা হতে পারবে না!</string>
-    <string name="home">বাড়ি</string>
+    <string name="home">মূল পর্দা</string>
     <string name="other">অনান্য</string>
     <string name="custom">কাস্টম</string>
     <string name="assistant">সহযোগী</string>
@@ -43,5 +43,5 @@
     <string name="device">ডিভাইস</string>
     <string name="local">লোকাল</string>
     <string name="delete">মুছুন</string>
-    <string name="choose_dir">ডাইরেক্টরি বাছুন</string>
+    <string name="choose_dir">ডিরেক্টরি নির্বাচন করুন</string>
 </resources>
