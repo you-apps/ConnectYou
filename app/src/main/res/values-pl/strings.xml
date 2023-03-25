@@ -2,14 +2,14 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="last_name">Nazwisko</string>
     <string name="type">Typ</string>
-    <string name="home">Dom</string>
+    <string name="home">Główny ekran</string>
     <string name="search" tools:ignore="PrivateResource">Wyszukaj</string>
     <string name="copied">Skopiowano do schowka</string>
     <string name="delete_contact">Usuń kontakt</string>
     <string name="irreversible">Na pewno\? Nie można cofnąć tej akcji!</string>
     <string name="cancel">Anuluj</string>
     <string name="okay">OK</string>
-    <string name="reset">Resetuj</string>
+    <string name="reset">Resetowanie</string>
     <string name="create_contact">Utwórz kontakt</string>
     <string name="retry">Spróbuj ponownie</string>
     <string name="share">Udostępnij</string>

@@ -35,7 +35,7 @@
     <string name="last_name">Last Name</string>
     <!-- Types -->
     <string name="type">Type</string>
-    <string name="home">Home</string>
+    <string name="home">Home screen</string>
     <string name="work">Work</string>
     <string name="mobile">Mobile</string>
     <string name="other">Other</string>

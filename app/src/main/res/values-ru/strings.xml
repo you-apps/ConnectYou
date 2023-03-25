@@ -25,14 +25,14 @@
     <string name="work">Рабочий</string>
     <string name="first_name">Имя</string>
     <string name="type">Тип</string>
-    <string name="home">Главная</string>
+    <string name="home">Главный экран</string>
     <string name="other">Другое</string>
     <string name="car">Автомобиль</string>
     <string name="export_vcf">Экспортировать vCard</string>
     <string name="license">Лицензия</string>
     <string name="custom">Пользовательское</string>
     <string name="birthday">День рождения</string>
-    <string name="about">Информация</string>
+    <string name="about">О приложении</string>
     <string name="assistant">Помощник</string>
     <string name="author">Автор</string>
     <string name="translation">Перевод</string>
@@ -41,8 +41,8 @@
     <string name="copy">Копировать</string>
     <string name="settings">Настройки</string>
     <string name="start_tab">Начальная вкладка</string>
-    <string name="nothing_here">Пусто.</string>
-    <string name="local">Локально</string>
+    <string name="nothing_here">Здесь ничего нет.</string>
+    <string name="local">Локальный</string>
     <string name="sort_order">Порядок сортировки</string>
     <string name="account_type">Тип учетной записи</string>
     <string name="note">Примечание</string>
@@ -52,7 +52,7 @@
     <string name="light">Светлый</string>
     <string name="dark">Темный</string>
     <string name="auto_backup">Автоматическое резервное копирование</string>
-    <string name="both">Оба способа</string>
+    <string name="both">На оба экрана</string>
     <string name="none">Ничего</string>
     <string name="delete">Удалить</string>
     <string name="choose_dir">Выбрать папку</string>
@@ -63,7 +63,7 @@
     <string name="group_already_exists">Группа уже существует</string>
     <string name="groups">Группы</string>
     <string name="max_backup_amount">Максимальное количество резервных копий</string>
-    <string name="selected">%1$s выбрано (-ы)</string>
+    <string name="selected">%1$s выбрано(-ы)</string>
     <string name="backup_interval">Интервал резервного копирования</string>
     <string name="move">Переместить</string>
     <string name="misc">Разное</string>
@@ -73,4 +73,5 @@
     <string name="dial">Набрать</string>
     <string name="create_shortcut">Создать ярлык</string>
     <string name="message">Написать</string>
+    <string name="new_contact">Новый контакт</string>
 </resources>
