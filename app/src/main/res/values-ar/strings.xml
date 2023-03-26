@@ -74,4 +74,5 @@
     <string name="dial">اتصل</string>
     <string name="message">راسل</string>
     <string name="new_contact">جهة اتصال جديدة</string>
+    <string name="contact">جهات الاتصال</string>
 </resources>
