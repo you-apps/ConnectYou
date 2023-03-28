@@ -73,4 +73,6 @@
     <string name="create_shortcut">Creează o scurtătură</string>
     <string name="dial">Apelează</string>
     <string name="message">Mesaj</string>
+    <string name="new_contact">Contact nou</string>
+    <string name="contact">Contact</string>
 </resources>
