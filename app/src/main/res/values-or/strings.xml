@@ -5,7 +5,7 @@
     <string name="event">ଘଟଣା</string>
     <string name="first_name">ପ୍ରଥମ ନାମ</string>
     <string name="type">ପ୍ରକାର ଗୁଡିକ</string>
-    <string name="home">ଘର</string>
+    <string name="home">ମୂଳ ପରଦା |</string>
     <string name="work">କାମ</string>
     <string name="other">ଅନ୍ୟମାନେ</string>
     <string name="custom">କଷ୍ଟମ୍</string>
@@ -14,7 +14,7 @@
     <string name="birthday">ଜନ୍ମଦିନ</string>
     <string name="anniversary">ବାର୍ଷିକୀ</string>
     <string name="export_vcf">VCard ରପ୍ତାନି କରନ୍ତୁ</string>
-    <string name="about">ବିଷୟରେ</string>
+    <string name="about">ପ୍ରୋଗ୍ରାମ୍ ବିଷୟରେ</string>
     <string name="license">ଲାଇସେନ୍ସ</string>
     <string name="author">ଲେଖକ</string>
     <string name="version">ସଂସ୍କରଣ</string>

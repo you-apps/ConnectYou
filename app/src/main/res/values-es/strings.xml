@@ -74,4 +74,5 @@
     <string name="dial">Dial</string>
     <string name="message">Mensaje</string>
     <string name="new_contact">Nuevo contacto</string>
+    <string name="contact">Contacto</string>
 </resources>

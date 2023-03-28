@@ -18,7 +18,7 @@
     <string name="type">النوع</string>
     <string name="first_name">الاسم الأوَّل</string>
     <string name="work">عمل</string>
-    <string name="home">الشاشة الرئيسية</string>
+    <string name="home">الشاشة الرئيسة</string>
     <string name="birthday">عيد ميلاد</string>
     <string name="import_vcf">استورد vCard</string>
     <string name="about">عن التطبيق</string>
@@ -74,4 +74,5 @@
     <string name="dial">اتصل</string>
     <string name="message">راسل</string>
     <string name="new_contact">جهة اتصال جديدة</string>
+    <string name="contact">جهات الاتصال</string>
 </resources>

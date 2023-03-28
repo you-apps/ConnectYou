@@ -7,7 +7,7 @@
     <string name="create_contact">Kişi oluştur</string>
     <string name="retry">Tekrar dene</string>
     <string name="share">Paylaş</string>
-    <string name="empty_name">İsim boş olamaz!</string>
+    <string name="empty_name">Ad boş olamaz!</string>
     <string name="delete_contact">Kişiyi sil</string>
     <string name="work">İş</string>
     <string name="other">Diğer</string>
@@ -75,4 +75,5 @@
     <string name="create_shortcut">Kısayol oluştur</string>
     <string name="dial">Ara</string>
     <string name="new_contact">Yeni kişi</string>
+    <string name="contact">Kişi</string>
 </resources>

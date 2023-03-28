@@ -16,7 +16,7 @@
     <string name="export_success">Exportado.</string>
     <string name="address">Endereço</string>
     <string name="last_name">Apelido</string>
-    <string name="home">Casa</string>
+    <string name="home">Tela inicial</string>
     <string name="phone">Telefone</string>
     <string name="email">E-mail</string>
     <string name="first_name">Nome</string>
@@ -74,4 +74,5 @@
     <string name="create_shortcut">Criar atalho</string>
     <string name="message">Mensagem</string>
     <string name="new_contact">Novo contacto</string>
+    <string name="contact">Contacto</string>
 </resources>

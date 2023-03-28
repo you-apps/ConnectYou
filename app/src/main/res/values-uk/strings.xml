@@ -75,4 +75,5 @@
     <string name="dial">Набрати</string>
     <string name="message">Повідомити</string>
     <string name="new_contact">Новий контакт</string>
+    <string name="contact">Контакт</string>
 </resources>

@@ -74,4 +74,5 @@
     <string name="create_shortcut">Vytvořit zástupce</string>
     <string name="dial">Zavolat</string>
     <string name="new_contact">Nový kontakt</string>
+    <string name="contact">Kontakt</string>
 </resources>

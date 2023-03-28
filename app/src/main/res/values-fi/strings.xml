@@ -22,7 +22,7 @@
     <string name="first_name">Etunimi</string>
     <string name="last_name">Sukunimi</string>
     <string name="type">Tyyppi</string>
-    <string name="home">Koti</string>
+    <string name="home">Aloitusnäyttö</string>
     <string name="work">Työ</string>
     <string name="mobile">Matkapuhelin</string>
     <string name="other">Muu</string>
@@ -74,4 +74,5 @@
     <string name="dial">Soita</string>
     <string name="message">Viesti</string>
     <string name="new_contact">Uusi yhteystieto</string>
+    <string name="contact">Yhteystieto</string>
 </resources>
