@@ -86,6 +86,10 @@ fun ContactEditor(
 
     fun emptyMutable() = mutableStateOf(ValueWithType("", 0))
 
+    var showAdvanced by remember {
+        mutableStateOf(false)
+    }
+
     var profilePicture by remember {
         mutableStateOf(contact?.photo)
     }
@@ -213,7 +217,7 @@ fun ContactEditor(
                 state = surName,
             )
 
-            AnimatedVisibility(true) {
+            AnimatedVisibility(showAdvanced) {
                 Column {
                     LabeledTextField(
                         label = R.string.nick_name,
@@ -221,7 +225,7 @@ fun ContactEditor(
                     )
                     LabeledTextField(
                         label = R.string.organization,
-                        state = organization
+                        state = organization,
                     )
                     websites.forEachIndexed { index, it ->
                         TextFieldEditor(
@@ -242,6 +246,19 @@ fun ContactEditor(
                         }
                     }
                 }
+            }
+
+
+            Button(
+                onClick = {
+                    showAdvanced = !showAdvanced
+                },
+            ) {
+                Text(
+                    stringResource(
+                        if (showAdvanced) R.string.show_less else R.string.show_more_fields,
+                    ),
+                )
             }
 
             phoneNumber.forEachIndexed { index, it ->

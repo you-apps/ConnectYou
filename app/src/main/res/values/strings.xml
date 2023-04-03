@@ -21,6 +21,8 @@
     <string name="edit">Edit</string>
     <string name="filter">Filter</string>
     <string name="more">More</string>
+    <string name="show_more_fields">Show more fields</string>
+    <string name="show_less">Show less</string>
     <!-- Warnings -->
     <string name="empty_name">Name can\'t be empty!</string>
     <string name="import_success">Imported.</string>
