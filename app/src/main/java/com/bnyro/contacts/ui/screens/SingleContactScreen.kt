@@ -92,71 +92,62 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
             }
         ) { pV ->
             val scrollState = rememberScrollState()
-            val shape = RoundedCornerShape(20.dp)
 
             Column(
                 modifier = Modifier.verticalScroll(scrollState).padding(pV),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ElevatedCard(
+                Column(
                     modifier = Modifier
-                        .padding(start = 15.dp, end = 15.dp, bottom = 5.dp, top = 20.dp)
-                        .fillMaxWidth()
-                        .clip(shape),
-                    shape = shape
+                        .padding(horizontal = 10.dp, vertical = 35.dp)
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Column(
+                    Box(
                         modifier = Modifier
-                            .padding(horizontal = 10.dp, vertical = 35.dp)
-                            .fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                            .size(135.dp)
+                            .background(
+                                shape = CircleShape,
+                                color = MaterialTheme.colorScheme.primary
+                            )
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .size(135.dp)
-                                .background(
-                                    shape = CircleShape,
-                                    color = MaterialTheme.colorScheme.primary
-                                )
-                        ) {
-                            if (contact.photo == null) {
-                                Text(
-                                    modifier = Modifier.align(Alignment.Center),
-                                    text = (contact.displayName?.firstOrNull() ?: "").toString(),
-                                    color = MaterialTheme.colorScheme.onPrimary,
-                                    fontSize = 65.sp
-                                )
-                            } else {
-                                Image(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .clip(CircleShape)
-                                        .clickable {
-                                            showZoomablePhoto = true
-                                        },
-                                    bitmap = contact.photo!!.asImageBitmap(),
-                                    contentDescription = null,
-                                    contentScale = ContentScale.Crop
-                                )
-                            }
+                        if (contact.photo == null) {
+                            Text(
+                                modifier = Modifier.align(Alignment.Center),
+                                text = (contact.displayName?.firstOrNull() ?: "").toString(),
+                                color = MaterialTheme.colorScheme.onPrimary,
+                                fontSize = 65.sp
+                            )
+                        } else {
+                            Image(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(CircleShape)
+                                    .clickable {
+                                        showZoomablePhoto = true
+                                    },
+                                bitmap = contact.photo!!.asImageBitmap(),
+                                contentDescription = null,
+                                contentScale = ContentScale.Crop
+                            )
                         }
-                        Spacer(modifier = Modifier.height(20.dp))
-                        Text(
-                            text = contact.displayName.orEmpty(),
-                            fontSize = 30.sp,
-                            fontWeight = FontWeight.Bold
-                        )
                     }
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Text(
+                        text = contact.displayName.orEmpty(),
+                        fontSize = 30.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
 
                 ElevatedCard(
                     modifier = Modifier
-                        .padding(10.dp)
+                        .padding(bottom = 20.dp)
                         .align(Alignment.CenterHorizontally),
-                    shape = RoundedCornerShape(24.dp)
+                    shape = RoundedCornerShape(12.dp)
                 ) {
                     Row(
-                        modifier = Modifier.padding(vertical = 10.dp, horizontal = 15.dp)
+                        modifier = Modifier.padding(vertical = 6.dp, horizontal = 15.dp)
                     ) {
                         ClickableIcon(icon = Icons.Default.Call) {
                             IntentHelper.launchAction(
@@ -174,12 +165,12 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                             )
                         }
                         Spacer(modifier = Modifier.width(5.dp))
-                        ClickableIcon(icon = Icons.Default.Edit) {
-                            showEditor = true
-                        }
-                        Spacer(modifier = Modifier.width(5.dp))
                         ClickableIcon(icon = Icons.Default.Share) {
                             viewModel.exportSingleVcf(context, contact)
+                        }
+                        Spacer(modifier = Modifier.width(5.dp))
+                        ClickableIcon(icon = Icons.Default.Edit) {
+                            showEditor = true
                         }
                         Spacer(modifier = Modifier.width(5.dp))
                         ClickableIcon(icon = Icons.Default.Delete) {
