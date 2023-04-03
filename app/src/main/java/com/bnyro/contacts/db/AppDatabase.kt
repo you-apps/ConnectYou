@@ -8,7 +8,7 @@ import com.bnyro.contacts.db.obj.ValuableType
 
 @Database(
     entities = [LocalContact::class, ValuableType::class],
-    version = 1
+    version = 2
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun localContactsDao(): LocalContactsDao

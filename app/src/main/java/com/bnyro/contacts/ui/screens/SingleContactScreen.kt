@@ -81,7 +81,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     navigationIcon = {
                         ClickableIcon(
                             icon = Icons.Default.ArrowBack,
-                            contentDescription = R.string.okay
+                            contentDescription = R.string.okay,
                         ) {
                             onClose.invoke()
                         }
@@ -89,40 +89,40 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     actions = {
                         ClickableIcon(
                             icon = Icons.Default.Shortcut,
-                            contentDescription = R.string.create_shortcut
+                            contentDescription = R.string.create_shortcut,
                         ) {
                             showShortcutDialog = true
                         }
-                    }
+                    },
                 )
-            }
+            },
         ) { pV ->
             val scrollState = rememberScrollState()
 
             Column(
                 modifier = Modifier.verticalScroll(scrollState).padding(pV),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Column(
                     modifier = Modifier
                         .padding(horizontal = 10.dp, vertical = 35.dp)
                         .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Box(
                         modifier = Modifier
                             .size(135.dp)
                             .background(
                                 shape = CircleShape,
-                                color = MaterialTheme.colorScheme.primary
-                            )
+                                color = MaterialTheme.colorScheme.primary,
+                            ),
                     ) {
                         if (contact.photo == null) {
                             Text(
                                 modifier = Modifier.align(Alignment.Center),
                                 text = (contact.displayName?.firstOrNull() ?: "").toString(),
                                 color = MaterialTheme.colorScheme.onPrimary,
-                                fontSize = 65.sp
+                                fontSize = 65.sp,
                             )
                         } else {
                             Image(
@@ -134,7 +134,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                                     },
                                 bitmap = contact.photo!!.asImageBitmap(),
                                 contentDescription = null,
-                                contentScale = ContentScale.Crop
+                                contentScale = ContentScale.Crop,
                             )
                         }
                     }
@@ -142,7 +142,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     Text(
                         text = contact.displayName.orEmpty(),
                         fontSize = 30.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
                     )
                 }
 
@@ -150,61 +150,75 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     modifier = Modifier
                         .padding(bottom = 20.dp)
                         .align(Alignment.CenterHorizontally),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(12.dp),
                 ) {
                     Row(
-                        modifier = Modifier.padding(vertical = 6.dp, horizontal = 15.dp)
+                        modifier = Modifier.padding(vertical = 6.dp, horizontal = 15.dp),
                     ) {
                         ClickableIcon(
                             icon = Icons.Default.Call,
-                            contentDescription = R.string.dial
+                            contentDescription = R.string.dial,
                         ) {
                             IntentHelper.launchAction(
                                 context,
                                 IntentActionType.DIAL,
-                                contact.numbers.firstOrNull()?.value ?: return@ClickableIcon
+                                contact.numbers.firstOrNull()?.value ?: return@ClickableIcon,
                             )
                         }
                         Spacer(modifier = Modifier.width(5.dp))
                         ClickableIcon(
                             icon = Icons.Default.Message,
-                            contentDescription = R.string.message
+                            contentDescription = R.string.message,
                         ) {
                             IntentHelper.launchAction(
                                 context,
                                 IntentActionType.SMS,
-                                contact.numbers.firstOrNull()?.value ?: return@ClickableIcon
+                                contact.numbers.firstOrNull()?.value ?: return@ClickableIcon,
                             )
                         }
                         Spacer(modifier = Modifier.width(5.dp))
                         ClickableIcon(
                             icon = Icons.Default.Share,
-                            contentDescription = R.string.share
+                            contentDescription = R.string.share,
                         ) {
                             viewModel.exportSingleVcf(context, contact)
                         }
                         Spacer(modifier = Modifier.width(5.dp))
                         ClickableIcon(
                             icon = Icons.Default.Edit,
-                            contentDescription = R.string.edit
+                            contentDescription = R.string.edit,
                         ) {
                             showEditor = true
                         }
                         Spacer(modifier = Modifier.width(5.dp))
                         ClickableIcon(
                             icon = Icons.Default.Delete,
-                            contentDescription = R.string.delete
+                            contentDescription = R.string.delete,
                         ) {
                             showDelete = true
                         }
                     }
                 }
 
+                contact.nickName?.let {
+                    ContactEntry(
+                        label = stringResource(R.string.nick_name),
+                        content = it,
+                    )
+                }
+
+                contact.organization?.let {
+                    ContactEntry(
+                        label = stringResource(R.string.organization),
+                        content = it,
+                    )
+                }
+
                 contact.numbers.forEach {
                     ContactEntry(
                         label = stringResource(R.string.phone),
                         content = it.value,
-                        type = ContactsHelper.phoneNumberTypes.firstOrNull { type -> it.type == type.id }?.title
+                        type = ContactsHelper.phoneNumberTypes.firstOrNull { type -> it.type == type.id }?.title,
                     ) {
                         IntentHelper.launchAction(context, IntentActionType.DIAL, it.value)
                     }
@@ -214,7 +228,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     ContactEntry(
                         label = stringResource(R.string.email),
                         content = it.value,
-                        type = ContactsHelper.emailTypes.firstOrNull { type -> it.type == type.id }?.title
+                        type = ContactsHelper.emailTypes.firstOrNull { type -> it.type == type.id }?.title,
                     ) {
                         IntentHelper.launchAction(context, IntentActionType.EMAIL, it.value)
                     }
@@ -224,7 +238,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     ContactEntry(
                         label = stringResource(R.string.address),
                         content = it.value,
-                        type = ContactsHelper.addressTypes.firstOrNull { type -> it.type == type.id }?.title
+                        type = ContactsHelper.addressTypes.firstOrNull { type -> it.type == type.id }?.title,
                     ) {
                         IntentHelper.launchAction(context, IntentActionType.ADDRESS, it.value)
                     }
@@ -234,21 +248,21 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     ContactEntry(
                         label = stringResource(R.string.event),
                         content = CalendarUtils.localizeIsoDate(it.value),
-                        type = ContactsHelper.eventTypes.firstOrNull { type -> it.type == type.id }?.title
+                        type = ContactsHelper.eventTypes.firstOrNull { type -> it.type == type.id }?.title,
                     )
                 }
 
                 contact.notes.forEach {
                     ContactEntry(
                         label = stringResource(R.string.note),
-                        content = it.value
+                        content = it.value,
                     )
                 }
 
                 if (contact.groups.isNotEmpty()) {
                     ContactEntry(
                         label = stringResource(R.string.groups),
-                        content = contact.groups.joinToString(", ") { it.title }
+                        content = contact.groups.joinToString(", ") { it.title },
                     )
                 }
             }
@@ -264,7 +278,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
             onSave = {
                 viewModel.updateContact(context, it)
                 onClose.invoke()
-            }
+            },
         )
     }
 
@@ -274,7 +288,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                 showDelete = false
             },
             title = stringResource(R.string.delete_contact),
-            text = stringResource(R.string.irreversible)
+            text = stringResource(R.string.irreversible),
         ) {
             viewModel.deleteContacts(listOf(contact))
             onClose.invoke()

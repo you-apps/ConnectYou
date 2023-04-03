@@ -36,6 +36,8 @@
     <string name="account_type">Account type</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last Name</string>
+    <string name="nick_name">Nick name</string>
+    <string name="organization">Organization</string>
     <!-- Types -->
     <string name="type">Type</string>
     <string name="home">Home screen</string>

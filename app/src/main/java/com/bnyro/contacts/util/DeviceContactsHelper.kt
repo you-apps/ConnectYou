@@ -14,7 +14,9 @@ import android.provider.ContactsContract.CALLER_IS_SYNCADAPTER
 import android.provider.ContactsContract.CommonDataKinds.Email
 import android.provider.ContactsContract.CommonDataKinds.Event
 import android.provider.ContactsContract.CommonDataKinds.GroupMembership
+import android.provider.ContactsContract.CommonDataKinds.Nickname
 import android.provider.ContactsContract.CommonDataKinds.Note
+import android.provider.ContactsContract.CommonDataKinds.Organization
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.ContactsContract.CommonDataKinds.Photo
 import android.provider.ContactsContract.CommonDataKinds.StructuredName
@@ -22,6 +24,7 @@ import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
 import android.provider.ContactsContract.Contacts
 import android.provider.ContactsContract.Data
 import android.provider.ContactsContract.RawContacts
+import android.util.Log
 import androidx.annotation.RequiresPermission
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.BackupType
@@ -48,6 +51,8 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         Contacts.DISPLAY_NAME_ALTERNATIVE,
         StructuredName.GIVEN_NAME,
         StructuredName.FAMILY_NAME,
+        Nickname.NAME,
+        Organization.COMPANY,
         RawContacts.ACCOUNT_TYPE,
         RawContacts.ACCOUNT_NAME
     )
@@ -120,7 +125,13 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         }
     }
 
+    private fun getEntry(contactId: Long, type: String, column: String): String? {
+        return getExtras(contactId, column, null, type).firstOrNull()?.value
+    }
+
     override suspend fun loadAdvancedData(contact: ContactData) = contact.apply {
+        nickName = getEntry(contactId, Nickname.CONTENT_ITEM_TYPE, Nickname.NAME)
+        organization = getEntry(contactId, Organization.CONTENT_ITEM_TYPE, Organization.COMPANY)
         events = getExtras(
             contactId,
             Event.START_DATE,
@@ -246,7 +257,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     private fun getExtras(contactId: Long, valueIndex: String, typeIndex: String?, itemType: String): List<ValueWithType> {
         val entries = mutableListOf<ValueWithType>()
         val uri = Data.CONTENT_URI
-        val projection = arrayOf(Data.CONTACT_ID, valueIndex, typeIndex)
+        val projection = arrayOf(Data.CONTACT_ID, valueIndex, typeIndex ?: "data2")
 
         contentResolver.query(
             uri,
@@ -285,7 +296,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     @SuppressLint("MissingPermission")
     @RequiresPermission(Manifest.permission.WRITE_CONTACTS)
     override suspend fun createContact(contact: ContactData) {
-        val ops = arrayListOf(
+        val ops = listOfNotNull(
             getCreateAction(
                 contact.accountType ?: androidAccountType,
                 contact.accountName ?: deviceContactName
@@ -305,6 +316,23 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
                 StructuredName.FAMILY_NAME,
                 contact.surName.orEmpty()
             ),
+            contact.nickName?.let {
+                getInsertAction(
+                    Nickname.CONTENT_ITEM_TYPE,
+                    Nickname.NAME,
+                    it
+                )
+            },
+            contact.organization?.let {
+                getInsertAction(
+                    Organization.CONTENT_ITEM_TYPE,
+                    Organization.COMPANY,
+                    it
+                )
+            },
+            contact.photo?.let {
+                getInsertAction(Photo.CONTENT_ITEM_TYPE, Photo.PHOTO, getBitmapBytes(it))
+            },
             *contact.numbers.map {
                 getInsertAction(
                     Phone.CONTENT_ITEM_TYPE,
@@ -355,13 +383,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
                     it.rowId.toString()
                 )
             }.toTypedArray()
-        ).apply {
-            contact.photo?.let {
-                add(
-                    getInsertAction(Photo.CONTENT_ITEM_TYPE, Photo.PHOTO, getBitmapBytes(it))
-                )
-            }
-        }
+        ).let { ArrayList(it) }
 
         contentResolver.applyBatch(AUTHORITY, ops)
     }
@@ -371,8 +393,8 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         val operations = ArrayList<ContentProviderOperation>()
         val rawContactId = contact.rawContactId.toString()
 
+        val selection = "${Data.RAW_CONTACT_ID} = ? AND ${Data.MIMETYPE} = ?"
         ContentProviderOperation.newUpdate(Data.CONTENT_URI).apply {
-            val selection = "${Data.RAW_CONTACT_ID} = ? AND ${Data.MIMETYPE} = ?"
             val selectionArgs = arrayOf(rawContactId, StructuredName.CONTENT_ITEM_TYPE)
             withSelection(selection, selectionArgs)
             withValue(StructuredName.GIVEN_NAME, contact.firstName)
@@ -380,6 +402,13 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
             withValue(StructuredName.DISPLAY_NAME, contact.displayName)
             operations.add(build())
         }
+
+        operations.addAll(
+            getUpdateSingleAction(rawContactId, Nickname.CONTENT_ITEM_TYPE, Nickname.NAME, contact.nickName),
+        )
+        operations.addAll(
+            getUpdateSingleAction(rawContactId, Organization.CONTENT_ITEM_TYPE, Organization.COMPANY, contact.organization)
+        )
 
         operations.addAll(
             getUpdateMultipleAction(
@@ -483,6 +512,19 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
             }
             .build()
     }
+
+    private fun getUpdateSingleAction(
+        contactId: String,
+        mimeType: String,
+        valueIndex: String,
+        value: String?
+    ) = getUpdateMultipleAction(
+        contactId,
+        mimeType,
+        listOfNotNull(value?.let { ValueWithType(it, null) }),
+        valueIndex,
+        null
+    )
 
     @Suppress("SameParameterValue")
     private fun getUpdateMultipleAction(

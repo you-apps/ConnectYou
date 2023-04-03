@@ -3,6 +3,7 @@ package com.bnyro.contacts.ui.components
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -66,7 +67,7 @@ fun ContactEditor(
     modifier: Modifier = Modifier,
     contact: ContactData? = null,
     isCreatingNewDeviceContact: Boolean,
-    onSave: (contact: ContactData) -> Unit
+    onSave: (contact: ContactData) -> Unit,
 ) {
     val context = LocalContext.current
     val contactsModel: ContactsModel = viewModel()
@@ -95,6 +96,14 @@ fun ContactEditor(
 
     val surName = remember {
         mutableStateOf(contact?.surName.orEmpty())
+    }
+
+    val nickName = remember {
+        mutableStateOf(contact?.nickName.orEmpty())
+    }
+
+    val organization = remember {
+        mutableStateOf(contact?.organization.orEmpty())
     }
 
     val phoneNumber = remember {
@@ -138,7 +147,7 @@ fun ContactEditor(
     }
 
     val uploadImage = rememberLauncherForActivityResult(
-        ActivityResultContracts.PickVisualMedia()
+        ActivityResultContracts.PickVisualMedia(),
     ) { uri ->
         ImageHelper.getImageFromUri(context, uri ?: return@rememberLauncherForActivityResult)?.let { bitmap ->
             profilePicture = bitmap
@@ -146,7 +155,7 @@ fun ContactEditor(
     }
 
     Box(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
     ) {
         val scrollState = rememberScrollState()
 
@@ -154,7 +163,7 @@ fun ContactEditor(
             modifier = Modifier
                 .fillMaxWidth()
                 .verticalScroll(scrollState),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Box(
                 modifier = Modifier
@@ -164,40 +173,53 @@ fun ContactEditor(
                     .combinedClickable(
                         onClick = {
                             val request = PickVisualMediaRequest(
-                                ActivityResultContracts.PickVisualMedia.ImageOnly
+                                ActivityResultContracts.PickVisualMedia.ImageOnly,
                             )
                             uploadImage.launch(request)
                         },
                         onLongClick = {
                             profilePicture = null
-                        }
-                    )
+                        },
+                    ),
             ) {
                 profilePicture?.let {
                     Image(
                         modifier = Modifier.fillMaxSize(),
                         bitmap = it.asImageBitmap(),
                         contentDescription = null,
-                        contentScale = ContentScale.Crop
+                        contentScale = ContentScale.Crop,
                     )
                 } ?: run {
                     Icon(
                         modifier = Modifier.fillMaxSize(),
                         imageVector = Icons.Default.Person,
-                        contentDescription = null
+                        contentDescription = null,
                     )
                 }
             }
 
             LabeledTextField(
                 label = R.string.first_name,
-                state = firstName
+                state = firstName,
             )
 
             LabeledTextField(
                 label = R.string.last_name,
-                state = surName
+                state = surName,
             )
+
+            AnimatedVisibility(true) {
+                Column {
+                    LabeledTextField(
+                        label = R.string.nick_name,
+                        state = nickName,
+                    )
+                    LabeledTextField(
+                        label = R.string.organization,
+                        state = organization
+                    )
+                }
+            }
 
             phoneNumber.forEachIndexed { index, it ->
                 TextFieldEditor(
@@ -212,7 +234,7 @@ fun ContactEditor(
                     moveToTop = {
                         phoneNumber.add(0, it)
                         phoneNumber.removeAt(index + 1)
-                    }
+                    },
                 ) {
                     phoneNumber.add(emptyMutable())
                 }
@@ -227,7 +249,7 @@ fun ContactEditor(
                     onDelete = {
                         emails.removeAt(index)
                     },
-                    showDeleteAction = emails.size > 1
+                    showDeleteAction = emails.size > 1,
                 ) {
                     emails.add(emptyMutable())
                 }
@@ -242,7 +264,7 @@ fun ContactEditor(
                     onDelete = {
                         addresses.removeAt(index)
                     },
-                    showDeleteAction = addresses.size > 1
+                    showDeleteAction = addresses.size > 1,
                 ) {
                     addresses.add(emptyMutable())
                 }
@@ -256,7 +278,7 @@ fun ContactEditor(
                     onDelete = {
                         events.removeAt(index)
                     },
-                    showDeleteAction = events.size > 1
+                    showDeleteAction = events.size > 1,
                 ) {
                     events.add(emptyMutable())
                 }
@@ -271,7 +293,7 @@ fun ContactEditor(
                     onDelete = {
                         notes.removeAt(index)
                     },
-                    showDeleteAction = notes.size > 1
+                    showDeleteAction = notes.size > 1,
                 ) {
                     notes.add(emptyMutable())
                 }
@@ -280,12 +302,12 @@ fun ContactEditor(
             Row(
                 modifier = Modifier
                     .align(Alignment.Start)
-                    .padding(top = 10.dp, start = 10.dp)
+                    .padding(top = 10.dp, start = 10.dp),
             ) {
                 Button(
                     onClick = {
                         showGroupsDialog = true
-                    }
+                    },
                 ) {
                     Text(stringResource(R.string.manage_groups))
                 }
@@ -295,7 +317,7 @@ fun ContactEditor(
                     Button(
                         onClick = {
                             showAccountTypeDialog = true
-                        }
+                        },
                     ) {
                         Text(stringResource(R.string.account_type))
                     }
@@ -313,6 +335,8 @@ fun ContactEditor(
                 val editedContact = (contact ?: ContactData()).also {
                     it.firstName = firstName.value.trim()
                     it.surName = surName.value.trim()
+                    it.nickName = nickName.value.takeIf { n -> n.isNotBlank() }?.trim()
+                    it.organization = organization.value.takeIf { o -> o.isNotBlank() }?.trim()
                     it.displayName = "${firstName.value.trim()} ${surName.value.trim()}"
                     it.photo = profilePicture
                     it.accountType = selectedAccountType.first
@@ -325,11 +349,11 @@ fun ContactEditor(
                     it.groups = groups
                 }
                 onSave.invoke(editedContact)
-            }
+            },
         ) {
             Icon(
                 imageVector = Icons.Default.Save,
-                contentDescription = null
+                contentDescription = null,
             )
         }
     }
@@ -337,7 +361,7 @@ fun ContactEditor(
     if (showGroupsDialog) {
         GroupsDialog(
             onDismissRequest = { showGroupsDialog = false },
-            participatingGroups = groups
+            participatingGroups = groups,
         ) {
             groups = it
         }
@@ -356,7 +380,7 @@ fun ContactEditor(
             },
             text = {
                 LazyColumn(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     items(availableAccountTypes) {
                         Text(
@@ -368,11 +392,11 @@ fun ContactEditor(
                                     showAccountTypeDialog = false
                                 }
                                 .padding(vertical = 15.dp, horizontal = 20.dp),
-                            text = it.second.orEmpty()
+                            text = it.second.orEmpty(),
                         )
                     }
                 }
-            }
+            },
         )
     }
 }
