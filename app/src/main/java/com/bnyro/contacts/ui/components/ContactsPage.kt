@@ -64,6 +64,7 @@ import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.AboutScreen
 import com.bnyro.contacts.ui.screens.EditorScreen
 import com.bnyro.contacts.ui.screens.SettingsScreen
+import com.bnyro.contacts.util.BackupHelper
 import com.bnyro.contacts.util.DeviceContactsHelper
 import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.Preferences
@@ -171,13 +172,7 @@ fun ContactsPage(
                                     onSelect = {
                                         when (it) {
                                             0 -> {
-                                                importVcard.launch(
-                                                    arrayOf(
-                                                        "text/vcard",
-                                                        "text/v-card",
-                                                        "text/x-vcard"
-                                                    )
-                                                )
+                                                importVcard.launch(BackupHelper.vCardMimeTypes)
                                             }
 
                                             1 -> {

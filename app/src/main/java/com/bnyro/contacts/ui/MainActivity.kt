@@ -14,6 +14,7 @@ import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.ThemeModel
 import com.bnyro.contacts.ui.screens.ContactsScreen
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
+import com.bnyro.contacts.util.BackupHelper
 
 class MainActivity : ComponentActivity() {
     private val phoneNumberExtra = "phone"
@@ -25,6 +26,8 @@ class MainActivity : ComponentActivity() {
         val contactsModel: ContactsModel = ViewModelProvider(this).get()
 
         contactsModel.init(this)
+
+        handleVcfShareAction(contactsModel)
 
         setContent {
             ConnectYouTheme(
@@ -61,5 +64,10 @@ class MainActivity : ComponentActivity() {
             Intent.ACTION_INSERT_OR_EDIT -> intent?.getStringExtra(phoneNumberExtra)
             else -> null
         }
+    }
+
+    private fun handleVcfShareAction(contactsModel: ContactsModel) {
+        if (intent.action != Intent.ACTION_VIEW || intent?.type !in BackupHelper.vCardMimeTypes) return
+        contactsModel.importVcf(this, intent?.data ?: return)
     }
 }

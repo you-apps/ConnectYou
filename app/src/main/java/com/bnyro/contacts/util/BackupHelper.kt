@@ -7,6 +7,7 @@ import androidx.documentfile.provider.DocumentFile
 
 object BackupHelper {
     private const val VCARD_MIME = "text/v-card"
+    val vCardMimeTypes = arrayOf("text/vcard", "text/x-vcard", "text/directory")
 
     suspend fun backup(context: Context, contactsHelper: ContactsHelper) {
         val backupDirPref = Preferences.getString(Preferences.backupDirKey, "").takeIf {
