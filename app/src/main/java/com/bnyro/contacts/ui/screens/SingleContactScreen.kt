@@ -79,12 +79,18 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                 TopAppBar(
                     title = {},
                     navigationIcon = {
-                        ClickableIcon(icon = Icons.Default.ArrowBack) {
+                        ClickableIcon(
+                            icon = Icons.Default.ArrowBack,
+                            contentDescription = R.string.okay
+                        ) {
                             onClose.invoke()
                         }
                     },
                     actions = {
-                        ClickableIcon(icon = Icons.Default.Shortcut) {
+                        ClickableIcon(
+                            icon = Icons.Default.Shortcut,
+                            contentDescription = R.string.create_shortcut
+                        ) {
                             showShortcutDialog = true
                         }
                     }
@@ -149,7 +155,10 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     Row(
                         modifier = Modifier.padding(vertical = 6.dp, horizontal = 15.dp)
                     ) {
-                        ClickableIcon(icon = Icons.Default.Call) {
+                        ClickableIcon(
+                            icon = Icons.Default.Call,
+                            contentDescription = R.string.dial
+                        ) {
                             IntentHelper.launchAction(
                                 context,
                                 IntentActionType.DIAL,
@@ -157,7 +166,10 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                             )
                         }
                         Spacer(modifier = Modifier.width(5.dp))
-                        ClickableIcon(icon = Icons.Default.Message) {
+                        ClickableIcon(
+                            icon = Icons.Default.Message,
+                            contentDescription = R.string.message
+                        ) {
                             IntentHelper.launchAction(
                                 context,
                                 IntentActionType.SMS,
@@ -165,15 +177,24 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                             )
                         }
                         Spacer(modifier = Modifier.width(5.dp))
-                        ClickableIcon(icon = Icons.Default.Share) {
+                        ClickableIcon(
+                            icon = Icons.Default.Share,
+                            contentDescription = R.string.share
+                        ) {
                             viewModel.exportSingleVcf(context, contact)
                         }
                         Spacer(modifier = Modifier.width(5.dp))
-                        ClickableIcon(icon = Icons.Default.Edit) {
+                        ClickableIcon(
+                            icon = Icons.Default.Edit,
+                            contentDescription = R.string.edit
+                        ) {
                             showEditor = true
                         }
                         Spacer(modifier = Modifier.width(5.dp))
-                        ClickableIcon(icon = Icons.Default.Delete) {
+                        ClickableIcon(
+                            icon = Icons.Default.Delete,
+                            contentDescription = R.string.delete
+                        ) {
                             showDelete = true
                         }
                     }

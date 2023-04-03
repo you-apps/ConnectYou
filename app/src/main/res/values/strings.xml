@@ -18,6 +18,9 @@
     <string name="dial">Dial</string>
     <string name="message">Message</string>
     <string name="contact">Contact</string>
+    <string name="edit">Edit</string>
+    <string name="filter">Filter</string>
+    <string name="more">More</string>
     <!-- Warnings -->
     <string name="empty_name">Name can\'t be empty!</string>
     <string name="import_success">Imported.</string>

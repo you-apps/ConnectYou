@@ -85,7 +85,10 @@ fun GroupsDialog(
                             modifier = Modifier.weight(1f),
                             text = group.title
                         )
-                        ClickableIcon(icon = Icons.Default.Delete) {
+                        ClickableIcon(
+                            icon = Icons.Default.Delete,
+                            contentDescription = R.string.delete_group
+                        ) {
                             groupToDelete = group
                         }
                     }

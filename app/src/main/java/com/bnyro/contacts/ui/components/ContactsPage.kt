@@ -144,12 +144,14 @@ fun ContactsPage(
 
                                 Row {
                                     ClickableIcon(
-                                        icon = Icons.Default.Sort
+                                        icon = Icons.Default.Sort,
+                                        contentDescription = R.string.filter
                                     ) {
                                         showFilterDialog = true
                                     }
                                     ClickableIcon(
-                                        icon = Icons.Default.MoreVert
+                                        icon = Icons.Default.MoreVert,
+                                        contentDescription = R.string.more
                                     ) {
                                         expandedOptions = !expandedOptions
                                     }

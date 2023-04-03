@@ -39,7 +39,10 @@ fun SettingsScreen(onDismissRequest: () -> Unit) {
                         Text(stringResource(R.string.settings))
                     },
                     navigationIcon = {
-                        ClickableIcon(icon = Icons.Default.ArrowBack) {
+                        ClickableIcon(
+                            icon = Icons.Default.ArrowBack,
+                            contentDescription = R.string.okay
+                        ) {
                             onDismissRequest.invoke()
                         }
                     }

@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
@@ -25,7 +26,10 @@ fun ContactProfilePicture(
             topBar = {
                 TopAppBar(
                     navigationIcon = {
-                        ClickableIcon(icon = Icons.Default.ArrowBack) {
+                        ClickableIcon(
+                            icon = Icons.Default.ArrowBack,
+                            contentDescription = R.string.okay
+                        ) {
                             onDismissRequest.invoke()
                         }
                     },

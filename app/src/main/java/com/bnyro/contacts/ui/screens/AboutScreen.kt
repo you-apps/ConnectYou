@@ -36,7 +36,10 @@ fun AboutScreen(onDismissRequest: () -> Unit) {
                         Text(stringResource(R.string.about))
                     },
                     navigationIcon = {
-                        ClickableIcon(icon = Icons.Default.ArrowBack) {
+                        ClickableIcon(
+                            icon = Icons.Default.ArrowBack,
+                            contentDescription = R.string.okay
+                        ) {
                             onDismissRequest.invoke()
                         }
                     }
