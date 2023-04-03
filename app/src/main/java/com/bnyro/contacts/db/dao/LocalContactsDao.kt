@@ -6,7 +6,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.bnyro.contacts.db.obj.ContactWithData
 import com.bnyro.contacts.db.obj.LocalContact
-import com.bnyro.contacts.db.obj.ValuableType
+import com.bnyro.contacts.db.obj.DbDataItem
 
 @Dao
 interface LocalContactsDao {
@@ -18,7 +18,7 @@ interface LocalContactsDao {
     suspend fun insertContact(contact: LocalContact): Long
 
     @Insert
-    suspend fun insertData(vararg data: ValuableType)
+    suspend fun insertData(vararg data: DbDataItem)
 
     @Query("DELETE FROM localContacts WHERE id = :id")
     suspend fun deleteContactByID(id: Long)

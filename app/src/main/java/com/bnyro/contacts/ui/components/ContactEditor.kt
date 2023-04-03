@@ -106,6 +106,10 @@ fun ContactEditor(
         mutableStateOf(contact?.organization.orEmpty())
     }
 
+    val websites = remember {
+        contact?.websites.fillIfEmpty().map { mutableStateOf(it) }.toMutableStateList()
+    }
+
     val phoneNumber = remember {
         contact?.numbers.fillIfEmpty().map { mutableStateOf(it) }.toMutableStateList()
     }
@@ -149,9 +153,10 @@ fun ContactEditor(
     val uploadImage = rememberLauncherForActivityResult(
         ActivityResultContracts.PickVisualMedia(),
     ) { uri ->
-        ImageHelper.getImageFromUri(context, uri ?: return@rememberLauncherForActivityResult)?.let { bitmap ->
-            profilePicture = bitmap
-        }
+        ImageHelper.getImageFromUri(context, uri ?: return@rememberLauncherForActivityResult)
+            ?.let { bitmap ->
+                profilePicture = bitmap
+            }
     }
 
     Box(
@@ -218,6 +223,24 @@ fun ContactEditor(
                         label = R.string.organization,
                         state = organization
                     )
+                    websites.forEachIndexed { index, it ->
+                        TextFieldEditor(
+                            label = R.string.website,
+                            state = it,
+                            types = ContactsHelper.websiteTypes,
+                            keyboardType = KeyboardType.Uri,
+                            onDelete = {
+                                websites.removeAt(index)
+                            },
+                            showDeleteAction = websites.size > 1,
+                            moveToTop = {
+                                websites.add(0, it)
+                                websites.removeAt(index + 1)
+                            },
+                        ) {
+                            websites.add(emptyMutable())
+                        }
+                    }
                 }
             }
 
@@ -341,6 +364,7 @@ fun ContactEditor(
                     it.photo = profilePicture
                     it.accountType = selectedAccountType.first
                     it.accountName = selectedAccountType.second
+                    it.websites = websites.clean()
                     it.numbers = phoneNumber.clean()
                     it.emails = emails.clean()
                     it.addresses = addresses.clean()

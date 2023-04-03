@@ -5,12 +5,15 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.ContactsContract
+import androidx.core.net.toUri
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.IntentActionType
 
 object IntentHelper {
     fun launchAction(context: Context, type: IntentActionType, argument: String) {
-        context.startActivity(getLaunchIntent(type, argument))
+        runCatching {
+            context.startActivity(getLaunchIntent(type, argument))
+        }
     }
 
     fun getLaunchIntent(type: IntentActionType, argument: String): Intent {
@@ -18,6 +21,10 @@ object IntentHelper {
             val contactUri =
                 ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, argument.toLong())
             return Intent(Intent.ACTION_VIEW, contactUri)
+        }
+
+        if (type == IntentActionType.WEBSITE) {
+            return Intent(Intent.ACTION_VIEW, argument.toUri())
         }
 
         val query = when (type) {

@@ -9,5 +9,5 @@ data class ContactWithData(
         parentColumn = "id",
         entityColumn = "contactId"
     )
-    val dataItems: List<ValuableType> = listOf()
+    val dataItems: List<DbDataItem> = listOf()
 )

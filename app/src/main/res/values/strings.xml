@@ -31,6 +31,7 @@
     <string name="email">E-mail</string>
     <string name="address">Address</string>
     <string name="event">Event</string>
+    <string name="website">Website</string>
     <!-- Sorting and filter -->
     <string name="sort_order">Sort order</string>
     <string name="account_type">Account type</string>
@@ -40,7 +41,7 @@
     <string name="organization">Organization</string>
     <!-- Types -->
     <string name="type">Type</string>
-    <string name="home">Home screen</string>
+    <string name="home">Home</string>
     <string name="work">Work</string>
     <string name="mobile">Mobile</string>
     <string name="other">Other</string>
@@ -52,6 +53,9 @@
     <string name="birthday">Birthday</string>
     <string name="anniversary">Anniversary</string>
     <string name="note">Note</string>
+    <string name="homepage">Homepage</string>
+    <string name="ftp">FTP</string>
+    <string name="blog">Blog</string>
     <!-- Contact groups -->
     <string name="manage_groups">Manage groups</string>
     <string name="delete_group">Delete group globally</string>

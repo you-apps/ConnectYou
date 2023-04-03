@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "valuableTypes")
-data class ValuableType(
+data class DbDataItem(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val contactId: Long,

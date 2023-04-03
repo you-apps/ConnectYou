@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory
 import com.bnyro.contacts.R
 import com.bnyro.contacts.db.DatabaseHolder
 import com.bnyro.contacts.db.obj.LocalContact
-import com.bnyro.contacts.db.obj.ValuableType
+import com.bnyro.contacts.db.obj.DbDataItem
 import com.bnyro.contacts.enums.BackupType
 import com.bnyro.contacts.enums.DataCategory
 import com.bnyro.contacts.ext.pmap
@@ -32,13 +32,14 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
         )
         val contactId = DatabaseHolder.Db.localContactsDao().insertContact(localContact)
         val dataItems = listOf(
-            contact.numbers.toValuableType(contactId, DataCategory.NUMBER),
-            contact.emails.toValuableType(contactId, DataCategory.EMAIL),
-            contact.addresses.toValuableType(contactId, DataCategory.ADDRESS),
-            contact.events.toValuableType(contactId, DataCategory.EVENT),
-            contact.notes.toValuableType(contactId, DataCategory.NOTE),
+            contact.numbers.toDataItem(contactId, DataCategory.NUMBER),
+            contact.emails.toDataItem(contactId, DataCategory.EMAIL),
+            contact.addresses.toDataItem(contactId, DataCategory.ADDRESS),
+            contact.events.toDataItem(contactId, DataCategory.EVENT),
+            contact.notes.toDataItem(contactId, DataCategory.NOTE),
+            contact.websites.toDataItem(contactId, DataCategory.WEBSITE),
             contact.groups.map {
-                ValuableType(
+                DbDataItem(
                     contactId = contactId,
                     category = DataCategory.GROUP.value,
                     value = it.title,
@@ -85,6 +86,7 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
                 addresses = it.dataItems.toValueWithType(DataCategory.ADDRESS),
                 events = it.dataItems.toValueWithType(DataCategory.EVENT),
                 notes = it.dataItems.toValueWithType(DataCategory.NOTE),
+                websites = it.dataItems.toValueWithType(DataCategory.WEBSITE),
                 groups = it.dataItems.filter { d -> d.category == DataCategory.GROUP.value }
                     .map { group -> ContactsGroup(group.value, -1) }
             )
@@ -111,13 +113,13 @@ class LocalContactsHelper(context: Context) : ContactsHelper() {
         File(picturesDir, contactId.toString()).delete()
     }
 
-    private fun List<ValuableType>.toValueWithType(category: DataCategory): List<ValueWithType> {
+    private fun List<DbDataItem>.toValueWithType(category: DataCategory): List<ValueWithType> {
         return filter { it.category == category.value }.map { ValueWithType(it.value, it.type) }
     }
 
-    private fun List<ValueWithType>.toValuableType(contactId: Long, category: DataCategory): List<ValuableType> {
+    private fun List<ValueWithType>.toDataItem(contactId: Long, category: DataCategory): List<DbDataItem> {
         return map {
-            ValuableType(
+            DbDataItem(
                 contactId = contactId,
                 category = category.value,
                 value = it.value,

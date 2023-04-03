@@ -21,10 +21,10 @@ import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.ContactsContract.CommonDataKinds.Photo
 import android.provider.ContactsContract.CommonDataKinds.StructuredName
 import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
+import android.provider.ContactsContract.CommonDataKinds.Website
 import android.provider.ContactsContract.Contacts
 import android.provider.ContactsContract.Data
 import android.provider.ContactsContract.RawContacts
-import android.util.Log
 import androidx.annotation.RequiresPermission
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.BackupType
@@ -161,6 +161,12 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
             Note.NOTE,
             Note.DATA2,
             Note.CONTENT_ITEM_TYPE
+        )
+        websites = getExtras(
+            contactId,
+            Website.URL,
+            Website.TYPE,
+            Website.CONTENT_ITEM_TYPE
         )
     }
 
@@ -333,6 +339,14 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
             contact.photo?.let {
                 getInsertAction(Photo.CONTENT_ITEM_TYPE, Photo.PHOTO, getBitmapBytes(it))
             },
+            *contact.websites.map {
+                getInsertAction(Website.CONTENT_ITEM_TYPE,
+                    Website.URL,
+                    it.value,
+                    Website.TYPE,
+                    it.type
+                )
+            }.toTypedArray(),
             *contact.numbers.map {
                 getInsertAction(
                     Phone.CONTENT_ITEM_TYPE,
@@ -410,6 +424,15 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
             getUpdateSingleAction(rawContactId, Organization.CONTENT_ITEM_TYPE, Organization.COMPANY, contact.organization)
         )
 
+        operations.addAll(
+            getUpdateMultipleAction(
+                rawContactId,
+                Website.CONTENT_ITEM_TYPE,
+                contact.websites,
+                Website.URL,
+                Website.TYPE
+            )
+        )
         operations.addAll(
             getUpdateMultipleAction(
                 rawContactId,

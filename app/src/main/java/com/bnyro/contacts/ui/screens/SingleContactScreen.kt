@@ -214,6 +214,15 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     )
                 }
 
+                contact.websites.forEach {
+                    ContactEntry(
+                        label = stringResource(R.string.website),
+                        content = it.value,
+                    ) {
+                        IntentHelper.launchAction(context, IntentActionType.WEBSITE, it.value)
+                    }
+                }
+
                 contact.numbers.forEach {
                     ContactEntry(
                         label = stringResource(R.string.phone),
