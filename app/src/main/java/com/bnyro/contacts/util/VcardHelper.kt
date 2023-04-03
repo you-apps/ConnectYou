@@ -52,6 +52,12 @@ object VcardHelper {
                 given = contact.firstName
                 family = contact.surName
             }
+            contact.nickName?.let {
+                setNickname(it)
+            }
+            contact.organization?.let {
+                setOrganization(it)
+            }
             contact.numbers.forEachIndexed { index, number ->
                 val type = phoneNumberTypes.firstOrNull {
                     it.first == number.type
@@ -104,6 +110,8 @@ object VcardHelper {
                 surName = runCatching {
                     it.structuredName.family
                 }.getOrNull(),
+                nickName = it.nickname.values.firstOrNull(),
+                organization = it.organization.values.firstOrNull(),
                 numbers = it.telephoneNumbers.sortedBy { tel ->
                     // rank the number labeled with pref as the first one
                     if (tel.types.contains(TelephoneType.PREF)) -1 else 1
