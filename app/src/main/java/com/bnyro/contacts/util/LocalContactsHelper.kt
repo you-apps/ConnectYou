@@ -5,8 +5,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.bnyro.contacts.R
 import com.bnyro.contacts.db.DatabaseHolder
-import com.bnyro.contacts.db.obj.LocalContact
 import com.bnyro.contacts.db.obj.DbDataItem
+import com.bnyro.contacts.db.obj.LocalContact
 import com.bnyro.contacts.enums.BackupType
 import com.bnyro.contacts.enums.DataCategory
 import com.bnyro.contacts.ext.pmap

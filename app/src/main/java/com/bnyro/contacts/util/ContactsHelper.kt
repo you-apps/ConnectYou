@@ -83,7 +83,10 @@ abstract class ContactsHelper {
         val websiteTypes = listOf(
             TranslatedType(ContactsContract.CommonDataKinds.Website.TYPE_HOME, R.string.home),
             TranslatedType(ContactsContract.CommonDataKinds.Website.TYPE_WORK, R.string.work),
-            TranslatedType(ContactsContract.CommonDataKinds.Website.TYPE_HOMEPAGE, R.string.homepage),
+            TranslatedType(
+                ContactsContract.CommonDataKinds.Website.TYPE_HOMEPAGE,
+                R.string.homepage
+            ),
             TranslatedType(ContactsContract.CommonDataKinds.Website.TYPE_BLOG, R.string.blog),
             TranslatedType(ContactsContract.CommonDataKinds.Website.TYPE_FTP, R.string.ftp),
             TranslatedType(ContactsContract.CommonDataKinds.Website.TYPE_CUSTOM, R.string.custom),

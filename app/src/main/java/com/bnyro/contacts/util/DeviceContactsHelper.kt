@@ -340,7 +340,8 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
                 getInsertAction(Photo.CONTENT_ITEM_TYPE, Photo.PHOTO, getBitmapBytes(it))
             },
             *contact.websites.map {
-                getInsertAction(Website.CONTENT_ITEM_TYPE,
+                getInsertAction(
+                    Website.CONTENT_ITEM_TYPE,
                     Website.URL,
                     it.value,
                     Website.TYPE,
@@ -418,10 +419,20 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         }
 
         operations.addAll(
-            getUpdateSingleAction(rawContactId, Nickname.CONTENT_ITEM_TYPE, Nickname.NAME, contact.nickName),
+            getUpdateSingleAction(
+                rawContactId,
+                Nickname.CONTENT_ITEM_TYPE,
+                Nickname.NAME,
+                contact.nickName
+            )
         )
         operations.addAll(
-            getUpdateSingleAction(rawContactId, Organization.CONTENT_ITEM_TYPE, Organization.COMPANY, contact.organization)
+            getUpdateSingleAction(
+                rawContactId,
+                Organization.CONTENT_ITEM_TYPE,
+                Organization.COMPANY,
+                contact.organization
+            )
         )
 
         operations.addAll(

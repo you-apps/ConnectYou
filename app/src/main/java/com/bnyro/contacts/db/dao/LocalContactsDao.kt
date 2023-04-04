@@ -5,8 +5,8 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import com.bnyro.contacts.db.obj.ContactWithData
-import com.bnyro.contacts.db.obj.LocalContact
 import com.bnyro.contacts.db.obj.DbDataItem
+import com.bnyro.contacts.db.obj.LocalContact
 
 @Dao
 interface LocalContactsDao {

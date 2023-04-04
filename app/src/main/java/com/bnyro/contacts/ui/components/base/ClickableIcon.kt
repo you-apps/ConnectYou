@@ -15,30 +15,30 @@ fun ClickableIcon(
     icon: ImageVector,
     @StringRes contentDescription: Int? = null,
     tint: Color = LocalContentColor.current,
-    onClick: () -> Unit,
+    onClick: () -> Unit
 ) {
     if (contentDescription != null) {
         PlainTooltipBox(tooltip = { Text(stringResource(contentDescription)) }) {
             IconButton(
                 modifier = modifier.tooltipAnchor(),
-                onClick = onClick,
+                onClick = onClick
             ) {
                 Icon(
                     imageVector = icon,
                     tint = tint,
-                    contentDescription = contentDescription?.let { stringResource(it) },
+                    contentDescription = contentDescription?.let { stringResource(it) }
                 )
             }
         }
     } else {
         IconButton(
             modifier = modifier,
-            onClick = onClick,
+            onClick = onClick
         ) {
             Icon(
                 imageVector = icon,
                 tint = tint,
-                contentDescription = null,
+                contentDescription = null
             )
         }
     }

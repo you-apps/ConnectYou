@@ -20,7 +20,6 @@ object DatabaseHolder {
         }
     }
 
-
     fun init(context: Context) {
         Db = Room.databaseBuilder(
             context,
