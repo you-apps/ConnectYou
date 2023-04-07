@@ -72,8 +72,16 @@
     <string name="collapse_bottom_bar">Fold sammen bunnfelt ved rulling</string>
     <string name="note">Notat</string>
     <string name="start_tab">Startfane</string>
-    <string name="delete_group">Slett gruppe globalt</string>
+    <string name="delete_group">Slett gruppen for alle</string>
     <string name="device">Enhet</string>
     <string name="reset">Tilbakestill</string>
     <string name="add_to_contact">Legg til i kontakt</string>
+    <string name="edit">Rediger</string>
+    <string name="more">Mer</string>
+    <string name="homepage">Hjemmeside</string>
+    <string name="blog">Blogg</string>
+    <string name="show_more_fields">Vis flere felter</string>
+    <string name="website">Nettside</string>
+    <string name="organization">Organisasjon</string>
+    <string name="ftp">FTP</string>
 </resources>

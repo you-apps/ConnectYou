@@ -18,7 +18,7 @@
     <string name="type">النوع</string>
     <string name="first_name">الاسم الأوَّل</string>
     <string name="work">عمل</string>
-    <string name="home">الشاشة الرئيسة</string>
+    <string name="home">الرئيسية</string>
     <string name="birthday">عيد ميلاد</string>
     <string name="import_vcf">استورد vCard</string>
     <string name="about">عن التطبيق</string>
@@ -58,7 +58,7 @@
     <string name="none">لا شيء</string>
     <string name="both">كلاهما</string>
     <string name="manage_groups">أدر المجموعات</string>
-    <string name="delete_group">احذف المجموعة من كلِّ مكان</string>
+    <string name="delete_group">حذف المجموعة للجميع</string>
     <string name="title">العنوان</string>
     <string name="new_group">جديد</string>
     <string name="group_already_exists">توجد المجموعة بالفعل</string>
@@ -75,4 +75,15 @@
     <string name="message">راسل</string>
     <string name="new_contact">جهة اتصال جديدة</string>
     <string name="contact">جهات الاتصال</string>
+    <string name="organization">المنظمة</string>
+    <string name="nick_name">الأسم</string>
+    <string name="show_less">عرض أقل</string>
+    <string name="edit">تعديل</string>
+    <string name="filter">المرشحات</string>
+    <string name="website">موقع الإنترنت</string>
+    <string name="more">المزيد</string>
+    <string name="show_more_fields">إظهار المزيد من الحقول</string>
+    <string name="homepage">الصفحة الرئيسية</string>
+    <string name="ftp">بروتوكول نقل الملفات</string>
+    <string name="blog">المدونة</string>
 </resources>

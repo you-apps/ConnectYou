@@ -10,7 +10,7 @@
     <string name="sort_order">Pořadí řazení</string>
     <string name="custom">Vlastní</string>
     <string name="car">Auto</string>
-    <string name="delete_group">Globálně odstranit skupinu</string>
+    <string name="delete_group">Odstranit skupinu pro všechny</string>
     <string name="start_tab">Karta při spuštění</string>
     <string name="both">Oba</string>
     <string name="translation">Překlad</string>
@@ -36,7 +36,7 @@
     <string name="export_success">Exportováno.</string>
     <string name="email">E-mail</string>
     <string name="first_name">Jméno</string>
-    <string name="home">Domovská obrazovka</string>
+    <string name="home">Domů</string>
     <string name="fax_home">Fax domů</string>
     <string name="assistant">Asistent</string>
     <string name="device">Zařízení</string>
@@ -75,4 +75,15 @@
     <string name="dial">Zavolat</string>
     <string name="new_contact">Nový kontakt</string>
     <string name="contact">Kontakt</string>
+    <string name="more">Další</string>
+    <string name="show_less">Zobrazit méně</string>
+    <string name="nick_name">Přezdívka</string>
+    <string name="homepage">Domovská stránka</string>
+    <string name="ftp">FTP</string>
+    <string name="website">Web</string>
+    <string name="edit">Upravit</string>
+    <string name="blog">Blog</string>
+    <string name="filter">Filtr</string>
+    <string name="show_more_fields">Zobrazit další pole</string>
+    <string name="organization">Organizace</string>
 </resources>

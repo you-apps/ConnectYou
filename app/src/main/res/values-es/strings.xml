@@ -15,14 +15,14 @@
     <string name="first_name">Nombre</string>
     <string name="last_name">Apellidos</string>
     <string name="type">Tipo</string>
-    <string name="home">Pantalla de inicio</string>
+    <string name="home">Inicio</string>
     <string name="car">Coche</string>
     <string name="assistant">Asistente</string>
     <string name="birthday">Cumpleaños</string>
     <string name="anniversary">Aniversario</string>
     <string name="note">Nota</string>
     <string name="manage_groups">Gestionar grupos</string>
-    <string name="delete_group">Eliminar grupo globalmente</string>
+    <string name="delete_group">Eliminar el grupo para todos</string>
     <string name="title">Título</string>
     <string name="group_already_exists">Ya existe el grupo</string>
     <string name="groups">Grupos</string>
@@ -75,4 +75,15 @@
     <string name="message">Mensaje</string>
     <string name="new_contact">Nuevo contacto</string>
     <string name="contact">Contacto</string>
+    <string name="website">Página web</string>
+    <string name="nick_name">Nick</string>
+    <string name="organization">Organización</string>
+    <string name="homepage">Página de inicio</string>
+    <string name="ftp">FTP</string>
+    <string name="blog">Blog</string>
+    <string name="show_more_fields">Mostrar más campos</string>
+    <string name="edit">Editar</string>
+    <string name="filter">Filtrar</string>
+    <string name="more">Más</string>
+    <string name="show_less">Mostrar menos</string>
 </resources>
