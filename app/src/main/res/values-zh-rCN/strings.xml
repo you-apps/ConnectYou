@@ -75,4 +75,7 @@
     <string name="message">信息</string>
     <string name="new_contact">新建联系人</string>
     <string name="contact">联系人</string>
+    <string name="filter">过滤器</string>
+    <string name="website">网站</string>
+    <string name="edit">编辑</string>
 </resources>
