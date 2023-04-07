@@ -57,7 +57,7 @@
     <string name="delete">Удалить</string>
     <string name="choose_dir">Выбрать папку</string>
     <string name="manage_groups">Управление группами</string>
-    <string name="delete_group">Удалить группу глобально</string>
+    <string name="delete_group">Удалить группу для всех</string>
     <string name="title">Название</string>
     <string name="new_group">Новый</string>
     <string name="group_already_exists">Группа уже существует</string>
@@ -75,4 +75,15 @@
     <string name="message">Написать</string>
     <string name="new_contact">Новый контакт</string>
     <string name="contact">Контакт</string>
+    <string name="edit">Изменить</string>
+    <string name="more">Больше</string>
+    <string name="show_less">Показывать меньше</string>
+    <string name="organization">Организация</string>
+    <string name="blog">Блог</string>
+    <string name="nick_name">Прозвище</string>
+    <string name="website">Веб-сайт</string>
+    <string name="show_more_fields">Показывать больше полей</string>
+    <string name="filter">Фильтр</string>
+    <string name="homepage">Домашняя страница</string>
+    <string name="ftp">FTP</string>
 </resources>
