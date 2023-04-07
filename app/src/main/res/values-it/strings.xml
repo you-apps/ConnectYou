@@ -19,7 +19,7 @@
     <string name="license">Licenza</string>
     <string name="other">Altro</string>
     <string name="export_vcf">Esporta una vCard</string>
-    <string name="home">Schermo di casa</string>
+    <string name="home">Home</string>
     <string name="work">Lavoro</string>
     <string name="custom">Personalizzato</string>
     <string name="author">Autore</string>
@@ -65,7 +65,7 @@
     <string name="max_backup_amount">Massimo numero di backup</string>
     <string name="manage_groups">Gestisci gruppi</string>
     <string name="backup_interval">Intervallo di backup</string>
-    <string name="delete_group">Cancella gruppo globalmente</string>
+    <string name="delete_group">Cancella gruppo per tutti</string>
     <string name="misc">Vario</string>
     <string name="collapse_bottom_bar">Nascondi la barra quando si scrolla</string>
     <string name="add_to_contact">Aggiungi ai contatti</string>
@@ -75,4 +75,14 @@
     <string name="dial">Componi</string>
     <string name="new_contact">Nuovo contatto</string>
     <string name="contact">Contatto</string>
+    <string name="filter">Filtra</string>
+    <string name="more">Di più</string>
+    <string name="show_more_fields">Mostra altri campi</string>
+    <string name="show_less">Mostra meno</string>
+    <string name="nick_name">Soprannome</string>
+    <string name="ftp">FTP</string>
+    <string name="blog">Blog</string>
+    <string name="website">Sito web</string>
+    <string name="organization">Organizzazione</string>
+    <string name="homepage">Pagina principale</string>
 </resources>
