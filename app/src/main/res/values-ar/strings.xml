@@ -28,7 +28,7 @@
     <string name="author">المؤلِّف</string>
     <string name="translation">الترجمة</string>
     <string name="copied">نُسخ للحافظة</string>
-    <string name="search" tools:ignore="PrivateResource">ابحث</string>
+    <string name="search" tools:ignore="PrivateResource">البحث</string>
     <string name="reset">أعِد التعيين</string>
     <string name="create_contact">أنشئ جهة اتِّصال</string>
     <string name="retry">أعد المحاولة</string>

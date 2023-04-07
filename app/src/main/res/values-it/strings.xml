@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="retry">Riprova</string>
-    <string name="search" tools:ignore="PrivateResource">Ricerca</string>
+    <string name="search" tools:ignore="PrivateResource">Cerca</string>
     <string name="share">Condividi</string>
     <string name="phone">Telefono</string>
     <string name="irreversible">Sei sicuro\? Quest\'azione non può essere annullata!</string>

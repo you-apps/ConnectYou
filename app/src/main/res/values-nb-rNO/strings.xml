@@ -6,7 +6,7 @@
     <string name="anniversary">Jubileum</string>
     <string name="license">Lisens</string>
     <string name="export_vcf">Eksporter vCard</string>
-    <string name="author">Utvikler</string>
+    <string name="author">Skaper</string>
     <string name="export_success">Eksportert</string>
     <string name="import_success">Importert.</string>
     <string name="search" tools:ignore="PrivateResource">Søk</string>
@@ -46,4 +46,34 @@
     <string name="light">Lys</string>
     <string name="dark">Mørk</string>
     <string name="local">Lokalt</string>
+    <string name="new_group">Ny</string>
+    <string name="group_already_exists">Gruppen finnes allerede</string>
+    <string name="groups">Grupper</string>
+    <string name="title">Navn</string>
+    <string name="selected">%1$s valgt</string>
+    <string name="auto_backup">Automatisk sikkerhetskopi</string>
+    <string name="backup_interval">Sikkerhetskopi-intervall</string>
+    <string name="none">Ingen</string>
+    <string name="both">Begge</string>
+    <string name="new_contact">Ny kontakt</string>
+    <string name="create_shortcut">Opprett snarvei</string>
+    <string name="dial">Ring</string>
+    <string name="message">Melding</string>
+    <string name="misc">Ymse</string>
+    <string name="colorful_contact_icons">Fargerike kontaktikoner</string>
+    <string name="nothing_here">Ingenting her.</string>
+    <string name="contact">Kontakt</string>
+    <string name="sort_order">Sorteringsrekkefølge</string>
+    <string name="account_type">Kontotype</string>
+    <string name="copy">Kopier</string>
+    <string name="move">Flytt</string>
+    <string name="max_backup_amount">Maks. antall sikkerhetskopier</string>
+    <string name="manage_groups">Håndter grupper</string>
+    <string name="collapse_bottom_bar">Fold sammen bunnfelt ved rulling</string>
+    <string name="note">Notat</string>
+    <string name="start_tab">Startfane</string>
+    <string name="delete_group">Slett gruppe globalt</string>
+    <string name="device">Enhet</string>
+    <string name="reset">Tilbakestill</string>
+    <string name="add_to_contact">Legg til i kontakt</string>
 </resources>

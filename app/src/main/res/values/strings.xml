@@ -60,7 +60,7 @@
     <string name="blog">Blog</string>
     <!-- Contact groups -->
     <string name="manage_groups">Manage groups</string>
-    <string name="delete_group">Delete group globally</string>
+    <string name="delete_group">Delete group for everyone</string>
     <string name="title">Title</string>
     <string name="new_group">New</string>
     <string name="group_already_exists">Group already exists</string>
