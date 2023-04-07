@@ -12,7 +12,7 @@
     <string name="address">כתובת</string>
     <string name="event">אירוע</string>
     <string name="account_type">סוג חשבון</string>
-    <string name="home">מסך הבית</string>
+    <string name="home">בית</string>
     <string name="work">עבודה</string>
     <string name="mobile">נייד</string>
     <string name="other">אחר</string>
@@ -65,7 +65,7 @@
     <string name="first_name">שם פרטי</string>
     <string name="type">סוג</string>
     <string name="manage_groups">ניהול קבוצות</string>
-    <string name="delete_group">מחיקת קבוצה גלובלית</string>
+    <string name="delete_group">מחיקת קבוצה לכולם</string>
     <string name="groups">קבוצות</string>
     <string name="start_tab">לשונית התחלה</string>
     <string name="dark">כהה</string>
@@ -75,4 +75,15 @@
     <string name="fax_work">פקס בעבודה</string>
     <string name="system">מערכת</string>
     <string name="max_backup_amount">כמות הגיבויים המרבית</string>
+    <string name="show_less">הצגה של פחות</string>
+    <string name="organization">ארגון</string>
+    <string name="nick_name">כינוי</string>
+    <string name="filter">מסנן</string>
+    <string name="show_more_fields">הצגת שדות נוספים</string>
+    <string name="edit">עריכה</string>
+    <string name="ftp">FTP</string>
+    <string name="more">עוד</string>
+    <string name="homepage">דף הבית</string>
+    <string name="website">אתר</string>
+    <string name="blog">בלוג</string>
 </resources>
