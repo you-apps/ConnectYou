@@ -34,7 +34,7 @@
     <string name="phone">Telefon</string>
     <string name="app_name">Connect You</string>
     <string name="copied">Panoya kopyalandı</string>
-    <string name="irreversible">Emin misin\? Bu geri alınamaz!</string>
+    <string name="irreversible">Emin misiniz\? Bu geri alınamaz!</string>
     <string name="cancel">İptal</string>
     <string name="search" tools:ignore="PrivateResource">Arama</string>
     <string name="okay">Tamam</string>
@@ -60,7 +60,7 @@
     <string name="none">Hiçbiri</string>
     <string name="selected">%1$s seçildi</string>
     <string name="max_backup_amount">En fazla yedekleme sayısı</string>
-    <string name="delete_group">Grubu genel olarak sil</string>
+    <string name="delete_group">Grubu herkesten sil</string>
     <string name="group_already_exists">Grup zaten var</string>
     <string name="new_group">Yeni</string>
     <string name="manage_groups">Grupları yönet</string>
@@ -76,4 +76,15 @@
     <string name="dial">Ara</string>
     <string name="new_contact">Yeni kişi</string>
     <string name="contact">Kişi</string>
+    <string name="edit">Düzenle</string>
+    <string name="filter">Filtrele</string>
+    <string name="more">Daha fazla</string>
+    <string name="show_more_fields">Daha fazla alan göster</string>
+    <string name="show_less">Daha az göster</string>
+    <string name="website">Web sitesi</string>
+    <string name="nick_name">Takma ad</string>
+    <string name="organization">Kuruluş</string>
+    <string name="homepage">Ana sayfa</string>
+    <string name="blog">Blog</string>
+    <string name="ftp">FTP</string>
 </resources>
