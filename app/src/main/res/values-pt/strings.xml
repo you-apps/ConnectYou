@@ -16,7 +16,7 @@
     <string name="export_success">Exportado.</string>
     <string name="address">Endereço</string>
     <string name="last_name">Apelido</string>
-    <string name="home">Tela inicial</string>
+    <string name="home">Início</string>
     <string name="phone">Telefone</string>
     <string name="email">E-mail</string>
     <string name="first_name">Nome</string>
@@ -57,7 +57,7 @@
     <string name="delete">Apagar</string>
     <string name="auto_backup">Cópia de segurança automática</string>
     <string name="theme">Tema</string>
-    <string name="delete_group">Eliminar grupo globalmente</string>
+    <string name="delete_group">Eliminar grupo para todos</string>
     <string name="title">Título</string>
     <string name="new_group">Novo</string>
     <string name="groups">Grupos</string>
@@ -75,4 +75,15 @@
     <string name="message">Mensagem</string>
     <string name="new_contact">Novo contacto</string>
     <string name="contact">Contacto</string>
+    <string name="filter">Filtro</string>
+    <string name="more">Mais</string>
+    <string name="show_less">Mostrar menos</string>
+    <string name="website">Página Web</string>
+    <string name="nick_name">Apelido</string>
+    <string name="organization">Organização</string>
+    <string name="homepage">Página inicial</string>
+    <string name="ftp">FTP</string>
+    <string name="blog">Blogue</string>
+    <string name="edit">Editar</string>
+    <string name="show_more_fields">Mostrar mais campos</string>
 </resources>
