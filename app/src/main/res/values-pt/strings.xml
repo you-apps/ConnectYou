@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="event">Evento</string>
     <string name="import_vcf">Importar vCard</string>
-    <string name="search" tools:ignore="PrivateResource">Pesquisa</string>
+    <string name="search" tools:ignore="PrivateResource">Pesquisar</string>
     <string name="copied">Copiado para a área de transferência</string>
     <string name="delete_contact">Eliminar contacto</string>
     <string name="irreversible">Tem certeza\? Isto não pode ser desfeito!</string>
