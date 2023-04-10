@@ -2,6 +2,7 @@ package com.bnyro.contacts.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract.Intents
 import android.provider.ContactsContract.QuickContact
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,6 +10,8 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import com.bnyro.contacts.enums.ThemeMode
+import com.bnyro.contacts.obj.ContactData
+import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.dialogs.AddToContactDialog
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.ThemeModel
@@ -17,8 +20,6 @@ import com.bnyro.contacts.ui.theme.ConnectYouTheme
 import com.bnyro.contacts.util.BackupHelper
 
 class MainActivity : ComponentActivity() {
-    private val phoneNumberExtra = "phone"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -35,20 +36,50 @@ class MainActivity : ComponentActivity() {
                     ThemeMode.LIGHT -> false
                     ThemeMode.DARK -> true
                     else -> isSystemInDarkTheme()
-                }
+                },
             ) {
-                ContactsScreen(shouldShowEditor(), getInitialContactId())
-                updatedContactNumber()?.let {
+                ContactsScreen(getInsertContactData(), getInitialContactId())
+                getInsertOrEditNumber()?.let {
                     AddToContactDialog(it)
                 }
             }
         }
     }
 
-    private fun shouldShowEditor(): Boolean {
-        return when (intent?.action) {
-            Intent.ACTION_INSERT -> true
-            else -> intent?.getStringExtra("action") == "create"
+    private fun getInsertContactData(): ContactData? {
+        return when {
+            intent?.action == Intent.ACTION_INSERT -> {
+                val name = intent.getStringExtra(Intents.Insert.NAME)
+                    ?: intent.getStringExtra(Intents.Insert.PHONETIC_NAME)
+                ContactData(
+                    displayName = name,
+                    firstName = name?.split(" ")?.firstOrNull(),
+                    surName = name?.split(" ", limit = 2)?.lastOrNull(),
+                    organization = intent.getStringExtra(Intents.Insert.COMPANY),
+                    numbers = listOfNotNull(
+                        intent.getStringExtra(Intents.Insert.PHONE)?.let {
+                            ValueWithType(it, 0)
+                        },
+                    ),
+                    emails = listOfNotNull(
+                        intent.getStringExtra(Intents.Insert.EMAIL)?.let {
+                            ValueWithType(it, 0)
+                        },
+                    ),
+                    notes = listOfNotNull(
+                        intent.getStringExtra(Intents.Insert.NOTES)?.let {
+                            ValueWithType(it, 0)
+                        },
+                    ),
+                    addresses = listOfNotNull(
+                        intent.getStringExtra(Intents.Insert.POSTAL)?.let {
+                            ValueWithType(it, 0)
+                        },
+                    ),
+                )
+            }
+            intent?.getStringExtra("action") == "create" -> ContactData()
+            else -> null
         }
     }
 
@@ -59,9 +90,9 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun updatedContactNumber(): String? {
+    private fun getInsertOrEditNumber(): String? {
         return when (intent?.action) {
-            Intent.ACTION_INSERT_OR_EDIT -> intent?.getStringExtra(phoneNumberExtra)
+            Intent.ACTION_INSERT_OR_EDIT -> intent?.getStringExtra(Intents.Insert.PHONE)
             else -> null
         }
     }

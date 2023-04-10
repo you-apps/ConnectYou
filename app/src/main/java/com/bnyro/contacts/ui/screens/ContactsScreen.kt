@@ -50,7 +50,7 @@ import kotlinx.coroutines.withContext
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ContactsScreen(
-    showEditorDefault: Boolean,
+    contactToInsert: ContactData?,
     initialContact: Long?
 ) {
     val context = LocalContext.current
@@ -157,7 +157,7 @@ fun ContactsScreen(
         ) {
             ContactsPage(
                 viewModel.contacts,
-                showEditorDefault,
+                contactToInsert,
                 nestedScrollConnection.takeIf { themeModel.collapsableBottomBar },
                 bottomBarOffsetHeight = with(LocalDensity.current) {
                     bottomBarHeight - bottomBarOffsetHeightPx.value.absoluteValue.toDp()

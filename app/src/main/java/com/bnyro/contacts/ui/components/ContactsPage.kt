@@ -76,7 +76,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun ContactsPage(
     contacts: List<ContactData>?,
-    showEditorDefault: Boolean,
+    contactToInsert: ContactData?,
     scrollConnection: NestedScrollConnection?,
     bottomBarOffsetHeight: Dp
 ) {
@@ -87,8 +87,8 @@ fun ContactsPage(
         mutableStateListOf<ContactData>()
     }
 
-    var showEditor by remember {
-        mutableStateOf(showEditorDefault)
+    var newContactToInsert by remember {
+        mutableStateOf(contactToInsert)
     }
 
     var showDelete by remember {
@@ -370,17 +370,18 @@ fun ContactsPage(
                 .padding(bottom = fabBottomPadding)
                 .align(Alignment.BottomEnd),
             onClick = {
-                showEditor = true
+                newContactToInsert = ContactData()
             }
         ) {
             Icon(Icons.Default.Create, null)
         }
     }
 
-    if (showEditor) {
+    if (newContactToInsert != null) {
         EditorScreen(
+            contact = newContactToInsert,
             onClose = {
-                showEditor = false
+                newContactToInsert = null
             },
             isCreatingNewDeviceContact = viewModel.contactsHelper is DeviceContactsHelper,
             onSave = {
