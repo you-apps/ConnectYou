@@ -4,6 +4,7 @@ import android.Manifest
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -48,6 +49,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
@@ -75,7 +77,8 @@ import kotlinx.coroutines.delay
 fun ContactsPage(
     contacts: List<ContactData>?,
     showEditorDefault: Boolean,
-    scrollConnection: NestedScrollConnection?
+    scrollConnection: NestedScrollConnection?,
+    bottomBarOffsetHeight: Dp
 ) {
     val viewModel: ContactsModel = viewModel()
     val context = LocalContext.current
@@ -118,6 +121,8 @@ fun ContactsPage(
     ) { uri ->
         uri?.let { viewModel.exportVcf(context, it) }
     }
+
+    val fabBottomPadding by animateDpAsState(targetValue = bottomBarOffsetHeight)
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -362,6 +367,7 @@ fun ContactsPage(
         FloatingActionButton(
             modifier = Modifier
                 .padding(16.dp)
+                .padding(bottom = fabBottomPadding)
                 .align(Alignment.BottomEnd),
             onClick = {
                 showEditor = true

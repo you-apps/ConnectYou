@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Storage
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -42,13 +41,13 @@ import com.bnyro.contacts.ui.models.ThemeModel
 import com.bnyro.contacts.util.DeviceContactsHelper
 import com.bnyro.contacts.util.LocalContactsHelper
 import com.bnyro.contacts.util.Preferences
+import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactsScreen(
     showEditorDefault: Boolean,
@@ -159,7 +158,10 @@ fun ContactsScreen(
             ContactsPage(
                 viewModel.contacts,
                 showEditorDefault,
-                nestedScrollConnection.takeIf { themeModel.collapsableBottomBar }
+                nestedScrollConnection.takeIf { themeModel.collapsableBottomBar },
+                bottomBarOffsetHeight = with(LocalDensity.current) {
+                    bottomBarHeight - bottomBarOffsetHeightPx.value.absoluteValue.toDp()
+                }.takeIf { themeModel.collapsableBottomBar } ?: 0.dp
             )
         }
         visibleContact?.let {
