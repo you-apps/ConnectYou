@@ -13,4 +13,10 @@ class ThemeModel : ViewModel() {
             Preferences.getInt(Preferences.themeKey, ThemeMode.SYSTEM.value)
         )
     )
+    var collapsableBottomBar by mutableStateOf(
+        Preferences.getBoolean(Preferences.collapseBottomBarKey, false)
+    )
+    var colorfulIcons by mutableStateOf(
+        Preferences.getBoolean(Preferences.colorfulContactIconsKey, false)
+    )
 }

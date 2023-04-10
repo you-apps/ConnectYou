@@ -37,9 +37,9 @@ import com.bnyro.contacts.enums.SortOrder
 import com.bnyro.contacts.ext.contentColor
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.models.ContactsModel
+import com.bnyro.contacts.ui.models.ThemeModel
 import com.bnyro.contacts.ui.screens.SingleContactScreen
 import com.bnyro.contacts.util.ColorUtils
-import com.bnyro.contacts.util.Preferences
 import kotlinx.coroutines.runBlocking
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -53,6 +53,7 @@ fun ContactItem(
 ) {
     val shape = RoundedCornerShape(20.dp)
     val viewModel: ContactsModel = viewModel()
+    val themeModel: ThemeModel = viewModel()
 
     var showContactScreen by remember {
         mutableStateOf(false)
@@ -84,15 +85,13 @@ fun ContactItem(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val colorfulIcons = Preferences.getBoolean(Preferences.colorfulContactIconsKey, false)
-
-            val backgroundColor = if (colorfulIcons) {
+            val backgroundColor = if (themeModel.colorfulIcons) {
                 remember { Color(ColorUtils.getRandomColor()) }
             } else {
                 MaterialTheme.colorScheme.primary
             }
             val contentColor = when {
-                !colorfulIcons -> MaterialTheme.colorScheme.onPrimary
+                !themeModel.colorfulIcons -> MaterialTheme.colorScheme.onPrimary
                 else -> backgroundColor.contentColor()
             }
 

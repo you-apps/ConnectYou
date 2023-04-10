@@ -38,6 +38,7 @@ import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.NavBarItem
 import com.bnyro.contacts.ui.components.ContactsPage
 import com.bnyro.contacts.ui.models.ContactsModel
+import com.bnyro.contacts.ui.models.ThemeModel
 import com.bnyro.contacts.util.DeviceContactsHelper
 import com.bnyro.contacts.util.LocalContactsHelper
 import com.bnyro.contacts.util.Preferences
@@ -55,11 +56,11 @@ fun ContactsScreen(
 ) {
     val context = LocalContext.current
     val viewModel: ContactsModel = viewModel()
+    val themeModel: ThemeModel = viewModel()
     var visibleContact by remember {
         mutableStateOf<ContactData?>(null)
     }
     val scope = rememberCoroutineScope()
-    val collapseBottomBar = Preferences.getBoolean(Preferences.collapseBottomBarKey, false)
 
     val bottomBarHeight = 80.dp
     val bottomBarHeightPx = with(LocalDensity.current) { bottomBarHeight.roundToPx().toFloat() }
@@ -114,7 +115,7 @@ fun ContactsScreen(
     Scaffold(
         bottomBar = {
             NavigationBar(
-                modifier = if (collapseBottomBar) {
+                modifier = if (themeModel.collapsableBottomBar) {
                     Modifier
                         .height(bottomBarHeight)
                         .offset {
@@ -151,14 +152,14 @@ fun ContactsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .let {
-                    if (!collapseBottomBar) it.padding(pV) else it
+                    if (!themeModel.collapsableBottomBar) it.padding(pV) else it
                 },
             color = MaterialTheme.colorScheme.background
         ) {
             ContactsPage(
                 viewModel.contacts,
                 showEditorDefault,
-                nestedScrollConnection.takeIf { collapseBottomBar }
+                nestedScrollConnection.takeIf { themeModel.collapsableBottomBar }
             )
         }
         visibleContact?.let {
