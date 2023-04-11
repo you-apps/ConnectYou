@@ -27,7 +27,7 @@
     <string name="first_name">Ім\'я</string>
     <string name="version">Версія</string>
     <string name="last_name">Прізвище</string>
-    <string name="home">Головний екран</string>
+    <string name="home">Головна</string>
     <string name="work">Робота</string>
     <string name="mobile">Мобільний</string>
     <string name="other">Інше</string>
@@ -59,7 +59,7 @@
     <string name="none">Жодного</string>
     <string name="light">Світла</string>
     <string name="manage_groups">Керувати групами</string>
-    <string name="delete_group">Видалити групу глобально</string>
+    <string name="delete_group">Видалити групу для всіх</string>
     <string name="title">Назва</string>
     <string name="group_already_exists">Група вже існує</string>
     <string name="selected">%1$s обрано</string>
@@ -76,4 +76,15 @@
     <string name="message">Повідомити</string>
     <string name="new_contact">Новий контакт</string>
     <string name="contact">Контакт</string>
+    <string name="edit">Редагувати</string>
+    <string name="filter">Фільтр</string>
+    <string name="show_less">Показувати менше</string>
+    <string name="website">Вебсайт</string>
+    <string name="homepage">Домашня сторінка</string>
+    <string name="ftp">FTP</string>
+    <string name="nick_name">Нікнейм</string>
+    <string name="show_more_fields">Показувати більше полів</string>
+    <string name="blog">Блоґ</string>
+    <string name="more">Більше</string>
+    <string name="organization">Організація</string>
 </resources>

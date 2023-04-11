@@ -34,7 +34,7 @@
     <string name="import_vcf">Importer une vCard</string>
     <string name="export_vcf">Exporter une vCard</string>
     <string name="about">À propos</string>
-    <string name="search" tools:ignore="PrivateResource">Recherche</string>
+    <string name="search" tools:ignore="PrivateResource">Rechercher</string>
     <string name="irreversible">Êtes vous sûr \? Cela ne peut pas être annulé !</string>
     <string name="create_contact">Créer un contact</string>
     <string name="reset">Réinitialiser</string>
@@ -58,4 +58,33 @@
     <string name="auto_backup">Sauvegarde automatique</string>
     <string name="both">Les deux</string>
     <string name="none">Aucun</string>
+    <string name="edit">Modifier</string>
+    <string name="filter">Filtre</string>
+    <string name="more">Plus</string>
+    <string name="show_more_fields">Afficher plus de champs</string>
+    <string name="show_less">Montrer moins</string>
+    <string name="website">Site web</string>
+    <string name="nick_name">Surnom</string>
+    <string name="organization">Organisation</string>
+    <string name="homepage">Page d\'accueil</string>
+    <string name="ftp">FTP</string>
+    <string name="blog">Blog</string>
+    <string name="new_group">Nouveau</string>
+    <string name="selected">%1$s sélectionné</string>
+    <string name="backup_interval">Intervalle de sauvegarde</string>
+    <string name="max_backup_amount">Nombre maximal de sauvegardes</string>
+    <string name="message">Message</string>
+    <string name="new_contact">Nouveau contact</string>
+    <string name="create_shortcut">Créer un raccourci</string>
+    <string name="dial">Numérotation</string>
+    <string name="group_already_exists">Le groupe existe déjà</string>
+    <string name="groups">Groupes</string>
+    <string name="manage_groups">Gérer les groupes</string>
+    <string name="delete_group">Supprimer le groupe pour tout le monde</string>
+    <string name="contact">Contact</string>
+    <string name="misc">Divers</string>
+    <string name="collapse_bottom_bar">Réduire la barre inférieure lors du défilement</string>
+    <string name="colorful_contact_icons">Icônes de contact colorées</string>
+    <string name="add_to_contact">Ajouter au contact</string>
+    <string name="title">Titre</string>
 </resources>
