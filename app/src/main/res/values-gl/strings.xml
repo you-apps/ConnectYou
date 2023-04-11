@@ -33,7 +33,7 @@
     <string name="first_name">Nome</string>
     <string name="last_name">Apelido</string>
     <string name="type">Tipo</string>
-    <string name="home">Pantalla inicial</string>
+    <string name="home">Inicio</string>
     <string name="work">Traballo</string>
     <string name="mobile">Móbil</string>
     <string name="other">Outro</string>
@@ -42,7 +42,7 @@
     <string name="anniversary">Data especial</string>
     <string name="note">Nota</string>
     <string name="manage_groups">Xestionar grupos</string>
-    <string name="delete_group">Eliminar grupo globalmente</string>
+    <string name="delete_group">Eliminar grupo para todos</string>
     <string name="title">Título</string>
     <string name="new_group">Novo</string>
     <string name="group_already_exists">Xa existe o grupo</string>
@@ -75,4 +75,15 @@
     <string name="collapse_bottom_bar">Pregar barra inferior ao desprazar</string>
     <string name="version">Versión</string>
     <string name="translation">Tradución</string>
+    <string name="edit">Editar</string>
+    <string name="filter">Filtrar</string>
+    <string name="more">Máis</string>
+    <string name="show_more_fields">Mostrar máis campos</string>
+    <string name="show_less">Mostrar menos</string>
+    <string name="website">Sitio web</string>
+    <string name="nick_name">Alcume</string>
+    <string name="organization">Organización</string>
+    <string name="homepage">Páxina de inicio</string>
+    <string name="ftp">FTP</string>
+    <string name="blog">Blog</string>
 </resources>
