@@ -85,4 +85,5 @@
     <string name="homepage">Kotisivu</string>
     <string name="ftp">FTP</string>
     <string name="blog">Blogi</string>
+    <string name="nick_name">Lempinimi</string>
 </resources>
