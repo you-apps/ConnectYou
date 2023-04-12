@@ -6,7 +6,7 @@
     <string name="car">Mașină</string>
     <string name="fax_work">Lucru de fax</string>
     <string name="first_name">Prenume</string>
-    <string name="home">Ecranul de start</string>
+    <string name="home">Acasă</string>
     <string name="mobile">Mobil</string>
     <string name="import_vcf">Importă vCard</string>
     <string name="assistant">Asistent</string>
@@ -42,7 +42,7 @@
     <string name="nothing_here">Nimic aici.</string>
     <string name="device">Dispozitiv</string>
     <string name="manage_groups">Gestionați grupurile</string>
-    <string name="delete_group">Ștergeți grupul la nivel global</string>
+    <string name="delete_group">Ștergeți grupul pentru toată lumea</string>
     <string name="title">Titlu</string>
     <string name="new_group">Nou</string>
     <string name="group_already_exists">Grupul există deja</string>
@@ -75,4 +75,15 @@
     <string name="message">Mesaj</string>
     <string name="new_contact">Contact nou</string>
     <string name="contact">Contact</string>
+    <string name="edit">Editează</string>
+    <string name="nick_name">Poreclă</string>
+    <string name="blog">Blog</string>
+    <string name="show_less">Mai puțin</string>
+    <string name="filter">Filtru</string>
+    <string name="show_more_fields">Afisează mai multe câmpuri</string>
+    <string name="more">Mai mult</string>
+    <string name="website">Pagină web</string>
+    <string name="homepage">Pagina principala</string>
+    <string name="ftp">FTP</string>
+    <string name="organization">Organizare</string>
 </resources>
