@@ -62,7 +62,7 @@
     <string name="delete_group">Видалити групу для всіх</string>
     <string name="title">Назва</string>
     <string name="group_already_exists">Група вже існує</string>
-    <string name="selected">%1$s обрано</string>
+    <string name="selected">%1$s вибрано</string>
     <string name="backup_interval">Інтервал</string>
     <string name="max_backup_amount">Максимальна кількість копій</string>
     <string name="new_group">Нова</string>
