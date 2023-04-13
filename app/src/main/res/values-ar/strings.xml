@@ -62,7 +62,7 @@
     <string name="title">العنوان</string>
     <string name="new_group">جديد</string>
     <string name="group_already_exists">توجد المجموعة بالفعل</string>
-    <string name="selected">حُدِّد %1$s</string>
+    <string name="selected">تم تحديد %1$s</string>
     <string name="max_backup_amount">أقصى عدد للنسخ الاحتياطية</string>
     <string name="groups">المجموعات</string>
     <string name="backup_interval">فاصل النسخ الاحتياطيِّ</string>

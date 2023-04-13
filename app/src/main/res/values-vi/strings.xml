@@ -1,2 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="work">Nơi làm việc</string>
+    <string name="mobile">Di động</string>
+    <string name="other">Khác</string>
+    <string name="custom">Tùy chỉnh</string>
+    <string name="car">Xe</string>
+    <string name="assistant">Trợ lí</string>
+    <string name="birthday">Sinh nhật</string>
+    <string name="anniversary">Kỉ niệm</string>
+    <string name="note">Ghi chú</string>
+    <string name="homepage">Trang chủ</string>
+    <string name="manage_groups">Quản lí các nhóm</string>
+    <string name="delete_group">Xóa nhóm cho tất cả mọi người</string>
+    <string name="title">Tiêu đề</string>
+    <string name="new_group">Mới</string>
+    <string name="group_already_exists">Nhóm đã tồn tại</string>
+    <string name="groups">Nhóm</string>
+    <string name="device">Thiết bị</string>
+    <string name="copy">Sao chép</string>
+    <string name="move">Di chuyển</string>
+    <string name="delete">Xóa</string>
+    <string name="selected">Đã chọn %1$s</string>
+    <string name="import_vcf">Nhập vào vCard</string>
+    <string name="export_vcf">Xuất ra vCard</string>
+    <string name="settings">Cài đặt</string>
+    <string name="start_tab">Bắt đầu tab</string>
+    <string name="theme">Chủ đề</string>
+    <string name="system">Hệ thống</string>
+    <string name="light">Sáng</string>
+    <string name="dark">Tối</string>
+    <string name="auto_backup">Tự động sao lưu</string>
+    <string name="backup_interval">Tần số sao lưu</string>
+    <string name="max_backup_amount">Số bản sao lưu tối đa</string>
+    <string name="choose_dir">Chọn thư mục</string>
+    <string name="both">Cả hai</string>
+    <string name="none">Không</string>
+    <string name="misc">Khác</string>
+    <string name="collapse_bottom_bar">"Thu  lại thanh dưới khi cuộn"</string>
+    <string name="colorful_contact_icons">Biểu tượng danh bạ nhiều màu</string>
+    <string name="license">Giấy phép</string>
+    <string name="author">Tác giả</string>
+    <string name="version">Phiên bản</string>
+    <string name="translation">Bản dịch</string>
+    <string name="account_type">Loại tài khoản</string>
+    <string name="nick_name">Biệt danh</string>
+    <string name="type">Loại</string>
+    <string name="first_name">Họ</string>
+    <string name="last_name">Tên</string>
+    <string name="organization">Tổ chức</string>
+    <string name="home">Nhà riêng</string>
+</resources>
