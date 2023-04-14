@@ -32,7 +32,7 @@
     <string name="selected">%1$s seleccionado</string>
     <string name="import_vcf">Importar vCard</string>
     <string name="export_vcf">Exportar vCard</string>
-    <string name="settings">Configuración</string>
+    <string name="settings">Ajustes</string>
     <string name="start_tab">Pestaña de inicio</string>
     <string name="theme">Tema</string>
     <string name="system">Sistema</string>
