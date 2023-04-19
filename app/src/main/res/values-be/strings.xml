@@ -1,2 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="search" tools:ignore="PrivateResource">Пошук</string>
+    <string name="irreversible">Вы ўпэўнены\? Гэтае дзеянне немагчыма адмяніць!</string>
+    <string name="cancel">Адмена</string>
+    <string name="okay">ОК</string>
+    <string name="reset">Скід</string>
+    <string name="create_contact">Стварыць кантакт</string>
+    <string name="retry">Паўтарыць</string>
+    <string name="new_contact">Новы кантакт</string>
+    <string name="create_shortcut">Стварыць ярлык</string>
+    <string name="edit">Рэдагаваць</string>
+    <string name="website">Вэб-сайт</string>
+    <string name="sort_order">Парадак сартавання</string>
+    <string name="delete">Выдаліць</string>
+    <string name="copy">Капіяваць</string>
+    <string name="move">Перамясціць</string>
+    <string name="both">У абодва размяшчэнні</string>
+    <string name="none">Адкл.</string>
+    <string name="settings">Налады</string>
+    <string name="choose_dir">Выберыце каталог</string>
+    <string name="about">Аб праграме</string>
+    <string name="light">Светлая</string>
+    <string name="author">Аўтар</string>
+    <string name="translation">Пераклад</string>
+    <string name="version">Версія</string>
+    <string name="copied">Скапіравана ў буфер абмену</string>
+    <string name="delete_contact">Выдаліць кантакт</string>
+    <string name="dial">Набраць нумар</string>
+    <string name="message">Паведамленне</string>
+    <string name="share">Падзяліцца</string>
+    <string name="add_to_contact">Дадаць у кантакты</string>
+    <string name="contact">Кантакт</string>
+    <string name="filter">Фільтр</string>
+    <string name="system">Як у сістэме</string>
+    <string name="dark">Цёмная</string>
+    <string name="theme">Тэма</string>
+</resources>

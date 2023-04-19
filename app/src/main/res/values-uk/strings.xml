@@ -39,14 +39,14 @@
     <string name="email">Ел. пошта</string>
     <string name="okay">Добре</string>
     <string name="reset">Скидання</string>
-    <string name="nothing_here">Тут нічого немає.</string>
+    <string name="nothing_here">Порожньо.</string>
     <string name="device">Пристрій</string>
     <string name="local">Локально</string>
     <string name="copy">Копіювати</string>
     <string name="settings">Налаштування</string>
     <string name="move">Перемістити</string>
     <string name="start_tab">Початкова вкладка</string>
-    <string name="system">Система</string>
+    <string name="system">Як у системі</string>
     <string name="sort_order">Порядок сортування</string>
     <string name="account_type">Тип облікового запису</string>
     <string name="note">Примітка</string>
@@ -56,7 +56,7 @@
     <string name="choose_dir">Виберіть каталог</string>
     <string name="both">Обидва</string>
     <string name="delete">Видалити</string>
-    <string name="none">Жодного</string>
+    <string name="none">Вимк.</string>
     <string name="light">Світла</string>
     <string name="manage_groups">Керувати групами</string>
     <string name="delete_group">Видалити групу для всіх</string>
