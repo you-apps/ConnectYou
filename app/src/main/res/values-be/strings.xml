@@ -35,4 +35,8 @@
     <string name="system">Як у сістэме</string>
     <string name="dark">Цёмная</string>
     <string name="theme">Тэма</string>
+    <string name="empty_name">Імя не можа быць пустым!</string>
+    <string name="export_success">Экспартаваны.</string>
+    <string name="import_success">Імпартаваны.</string>
+    <string name="nothing_here">Пуста.</string>
 </resources>
