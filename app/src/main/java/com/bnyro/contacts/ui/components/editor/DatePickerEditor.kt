@@ -1,6 +1,5 @@
 package com.bnyro.contacts.ui.components.editor
 
-import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -50,15 +49,12 @@ fun DatePickerEditor(
     val datePickerState = rememberDatePickerState(
         runCatching {
             CalendarUtils.dateToMillis(state.value.value)
-        }.getOrDefault(null)?.also {
-            Log.e("init", it.toString())
-        }
+        }.getOrDefault(null)?.plus(datePickerOffset)
     )
 
     LaunchedEffect(datePickerState.selectedDateMillis) {
         state.value.value = datePickerState.selectedDateMillis?.let {
-            val millis = it + datePickerOffset
-            CalendarUtils.millisToDate(millis.toString(), CalendarUtils.isoDateFormat)
+            CalendarUtils.millisToDate(it.toString(), CalendarUtils.isoDateFormat)
         }.orEmpty()
     }
 
@@ -87,10 +83,10 @@ fun DatePickerEditor(
                 color = MaterialTheme.colorScheme.primary
             )
             Text(
-                text = state.value.value.takeIf { it.isNotEmpty() }?.runCatching {
-                    val millis = datePickerState.selectedDateMillis?.plus(datePickerOffset)
-                    CalendarUtils.millisToDate(millis.toString())
-                }?.getOrNull() ?: state.value.value
+                text = datePickerState.selectedDateMillis?.toString()
+                    ?.let { CalendarUtils.millisToDate(it) }
+                    ?.takeIf { state.value.value.isNotEmpty() }
+                    .orEmpty()
             )
         }
 
