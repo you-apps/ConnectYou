@@ -101,18 +101,12 @@ object VcardHelper {
 
         return vCard.all().map {
             ContactData(
-                displayName = runCatching {
-                    it.formattedName.value
-                }.getOrNull(),
-                firstName = runCatching {
-                    it.structuredName.given
-                }.getOrNull(),
-                surName = runCatching {
-                    it.structuredName.family
-                }.getOrNull(),
-                nickName = it.nickname.values.firstOrNull(),
-                organization = it.organization.values.firstOrNull(),
-                numbers = it.telephoneNumbers.sortedBy { tel ->
+                displayName = it.formattedName?.value,
+                firstName = it.structuredName?.given,
+                surName = it.structuredName?.family,
+                nickName = it.nickname?.values?.firstOrNull(),
+                organization = it.organization?.values?.firstOrNull(),
+                numbers = it.telephoneNumbers.orEmpty().sortedBy { tel ->
                     // rank the number labeled with pref as the first one
                     if (tel.types.contains(TelephoneType.PREF)) -1 else 1
                 }.map { number ->
@@ -123,7 +117,7 @@ object VcardHelper {
                         }?.first
                     )
                 },
-                emails = it.emails.map { email ->
+                emails = it.emails.orEmpty().map { email ->
                     ValueWithType(
                         email.value,
                         emailTypes.firstOrNull { pair ->
@@ -131,7 +125,7 @@ object VcardHelper {
                         }?.first
                     )
                 },
-                addresses = it.addresses.map { address ->
+                addresses = it.addresses.orEmpty().map { address ->
                     ValueWithType(
                         listOfNotNull(
                             address.streetAddress,
@@ -145,7 +139,7 @@ object VcardHelper {
                         }?.first
                     )
                 },
-                notes = it.notes.map { note ->
+                notes = it.notes.orEmpty().map { note ->
                     ValueWithType(note.value, null)
                 }
             )

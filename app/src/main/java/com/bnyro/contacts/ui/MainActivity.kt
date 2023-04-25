@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
                     ThemeMode.LIGHT -> false
                     ThemeMode.DARK -> true
                     else -> isSystemInDarkTheme()
-                },
+                }
             ) {
                 ContactsScreen(getInsertContactData(), getInitialContactId())
                 getInsertOrEditNumber()?.let {
@@ -59,23 +59,23 @@ class MainActivity : ComponentActivity() {
                     numbers = listOfNotNull(
                         intent.getStringExtra(Intents.Insert.PHONE)?.let {
                             ValueWithType(it, 0)
-                        },
+                        }
                     ),
                     emails = listOfNotNull(
                         intent.getStringExtra(Intents.Insert.EMAIL)?.let {
                             ValueWithType(it, 0)
-                        },
+                        }
                     ),
                     notes = listOfNotNull(
                         intent.getStringExtra(Intents.Insert.NOTES)?.let {
                             ValueWithType(it, 0)
-                        },
+                        }
                     ),
                     addresses = listOfNotNull(
                         intent.getStringExtra(Intents.Insert.POSTAL)?.let {
                             ValueWithType(it, 0)
-                        },
-                    ),
+                        }
+                    )
                 )
             }
             intent?.getStringExtra("action") == "create" -> ContactData()

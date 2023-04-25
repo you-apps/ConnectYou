@@ -26,7 +26,7 @@ fun ClickableIcon(
                 Icon(
                     imageVector = icon,
                     tint = tint,
-                    contentDescription = contentDescription?.let { stringResource(it) }
+                    contentDescription = stringResource(contentDescription)
                 )
             }
         }
