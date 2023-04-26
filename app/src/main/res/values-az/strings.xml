@@ -22,7 +22,7 @@
     <string name="address">Ünvan</string>
     <string name="first_name">Ad</string>
     <string name="last_name">Soyad</string>
-    <string name="home">Əsas ekran</string>
+    <string name="home">Ev</string>
     <string name="work">İş</string>
     <string name="mobile">Mobil</string>
     <string name="car">Minik maşını</string>
@@ -59,7 +59,7 @@
     <string name="both">Hər ikisi</string>
     <string name="none">Heç biri</string>
     <string name="manage_groups">Qrupları idarə et</string>
-    <string name="delete_group">Qrupu ümumi olaraq sil</string>
+    <string name="delete_group">Qrupu hamı üçün sil</string>
     <string name="title">Başlıq</string>
     <string name="new_group">Yeni</string>
     <string name="group_already_exists">Qrup artıq var</string>
@@ -74,4 +74,17 @@
     <string name="create_shortcut">Qısayol Yarat</string>
     <string name="message">Məktub</string>
     <string name="dial">Zəng et</string>
+    <string name="edit">Redaktə et</string>
+    <string name="filter">Filtr</string>
+    <string name="more">Daha çox</string>
+    <string name="show_more_fields">Daha çox sahə göstər</string>
+    <string name="show_less">Daha az göstər</string>
+    <string name="website">Veb Sayt</string>
+    <string name="organization">Təşkilat</string>
+    <string name="homepage">Əsas səhifə</string>
+    <string name="ftp">FTP</string>
+    <string name="blog">Bloq</string>
+    <string name="nick_name">Ləqəb</string>
+    <string name="new_contact">Yeni əlaqə</string>
+    <string name="contact">Əlaqə</string>
 </resources>
