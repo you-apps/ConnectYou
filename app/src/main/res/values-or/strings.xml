@@ -5,7 +5,7 @@
     <string name="event">ଘଟଣା</string>
     <string name="first_name">ପ୍ରଥମ ନାମ</string>
     <string name="type">ପ୍ରକାର ଗୁଡିକ</string>
-    <string name="home">ମୂଳ ପରଦା |</string>
+    <string name="home">ଗୃହ</string>
     <string name="work">କାମ</string>
     <string name="other">ଅନ୍ୟମାନେ</string>
     <string name="custom">କଷ୍ଟମ୍</string>
@@ -14,7 +14,7 @@
     <string name="birthday">ଜନ୍ମଦିନ</string>
     <string name="anniversary">ବାର୍ଷିକୀ</string>
     <string name="export_vcf">VCard ରପ୍ତାନି କରନ୍ତୁ</string>
-    <string name="about">ପ୍ରୋଗ୍ରାମ୍ ବିଷୟରେ</string>
+    <string name="about">ଵିଷୟରେ</string>
     <string name="license">ଲାଇସେନ୍ସ</string>
     <string name="author">ଲେଖକ</string>
     <string name="version">ସଂସ୍କରଣ</string>
@@ -22,7 +22,7 @@
     <string name="cancel">ବାତିଲ୍ କରନ୍ତୁ</string>
     <string name="translation">ଅନୁବାଦ</string>
     <string name="search" tools:ignore="PrivateResource">ସନ୍ଧାନ କର</string>
-    <string name="copied">କ୍ଲିପବୋର୍ଡରେ କପି କରାଯାଇଛି</string>
+    <string name="copied">କ୍ଲିପ୍‌ବୋର୍ଡରେ କପି କରିନିଆଗଲା</string>
     <string name="retry">ପୁନଃଚେଷ୍ଟା କରନ୍ତୁ</string>
     <string name="create_contact">ସମ୍ପର୍କ ସୃଷ୍ଟି କରନ୍ତୁ</string>
     <string name="okay">ଠିକ ଅଛି</string>
@@ -40,21 +40,25 @@
     <string name="delete_contact">ସମ୍ପର୍କ ବିଲୋପ କରନ୍ତୁ</string>
     <string name="copy">ନକଲ କରନ୍ତୁ</string>
     <string name="move">ଘୁଞ୍ଚାନ୍ତୁ</string>
-    <string name="settings">ସେଟିଂସମୂହ</string>
+    <string name="settings">ସେଟିଂ</string>
     <string name="start_tab">ଆରମ୍ଭ ଟ୍ୟାବ୍</string>
     <string name="nothing_here">ଏଠାରେ କିଛି ନାହିଁ ।</string>
-    <string name="device">ଉପକରଣ</string>
+    <string name="device">ଡିଵାଇସ୍</string>
     <string name="local">ସ୍ଥାନୀୟ</string>
     <string name="note">ଧ୍ୟାନ ଦିଅନ୍ତୁ</string>
     <string name="delete">ବିଲୋପ କରନ୍ତୁ</string>
     <string name="theme">ଥିମ୍</string>
     <string name="system">ସିଷ୍ଟମ୍</string>
     <string name="dark">ଅନ୍ଧାର</string>
-    <string name="auto_backup">ସ୍ୱୟଂଚାଳିତ ବ୍ୟାକଅପ୍</string>
+    <string name="auto_backup">ସ୍ୱଚାଳିତ ବ୍ୟାକଅପ୍</string>
     <string name="choose_dir">ଡିରେକ୍ଟୋରୀ ବାଛନ୍ତୁ |</string>
     <string name="both">ଉଭୟ</string>
     <string name="sort_order">କ୍ରମ ସର୍ଟ କରନ୍ତୁ</string>
     <string name="account_type">ଖାତା ପ୍ରକାର</string>
     <string name="light">ଆଲୋକ</string>
     <string name="none">କିଛି ନୁହେଁ</string>
+    <string name="edit">ସମ୍ପାଦନା</string>
+    <string name="more">ଅଧିକ</string>
+    <string name="show_more_fields">ଅଧିକ କ୍ଷେତ୍ର ଦେଖାଅ</string>
+    <string name="homepage">ଗୃହପୃଷ୍ଠା</string>
 </resources>
