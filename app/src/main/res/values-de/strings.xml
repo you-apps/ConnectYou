@@ -1,70 +1,99 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="home">Privat</string>
-    <string name="type">Typ</string>
-    <string name="event">Ereignis</string>
-    <string name="first_name">Vorname</string>
-    <string name="last_name">Familienname</string>
-    <string name="work">Arbeit</string>
-    <string name="address">Adresse</string>
-    <string name="email">E-Mail</string>
+<resources xmlns:ns0="http://schemas.android.com/tools">
+    <string translatable="false" name="app_name">Connect You</string>
+    <!-- Actions -->
+    <string name="search" ns0:ignore="PrivateResource">Suche</string>
     <string name="copied">In die Zwischenablage kopiert</string>
-    <string name="phone">Telefon</string>
-    <string name="mobile">Mobil</string>
-    <string name="other">Andere</string>
-    <string name="search" tools:ignore="PrivateResource">Suche</string>
-    <string name="irreversible">Bist du Sicher\? Es gibt keinen Weg zurück!</string>
+    <string name="delete_contact">Kontakt l&#246;schen</string>
+    <string name="irreversible">Bist du Sicher\? Es gibt keinen Weg zur&#252;ck!</string>
     <string name="cancel">Abbrechen</string>
-    <string name="retry">Erneut versuchen</string>
-    <string name="delete_contact">Kontakt löschen</string>
+    <string name="okay">OK</string>
+    <string name="reset">Zur&#252;cksetzen</string>
     <string name="create_contact">Kontakt erstellen</string>
+    <string name="retry">Erneut versuchen</string>
+    <string name="share">Teilen</string>
+    <string name="add_to_contact">Zu Kontakt hinzufügen</string>
+    <string name="new_contact">Neuer Kontakt</string>
+    <string name="create_shortcut">Verknüpfung erstellen</string>
+    <string name="dial">Anrufen</string>
+    <string name="message">SMS schreiben</string>
+    <string name="contact">Contact</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="filter">Filter</string>
+    <string name="more">Mehr</string>
+    <string name="show_more_fields">Mehr Felder anzeigen</string>
+    <string name="show_less">Weniger anzeigen</string>
+    <!-- Warnings -->
     <string name="empty_name">Der Name darf nicht leer sein!</string>
     <string name="import_success">Importiert.</string>
-    <string name="share">Teilen</string>
     <string name="export_success">Exportiert.</string>
-    <string name="app_name">Connect You</string>
-    <string name="custom">Benutzerdefiniert</string>
-    <string name="translation">Übersetzung</string>
-    <string name="version">Version</string>
-    <string name="license">Lizenz</string>
-    <string name="about">Über</string>
-    <string name="author">Autor</string>
-    <string name="export_vcf">vCard exportieren</string>
-    <string name="fax_home">Fax zu Hause</string>
-    <string name="birthday">Geburtstag</string>
-    <string name="fax_work">Fax Arbeit</string>
-    <string name="car">Auto</string>
-    <string name="import_vcf">vCard importieren</string>
-    <string name="assistant">Assistent</string>
     <string name="nothing_here">Hier ist nichts.</string>
-    <string name="anniversary">Jubiläum</string>
-    <string name="device">Gerät</string>
+    <!-- Data types -->
+    <string name="phone">Telefon</string>
+    <string name="email">E-Mail</string>
+    <string name="address">Adresse</string>
+    <string name="event">Ereignis</string>
+    <string name="website">Website</string>
+    <!-- Sorting and filter -->
+    <string name="sort_order">Sortieren nach</string>
+    <string name="account_type">Kontotyp</string>
+    <string name="first_name">Vorname</string>
+    <string name="last_name">Familienname</string>
+    <string name="nick_name">Nickname</string>
+    <string name="organization">Organization</string>
+    <!-- Types -->
+    <string name="type">Typ</string>
+    <string name="home">Privat</string>
+    <string name="work">Arbeit</string>
+    <string name="mobile">Mobil</string>
+    <string name="other">Andere</string>
+    <string name="custom">Benutzerdefiniert</string>
+    <string name="car">Auto</string>
+    <string name="fax_home">Fax zu Hause</string>
+    <string name="fax_work">Fax Arbeit</string>
+    <string name="assistant">Assistent</string>
+    <string name="birthday">Geburtstag</string>
+    <string name="anniversary">Jubil&#228;um</string>
+    <string name="note">Notiz</string>
+    <string name="homepage">Homepage</string>
+    <string name="ftp">FTP</string>
+    <string name="blog">Blog</string>
+    <!-- Contact groups -->
+    <string name="manage_groups">Gruppen verwalten</string>
+    <string name="delete_group">Gruppe global l&#246;schen</string>
+    <string name="title">Titel</string>
+    <string name="new_group">Neu</string>
+    <string name="group_already_exists">Gruppe existiert bereits</string>
+    <string name="groups">Gruppen</string>
+    <!-- Storage locations -->
+    <string name="device">Ger&#228;t</string>
+    <string name="local">Lokal</string>
+    <string name="copy">Kopieren</string>
     <string name="move">Verschieben</string>
-    <string name="delete">Löschen</string>
+    <string name="delete">L&#246;schen</string>
+    <string name="selected">%1$s ausgew&#228;hlt</string>
+    <!-- Import & Export -->
+    <string name="import_vcf">vCard importieren</string>
+    <string name="export_vcf">vCard exportieren</string>
+    <!-- Settings -->
     <string name="settings">Einstellungen</string>
     <string name="start_tab">Startseite</string>
+    <string name="theme">Erscheinungsbild</string>
     <string name="system">System</string>
     <string name="light">Hell</string>
     <string name="dark">Dunkel</string>
-    <string name="sort_order">Sortieren nach</string>
-    <string name="account_type">Kontotyp</string>
-    <string name="note">Notiz</string>
-    <string name="copy">Kopieren</string>
-    <string name="theme">Erscheinungsbild</string>
-    <string name="local">Lokal</string>
     <string name="auto_backup">Automatische Backups</string>
+    <string name="backup_interval">Intervall der Sicherung</string>
+    <string name="max_backup_amount">Maximale Anzahl von Backups</string>
+    <string name="choose_dir">Ordner W&#228;hlen</string>
     <string name="both">Beide</string>
     <string name="none">Keine</string>
-    <string name="choose_dir">Ordner Wählen</string>
-    <string name="reset">Zurücksetzen</string>
-    <string name="okay">OK</string>
-    <string name="manage_groups">Gruppen verwalten</string>
-    <string name="delete_group">Gruppe global löschen</string>
-    <string name="title">Titel</string>
-    <string name="backup_interval">Intervall der Sicherung</string>
-    <string name="groups">Gruppen</string>
-    <string name="selected">%1$s ausgewählt</string>
-    <string name="new_group">Neu</string>
-    <string name="group_already_exists">Gruppe existiert bereits</string>
-    <string name="max_backup_amount">Maximale Anzahl von Backups</string>
+    <string name="misc">Verschiedenes</string>
+    <string name="collapse_bottom_bar">Untere Leiste beim Scrollen einklappen</string>
+    <string name="colorful_contact_icons">Bunte Kontakticons</string>
+    <!-- About -->
+    <string name="about">&#220;ber</string>
+    <string name="license">Lizenz</string>
+    <string name="author">Autor</string>
+    <string name="version">Version</string>
+    <string name="translation">&#220;bersetzung</string>
 </resources>
