@@ -358,7 +358,7 @@ fun ContactEditor(
                             showAccountTypeDialog = true
                         }
                     ) {
-                        Text(stringResource(R.string.account_type))
+                        Text(selectedAccountType.second ?: stringResource(R.string.account_type))
                     }
                 }
             }
