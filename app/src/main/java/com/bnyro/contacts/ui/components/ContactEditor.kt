@@ -60,6 +60,7 @@ import com.bnyro.contacts.ui.components.editor.TextFieldEditor
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.ImageHelper
+import com.bnyro.contacts.util.Preferences
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -147,6 +148,17 @@ fun ContactEditor(
     }
 
     var selectedAccountType by remember {
+
+        if (isCreatingNewDeviceContact && (contact?.accountType.isNullOrEmpty() || contact?.accountName.isNullOrEmpty())) {
+            var type = Preferences.getString(Preferences.defaultAccountKey, "")
+            var name =
+                contactsModel.getAvailableAccountTypesAndNames().find { it.first == type }?.second
+            if (type.isNullOrEmpty()) type = null
+            if (name.isNullOrEmpty()) name = null
+            contact?.accountType = type
+            contact?.accountName = name
+        }
+
         mutableStateOf(contact?.accountType to contact?.accountName)
     }
 
