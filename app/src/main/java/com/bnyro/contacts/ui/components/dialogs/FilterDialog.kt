@@ -21,7 +21,7 @@ import com.bnyro.contacts.ui.components.base.ChipSelector
 @Composable
 fun FilterDialog(
     initialFilters: FilterOptions,
-    availableAccountTypes: List<String>,
+    availableAccountName: List<String>,
     availableGroups: List<ContactsGroup>,
     onDismissRequest: () -> Unit,
     onFilterChanged: (FilterOptions) -> Unit
@@ -65,19 +65,19 @@ fun FilterDialog(
                         sortOrder = SortOrder.fromInt(index)
                     }
                 )
-                if (availableAccountTypes.isNotEmpty()) {
+                if (availableAccountName.isNotEmpty()) {
                     Spacer(modifier = Modifier.height(10.dp))
                     ChipSelector(
                         title = stringResource(R.string.account_type),
-                        entries = availableAccountTypes,
-                        selections = availableAccountTypes.filter {
+                        entries = availableAccountName,
+                        selections = availableAccountName.filter {
                             !hiddenAccountNames.contains(it)
                         },
                         onSelectionChanged = { index, newValue ->
                             hiddenAccountNames = if (newValue) {
-                                hiddenAccountNames - availableAccountTypes[index]
+                                hiddenAccountNames - availableAccountName[index]
                             } else {
-                                hiddenAccountNames + availableAccountTypes[index]
+                                hiddenAccountNames + availableAccountName[index]
                             }
                         }
                     )

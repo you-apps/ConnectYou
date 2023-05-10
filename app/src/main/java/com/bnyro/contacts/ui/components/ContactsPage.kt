@@ -138,7 +138,9 @@ fun ContactsPage(
                 when (state) {
                     true -> {
                         SearchBar(
-                            modifier = Modifier.padding(horizontal = 10.dp).padding(top = 15.dp),
+                            modifier = Modifier
+                                .padding(horizontal = 10.dp)
+                                .padding(top = 15.dp),
                             state = searchQuery
                         ) {
                             Box(
@@ -425,7 +427,7 @@ fun ContactsPage(
                 filterOptions = it
             },
             initialFilters = filterOptions,
-            availableAccountTypes = viewModel.getAvailableAccountTypes(),
+            availableAccountName = viewModel.getAvailableAccountNames(),
             availableGroups = viewModel.getAvailableGroups()
         )
     }

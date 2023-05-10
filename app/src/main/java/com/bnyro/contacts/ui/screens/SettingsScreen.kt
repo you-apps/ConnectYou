@@ -21,8 +21,10 @@ import com.bnyro.contacts.ui.components.base.FullScreenDialog
 import com.bnyro.contacts.ui.components.prefs.BackupPref
 import com.bnyro.contacts.ui.components.prefs.BlockPreference
 import com.bnyro.contacts.ui.components.prefs.CheckboxPref
+import com.bnyro.contacts.ui.components.prefs.ListPreference
 import com.bnyro.contacts.ui.components.prefs.SettingsCategory
 import com.bnyro.contacts.ui.components.prefs.SettingsContainer
+import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.ThemeModel
 import com.bnyro.contacts.util.Preferences
 
@@ -30,6 +32,7 @@ import com.bnyro.contacts.util.Preferences
 @Composable
 fun SettingsScreen(onDismissRequest: () -> Unit) {
     val themeModel: ThemeModel = viewModel()
+    val contactsModel: ContactsModel = viewModel()
 
     FullScreenDialog(onClose = onDismissRequest) {
         Scaffold(
@@ -66,6 +69,16 @@ fun SettingsScreen(onDismissRequest: () -> Unit) {
                     ) {
                         themeModel.themeMode = ThemeMode.fromInt(it)
                     }
+                }
+                SettingsContainer {
+                    SettingsCategory(title = stringResource(R.string.default_account))
+                    ListPreference(
+                        preferenceKey = Preferences.defaultAccountKey,
+                        title = R.string.default_account,
+                        entries = contactsModel.getAvailableAccountNames(),
+                        values = contactsModel.getAvailableAccountTypes(),
+                        defaultValue = contactsModel.getAvailableAccountTypes().first()
+                    )
                 }
                 SettingsContainer {
                     SettingsCategory(title = stringResource(R.string.start_tab))
