@@ -121,15 +121,27 @@ class ContactsModel : ViewModel() {
         }
     }
 
-    fun getAvailableAccountTypes() = contacts.orEmpty().mapNotNull {
-        it.accountType
-    }.distinct()
+    fun getAvailableAccountTypes(): List<String> {
+        if (contacts.isNullOrEmpty()) return listOf((contactsHelper as DeviceContactsHelper).androidAccountType)
+        return contacts!!.mapNotNull {
+            it.accountType
+        }.distinct()
+    }
 
-    fun getAvailableAccountNames() = contacts.orEmpty().mapNotNull { it.accountName }.distinct()
+    fun getAvailableAccountNames(): List<String> {
+        if (contacts.isNullOrEmpty()) return listOf((contactsHelper as DeviceContactsHelper).deviceContactName)
+        return contacts!!.mapNotNull { it.accountName }.distinct()
+    }
 
-    fun getAvailableAccountTypesAndNames() = contacts.orEmpty().mapNotNull {
-        it.accountType?.let { type -> type to it.accountName }
-    }.distinct().toMutableList()
+    fun getAvailableAccountTypesAndNames(): MutableList<Pair<String, String?>> {
+        if (contacts.isNullOrEmpty()) {
+            val helper = contactsHelper as DeviceContactsHelper
+            return mutableListOf(helper.androidAccountType to helper.deviceContactName)
+        }
+        return contacts.orEmpty().mapNotNull {
+            it.accountType?.let { type -> type to it.accountName }
+        }.distinct().toMutableList()
+    }
 
     fun getAvailableGroups() = contacts?.map { it.groups }?.flatten().orEmpty().distinct()
 }

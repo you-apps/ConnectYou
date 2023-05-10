@@ -41,8 +41,8 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     override val label: String = context.getString(R.string.device)
 
     private val contentResolver = context.contentResolver
-    private val androidAccountType = "com.android.contacts"
-    private val deviceContactName = "DEVICE"
+    val androidAccountType = "com.android.contacts"
+    val deviceContactName = "DEVICE"
 
     private val projection = arrayOf(
         Data.RAW_CONTACT_ID,
