@@ -122,19 +122,19 @@ class ContactsModel : ViewModel() {
     }
 
     fun getAvailableAccountTypes(): List<String> {
-        if (contacts.isNullOrEmpty()) return listOf((contactsHelper as DeviceContactsHelper).androidAccountType)
+        if (contacts.isNullOrEmpty() && contactsHelper is DeviceContactsHelper) return listOf((contactsHelper as DeviceContactsHelper).androidAccountType)
         return contacts!!.mapNotNull {
             it.accountType
         }.distinct()
     }
 
     fun getAvailableAccountNames(): List<String> {
-        if (contacts.isNullOrEmpty()) return listOf((contactsHelper as DeviceContactsHelper).deviceContactName)
+        if (contacts.isNullOrEmpty() && contactsHelper is DeviceContactsHelper) return listOf((contactsHelper as DeviceContactsHelper).deviceContactName)
         return contacts!!.mapNotNull { it.accountName }.distinct()
     }
 
     fun getAvailableAccountTypesAndNames(): MutableList<Pair<String, String?>> {
-        if (contacts.isNullOrEmpty()) {
+        if (contacts.isNullOrEmpty() && contactsHelper is DeviceContactsHelper) {
             val helper = contactsHelper as DeviceContactsHelper
             return mutableListOf(helper.androidAccountType to helper.deviceContactName)
         }
