@@ -85,4 +85,6 @@
     <string name="create_shortcut">Shortcut erstellen</string>
     <string name="add_to_contact">Zu Kontakt hinzufügen</string>
     <string name="colorful_contact_icons">Bunte Kontaktsymbole</string>
+    <string name="homepage">Startseite</string>
+    <string name="ftp">FTP</string>
 </resources>
