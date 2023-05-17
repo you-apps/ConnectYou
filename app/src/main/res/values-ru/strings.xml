@@ -25,7 +25,7 @@
     <string name="work">Рабочий</string>
     <string name="first_name">Имя</string>
     <string name="type">Тип</string>
-    <string name="home">Домашний</string>
+    <string name="home">Главная</string>
     <string name="other">Другой</string>
     <string name="car">Автомобиль</string>
     <string name="export_vcf">Экспортировать vCard</string>
