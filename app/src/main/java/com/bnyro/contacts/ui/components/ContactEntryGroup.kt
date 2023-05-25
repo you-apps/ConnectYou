@@ -29,7 +29,9 @@ fun ContactEntryGroup(
             )
             entries.forEach { entry ->
                 val type = types.firstOrNull { type -> entry.type == type.id }?.title
-                ContactEntry(content = entry.value, type = type)
+                ContactEntry(content = entry.value, type = type, onClick = {
+                    onClick.invoke(entry)
+                })
             }
         }
     }
