@@ -20,7 +20,7 @@ fun ClickableIcon(
     if (contentDescription != null) {
         PlainTooltipBox(tooltip = { Text(stringResource(contentDescription)) }) {
             IconButton(
-                modifier = modifier.tooltipAnchor(),
+                modifier = modifier.tooltipTrigger(),
                 onClick = onClick
             ) {
                 Icon(
