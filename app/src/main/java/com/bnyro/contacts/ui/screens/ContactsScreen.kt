@@ -81,7 +81,7 @@ fun ContactsScreen(
 
     LaunchedEffect(viewModel.contacts) {
         initialContact ?: return@LaunchedEffect
-        viewModel.contacts?.firstOrNull {
+        viewModel.contacts.firstOrNull {
             it.contactId == initialContact
         }?.let {
             scope.launch {
@@ -97,7 +97,6 @@ fun ContactsScreen(
             stringResource(R.string.device),
             Icons.Default.Home
         ) {
-            viewModel.contacts = null
             viewModel.contactsHelper = DeviceContactsHelper(context)
             viewModel.loadContacts(context)
         },
@@ -105,7 +104,6 @@ fun ContactsScreen(
             stringResource(R.string.local),
             Icons.Default.Storage
         ) {
-            viewModel.contacts = null
             viewModel.contactsHelper = LocalContactsHelper(context)
             viewModel.loadContacts(context)
         }
@@ -156,7 +154,7 @@ fun ContactsScreen(
             color = MaterialTheme.colorScheme.background
         ) {
             ContactsPage(
-                viewModel.contacts,
+                viewModel.contacts.takeIf { !viewModel.isLoading },
                 contactToInsert,
                 nestedScrollConnection.takeIf { themeModel.collapsableBottomBar },
                 bottomBarOffsetHeight = with(LocalDensity.current) {

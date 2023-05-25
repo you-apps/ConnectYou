@@ -304,10 +304,10 @@ fun ContactsPage(
                             scrollConnection?.let { modifier.nestedScroll(it) } ?: modifier
                         }
                 ) {
+                    val query = searchQuery.value.text.lowercase()
                     val contactGroups = contacts.asSequence().filter {
-                        it.displayName.orEmpty().lowercase().contains(
-                            searchQuery.value.text.lowercase()
-                        )
+                        it.displayName.orEmpty().lowercase().contains(query) ||
+                            it.numbers.any { number -> number.value.contains(query) }
                     }.filter {
                         !filterOptions.hiddenAccountNames.contains(it.accountName)
                     }.filter {

@@ -31,7 +31,6 @@ import com.bnyro.contacts.enums.BackupType
 import com.bnyro.contacts.ext.intValue
 import com.bnyro.contacts.ext.longValue
 import com.bnyro.contacts.ext.notAName
-import com.bnyro.contacts.ext.pmap
 import com.bnyro.contacts.ext.stringValue
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ContactsGroup
@@ -57,11 +56,11 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         RawContacts.ACCOUNT_NAME
     )
 
+    private val storedGroups = getStoredGroups()
+
     @RequiresPermission(Manifest.permission.READ_CONTACTS)
     override suspend fun getContactList(): List<ContactData> {
         val contactList = mutableListOf<ContactData>()
-
-        val storedGroups = getStoredGroups()
 
         @Suppress("SameParameterValue")
         val cursor = contentResolver.query(
@@ -116,13 +115,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
             }
         }
 
-        return contactList.pmap {
-            it.apply {
-                thumbnail = getContactPhotoThumbnail(contactId)
-                photo = getContactPhoto(contactId)
-                groups = getGroups(contactId, storedGroups)
-            }
-        }
+        return contactList
     }
 
     private fun getEntry(contactId: Long, type: String, column: String): String? {
@@ -130,6 +123,9 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     }
 
     override suspend fun loadAdvancedData(contact: ContactData) = contact.apply {
+        thumbnail = getContactPhotoThumbnail(contactId)
+        photo = getContactPhoto(contactId)
+        groups = getGroups(contactId, storedGroups)
         nickName = getEntry(contactId, Nickname.CONTENT_ITEM_TYPE, Nickname.NAME)
         organization = getEntry(contactId, Organization.CONTENT_ITEM_TYPE, Organization.COMPANY)
         events = getExtras(
