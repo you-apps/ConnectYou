@@ -44,7 +44,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.IntentActionType
 import com.bnyro.contacts.obj.ContactData
-import com.bnyro.contacts.ui.components.ContactEntry
+import com.bnyro.contacts.obj.ValueWithType
+import com.bnyro.contacts.ui.components.ContactEntryGroup
+import com.bnyro.contacts.ui.components.ContactEntryTextGroup
 import com.bnyro.contacts.ui.components.ContactProfilePicture
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
@@ -100,7 +102,9 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
             val scrollState = rememberScrollState()
 
             Column(
-                modifier = Modifier.verticalScroll(scrollState).padding(pV),
+                modifier = Modifier
+                    .verticalScroll(scrollState)
+                    .padding(pV),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Column(
@@ -200,80 +204,64 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     }
                 }
 
-                contact.nickName?.let {
-                    ContactEntry(
-                        label = stringResource(R.string.nick_name),
-                        content = it
-                    )
+                ContactEntryTextGroup(
+                    label = stringResource(R.string.nick_name),
+                    entries = listOfNotNull(contact.nickName)
+                )
+
+                ContactEntryTextGroup(
+                    label = stringResource(R.string.organization),
+                    entries = listOfNotNull(contact.organization)
+                )
+
+                ContactEntryGroup(
+                    label = stringResource(R.string.website),
+                    entries = contact.websites
+                ) {
+                    IntentHelper.launchAction(context, IntentActionType.WEBSITE, it.value)
                 }
 
-                contact.organization?.let {
-                    ContactEntry(
-                        label = stringResource(R.string.organization),
-                        content = it
-                    )
+                ContactEntryGroup(
+                    label = stringResource(R.string.phone),
+                    entries = contact.numbers,
+                    types = ContactsHelper.phoneNumberTypes
+                ) {
+                    IntentHelper.launchAction(context, IntentActionType.DIAL, it.value)
                 }
 
-                contact.websites.forEach {
-                    ContactEntry(
-                        label = stringResource(R.string.website),
-                        content = it.value
-                    ) {
-                        IntentHelper.launchAction(context, IntentActionType.WEBSITE, it.value)
-                    }
+                ContactEntryGroup(
+                    label = stringResource(R.string.email),
+                    entries = contact.emails,
+                    types = ContactsHelper.emailTypes
+                ) {
+                    IntentHelper.launchAction(context, IntentActionType.EMAIL, it.value)
                 }
 
-                contact.numbers.forEach {
-                    ContactEntry(
-                        label = stringResource(R.string.phone),
-                        content = it.value,
-                        type = ContactsHelper.phoneNumberTypes.firstOrNull { type -> it.type == type.id }?.title
-                    ) {
-                        IntentHelper.launchAction(context, IntentActionType.DIAL, it.value)
-                    }
+                ContactEntryGroup(
+                    label = stringResource(R.string.address),
+                    entries = contact.addresses,
+                    types = ContactsHelper.addressTypes
+                ) {
+                    IntentHelper.launchAction(context, IntentActionType.ADDRESS, it.value)
                 }
 
-                contact.emails.forEach {
-                    ContactEntry(
-                        label = stringResource(R.string.email),
-                        content = it.value,
-                        type = ContactsHelper.emailTypes.firstOrNull { type -> it.type == type.id }?.title
-                    ) {
-                        IntentHelper.launchAction(context, IntentActionType.EMAIL, it.value)
-                    }
-                }
+                ContactEntryGroup(
+                    label = stringResource(R.string.event),
+                    entries = contact.events.map {
+                        ValueWithType(CalendarUtils.localizeIsoDate(it.value), it.type)
+                    },
+                    types = ContactsHelper.eventTypes
+                )
 
-                contact.addresses.forEach {
-                    ContactEntry(
-                        label = stringResource(R.string.address),
-                        content = it.value,
-                        type = ContactsHelper.addressTypes.firstOrNull { type -> it.type == type.id }?.title
-                    ) {
-                        IntentHelper.launchAction(context, IntentActionType.ADDRESS, it.value)
-                    }
-                }
+                ContactEntryGroup(
+                    label = stringResource(R.string.note),
+                    entries = contact.notes
+                )
 
-                contact.events.forEach {
-                    ContactEntry(
-                        label = stringResource(R.string.event),
-                        content = CalendarUtils.localizeIsoDate(it.value),
-                        type = ContactsHelper.eventTypes.firstOrNull { type -> it.type == type.id }?.title
-                    )
-                }
-
-                contact.notes.forEach {
-                    ContactEntry(
-                        label = stringResource(R.string.note),
-                        content = it.value
-                    )
-                }
-
-                if (contact.groups.isNotEmpty()) {
-                    ContactEntry(
-                        label = stringResource(R.string.groups),
-                        content = contact.groups.joinToString(", ") { it.title }
-                    )
-                }
+                ContactEntryTextGroup(
+                    label = stringResource(R.string.groups),
+                    entries = contact.groups.map { it.title }
+                )
             }
         }
     }

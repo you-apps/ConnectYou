@@ -24,7 +24,6 @@ import com.bnyro.contacts.util.ClipboardHelper
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ContactEntry(
-    label: String,
     content: String,
     @StringRes type: Int? = null,
     onClick: () -> Unit = {}
@@ -49,12 +48,14 @@ fun ContactEntry(
         Column(
             modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp)
         ) {
-            Text(
-                text = (if (type == null) label else "$label (${stringResource(type)})").uppercase(),
-                color = MaterialTheme.colorScheme.primary,
-                fontSize = 10.sp
-            )
-            Spacer(modifier = Modifier.height(5.dp))
+            if (type != null) {
+                Text(
+                    text = stringResource(type).uppercase(),
+                    color = MaterialTheme.colorScheme.primary,
+                    fontSize = 10.sp
+                )
+                Spacer(modifier = Modifier.height(5.dp))
+            }
             Text(text = content)
         }
     }
