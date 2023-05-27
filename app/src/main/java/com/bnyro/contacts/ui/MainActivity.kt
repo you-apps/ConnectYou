@@ -27,6 +27,8 @@ class MainActivity : ComponentActivity() {
         val contactsModel: ContactsModel = ViewModelProvider(this).get()
 
         contactsModel.init(this)
+        contactsModel.initialContactId = getInitialContactId()
+        contactsModel.initialContactData = getInsertContactData()
 
         handleVcfShareAction(contactsModel)
 
@@ -38,7 +40,7 @@ class MainActivity : ComponentActivity() {
                     else -> isSystemInDarkTheme()
                 }
             ) {
-                ContactsScreen(getInsertContactData(), getInitialContactId())
+                ContactsScreen()
                 getInsertOrEditNumber()?.let {
                     AddToContactDialog(it)
                 }

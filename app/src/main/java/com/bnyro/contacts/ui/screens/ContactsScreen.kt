@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
-import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.NavBarItem
 import com.bnyro.contacts.ui.components.ContactsPage
 import com.bnyro.contacts.ui.models.ContactsModel
@@ -49,16 +48,10 @@ import kotlinx.coroutines.withContext
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ContactsScreen(
-    contactToInsert: ContactData?,
-    initialContact: Long?
-) {
+fun ContactsScreen() {
     val context = LocalContext.current
     val viewModel: ContactsModel = viewModel()
     val themeModel: ThemeModel = viewModel()
-    var visibleContact by remember {
-        mutableStateOf<ContactData?>(null)
-    }
     val scope = rememberCoroutineScope()
 
     val bottomBarHeight = 80.dp
@@ -79,14 +72,14 @@ fun ContactsScreen(
         viewModel.loadContacts(context)
     }
 
-    LaunchedEffect(viewModel.contacts) {
-        initialContact ?: return@LaunchedEffect
+    LaunchedEffect(viewModel.isLoading) {
+        viewModel.initialContactId ?: return@LaunchedEffect
         viewModel.contacts.firstOrNull {
-            it.contactId == initialContact
+            it.contactId == viewModel.initialContactId
         }?.let {
             scope.launch {
                 withContext(Dispatchers.IO) {
-                    visibleContact = viewModel.loadAdvancedContactData(it)
+                    viewModel.initialContactData = viewModel.loadAdvancedContactData(it)
                 }
             }
         }
@@ -154,16 +147,16 @@ fun ContactsScreen(
             color = MaterialTheme.colorScheme.background
         ) {
             ContactsPage(
-                contactToInsert,
+                viewModel.initialContactData,
                 nestedScrollConnection.takeIf { themeModel.collapsableBottomBar },
                 bottomBarOffsetHeight = with(LocalDensity.current) {
                     bottomBarHeight - bottomBarOffsetHeightPx.value.absoluteValue.toDp()
                 }.takeIf { themeModel.collapsableBottomBar } ?: 0.dp
             )
         }
-        visibleContact?.let {
+        viewModel.initialContactData?.let {
             SingleContactScreen(it) {
-                visibleContact = null
+                viewModel.initialContactData = null
             }
         }
     }

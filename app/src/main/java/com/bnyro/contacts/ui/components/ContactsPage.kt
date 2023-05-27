@@ -256,7 +256,6 @@ fun ContactsPage(
                 Manifest.permission.READ_CONTACTS
             )
 
-
             if (viewModel.isLoading) {
                 LaunchedEffect(Unit) {
                     if (hasPerms() || viewModel.contactsHelper !is DeviceContactsHelper) return@LaunchedEffect

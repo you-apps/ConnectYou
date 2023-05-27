@@ -35,6 +35,8 @@ class ContactsModel : ViewModel() {
         Manifest.permission.READ_CONTACTS
     )
     private var sessionId = 0
+    var initialContactId: Long? by mutableStateOf(null)
+    var initialContactData: ContactData? by mutableStateOf(null)
 
     fun init(context: Context) {
         contactsHelper = when (Preferences.getInt(Preferences.homeTabKey, 0)) {
@@ -46,7 +48,10 @@ class ContactsModel : ViewModel() {
     fun loadContacts(context: Context) {
         isLoading = true
         if (contactsHelper is DeviceContactsHelper &&
-            !PermissionHelper.checkPermissions(context, permissions)) return
+            !PermissionHelper.checkPermissions(context, permissions)
+        ) {
+            return
+        }
         viewModelScope.launch(Dispatchers.IO) {
             sessionId += 1
             val currentSession = sessionId
