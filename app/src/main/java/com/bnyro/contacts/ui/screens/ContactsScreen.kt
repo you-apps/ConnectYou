@@ -154,7 +154,6 @@ fun ContactsScreen(
             color = MaterialTheme.colorScheme.background
         ) {
             ContactsPage(
-                viewModel.contacts.takeIf { !viewModel.isLoading },
                 contactToInsert,
                 nestedScrollConnection.takeIf { themeModel.collapsableBottomBar },
                 bottomBarOffsetHeight = with(LocalDensity.current) {

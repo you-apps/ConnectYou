@@ -75,7 +75,6 @@ import kotlinx.coroutines.delay
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ContactsPage(
-    contacts: List<ContactData>?,
     contactToInsert: ContactData?,
     scrollConnection: NestedScrollConnection?,
     bottomBarOffsetHeight: Dp
@@ -205,13 +204,13 @@ fun ContactsPage(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Checkbox(
-                                        checked = selectedContacts.containsAll(contacts.orEmpty()),
+                                        checked = selectedContacts.containsAll(viewModel.contacts),
                                         onCheckedChange = {
-                                            if (selectedContacts.containsAll(contacts.orEmpty())) {
+                                            if (selectedContacts.containsAll(viewModel.contacts)) {
                                                 selectedContacts.clear()
                                             } else {
                                                 selectedContacts.clear()
-                                                selectedContacts.addAll(contacts.orEmpty())
+                                                selectedContacts.addAll(viewModel.contacts)
                                             }
                                         }
                                     )
@@ -252,20 +251,16 @@ fun ContactsPage(
                 }
             }
 
-            if (contacts == null) {
+            fun hasPerms() = PermissionHelper.hasPermission(
+                context,
+                Manifest.permission.READ_CONTACTS
+            )
+
+
+            if (viewModel.isLoading) {
                 LaunchedEffect(Unit) {
-                    if (PermissionHelper.hasPermission(
-                            context,
-                            Manifest.permission.READ_CONTACTS
-                        )
-                    ) {
-                        return@LaunchedEffect
-                    }
-                    while (!PermissionHelper.hasPermission(
-                            context,
-                            Manifest.permission.READ_CONTACTS
-                        )
-                    ) {
+                    if (hasPerms() || viewModel.contactsHelper !is DeviceContactsHelper) return@LaunchedEffect
+                    while (!hasPerms()) {
                         delay(100)
                     }
                     viewModel.loadContacts(context)
@@ -277,7 +272,7 @@ fun ContactsPage(
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
-            } else if (contacts.isEmpty()) {
+            } else if (viewModel.contacts.isEmpty()) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
@@ -305,7 +300,7 @@ fun ContactsPage(
                         }
                 ) {
                     val query = searchQuery.value.text.lowercase()
-                    val contactGroups = contacts.asSequence().filter {
+                    val contactGroups = viewModel.contacts.asSequence().filter {
                         it.displayName.orEmpty().lowercase().contains(query) ||
                             it.numbers.any { number -> number.value.contains(query) }
                     }.filter {

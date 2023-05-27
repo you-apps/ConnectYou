@@ -56,10 +56,11 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         RawContacts.ACCOUNT_NAME
     )
 
-    private val storedGroups = getStoredGroups()
+    private var storedContactGroups: List<ValueWithType> = emptyList()
 
     @RequiresPermission(Manifest.permission.READ_CONTACTS)
     override suspend fun getContactList(): List<ContactData> {
+        storedContactGroups = getStoredGroups()
         val contactList = mutableListOf<ContactData>()
 
         @Suppress("SameParameterValue")
@@ -125,7 +126,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     override suspend fun loadAdvancedData(contact: ContactData) = contact.apply {
         thumbnail = getContactPhotoThumbnail(contactId)
         photo = getContactPhoto(contactId)
-        groups = getGroups(contactId, storedGroups)
+        groups = getGroups(contactId, storedContactGroups)
         nickName = getEntry(contactId, Nickname.CONTENT_ITEM_TYPE, Nickname.NAME)
         organization = getEntry(contactId, Organization.CONTENT_ITEM_TYPE, Organization.COMPANY)
         events = getExtras(

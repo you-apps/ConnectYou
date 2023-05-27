@@ -28,13 +28,13 @@ import kotlinx.coroutines.launch
 
 class ContactsModel : ViewModel() {
     var contacts = mutableStateListOf<ContactData>()
-    var isLoading by mutableStateOf(false)
+    var isLoading by mutableStateOf(true)
     var contactsHelper by mutableStateOf<ContactsHelper?>(null)
     private val permissions = arrayOf(
         Manifest.permission.WRITE_CONTACTS,
         Manifest.permission.READ_CONTACTS
     )
-    private var cancelJob: () -> Unit = {}
+    private var sessionId = 0
 
     fun init(context: Context) {
         contactsHelper = when (Preferences.getInt(Preferences.homeTabKey, 0)) {
@@ -44,22 +44,22 @@ class ContactsModel : ViewModel() {
     }
 
     fun loadContacts(context: Context) {
-        if (!PermissionHelper.checkPermissions(context, permissions)) return
+        isLoading = true
+        if (contactsHelper is DeviceContactsHelper &&
+            !PermissionHelper.checkPermissions(context, permissions)) return
         viewModelScope.launch(Dispatchers.IO) {
-            cancelJob()
+            sessionId += 1
+            val currentSession = sessionId
             contacts.clear()
-            isLoading = true
             contacts.addAll(contactsHelper?.getContactList().orEmpty())
             isLoading = false
-            var isJobActive = true
-            cancelJob = { isJobActive = false }
             CoroutineScope(Dispatchers.IO + Job()).launch {
                 (0 until contacts.size).map { i ->
                     async {
                         contacts.getOrNull(i)?.let {
                             val data = contactsHelper?.loadAdvancedData(it) ?: return@async
-                            if (!isJobActive) return@let
-                            contacts[i] = data
+                            if (currentSession != sessionId || it.displayName != data.displayName) return@async
+                            runCatching { contacts[i] = data }.onFailure { return@async }
                         }
                     }
                 }.awaitAll()
