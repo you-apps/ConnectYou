@@ -37,6 +37,7 @@
     <!-- Sorting and filter -->
     <string name="sort_order">Sort order</string>
     <string name="account_type">Account type</string>
+    <string name="name">Name</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last Name</string>
     <string name="nick_name">Nickname</string>

@@ -48,6 +48,7 @@ import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.ContactEntryGroup
 import com.bnyro.contacts.ui.components.ContactEntryTextGroup
 import com.bnyro.contacts.ui.components.ContactProfilePicture
+import com.bnyro.contacts.ui.components.ShareDialog
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
@@ -72,6 +73,9 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
         mutableStateOf(false)
     }
     var showShortcutDialog by remember {
+        mutableStateOf(false)
+    }
+    var showShareDialog by remember {
         mutableStateOf(false)
     }
 
@@ -185,7 +189,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                             icon = Icons.Default.Share,
                             contentDescription = R.string.share
                         ) {
-                            viewModel.exportSingleVcf(context, contact)
+                            showShareDialog = true
                         }
                         Spacer(modifier = Modifier.width(5.dp))
                         ClickableIcon(
@@ -301,6 +305,12 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
     if (showShortcutDialog) {
         ShortcutDialog(contact) {
             showShortcutDialog = false
+        }
+    }
+
+    if (showShareDialog) {
+        ShareDialog(contact) {
+            showShareDialog = false
         }
     }
 }

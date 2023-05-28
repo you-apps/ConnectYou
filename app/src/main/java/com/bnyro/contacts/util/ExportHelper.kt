@@ -35,14 +35,17 @@ class ExportHelper(
         }
     }
 
-    suspend fun exportContact(minimalContact: ContactData): Uri {
-        val contact = contactsHelper.loadAdvancedData(minimalContact)
+    suspend fun exportContact(minimalContact: ContactData, isFullContact: Boolean = false): Uri {
+        val contact = if (isFullContact) minimalContact else contactsHelper.loadAdvancedData(
+            minimalContact
+        )
         val vCardText = VcardHelper.exportVcard(listOf(contact))
         val outputDir = File(context.cacheDir, "contacts").also {
             if (!it.exists()) it.mkdir()
         }
         val outFile = withContext(Dispatchers.IO) {
-            File.createTempFile(contact.displayName.orEmpty(), ".vcf", outputDir)
+            val fileName = contact.displayName.orEmpty().ifEmpty { "contact-export" }
+            File.createTempFile(fileName, ".vcf", outputDir)
         }
         contentResolver.openOutputStream(Uri.fromFile(outFile))?.use {
             it.write(vCardText.toByteArray())
