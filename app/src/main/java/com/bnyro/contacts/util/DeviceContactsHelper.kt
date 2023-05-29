@@ -125,7 +125,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
 
     override suspend fun loadAdvancedData(contact: ContactData) = contact.apply {
         thumbnail = getContactPhotoThumbnail(contactId)
-        photo = getContactPhoto(contactId)
+        photo = getContactPhoto(contactId) ?: thumbnail
         groups = getGroups(contactId, storedContactGroups)
         nickName = getEntry(contactId, Nickname.CONTENT_ITEM_TYPE, Nickname.NAME)
         organization = getEntry(contactId, Organization.CONTENT_ITEM_TYPE, Organization.COMPANY)
@@ -606,14 +606,14 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         val displayPhotoUri =
             Uri.withAppendedPath(contactUri, Contacts.Photo.DISPLAY_PHOTO)
         return runCatching {
-            context.contentResolver.openAssetFileDescriptor(displayPhotoUri, "r").use { fd ->
-                BitmapFactory.decodeStream(fd!!.createInputStream())
+            context.contentResolver.openAssetFileDescriptor(displayPhotoUri, "r")?.use { fd ->
+                BitmapFactory.decodeStream(fd.createInputStream())
             }
         }.getOrNull()
     }
 
     private fun getBitmapBytes(bitmap: Bitmap): ByteArray {
-        var bytes: ByteArray = ImageHelper.bitmapToByteArray(bitmap)
+        var bytes = ImageHelper.bitmapToByteArray(bitmap)
 
         // prevent crashes due to a too large transaction
         if (bytes.size / 1024 > 900) {

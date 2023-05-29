@@ -96,7 +96,7 @@ object VcardHelper {
                     addNote(note.value)
                 }
             }
-            contact.photo?.let {
+            (contact.photo ?: contact.thumbnail)?.let {
                 val photo = Photo(ImageHelper.bitmapToByteArray(it), ImageType.PNG)
                 addPhoto(photo)
             }
