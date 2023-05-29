@@ -34,6 +34,7 @@
     <string name="address">Address</string>
     <string name="event">Event</string>
     <string name="website">Website</string>
+    <string name="photo">Photo</string>
     <!-- Sorting and filter -->
     <string name="sort_order">Sort order</string>
     <string name="account_type">Account type</string>

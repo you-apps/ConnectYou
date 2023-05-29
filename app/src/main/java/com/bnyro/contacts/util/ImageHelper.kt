@@ -20,19 +20,17 @@ object ImageHelper {
     }
 
     private fun getImageNormal(context: Context, uri: Uri): Bitmap? {
-        context.contentResolver.openInputStream(uri)?.use { stream ->
-            return BitmapFactory.decodeStream(stream)
+        return context.contentResolver.openInputStream(uri)?.use { stream ->
+            BitmapFactory.decodeStream(stream)
         }
-        return null
     }
 
     private fun getImageWithExif(context: Context, uri: Uri): Bitmap? {
-        context.contentResolver.openInputStream(uri)?.use { stream ->
+        return context.contentResolver.openInputStream(uri)?.use { stream ->
             val exifInterface = ExifInterface(stream)
             val bitmap = exifInterface.thumbnailBitmap ?: return null
-            return rotateBitmap(bitmap, exifInterface)
+            rotateBitmap(bitmap, exifInterface)
         }
-        return null
     }
 
     private fun rotateBitmap(bitmap: Bitmap, exifInterface: ExifInterface): Bitmap {

@@ -1,5 +1,6 @@
 package com.bnyro.contacts.util
 
+import android.graphics.BitmapFactory
 import android.provider.ContactsContract.CommonDataKinds.Email
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
@@ -10,9 +11,11 @@ import ezvcard.VCard
 import ezvcard.VCardVersion
 import ezvcard.parameter.AddressType
 import ezvcard.parameter.EmailType
+import ezvcard.parameter.ImageType
 import ezvcard.parameter.TelephoneType
 import ezvcard.property.Address
 import ezvcard.property.FormattedName
+import ezvcard.property.Photo
 import ezvcard.property.StructuredName
 
 object VcardHelper {
@@ -93,6 +96,10 @@ object VcardHelper {
                     addNote(note.value)
                 }
             }
+            contact.photo?.let {
+                val photo = Photo(ImageHelper.bitmapToByteArray(it), ImageType.PNG)
+                addPhoto(photo)
+            }
         }
     }
 
@@ -100,6 +107,9 @@ object VcardHelper {
         val vCard = Ezvcard.parse(vCardString)
 
         return vCard.all().map {
+            val photo = it.photos.firstOrNull()?.data?.let { photoBytes ->
+                BitmapFactory.decodeByteArray(photoBytes, 0, photoBytes.size)
+            }
             ContactData(
                 displayName = it.formattedName?.value,
                 firstName = it.structuredName?.given,
@@ -141,7 +151,9 @@ object VcardHelper {
                 },
                 notes = it.notes.orEmpty().map { note ->
                     ValueWithType(note.value, null)
-                }
+                },
+                photo = photo,
+                thumbnail = photo
             )
         }
     }

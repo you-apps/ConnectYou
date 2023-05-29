@@ -24,6 +24,7 @@ fun ShareDialog(
     val context = LocalContext.current
 
     val shareName = remember { mutableStateOf(true) }
+    val sharePhoto = remember { mutableStateOf(true) }
     val shareNickName = remember { mutableStateOf(true) }
     val shareOrganization = remember { mutableStateOf(true) }
     val shareWebsite = remember { mutableStateOf(true) }
@@ -34,6 +35,7 @@ fun ShareDialog(
 
     val options = listOf(
         R.string.name to shareName,
+        R.string.photo to sharePhoto,
         R.string.nick_name to shareNickName,
         R.string.organization to shareOrganization,
         R.string.website to shareWebsite,
@@ -67,6 +69,7 @@ fun ShareDialog(
                         firstName = null
                         surName = null
                     }
+                    if (!sharePhoto.value) photo = null
                     if (!shareNickName.value) nickName = null
                     if (!shareOrganization.value) organization = null
                     if (!shareAddress.value) addresses = emptyList()
