@@ -86,4 +86,6 @@
     <string name="filter">Filtr</string>
     <string name="show_more_fields">Zobrazit další pole</string>
     <string name="organization">Organizace</string>
+    <string name="photo">Fotka</string>
+    <string name="name">Jméno</string>
 </resources>
