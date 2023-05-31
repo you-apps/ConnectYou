@@ -86,4 +86,6 @@
     <string name="homepage">Pagina principala</string>
     <string name="ftp">FTP</string>
     <string name="organization">Organizare</string>
+    <string name="photo">Fotografie</string>
+    <string name="name">Nume</string>
 </resources>
