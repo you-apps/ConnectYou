@@ -42,6 +42,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     private val contentResolver = context.contentResolver
     private val androidAccountType = "com.android.contacts"
     private val deviceContactName = "DEVICE"
+    private val contactsUri = Data.CONTENT_URI
 
     private val projection = arrayOf(
         Data.RAW_CONTACT_ID,
@@ -65,7 +66,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
 
         @Suppress("SameParameterValue")
         val cursor = contentResolver.query(
-            Data.CONTENT_URI,
+            contactsUri,
             projection,
             null,
             null,
@@ -86,19 +87,9 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
 
                 // try parsing the display name to a proper name
                 if (firstName.notAName() || surName.notAName()) {
-                    val displayNameParts = displayName.orEmpty().split(" ")
-                    when {
-                        displayNameParts.size >= 2 -> {
-                            firstName = displayNameParts.subList(0, displayNameParts.size - 1).joinToString(
-                                " "
-                            )
-                            surName = displayNameParts.last()
-                        }
-                        displayNameParts.size == 1 -> {
-                            firstName = displayNameParts.first()
-                            surName = ""
-                        }
-                    }
+                    val nameParts = splitFullName(displayName)
+                    firstName = nameParts.first
+                    surName = nameParts.second
                 }
 
                 val contact = ContactData(
@@ -259,11 +250,10 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     @Suppress("SameParameterValue")
     private fun getExtras(contactId: Long, valueIndex: String, typeIndex: String?, itemType: String): List<ValueWithType> {
         val entries = mutableListOf<ValueWithType>()
-        val uri = Data.CONTENT_URI
         val projection = arrayOf(Data.CONTACT_ID, valueIndex, typeIndex ?: "data2")
 
         contentResolver.query(
-            uri,
+            contactsUri,
             projection,
             "${Data.MIMETYPE} = ? AND ${Data.CONTACT_ID} = ?",
             arrayOf(itemType, contactId.toString()),
@@ -406,7 +396,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         val rawContactId = contact.rawContactId.toString()
 
         val selection = "${Data.RAW_CONTACT_ID} = ? AND ${Data.MIMETYPE} = ?"
-        ContentProviderOperation.newUpdate(Data.CONTENT_URI).apply {
+        ContentProviderOperation.newUpdate(contactsUri).apply {
             val selectionArgs = arrayOf(rawContactId, StructuredName.CONTENT_ITEM_TYPE)
             withSelection(selection, selectionArgs)
             withValue(StructuredName.GIVEN_NAME, contact.firstName)
@@ -527,7 +517,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         type: Int? = null,
         rawContactId: Int? = null
     ): ContentProviderOperation {
-        return ContentProviderOperation.newInsert(Data.CONTENT_URI)
+        return ContentProviderOperation.newInsert(contactsUri)
             .let { builder ->
                 // if creating a new contact, the previous contact id is going to be taken
                 // if updating an already existing contact, don't worry about the previous batch id
@@ -571,14 +561,14 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         val selection = "${Data.RAW_CONTACT_ID} = ? AND ${Data.MIMETYPE} = ?"
         val selectionArgs = arrayOf(contactId, mimeType)
 
-        ContentProviderOperation.newDelete(Data.CONTENT_URI).apply {
+        ContentProviderOperation.newDelete(contactsUri).apply {
             withSelection(selection, selectionArgs)
             operations.add(build())
         }
 
         // add new entries
         entries.forEach {
-            ContentProviderOperation.newInsert(Data.CONTENT_URI).apply {
+            ContentProviderOperation.newInsert(contactsUri).apply {
                 withValue(Data.RAW_CONTACT_ID, contactId)
                 withValue(Data.MIMETYPE, mimeType)
                 withValue(valueIndex, it.value)
@@ -631,7 +621,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     }
 
     private fun deletePhoto(rawContactId: Int): ContentProviderOperation {
-        return ContentProviderOperation.newDelete(Data.CONTENT_URI).apply {
+        return ContentProviderOperation.newDelete(contactsUri).apply {
             val selection = "${Data.RAW_CONTACT_ID} = ? AND ${Data.MIMETYPE} = ?"
             val selectionArgs = arrayOf(rawContactId.toString(), Photo.CONTENT_ITEM_TYPE)
             withSelection(selection, selectionArgs)

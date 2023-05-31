@@ -34,7 +34,6 @@ class ContactsModel : ViewModel() {
         Manifest.permission.WRITE_CONTACTS,
         Manifest.permission.READ_CONTACTS
     )
-    private var sessionId = 0
     var initialContactId: Long? by mutableStateOf(null)
     var initialContactData: ContactData? by mutableStateOf(null)
 
@@ -53,19 +52,19 @@ class ContactsModel : ViewModel() {
             return
         }
         viewModelScope.launch(Dispatchers.IO) {
-            sessionId += 1
-            val currentSession = sessionId
-            contacts.clear()
-            contacts.addAll(contactsHelper?.getContactList().orEmpty())
+            isLoading = true
+            try {
+                val ct = contactsHelper?.getContactList().orEmpty()
+                contacts.clear()
+                contacts.addAll(ct)
+            } catch (e: Exception) {
+                return@launch
+            }
             isLoading = false
-            CoroutineScope(Dispatchers.IO + Job()).launch {
-                (0 until contacts.size).map { i ->
+            CoroutineScope(Dispatchers.IO).launch {
+                contacts.map {
                     async {
-                        contacts.getOrNull(i)?.let {
-                            val data = contactsHelper?.loadAdvancedData(it) ?: return@async
-                            if (currentSession != sessionId || it.displayName != data.displayName) return@async
-                            runCatching { contacts[i] = data }.onFailure { return@async }
-                        }
+                        contactsHelper?.loadAdvancedData(it)
                     }
                 }.awaitAll()
             }

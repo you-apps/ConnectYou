@@ -92,5 +92,21 @@ abstract class ContactsHelper {
             TranslatedType(ContactsContract.CommonDataKinds.Website.TYPE_CUSTOM, R.string.custom),
             TranslatedType(ContactsContract.CommonDataKinds.Website.TYPE_OTHER, R.string.other)
         )
+
+
+        fun splitFullName(displayName: String?): Pair<String, String> {
+            val displayNameParts = displayName.orEmpty().split(" ")
+            return when {
+                displayNameParts.size >= 2 -> {
+                    displayNameParts.subList(0, displayNameParts.size - 1).joinToString(
+                        " "
+                    ) to displayNameParts.last()
+                }
+                displayNameParts.size == 1 -> {
+                    displayNameParts.first() to ""
+                }
+                else -> { "" to "" }
+            }
+        }
     }
 }

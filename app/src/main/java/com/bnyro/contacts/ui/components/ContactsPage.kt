@@ -61,6 +61,7 @@ import com.bnyro.contacts.ui.components.base.OptionMenu
 import com.bnyro.contacts.ui.components.base.SearchBar
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.components.dialogs.FilterDialog
+import com.bnyro.contacts.ui.components.dialogs.SimImportDialog
 import com.bnyro.contacts.ui.components.modifier.scrollbar
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.AboutScreen
@@ -110,6 +111,10 @@ fun ContactsPage(
         mutableStateOf(false)
     }
 
+    var showImportSimDialog by remember {
+        mutableStateOf(false)
+    }
+
     val importVcard =
         rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
             uri?.let { viewModel.importVcf(context, it) }
@@ -137,7 +142,9 @@ fun ContactsPage(
                 when (state) {
                     true -> {
                         SearchBar(
-                            modifier = Modifier.padding(horizontal = 10.dp).padding(top = 15.dp),
+                            modifier = Modifier
+                                .padding(horizontal = 10.dp)
+                                .padding(top = 15.dp),
                             state = searchQuery
                         ) {
                             Box(
@@ -167,6 +174,7 @@ fun ContactsPage(
                                     options = listOf(
                                         stringResource(R.string.import_vcf),
                                         stringResource(R.string.export_vcf),
+                                        stringResource(R.string.import_sim),
                                         stringResource(R.string.settings),
                                         stringResource(R.string.about)
                                     ),
@@ -184,10 +192,14 @@ fun ContactsPage(
                                             }
 
                                             2 -> {
-                                                showSettings = true
+                                                showImportSimDialog = true
                                             }
 
                                             3 -> {
+                                                showSettings = true
+                                            }
+
+                                            4 -> {
                                                 showAbout = true
                                             }
                                         }
@@ -422,5 +434,11 @@ fun ContactsPage(
             availableAccountTypes = viewModel.getAvailableAccountTypes(),
             availableGroups = viewModel.getAvailableGroups()
         )
+    }
+
+    if (showImportSimDialog) {
+        SimImportDialog {
+            showImportSimDialog = false
+        }
     }
 }
