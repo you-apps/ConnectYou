@@ -86,4 +86,6 @@
     <string name="homepage">דף הבית</string>
     <string name="website">אתר</string>
     <string name="blog">בלוג</string>
+    <string name="photo">תמונה</string>
+    <string name="name">שם</string>
 </resources>

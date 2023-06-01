@@ -86,4 +86,6 @@
     <string name="homepage">الصفحة الرئيسة</string>
     <string name="ftp">بروتوكول نقل الملفات</string>
     <string name="blog">المدونة</string>
+    <string name="name">اسم</string>
+    <string name="photo">صورة</string>
 </resources>

@@ -86,4 +86,6 @@
     <string name="ftp">FTP 服务器</string>
     <string name="blog">博客</string>
     <string name="nick_name">昵称</string>
+    <string name="name">名称</string>
+    <string name="photo">照片</string>
 </resources>
