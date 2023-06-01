@@ -21,7 +21,7 @@
     <string name="phone">Téléphone</string>
     <string name="fax_home">Fax domicile</string>
     <string name="assistant">Assistant</string>
-    <string name="home">Écran d\'accueil</string>
+    <string name="home">Domicile</string>
     <string name="other">Autre</string>
     <string name="birthday">Date de naissance</string>
     <string name="license">Licence</string>
@@ -87,4 +87,7 @@
     <string name="colorful_contact_icons">Icônes de contact colorées</string>
     <string name="add_to_contact">Ajouter au contact</string>
     <string name="title">Titre</string>
+    <string name="photo">Photo</string>
+    <string name="name">Nom</string>
+    <string name="import_sim">Importer depuis une SIM</string>
 </resources>
