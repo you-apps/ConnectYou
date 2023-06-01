@@ -86,4 +86,7 @@
     <string name="organization">Organizzazione</string>
     <string name="homepage">Pagina principale</string>
     <string name="edit">Modifica</string>
+    <string name="photo">Foto</string>
+    <string name="name">Nome</string>
+    <string name="import_sim">Importa da SIM</string>
 </resources>
