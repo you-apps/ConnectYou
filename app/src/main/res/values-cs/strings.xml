@@ -88,4 +88,5 @@
     <string name="organization">Organizace</string>
     <string name="photo">Fotka</string>
     <string name="name">Jméno</string>
+    <string name="import_sim">Importovat ze SIM karty</string>
 </resources>
