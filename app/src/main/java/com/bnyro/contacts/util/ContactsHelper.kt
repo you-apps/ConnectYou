@@ -93,7 +93,6 @@ abstract class ContactsHelper {
             TranslatedType(ContactsContract.CommonDataKinds.Website.TYPE_OTHER, R.string.other)
         )
 
-
         fun splitFullName(displayName: String?): Pair<String, String> {
             val displayNameParts = displayName.orEmpty().split(" ")
             return when {

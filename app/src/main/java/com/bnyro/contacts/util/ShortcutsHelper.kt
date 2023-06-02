@@ -27,7 +27,8 @@ object ShortcutHelper {
         intent: Intent,
         label: String,
         id: String,
-        icon: IconCompat
+        icon: IconCompat,
+        pin: Boolean = false
     ) {
         val shortcut = ShortcutInfoCompat.Builder(context, id)
             .setShortLabel(label)
@@ -36,7 +37,11 @@ object ShortcutHelper {
             .setIntent(intent)
             .build()
 
-        ShortcutManagerCompat.pushDynamicShortcut(context, shortcut)
+        if (!pin) {
+            ShortcutManagerCompat.pushDynamicShortcut(context, shortcut)
+        } else {
+            ShortcutManagerCompat.requestPinShortcut(context, shortcut, null)
+        }
     }
 
     fun createShortcuts(context: Context) {
@@ -84,7 +89,8 @@ object ShortcutHelper {
             intent,
             contact.displayName.orEmpty(),
             System.currentTimeMillis().toString(),
-            IconCompat.createWithResource(context, icon)
+            IconCompat.createWithResource(context, icon),
+            true
         )
     }
 }

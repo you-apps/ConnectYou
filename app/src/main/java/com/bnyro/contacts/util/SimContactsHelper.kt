@@ -2,11 +2,9 @@ package com.bnyro.contacts.util
 
 import android.content.Context
 import android.net.Uri
-import com.bnyro.contacts.ext.longValue
 import com.bnyro.contacts.ext.stringValue
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ValueWithType
-
 
 object SimContactsHelper {
     fun getSimContacts(context: Context): List<ContactData> {
@@ -17,7 +15,7 @@ object SimContactsHelper {
         while (cursorSim.moveToNext()) {
             val name = cursorSim.stringValue("name")
             val phoneNumber = cursorSim.stringValue("number")
-                ?.replace("\\D","")
+                ?.replace("\\D", "")
                 ?.replace("&", "")
             // skip empty sim contacts
             if (name.isNullOrBlank() && phoneNumber.isNullOrBlank()) continue

@@ -96,8 +96,9 @@ fun SimImportDialog(
                             Checkbox(
                                 checked = selectedContacts.contains(contact),
                                 onCheckedChange = {
-                                    if (it) selectedContacts.add(contact)
-                                    else selectedContacts.remove(contact)
+                                    if (it) {
+                                        selectedContacts.add(contact)
+                                    } else selectedContacts.remove(contact)
                                 }
                             )
                             Spacer(modifier = Modifier.width(10.dp))
