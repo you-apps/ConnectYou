@@ -88,4 +88,5 @@
     <string name="blog">בלוג</string>
     <string name="photo">תמונה</string>
     <string name="name">שם</string>
+    <string name="import_sim">ייבוא מ־SIM</string>
 </resources>

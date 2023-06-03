@@ -86,4 +86,7 @@
     <string name="homepage">Páxina de inicio</string>
     <string name="ftp">FTP</string>
     <string name="blog">Blog</string>
+    <string name="photo">Foto</string>
+    <string name="name">Nome</string>
+    <string name="import_sim">Importar da SIM</string>
 </resources>

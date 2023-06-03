@@ -88,4 +88,5 @@
     <string name="blog">المدونة</string>
     <string name="name">اسم</string>
     <string name="photo">صورة</string>
+    <string name="import_sim">الاستيراد من بطاقة SIM</string>
 </resources>

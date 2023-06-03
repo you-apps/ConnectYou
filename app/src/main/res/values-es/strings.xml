@@ -86,4 +86,7 @@
     <string name="filter">Filtrar</string>
     <string name="more">Más</string>
     <string name="show_less">Mostrar menos</string>
+    <string name="photo">Foto</string>
+    <string name="name">Nombre</string>
+    <string name="import_sim">Importar desde la tarjeta SIM</string>
 </resources>

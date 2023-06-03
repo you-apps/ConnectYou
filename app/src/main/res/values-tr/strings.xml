@@ -87,4 +87,7 @@
     <string name="homepage">Ana sayfa</string>
     <string name="blog">Blog</string>
     <string name="ftp">FTP</string>
+    <string name="photo">Fotoğraf</string>
+    <string name="name">Ad</string>
+    <string name="import_sim">SIM\'den içe aktar</string>
 </resources>

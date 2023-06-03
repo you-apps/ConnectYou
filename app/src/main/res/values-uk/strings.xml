@@ -89,4 +89,5 @@
     <string name="organization">Організація</string>
     <string name="photo">Фото</string>
     <string name="name">Ім\'я</string>
+    <string name="import_sim">Імпорт з SIM-карти</string>
 </resources>
