@@ -86,4 +86,7 @@
     <string name="filter">Фильтр</string>
     <string name="homepage">Домашняя страница</string>
     <string name="ftp">FTP</string>
+    <string name="import_sim">Импорт с SIM</string>
+    <string name="photo">Фото</string>
+    <string name="name">Имя</string>
 </resources>
