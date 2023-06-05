@@ -86,4 +86,7 @@
     <string name="blog">Blogue</string>
     <string name="edit">Editar</string>
     <string name="show_more_fields">Mostrar mais campos</string>
+    <string name="name">Nome</string>
+    <string name="import_sim">Importar do SIM</string>
+    <string name="photo">Fotografia</string>
 </resources>
