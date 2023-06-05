@@ -88,4 +88,5 @@
     <string name="nick_name">昵称</string>
     <string name="name">名称</string>
     <string name="photo">照片</string>
+    <string name="import_sim">从 SIM 卡导入</string>
 </resources>
