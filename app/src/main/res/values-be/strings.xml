@@ -70,4 +70,23 @@
     <string name="groups">Групы</string>
     <string name="device">Прылада</string>
     <string name="phone">Тэлефон</string>
+    <string name="import_sim">Імпарт з SIM</string>
+    <string name="max_backup_amount">Максімальная колькасць рэзервовых копій</string>
+    <string name="collapse_bottom_bar">Згарнуць ніжнюю панэль пры пракрутцы</string>
+    <string name="photo">Фота</string>
+    <string name="name">Імя</string>
+    <string name="selected">%1$s выбрана</string>
+    <string name="backup_interval">Інтэрвал рэзервовага капіявання</string>
+    <string name="misc">Рознае</string>
+    <string name="colorful_contact_icons">Маляўнічыя значкі кантактаў</string>
+    <string name="license">Ліцэнзія</string>
+    <string name="more">Больш</string>
+    <string name="show_more_fields">Паказаць больш палёў</string>
+    <string name="show_less">Паказваць менш</string>
+    <string name="custom">Прыстасаваныя</string>
+    <string name="local">Прыкладанне</string>
+    <string name="import_vcf">Імпарт vCard</string>
+    <string name="export_vcf">Экспарт vCard</string>
+    <string name="start_tab">Пачатковая ўкладка</string>
+    <string name="auto_backup">Аўтаматычнае рэзервовае капіраванне</string>
 </resources>
