@@ -44,4 +44,7 @@
     <string name="local">লোকাল</string>
     <string name="delete">মুছুন</string>
     <string name="choose_dir">ডিরেক্টরি নির্বাচন করুন</string>
+    <string name="website">ওয়েবসাইট</string>
+    <string name="filter">ফিল্টার</string>
+    <string name="both">দুটোই</string>
 </resources>
