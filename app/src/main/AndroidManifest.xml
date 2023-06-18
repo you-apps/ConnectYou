@@ -25,9 +25,8 @@
         android:name=".App">
 
         <activity
-            android:name=".ui.MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.ConnectYou">
+            android:name=".ui.activities.MainActivity"
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -98,6 +97,43 @@
                 <data android:mimeType="vnd.android.cursor.item/person"/>
                 <data android:mimeType="vnd.android.cursor.item/contact"/>
                 <data android:mimeType="vnd.android.cursor.item/raw_contact"/>
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".ui.activities.PickContactActivity"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.PICK"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:mimeType="vnd.android.cursor.dir/contact"/>
+                <data android:mimeType="vnd.android.cursor.dir/person"/>
+                <data android:mimeType="vnd.android.cursor.dir/phone_v2"/>
+                <data android:mimeType="vnd.android.cursor.dir/phone"/>
+                <data android:mimeType="vnd.android.cursor.dir/postal-address_v2"/>
+                <data android:mimeType="vnd.android.cursor.dir/postal-address"/>
+                <data android:mimeType="vnd.android.cursor.dir/email_v2"/>
+                <data android:mimeType="vnd.android.cursor.dir/group"/>
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:mimeType="vnd.android.cursor.item/contact"/>
+                <data android:mimeType="vnd.android.cursor.item/person"/>
+                <data android:mimeType="vnd.android.cursor.item/phone_v2"/>
+                <data android:mimeType="vnd.android.cursor.item/phone"/>
+                <data android:mimeType="vnd.android.cursor.item/postal-address_v2"/>
+                <data android:mimeType="vnd.android.cursor.item/postal-address"/>
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="com.android.contacts.action.JOIN_CONTACT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
         </activity>

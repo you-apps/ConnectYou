@@ -1,4 +1,4 @@
-package com.bnyro.contacts.ui
+package com.bnyro.contacts.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -19,27 +19,16 @@ import com.bnyro.contacts.ui.screens.ContactsScreen
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
 import com.bnyro.contacts.util.BackupHelper
 
-class MainActivity : ComponentActivity() {
+class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val themeModel: ThemeModel = ViewModelProvider(this).get()
-        val contactsModel: ContactsModel = ViewModelProvider(this).get()
-
-        contactsModel.init(this)
         contactsModel.initialContactId = getInitialContactId()
         contactsModel.initialContactData = getInsertContactData()
-
         handleVcfShareAction(contactsModel)
 
         setContent {
-            ConnectYouTheme(
-                darkTheme = when (themeModel.themeMode) {
-                    ThemeMode.LIGHT -> false
-                    ThemeMode.DARK -> true
-                    else -> isSystemInDarkTheme()
-                }
-            ) {
+            ConnectYouTheme(themeModel.themeMode) {
                 ContactsScreen()
                 getInsertOrEditNumber()?.let {
                     AddToContactDialog(it)
