@@ -22,7 +22,6 @@ import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.ContactEditor
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun EditorScreen(
     contact: ContactData? = null,
@@ -59,7 +58,7 @@ fun EditorScreen(
         ContactEditor(
             modifier = Modifier
                 .padding(bottom = topPadding),
-            contact = contact,
+            contact = contact?.copy(),
             isCreatingNewDeviceContact = isCreatingNewDeviceContact,
             onSave = {
                 if (it.displayName.orEmpty().isBlank()) {
