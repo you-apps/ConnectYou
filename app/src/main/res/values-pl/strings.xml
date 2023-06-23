@@ -3,7 +3,7 @@
     <string name="last_name">Nazwisko</string>
     <string name="type">Typ</string>
     <string name="home">Główny ekran</string>
-    <string name="search" tools:ignore="PrivateResource">Wyszukaj</string>
+    <string name="search" tools:ignore="PrivateResource">Szukaj</string>
     <string name="copied">Skopiowano do schowka</string>
     <string name="delete_contact">Usuń kontakt</string>
     <string name="irreversible">Na pewno\? Nie można cofnąć tej akcji!</string>
@@ -56,8 +56,8 @@
     <string name="export_vcf">Eksportuj vCard</string>
     <string name="settings">Ustawienia</string>
     <string name="start_tab">Zakładka początkowa</string>
-    <string name="theme">Motyw</string>
-    <string name="system">Systemowy</string>
+    <string name="theme">Kompozycja</string>
+    <string name="system">Zgodny z systemem</string>
     <string name="light">Jasny</string>
     <string name="dark">Ciemny</string>
     <string name="auto_backup">Automatyczne tworzenie kopii zapasowej</string>
@@ -69,7 +69,7 @@
     <string name="misc">Różne</string>
     <string name="collapse_bottom_bar">Zwiń pasek na dole podczas przewijania</string>
     <string name="colorful_contact_icons">Kolorowe ikony kontaktów</string>
-    <string name="about">O programie</string>
+    <string name="about">O aplikacji</string>
     <string name="license">Licencja</string>
     <string name="author">Autor</string>
     <string name="version">Wersja</string>
