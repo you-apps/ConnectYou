@@ -89,4 +89,5 @@
     <string name="photo">Foto</string>
     <string name="name">Nome</string>
     <string name="import_sim">Importar da SIM</string>
+    <string name="pick_contact">Elixe un contacto</string>
 </resources>
