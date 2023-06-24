@@ -24,7 +24,7 @@
     <string name="custom">Власне</string>
     <string name="import_vcf">Імпорт vCard</string>
     <string name="author">Автор</string>
-    <string name="first_name">Ім\'я</string>
+    <string name="first_name">Ім\'я та прізвище</string>
     <string name="version">Версія</string>
     <string name="last_name">Прізвище</string>
     <string name="home">Головна</string>
@@ -90,4 +90,5 @@
     <string name="photo">Фото</string>
     <string name="name">Ім\'я</string>
     <string name="import_sim">Імпорт з SIM-карти</string>
+    <string name="pick_contact">Виберіть контакт</string>
 </resources>
