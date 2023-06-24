@@ -89,4 +89,5 @@
     <string name="local">ස්ථානීය</string>
     <string name="delete">මකන්න</string>
     <string name="selected">%1$s ක් තෝරා ඇත</string>
+    <string name="pick_contact">සබඳතාව තෝරන්න</string>
 </resources>
