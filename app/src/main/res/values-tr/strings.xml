@@ -90,4 +90,5 @@
     <string name="photo">Fotoğraf</string>
     <string name="name">Ad</string>
     <string name="import_sim">SIM\'den içe aktar</string>
+    <string name="pick_contact">Kişi seç</string>
 </resources>
