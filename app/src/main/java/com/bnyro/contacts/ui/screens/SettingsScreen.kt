@@ -13,6 +13,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.ThemeMode
@@ -57,7 +58,11 @@ fun SettingsScreen(onDismissRequest: () -> Unit) {
                     .verticalScroll(scrollState)
             ) {
                 SettingsContainer {
-                    SettingsCategory(title = stringResource(R.string.theme))
+                    SettingsCategory(title = stringResource(R.string.appearance))
+                    Text(
+                        modifier = Modifier.padding(start = 10.dp),
+                        text = stringResource(R.string.theme)
+                    )
                     BlockPreference(
                         preferenceKey = Preferences.themeKey,
                         entries = listOf(R.string.system, R.string.light, R.string.dark).map {
@@ -66,33 +71,34 @@ fun SettingsScreen(onDismissRequest: () -> Unit) {
                     ) {
                         themeModel.themeMode = ThemeMode.fromInt(it)
                     }
-                }
-                SettingsContainer {
-                    SettingsCategory(title = stringResource(R.string.start_tab))
-                    BlockPreference(
-                        preferenceKey = Preferences.homeTabKey,
-                        entries = listOf(R.string.device, R.string.local).map {
-                            stringResource(it)
-                        }
-                    )
-                }
-                SettingsContainer {
-                    BackupPref()
-                }
-                SettingsContainer {
-                    SettingsCategory(title = stringResource(R.string.misc))
-                    CheckboxPref(
-                        prefKey = Preferences.collapseBottomBarKey,
-                        title = stringResource(R.string.collapse_bottom_bar)
-                    ) {
-                        themeModel.collapsableBottomBar = it
-                    }
                     CheckboxPref(
                         prefKey = Preferences.colorfulContactIconsKey,
                         title = stringResource(R.string.colorful_contact_icons)
                     ) {
                         themeModel.colorfulIcons = it
                     }
+                }
+                SettingsContainer {
+                    SettingsCategory(title = stringResource(R.string.behavior))
+                    Text(
+                        modifier = Modifier.padding(start = 10.dp),
+                        text = stringResource(R.string.start_tab)
+                    )
+                    BlockPreference(
+                        preferenceKey = Preferences.homeTabKey,
+                        entries = listOf(R.string.device, R.string.local).map {
+                            stringResource(it)
+                        }
+                    )
+                    CheckboxPref(
+                        prefKey = Preferences.collapseBottomBarKey,
+                        title = stringResource(R.string.collapse_bottom_bar)
+                    ) {
+                        themeModel.collapsableBottomBar = it
+                    }
+                }
+                SettingsContainer {
+                    BackupPref()
                 }
             }
         }
