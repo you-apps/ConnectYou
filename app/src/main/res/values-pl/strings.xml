@@ -56,8 +56,8 @@
     <string name="export_vcf">Eksportuj vCard</string>
     <string name="settings">Ustawienia</string>
     <string name="start_tab">Zakładka początkowa</string>
-    <string name="theme">Kompozycja</string>
-    <string name="system">Zgodny z systemem</string>
+    <string name="theme">Motyw</string>
+    <string name="system">Systemowy</string>
     <string name="light">Jasny</string>
     <string name="dark">Ciemny</string>
     <string name="auto_backup">Automatyczne tworzenie kopii zapasowej</string>
