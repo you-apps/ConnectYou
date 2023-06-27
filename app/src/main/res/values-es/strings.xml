@@ -6,7 +6,7 @@
     <string name="cancel">Cancelar</string>
     <string name="okay">De acuerdo</string>
     <string name="reset">Restablecer</string>
-    <string name="nothing_here">Nada aquí.</string>
+    <string name="nothing_here">Aquí no hay nada.</string>
     <string name="phone">Teléfono</string>
     <string name="email">Correo electrónico</string>
     <string name="address">Dirección</string>
@@ -89,4 +89,5 @@
     <string name="photo">Foto</string>
     <string name="name">Nombre</string>
     <string name="import_sim">Importar desde la tarjeta SIM</string>
+    <string name="pick_contact">Escoger un contacto</string>
 </resources>
