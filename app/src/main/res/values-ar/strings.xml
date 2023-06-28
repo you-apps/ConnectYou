@@ -90,4 +90,6 @@
     <string name="photo">صورة</string>
     <string name="import_sim">الاستيراد من بطاقة SIM</string>
     <string name="pick_contact">اختر جهة اتصال</string>
+    <string name="appearance">المظهر</string>
+    <string name="behavior">السلوك</string>
 </resources>
