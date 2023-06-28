@@ -91,4 +91,6 @@
     <string name="name">Ad</string>
     <string name="import_sim">SIM\'den içe aktar</string>
     <string name="pick_contact">Kişi seç</string>
+    <string name="behavior">Davranış</string>
+    <string name="appearance">Görünüm</string>
 </resources>
