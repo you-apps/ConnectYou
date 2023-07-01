@@ -90,4 +90,5 @@
     <string name="photo">照片</string>
     <string name="import_sim">从 SIM 卡导入</string>
     <string name="pick_contact">选取联系人</string>
+    <string name="appearance">外观</string>
 </resources>

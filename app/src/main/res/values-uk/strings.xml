@@ -91,4 +91,6 @@
     <string name="name">Ім\'я</string>
     <string name="import_sim">Імпорт з SIM-карти</string>
     <string name="pick_contact">Виберіть контакт</string>
+    <string name="behavior">Поведінка</string>
+    <string name="appearance">Зовнішній вигляд</string>
 </resources>

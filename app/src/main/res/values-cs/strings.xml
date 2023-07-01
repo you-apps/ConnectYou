@@ -90,4 +90,6 @@
     <string name="name">Jméno</string>
     <string name="import_sim">Importovat ze SIM karty</string>
     <string name="pick_contact">Vybrat kontakt</string>
+    <string name="behavior">Chování</string>
+    <string name="appearance">Vzhled</string>
 </resources>

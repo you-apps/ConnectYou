@@ -90,4 +90,6 @@
     <string name="name">שם</string>
     <string name="import_sim">ייבוא מ־SIM</string>
     <string name="pick_contact">בחירת איש קשר</string>
+    <string name="behavior">התנהגות</string>
+    <string name="appearance">מראה</string>
 </resources>
