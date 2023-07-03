@@ -90,4 +90,6 @@
     <string name="name">Nome</string>
     <string name="import_sim">Importa da SIM</string>
     <string name="pick_contact">Scegli contatto</string>
+    <string name="behavior">Comportamento</string>
+    <string name="appearance">Aspetto</string>
 </resources>
