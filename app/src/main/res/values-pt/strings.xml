@@ -54,7 +54,7 @@
     <string name="system">Sistema</string>
     <string name="account_type">Tipo de conta</string>
     <string name="note">Nota</string>
-    <string name="delete">Apagar</string>
+    <string name="delete">Eliminar</string>
     <string name="auto_backup">Backup automático</string>
     <string name="theme">Tema</string>
     <string name="delete_group">Eliminar grupo para todos</string>
@@ -89,4 +89,7 @@
     <string name="name">Nome</string>
     <string name="import_sim">Importar do SIM</string>
     <string name="photo">Fotografia</string>
+    <string name="appearance">Aparência</string>
+    <string name="behavior">Comportamento</string>
+    <string name="pick_contact">Escolher contacto</string>
 </resources>
