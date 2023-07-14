@@ -88,4 +88,8 @@
     <string name="organization">Organizare</string>
     <string name="photo">Fotografie</string>
     <string name="name">Nume</string>
+    <string name="behavior">Comportament</string>
+    <string name="appearance">Aspect</string>
+    <string name="pick_contact">Alegeți contact</string>
+    <string name="import_sim">Importă de pe SIM</string>
 </resources>
