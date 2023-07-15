@@ -40,8 +40,6 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     override val label: String = context.getString(R.string.device)
 
     private val contentResolver = context.contentResolver
-    private val androidAccountType = "com.android.contacts"
-    private val deviceContactName = "DEVICE"
     private val contactsUri = Data.CONTENT_URI
 
     private val projection = arrayOf(
@@ -177,8 +175,8 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
         ContentProviderOperation.newInsert(ContactsContract.Groups.CONTENT_URI).apply {
             withValue(ContactsContract.Groups.TITLE, groupName)
             withValue(ContactsContract.Groups.GROUP_VISIBLE, 1)
-            withValue(ContactsContract.Groups.ACCOUNT_NAME, deviceContactName)
-            withValue(ContactsContract.Groups.ACCOUNT_TYPE, androidAccountType)
+            withValue(ContactsContract.Groups.ACCOUNT_NAME, ANDROID_CONTACTS_NAME)
+            withValue(ContactsContract.Groups.ACCOUNT_TYPE, ANDROID_ACCOUNT_TYPE)
             operations.add(build())
         }
 
@@ -291,8 +289,8 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
     override suspend fun createContact(contact: ContactData) {
         val ops = listOfNotNull(
             getCreateAction(
-                contact.accountType ?: androidAccountType,
-                contact.accountName ?: deviceContactName
+                contact.accountType ?: ANDROID_ACCOUNT_TYPE,
+                contact.accountName ?: ANDROID_CONTACTS_NAME
             ),
             getInsertAction(
                 StructuredName.CONTENT_ITEM_TYPE,
@@ -630,5 +628,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
 
     companion object {
         const val MAX_PHOTO_SIZE = 700f
+        const val ANDROID_ACCOUNT_TYPE = "com.android.contacts"
+        const val ANDROID_CONTACTS_NAME = "DEVICE"
     }
 }

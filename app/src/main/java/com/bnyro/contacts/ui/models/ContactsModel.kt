@@ -150,13 +150,18 @@ class ContactsModel : ViewModel() {
         }
     }
 
-    fun getAvailableAccountTypes() = contacts.mapNotNull {
-        it.accountName
-    }.distinct()
+    fun getAvailableAccountTypes() = getAvailableAccountTypesAndNames().map { it.first }
 
-    fun getAvailableAccountTypesAndNames() = contacts.mapNotNull {
-        it.accountType?.let { type -> type to it.accountName }
-    }.distinct().toMutableList()
+    fun getAvailableAccountTypesAndNames(): List<Pair<String, String?>> {
+        if (contacts.isEmpty() && contactsHelper is DeviceContactsHelper) {
+            return listOf(
+                DeviceContactsHelper.ANDROID_ACCOUNT_TYPE to DeviceContactsHelper.ANDROID_CONTACTS_NAME
+            )
+        }
+        return contacts.mapNotNull {
+            it.accountType?.let { type -> type to it.accountName }
+        }.distinct().toMutableList()
+    }
 
     fun getAvailableGroups() = contacts.map { it.groups }.flatten().distinct()
 }
