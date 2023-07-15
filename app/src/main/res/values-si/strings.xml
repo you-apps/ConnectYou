@@ -47,7 +47,7 @@
     <string name="edit">සංස්කරණය</string>
     <string name="more">තව</string>
     <string name="sort_order">අනුපිළිවෙල</string>
-    <string name="nothing_here">මෙහි කිසිවක් නැහැ.</string>
+    <string name="nothing_here">මෙහි කිසිවක් නැහැ</string>
     <string name="share">බෙදාගන්න</string>
     <string name="export_success">නිර්යාත කෙරිණි.</string>
     <string name="event">සිදුවීම</string>
@@ -90,4 +90,6 @@
     <string name="delete">මකන්න</string>
     <string name="selected">%1$s ක් තෝරා ඇත</string>
     <string name="pick_contact">සබඳතාව තෝරන්න</string>
+    <string name="behavior">හැසිරීම</string>
+    <string name="appearance">පෙනුම</string>
 </resources>
