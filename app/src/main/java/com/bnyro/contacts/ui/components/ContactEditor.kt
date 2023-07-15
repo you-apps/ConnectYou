@@ -146,12 +146,12 @@ fun ContactEditor(
         mutableStateOf(contact?.groups.orEmpty())
     }
 
-    var selectedAccountType by remember {
+    var selectedAccount by remember {
         mutableStateOf(contact?.accountType to contact?.accountName)
     }
 
-    val availableAccountTypes = remember {
-        contactsModel.getAvailableAccountTypesAndNames()
+    val availableAccounts = remember {
+        contactsModel.getAvailableAccounts()
     }
 
     val uploadImage = rememberLauncherForActivityResult(
@@ -338,7 +338,7 @@ fun ContactEditor(
                 }
             }
 
-            Row(
+            Column(
                 modifier = Modifier
                     .align(Alignment.Start)
                     .padding(top = 10.dp, start = 10.dp)
@@ -351,14 +351,19 @@ fun ContactEditor(
                     Text(stringResource(R.string.manage_groups))
                 }
 
-                if (isCreatingNewDeviceContact && availableAccountTypes.size >= 1) {
+                if (isCreatingNewDeviceContact && availableAccounts.isNotEmpty()) {
                     Spacer(modifier = Modifier.width(10.dp))
                     Button(
                         onClick = {
                             showAccountTypeDialog = true
                         }
                     ) {
-                        Text(stringResource(R.string.account_type))
+                        Text(
+                            text = if (!selectedAccount.first.isNullOrEmpty())
+                                "${stringResource(R.string.account_type)}: ${
+                                    selectedAccount.second ?: selectedAccount.first
+                                }" else stringResource(R.string.account_type)
+                        )
                     }
                 }
             }
@@ -378,8 +383,8 @@ fun ContactEditor(
                     it.organization = organization.value.takeIf { o -> o.isNotBlank() }?.trim()
                     it.displayName = "${firstName.value.trim()} ${surName.value.trim()}"
                     it.photo = profilePicture
-                    it.accountType = selectedAccountType.first
-                    it.accountName = selectedAccountType.second
+                    it.accountType = selectedAccount.first
+                    it.accountName = selectedAccount.second
                     it.websites = websites.clean()
                     it.numbers = phoneNumber.clean()
                     it.emails = emails.clean()
@@ -422,13 +427,13 @@ fun ContactEditor(
                 LazyColumn(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    items(availableAccountTypes) {
+                    items(availableAccounts) {
                         Text(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clip(RoundedCornerShape(20.dp))
                                 .clickable {
-                                    selectedAccountType = it
+                                    selectedAccount = it
                                     showAccountTypeDialog = false
                                 }
                                 .padding(vertical = 15.dp, horizontal = 20.dp),

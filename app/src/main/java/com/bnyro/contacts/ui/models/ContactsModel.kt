@@ -150,10 +150,10 @@ class ContactsModel : ViewModel() {
         }
     }
 
-    fun getAvailableAccountTypes() = getAvailableAccountTypesAndNames().map { it.first }
+    fun getAvailableAccountTypes() = getAvailableAccounts().map { it.first }
 
-    fun getAvailableAccountTypesAndNames(): List<Pair<String, String?>> {
-        if (contacts.isEmpty() && contactsHelper is DeviceContactsHelper) {
+    fun getAvailableAccounts(): List<Pair<String, String?>> {
+        if (contacts.isEmpty()) {
             return listOf(
                 DeviceContactsHelper.ANDROID_ACCOUNT_TYPE to DeviceContactsHelper.ANDROID_CONTACTS_NAME
             )
