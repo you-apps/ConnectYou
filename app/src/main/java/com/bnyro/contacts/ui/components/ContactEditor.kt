@@ -10,7 +10,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -59,6 +58,7 @@ import com.bnyro.contacts.ui.components.editor.DatePickerEditor
 import com.bnyro.contacts.ui.components.editor.TextFieldEditor
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.util.ContactsHelper
+import com.bnyro.contacts.util.DeviceContactsHelper
 import com.bnyro.contacts.util.ImageHelper
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -147,7 +147,10 @@ fun ContactEditor(
     }
 
     var selectedAccount by remember {
-        mutableStateOf(contact?.accountType to contact?.accountName)
+        mutableStateOf(
+            (contact?.accountType ?: DeviceContactsHelper.ANDROID_ACCOUNT_TYPE) to
+                    (contact?.accountName ?: DeviceContactsHelper.ANDROID_CONTACTS_NAME)
+        )
     }
 
     val availableAccounts = remember {
@@ -359,10 +362,9 @@ fun ContactEditor(
                         }
                     ) {
                         Text(
-                            text = if (!selectedAccount.first.isNullOrEmpty())
-                                "${stringResource(R.string.account_type)}: ${
-                                    selectedAccount.second ?: selectedAccount.first
-                                }" else stringResource(R.string.account_type)
+                            text = "${stringResource(R.string.account_type)}: ${
+                                selectedAccount.second.ifBlank { selectedAccount.first }
+                            }"
                         )
                     }
                 }
@@ -437,7 +439,7 @@ fun ContactEditor(
                                     showAccountTypeDialog = false
                                 }
                                 .padding(vertical = 15.dp, horizontal = 20.dp),
-                            text = it.second.orEmpty()
+                            text = it.second
                         )
                     }
                 }

@@ -152,14 +152,14 @@ class ContactsModel : ViewModel() {
 
     fun getAvailableAccountTypes() = getAvailableAccounts().map { it.first }
 
-    fun getAvailableAccounts(): List<Pair<String, String?>> {
+    fun getAvailableAccounts(): List<Pair<String, String>> {
         if (contacts.isEmpty()) {
             return listOf(
                 DeviceContactsHelper.ANDROID_ACCOUNT_TYPE to DeviceContactsHelper.ANDROID_CONTACTS_NAME
             )
         }
         return contacts.mapNotNull {
-            it.accountType?.let { type -> type to it.accountName }
+            it.accountType?.let { type -> type to it.accountName.orEmpty() }
         }.distinct().toMutableList()
     }
 
