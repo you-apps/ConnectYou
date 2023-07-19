@@ -27,7 +27,7 @@
     <string name="empty_name">Име не може бити празно!</string>
     <string name="import_success">Увезено.</string>
     <string name="export_success">Извезено.</string>
-    <string name="nothing_here">Нема ничега овде.</string>
+    <string name="nothing_here">Овде је празно.</string>
     <!-- Data types -->
     <string name="phone">Телефон</string>
     <string name="email">Имејл</string>
@@ -79,9 +79,9 @@
     <string name="settings">Подешавања</string>
     <string name="start_tab">Почетни одељак</string>
     <string name="theme">Тема</string>
-    <string name="system">Системска</string>
+    <string name="system">Како систем</string>
     <string name="light">Светла</string>
-    <string name="dark">Тамна</string>
+    <string name="dark">Мрачна</string>
     <string name="auto_backup">Аутоматска резервна копија</string>
     <string name="backup_interval">Интервал за резервну копију</string>
     <string name="max_backup_amount">Максимална количина резервних копија</string>
@@ -92,9 +92,10 @@
     <string name="collapse_bottom_bar">Смањи траку на дну при скроловању</string>
     <string name="colorful_contact_icons">Шарене иконице контаката</string>
     <!-- About -->
-    <string name="about">О</string>
+    <string name="about">О апликацији</string>
     <string name="license">Лиценца</string>
     <string name="author">Аутор</string>
     <string name="version">Верзија</string>
     <string name="translation">Превод</string>
+    <string name="appearance">Изглед</string>
 </resources>
