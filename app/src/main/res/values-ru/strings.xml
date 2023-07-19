@@ -89,4 +89,7 @@
     <string name="import_sim">Импорт с SIM</string>
     <string name="photo">Фото</string>
     <string name="name">Имя</string>
+    <string name="pick_contact">Выберите контакт</string>
+    <string name="behavior">Поведение</string>
+    <string name="appearance">Внешний вид</string>
 </resources>
