@@ -11,7 +11,7 @@
     <string name="import_vcf">Importă vCard</string>
     <string name="assistant">Asistent</string>
     <string name="export_vcf">Exportă vCard</string>
-    <string name="irreversible">Eşti sigur\? Acest lucru nu poate fi anulat!</string>
+    <string name="irreversible">Eşti sigur\? Acest lucru nu poate fi anulat.</string>
     <string name="search" tools:ignore="PrivateResource">Căutare</string>
     <string name="reset">Resetați</string>
     <string name="copied">Copiat în clipboard</string>
