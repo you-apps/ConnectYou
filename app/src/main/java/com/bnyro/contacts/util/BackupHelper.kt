@@ -6,8 +6,11 @@ import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 
 object BackupHelper {
-    private const val VCARD_MIME = "text/v-card"
     val vCardMimeTypes = arrayOf("text/vcard", "text/x-vcard", "text/directory")
+    val encryptBackups get() = Preferences.getBoolean(Preferences.encryptBackupsKey, false)
+    val mimeType get() = if (encryptBackups) "application/zip" else "text/vcard"
+    val openMimeTypes get() = if (encryptBackups) arrayOf("application/zip") else vCardMimeTypes
+    val backupFileName get() = if (encryptBackups) "contacts.zip" else "contacts.vcf"
 
     suspend fun backup(context: Context, contactsHelper: ContactsHelper) {
         val backupDirPref = Preferences.getString(Preferences.backupDirKey, "").takeIf {
@@ -19,13 +22,14 @@ object BackupHelper {
 
         val dateTime = CalendarUtils.getCurrentDateTime()
 
-        val fullName = "${contactsHelper.label.lowercase()}-backup-$dateTime.vcf"
+        val extension = if (encryptBackups) "zip" else "vcf"
+        val fullName = "${contactsHelper.label.lowercase()}-backup-$dateTime.$extension"
 
         runCatching {
             backupDir.findFile(fullName)?.delete()
         }
 
-        val file = backupDir.createFile(VCARD_MIME, fullName) ?: run {
+        val file = backupDir.createFile(mimeType, fullName) ?: run {
             Log.e("BackupHelper", "error creating backup file")
             return
         }

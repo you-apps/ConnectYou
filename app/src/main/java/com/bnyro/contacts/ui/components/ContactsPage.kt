@@ -121,7 +121,7 @@ fun ContactsPage(
         }
 
     val exportVcard = rememberLauncherForActivityResult(
-        ActivityResultContracts.CreateDocument("text/vcard")
+        ActivityResultContracts.CreateDocument(BackupHelper.mimeType)
     ) { uri ->
         uri?.let { viewModel.exportVcf(context, it) }
     }
@@ -184,11 +184,11 @@ fun ContactsPage(
                                     onSelect = {
                                         when (it) {
                                             0 -> {
-                                                importVcard.launch(BackupHelper.vCardMimeTypes)
+                                                importVcard.launch(BackupHelper.openMimeTypes)
                                             }
 
                                             1 -> {
-                                                exportVcard.launch("contacts.vcf")
+                                                exportVcard.launch(BackupHelper.backupFileName)
                                             }
 
                                             2 -> {

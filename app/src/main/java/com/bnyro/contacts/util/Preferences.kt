@@ -17,6 +17,8 @@ object Preferences {
     const val maxBackupAmountKey = "maxBackupAmount"
     const val collapseBottomBarKey = "collapseBottomBar"
     const val colorfulContactIconsKey = "colorfulContactIcons"
+    const val encryptBackupsKey = "encryptBackups"
+    const val encryptBackupPasswordKey = "encryptBackupsPassword"
 
     fun init(context: Context) {
         preferences = context.getSharedPreferences(prefFile, Context.MODE_PRIVATE)

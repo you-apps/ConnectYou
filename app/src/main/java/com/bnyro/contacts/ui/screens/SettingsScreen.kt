@@ -19,9 +19,10 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.ThemeMode
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
-import com.bnyro.contacts.ui.components.prefs.BackupPref
+import com.bnyro.contacts.ui.components.prefs.AutoBackupPref
 import com.bnyro.contacts.ui.components.prefs.BlockPreference
 import com.bnyro.contacts.ui.components.prefs.CheckboxPref
+import com.bnyro.contacts.ui.components.prefs.EncryptBackupsPref
 import com.bnyro.contacts.ui.components.prefs.SettingsCategory
 import com.bnyro.contacts.ui.components.prefs.SettingsContainer
 import com.bnyro.contacts.ui.models.ThemeModel
@@ -98,7 +99,10 @@ fun SettingsScreen(onDismissRequest: () -> Unit) {
                     }
                 }
                 SettingsContainer {
-                    BackupPref()
+                    EncryptBackupsPref()
+                }
+                SettingsContainer {
+                    AutoBackupPref()
                 }
             }
         }

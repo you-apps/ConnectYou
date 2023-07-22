@@ -97,6 +97,9 @@
     <string name="colorful_contact_icons">Colorful contact icons</string>
     <string name="behavior">Behavior</string>
     <string name="appearance">Appearance</string>
+    <string name="backup">Backup</string>
+    <string name="encrypt_backups">Encrypt backups as zip</string>
+    <string name="backup_password">Password for backups</string>
     <!-- About -->
     <string name="about">About</string>
     <string name="license">License</string>

@@ -15,11 +15,18 @@ class ExportHelper(
     private val contactsHelper: ContactsHelper
 ) {
     private val contentResolver = context.contentResolver
+    private val encryptBackups get() = Preferences.getBoolean(Preferences.encryptBackupsKey, false)
+    private val password get() = Preferences.getString(Preferences.encryptBackupPasswordKey, "").orEmpty()
 
     @SuppressLint("MissingPermission")
     suspend fun importContacts(uri: Uri) {
-        contentResolver.openInputStream(uri)?.use {
-            val content = it.bufferedReader().readText()
+        contentResolver.openInputStream(uri)?.use { inputStream ->
+            val input = if (!encryptBackups) {
+                inputStream
+            } else {
+                ZipUtils.getPlainInputStream(password, inputStream)
+            }
+            val content = input.bufferedReader().readText()
             val contacts = VcardHelper.importVcard(content)
             contacts.forEach { contact ->
                 contactsHelper.createContact(contact)
@@ -31,11 +38,15 @@ class ExportHelper(
         val contacts = minimalContacts.pmap { contactsHelper.loadAdvancedData(it) }
         val vCardText = VcardHelper.exportVcard(contacts)
         contentResolver.openOutputStream(uri)?.use {
-            it.write(vCardText.toByteArray())
+            if (!encryptBackups) {
+                it.write(vCardText.toByteArray())
+            } else {
+                ZipUtils.writeToEncryptedZip(password, vCardText.toByteArray(), it)
+            }
         }
     }
 
-    suspend fun exportContact(minimalContact: ContactData, isFullContact: Boolean = false): Uri {
+    suspend fun exportTempContact(minimalContact: ContactData, isFullContact: Boolean = false): Uri {
         val contact = if (isFullContact) {
             minimalContact
         } else contactsHelper.loadAdvancedData(

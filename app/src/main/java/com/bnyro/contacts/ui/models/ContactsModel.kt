@@ -145,7 +145,7 @@ class ContactsModel : ViewModel() {
     fun exportSingleVcf(context: Context, contact: ContactData) {
         viewModelScope.launch(Dispatchers.IO) {
             val exportHelper = ExportHelper(context, contactsHelper!!)
-            val tempFileUri = exportHelper.exportContact(contact, true)
+            val tempFileUri = exportHelper.exportTempContact(contact, true)
             IntentHelper.shareContactVcf(context, tempFileUri)
         }
     }

@@ -24,7 +24,7 @@ import com.bnyro.contacts.util.Preferences
 import com.bnyro.contacts.workers.BackupWorker
 
 @Composable
-fun BackupPref() {
+fun AutoBackupPref() {
     val context = LocalContext.current
     val directoryPicker = rememberLauncherForActivityResult(PickFolderContract()) {
         it ?: return@rememberLauncherForActivityResult
