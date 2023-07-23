@@ -13,7 +13,7 @@
     <string name="delete_contact">删除联系人</string>
     <string name="irreversible">你确定吗？此操作无法撤销！</string>
     <string name="cancel">取消</string>
-    <string name="okay">好的</string>
+    <string name="okay">确定</string>
     <string name="reset">重设</string>
     <string name="create_contact">创建联系人</string>
     <string name="share">分享</string>
