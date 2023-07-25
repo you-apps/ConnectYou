@@ -93,4 +93,7 @@
     <string name="pick_contact">Kişi seç</string>
     <string name="behavior">Davranış</string>
     <string name="appearance">Görünüm</string>
+    <string name="backup">Yedekle</string>
+    <string name="encrypt_backups">Yedeklemeleri zip olarak şifrele</string>
+    <string name="backup_password">Yedeklemeler için parola</string>
 </resources>
