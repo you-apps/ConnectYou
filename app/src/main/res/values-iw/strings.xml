@@ -92,4 +92,7 @@
     <string name="pick_contact">בחירת איש קשר</string>
     <string name="behavior">התנהגות</string>
     <string name="appearance">מראה</string>
+    <string name="encrypt_backups">הצפנת גיבויים כ־zip</string>
+    <string name="backup">גיבוי</string>
+    <string name="backup_password">סיסמה לגיבויים</string>
 </resources>
