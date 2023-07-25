@@ -54,7 +54,7 @@
     <string name="system">Sistema</string>
     <string name="account_type">Tipo de conta</string>
     <string name="note">Nota</string>
-    <string name="delete">Eliminar</string>
+    <string name="delete">Excluir</string>
     <string name="auto_backup">Backup automático</string>
     <string name="theme">Tema</string>
     <string name="delete_group">Eliminar grupo para todos</string>

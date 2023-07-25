@@ -4,7 +4,7 @@
     <string name="search" tools:ignore="PrivateResource">Cerca</string>
     <string name="share">Condividi</string>
     <string name="phone">Telefono</string>
-    <string name="irreversible">Sei sicuro\? Quest\'azione non può essere annullata!</string>
+    <string name="irreversible">Sei sicuro\? Quest\'azione non può essere annullata.</string>
     <string name="export_success">Esportato.</string>
     <string name="cancel">Annulla</string>
     <string name="create_contact">Crea un contatto</string>

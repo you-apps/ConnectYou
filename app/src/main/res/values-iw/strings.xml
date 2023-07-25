@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="irreversible">להמשיך\? זה בלתי הפיך!</string>
+    <string name="irreversible">להמשיך\? זה בלתי הפיך.</string>
     <string name="retry">ניסיון חוזר</string>
     <string name="add_to_contact">הוספה לאיש קשר</string>
     <string name="new_contact">איש קשר חדש</string>
@@ -92,4 +92,7 @@
     <string name="pick_contact">בחירת איש קשר</string>
     <string name="behavior">התנהגות</string>
     <string name="appearance">מראה</string>
+    <string name="encrypt_backups">הצפנת גיבויים כ־zip</string>
+    <string name="backup">גיבוי</string>
+    <string name="backup_password">סיסמה לגיבויים</string>
 </resources>

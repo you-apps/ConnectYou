@@ -5,7 +5,7 @@
     <string name="search" tools:ignore="PrivateResource">Search</string>
     <string name="copied">Copied to clipboard</string>
     <string name="delete_contact">Delete contact</string>
-    <string name="irreversible">Are you sure? This can\'t be undone!</string>
+    <string name="irreversible">Are you sure\? This can\'t be undone.</string>
     <string name="cancel">Cancel</string>
     <string name="okay">Okay</string>
     <string name="reset">Reset</string>

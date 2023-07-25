@@ -9,7 +9,7 @@
     <string name="search" tools:ignore="PrivateResource">Pesquisa</string>
     <string name="copied">Copiado para a área de transferência</string>
     <string name="delete_contact">Excluir contato</string>
-    <string name="irreversible">Você tem certeza\? Isso não pode ser desfeito!</string>
+    <string name="irreversible">Você tem certeza\? Isso não pode ser desfeito.</string>
     <string name="cancel">Cancelar</string>
     <string name="okay">Ok</string>
     <string name="reset">Redefinir</string>

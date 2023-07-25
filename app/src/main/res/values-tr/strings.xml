@@ -34,7 +34,7 @@
     <string name="phone">Telefon</string>
     <string name="app_name">Connect You</string>
     <string name="copied">Panoya kopyalandı</string>
-    <string name="irreversible">Emin misiniz\? Bu geri alınamaz!</string>
+    <string name="irreversible">Emin misin\? Bu geri alınamaz.</string>
     <string name="cancel">İptal</string>
     <string name="search" tools:ignore="PrivateResource">Arama</string>
     <string name="okay">Tamam</string>

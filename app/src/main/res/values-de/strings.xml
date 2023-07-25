@@ -13,7 +13,7 @@
     <string name="mobile">Mobil</string>
     <string name="other">Andere</string>
     <string name="search" tools:ignore="PrivateResource">Suchen</string>
-    <string name="irreversible">Bist du Sicher\? Es gibt keinen Weg zurück!</string>
+    <string name="irreversible">Bist du Sicher\? Es kann nicht Rückgängig gemacht werden.</string>
     <string name="cancel">Abbrechen</string>
     <string name="retry">Erneut versuchen</string>
     <string name="delete_contact">Kontakt löschen</string>
@@ -55,7 +55,7 @@
     <string name="auto_backup">Automatische Backups</string>
     <string name="both">Beide</string>
     <string name="none">Keine</string>
-    <string name="choose_dir">Ordner Wählen</string>
+    <string name="choose_dir">Pfad auswählen</string>
     <string name="reset">Zurücksetzen</string>
     <string name="okay">OK</string>
     <string name="manage_groups">Gruppen verwalten</string>
@@ -72,7 +72,7 @@
     <string name="more">Mehr</string>
     <string name="show_more_fields">Mehr Felder anzeigen</string>
     <string name="show_less">Weniger anzeigen</string>
-    <string name="website">Webseite</string>
+    <string name="website">Website</string>
     <string name="organization">Organisation</string>
     <string name="blog">Blog</string>
     <string name="nick_name">Spitzname</string>
@@ -87,4 +87,10 @@
     <string name="colorful_contact_icons">Bunte Kontaktsymbole</string>
     <string name="homepage">Startseite</string>
     <string name="ftp">FTP</string>
+    <string name="behavior">Verhalten</string>
+    <string name="appearance">Darstellung</string>
+    <string name="pick_contact">Wähle Kontakt</string>
+    <string name="photo">Foto</string>
+    <string name="name">Name</string>
+    <string name="import_sim">Von SIM importieren</string>
 </resources>
