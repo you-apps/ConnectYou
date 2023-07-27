@@ -92,4 +92,7 @@
     <string name="appearance">Aspect</string>
     <string name="pick_contact">Alegeți contact</string>
     <string name="import_sim">Importă de pe SIM</string>
+    <string name="backup">Backup</string>
+    <string name="encrypt_backups">Criptați copiile de backup ca zip</string>
+    <string name="backup_password">Parolă pentru copii de rezervă</string>
 </resources>
