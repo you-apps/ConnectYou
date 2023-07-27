@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="copied">Kopioitu leikepöydälle</string>
-    <string name="irreversible">Oletko varma\? Toimintoa ei voida perua!</string>
+    <string name="irreversible">Oletko varma\? Toimintoa ei voida perua.</string>
     <string name="cancel">Peruuta</string>
     <string name="okay">OK</string>
     <string name="reset">Nollaa</string>
@@ -86,4 +86,12 @@
     <string name="ftp">FTP</string>
     <string name="blog">Blogi</string>
     <string name="nick_name">Lempinimi</string>
+    <string name="photo">Kuva</string>
+    <string name="name">Nimi</string>
+    <string name="appearance">Ulkoasu</string>
+    <string name="behavior">Toiminta</string>
+    <string name="backup">Varmuuskopio</string>
+    <string name="backup_password">Varmuuskopioiden salasana</string>
+    <string name="pick_contact">Valitse yhteystieto</string>
+    <string name="import_sim">Tuo SIM-kortilta</string>
 </resources>

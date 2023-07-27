@@ -92,4 +92,7 @@
     <string name="pick_contact">Elixe un contacto</string>
     <string name="behavior">Comportamento</string>
     <string name="appearance">Aparencia</string>
+    <string name="encrypt_backups">Cifrar a copia nun zip</string>
+    <string name="backup_password">Contrasinal para a copia</string>
+    <string name="backup">Copia de apoio</string>
 </resources>

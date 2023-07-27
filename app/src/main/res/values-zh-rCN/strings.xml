@@ -92,4 +92,7 @@
     <string name="pick_contact">选取联系人</string>
     <string name="appearance">外观</string>
     <string name="behavior">行为</string>
+    <string name="backup_password">备份所用的密码</string>
+    <string name="encrypt_backups">将备份加密为 Zip</string>
+    <string name="backup">备份</string>
 </resources>
