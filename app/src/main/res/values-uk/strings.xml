@@ -93,4 +93,7 @@
     <string name="pick_contact">Виберіть контакт</string>
     <string name="behavior">Поведінка</string>
     <string name="appearance">Зовнішній вигляд</string>
+    <string name="backup">Резервне копіювання</string>
+    <string name="encrypt_backups">Шифрування резервних копій у форматі zip</string>
+    <string name="backup_password">Пароль для резервних копій</string>
 </resources>

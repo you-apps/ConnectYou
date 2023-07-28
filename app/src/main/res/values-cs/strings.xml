@@ -92,4 +92,7 @@
     <string name="pick_contact">Vybrat kontakt</string>
     <string name="behavior">Chování</string>
     <string name="appearance">Vzhled</string>
+    <string name="backup">Záloha</string>
+    <string name="encrypt_backups">Šifrovat zálohy jako zip</string>
+    <string name="backup_password">Heslo pro zálohy</string>
 </resources>
