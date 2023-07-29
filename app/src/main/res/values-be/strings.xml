@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="search" tools:ignore="PrivateResource">Пошук</string>
-    <string name="irreversible">Вы ўпэўнены\? Гэтае дзеянне немагчыма адмяніць!</string>
+    <string name="irreversible">Вы ўпэўнены\? Гэтае дзеянне немагчыма адмяніць.</string>
     <string name="cancel">Адмена</string>
     <string name="okay">ОК</string>
     <string name="reset">Скід</string>
@@ -89,4 +89,10 @@
     <string name="export_vcf">Экспарт vCard</string>
     <string name="start_tab">Пачатковая ўкладка</string>
     <string name="auto_backup">Аўтаматычнае рэзервовае капіраванне</string>
+    <string name="behavior">Паводзіны</string>
+    <string name="appearance">Знешні выгляд</string>
+    <string name="backup">Рэзервовае капіраванне</string>
+    <string name="encrypt_backups">Зашыфраваць рэзервовыя копіі ў фармаце zip</string>
+    <string name="backup_password">Пароль для рэзервовых копій</string>
+    <string name="pick_contact">Выберыце кантакт</string>
 </resources>
