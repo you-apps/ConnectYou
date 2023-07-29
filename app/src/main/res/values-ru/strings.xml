@@ -7,7 +7,7 @@
     <string name="fax_work">Рабочий факс</string>
     <string name="anniversary">Юбилей</string>
     <string name="version">Версия</string>
-    <string name="irreversible">Вы уверены\? Это действие невозможно отменить!</string>
+    <string name="irreversible">Вы уверены\? Это действие невозможно отменить.</string>
     <string name="cancel">Отмена</string>
     <string name="okay">ОК</string>
     <string name="reset">Сброс</string>
@@ -56,7 +56,7 @@
     <string name="none">Отключить</string>
     <string name="delete">Удалить</string>
     <string name="choose_dir">Выбрать папку</string>
-    <string name="manage_groups">Группы</string>
+    <string name="manage_groups">Управление группами</string>
     <string name="delete_group">Удалить группу для всех</string>
     <string name="title">Название</string>
     <string name="new_group">Создать</string>
@@ -92,4 +92,7 @@
     <string name="pick_contact">Выберите контакт</string>
     <string name="behavior">Поведение</string>
     <string name="appearance">Внешний вид</string>
+    <string name="backup">Резервное копирование</string>
+    <string name="backup_password">Пароль для резервных копий</string>
+    <string name="encrypt_backups">Зашифровать резервные копии в формат zip</string>
 </resources>
