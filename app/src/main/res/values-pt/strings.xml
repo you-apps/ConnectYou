@@ -5,7 +5,7 @@
     <string name="search" tools:ignore="PrivateResource">Pesquisar</string>
     <string name="copied">Copiado para a área de transferência</string>
     <string name="delete_contact">Eliminar contacto</string>
-    <string name="irreversible">Tem a certeza\? Isto não pode ser desfeito!</string>
+    <string name="irreversible">Tens a certeza\? Isto não pode ser desfeito.</string>
     <string name="cancel">Cancelar</string>
     <string name="create_contact">Criar contacto</string>
     <string name="reset">Repor</string>
@@ -92,4 +92,7 @@
     <string name="appearance">Aparência</string>
     <string name="behavior">Comportamento</string>
     <string name="pick_contact">Escolher contacto</string>
+    <string name="backup">Cópia de segurança</string>
+    <string name="encrypt_backups">Encriptar as cópias de segurança como zip</string>
+    <string name="backup_password">Palavra-passe para cópias de segurança</string>
 </resources>
