@@ -92,4 +92,5 @@
     <string name="pick_contact">Scegli contatto</string>
     <string name="behavior">Comportamento</string>
     <string name="appearance">Aspetto</string>
+    <string name="backup">Backup</string>
 </resources>
