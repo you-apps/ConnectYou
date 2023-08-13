@@ -33,7 +33,7 @@
     <string name="search" tools:ignore="PrivateResource">සොයන්න</string>
     <string name="copied">පිටපත් විය</string>
     <string name="delete_contact">සබඳතාව මකන්න</string>
-    <string name="irreversible">ඔබට විශ්වාසද\? මෙය අප්‍රතිවර්ත්‍යයි!</string>
+    <string name="irreversible">ඔබට විශ්වාසද\? මෙය අප්‍රතිවර්ත්‍යයි.</string>
     <string name="cancel">අවලංගු</string>
     <string name="okay">හරි</string>
     <string name="reset">යළි සකසන්න</string>
@@ -92,4 +92,7 @@
     <string name="pick_contact">සබඳතාව තෝරන්න</string>
     <string name="behavior">හැසිරීම</string>
     <string name="appearance">පෙනුම</string>
+    <string name="backup_password">උපස්ථ සඳහා මුරපදය</string>
+    <string name="backup">උපස්ථය</string>
+    <string name="encrypt_backups">zip ලෙස උපස්ථ සංකේතනය</string>
 </resources>
