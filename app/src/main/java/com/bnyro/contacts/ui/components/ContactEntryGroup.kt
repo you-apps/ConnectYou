@@ -16,6 +16,7 @@ fun ContactEntryGroup(
     label: String,
     entries: List<ValueWithType>,
     types: List<TranslatedType> = listOf(),
+    useMarkdown: Boolean = false,
     onClick: (ValueWithType) -> Unit = {}
 ) {
     if (entries.isNotEmpty()) {
@@ -29,9 +30,14 @@ fun ContactEntryGroup(
             )
             entries.forEach { entry ->
                 val type = types.firstOrNull { type -> entry.type == type.id }?.title
-                ContactEntry(content = entry.value, type = type, onClick = {
-                    onClick.invoke(entry)
-                })
+                ContactEntry(
+                    content = entry.value,
+                    type = type,
+                    useMarkdown = useMarkdown,
+                    onClick = {
+                        onClick.invoke(entry)
+                    }
+                )
             }
         }
     }
@@ -48,6 +54,7 @@ fun ContactEntryTextGroup(
         label,
         entries.map { ValueWithType(it, null) },
         types,
+        false,
         onClick
     )
 }

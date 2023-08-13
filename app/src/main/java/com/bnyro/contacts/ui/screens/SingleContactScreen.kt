@@ -259,7 +259,8 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
 
                 ContactEntryGroup(
                     label = stringResource(R.string.note),
-                    entries = contact.notes
+                    entries = contact.notes,
+                    useMarkdown = true
                 )
 
                 ContactEntryTextGroup(
