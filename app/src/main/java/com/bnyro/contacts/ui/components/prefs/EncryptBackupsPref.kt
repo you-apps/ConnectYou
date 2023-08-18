@@ -1,14 +1,13 @@
 package com.bnyro.contacts.ui.components.prefs
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,7 +16,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -35,8 +33,7 @@ fun EncryptBackupsPref() {
     var encryptBackups by remember { mutableStateOf(BackupHelper.encryptBackups) }
     var showBackupPasswordDialog by remember { mutableStateOf(false) }
 
-    SettingsCategory(title = stringResource(R.string.backup))
-    CheckboxPref(
+    SwitchPref(
         prefKey = Preferences.encryptBackupsKey,
         title = stringResource(R.string.encrypt_backups)
     ) {
@@ -46,15 +43,12 @@ fun EncryptBackupsPref() {
         }
     }
     AnimatedVisibility(encryptBackups) {
-        Text(
-            modifier = Modifier
-                .clip(RoundedCornerShape(20.dp))
-                .padding(horizontal = 12.dp, vertical = 8.dp)
-                .clickable {
-                    showBackupPasswordDialog = true
-                },
-            text = stringResource(R.string.backup_password)
-        )
+        Button(
+            onClick = { showBackupPasswordDialog = true },
+            modifier = Modifier.padding(vertical = 0.dp)
+        ) {
+            Text(stringResource(R.string.backup_password))
+        }
     }
 
     if (showBackupPasswordDialog) {

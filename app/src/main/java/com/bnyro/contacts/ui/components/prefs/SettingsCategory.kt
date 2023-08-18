@@ -6,7 +6,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @Composable
 fun SettingsCategory(
@@ -14,9 +13,9 @@ fun SettingsCategory(
     title: String
 ) {
     Text(
-        modifier = modifier.padding(10.dp),
+        modifier = modifier.padding(top = 16.dp, bottom = 8.dp),
         text = title.uppercase(),
+        style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.primary,
-        fontSize = 12.sp
     )
 }
