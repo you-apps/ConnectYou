@@ -21,6 +21,12 @@ object ShortcutHelper {
         object CreateContact : AppShortcut("create", R.drawable.ic_add, R.string.create_contact)
     }
     private val shortcuts = listOf(AppShortcut.CreateContact)
+    val actionTypes = listOf(
+        IntentActionType.CONTACT to R.string.contact,
+        IntentActionType.DIAL to R.string.dial,
+        IntentActionType.SMS to R.string.message,
+        IntentActionType.EMAIL to R.string.email
+    )
 
     private fun createShortcut(
         context: Context,
@@ -64,24 +70,23 @@ object ShortcutHelper {
     fun createContactShortcut(
         context: Context,
         contact: ContactData,
+        selectedData: String,
         intentActionType: IntentActionType
     ) {
-        val intent = IntentHelper.getLaunchIntent(
-            intentActionType,
-            when (intentActionType) {
-                IntentActionType.DIAL, IntentActionType.SMS -> contact.numbers.firstOrNull()?.value
-                IntentActionType.EMAIL -> contact.emails.firstOrNull()?.value
-                IntentActionType.CONTACT -> contact.contactId.toString()
-                else -> contact.addresses.firstOrNull()?.value
-            }.orEmpty()
-        )
+        val intent = IntentHelper.getLaunchIntent(intentActionType, selectedData)
 
-        val icon = when (intentActionType) {
-            IntentActionType.DIAL -> R.drawable.ic_call
-            IntentActionType.SMS -> R.drawable.ic_message
-            IntentActionType.EMAIL -> R.drawable.ic_add
-            IntentActionType.CONTACT -> R.drawable.ic_contact
-            else -> return
+        val photo = contact.thumbnail ?: contact.photo
+        val iconBitmap = if (photo != null) {
+            IconCompat.createWithBitmap(photo)
+        } else {
+            val icon = when (intentActionType) {
+                IntentActionType.DIAL -> R.drawable.ic_call
+                IntentActionType.SMS -> R.drawable.ic_message
+                IntentActionType.EMAIL -> R.drawable.ic_add
+                IntentActionType.CONTACT -> R.drawable.ic_contact
+                else -> return
+            }
+            IconCompat.createWithResource(context, icon)
         }
 
         createShortcut(
@@ -89,7 +94,7 @@ object ShortcutHelper {
             intent,
             contact.displayName.orEmpty(),
             System.currentTimeMillis().toString(),
-            IconCompat.createWithResource(context, icon),
+            iconBitmap,
             true
         )
     }
