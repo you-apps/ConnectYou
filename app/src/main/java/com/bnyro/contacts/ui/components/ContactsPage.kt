@@ -126,7 +126,7 @@ fun ContactsPage(
         uri?.let { viewModel.exportVcf(context, it) }
     }
 
-    val fabBottomPadding by animateDpAsState(targetValue = bottomBarOffsetHeight)
+    val fabBottomPadding by animateDpAsState(targetValue = bottomBarOffsetHeight, label = "fab padding")
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -138,7 +138,7 @@ fun ContactsPage(
                 mutableStateOf(TextFieldValue())
             }
 
-            Crossfade(targetState = selectedContacts.isEmpty()) { state ->
+            Crossfade(targetState = selectedContacts.isEmpty(), label = "main layout") { state ->
                 when (state) {
                     true -> {
                         SearchBar(
@@ -431,7 +431,7 @@ fun ContactsPage(
                 filterOptions = it
             },
             initialFilters = filterOptions,
-            availableAccountTypes = viewModel.getAvailableAccountTypes(),
+            availableAccountTypes = viewModel.getAvailableAccounts(),
             availableGroups = viewModel.getAvailableGroups()
         )
     }

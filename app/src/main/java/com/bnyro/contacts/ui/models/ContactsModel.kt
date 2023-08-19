@@ -150,8 +150,9 @@ class ContactsModel : ViewModel() {
         }
     }
 
-    fun getAvailableAccountTypes() = getAvailableAccounts().map { it.first }
-
+    /**
+     * Returns a list of account type to account name
+     */
     fun getAvailableAccounts(): List<Pair<String, String>> {
         if (contacts.isEmpty()) {
             return listOf(
