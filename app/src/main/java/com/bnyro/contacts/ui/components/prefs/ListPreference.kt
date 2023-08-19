@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
+import com.bnyro.contacts.ui.components.ClickableText
 import com.bnyro.contacts.ui.components.dialogs.DialogButton
 import com.bnyro.contacts.util.Preferences
 
@@ -69,20 +70,13 @@ fun ListPreference(
             text = {
                 LazyColumn {
                     itemsIndexed(entries) { index, entry ->
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(20.dp))
-                                .clickable {
-                                    val newValue = values[index]
-                                    Preferences.edit { putString(preferenceKey, newValue) }
-                                    currentValue = newValue
-                                    onChange(newValue)
-                                    showDialog = false
-                                }
-                                .padding(horizontal = 20.dp, vertical = 13.dp),
-                            text = entry
-                        )
+                        ClickableText(text = entry) {
+                            val newValue = values[index]
+                            Preferences.edit { putString(preferenceKey, newValue) }
+                            currentValue = newValue
+                            onChange(newValue)
+                            showDialog = false
+                        }
                     }
                 }
             }

@@ -6,7 +6,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -430,17 +429,10 @@ fun ContactEditor(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     items(availableAccounts) {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(20.dp))
-                                .clickable {
-                                    selectedAccount = it
-                                    showAccountTypeDialog = false
-                                }
-                                .padding(vertical = 15.dp, horizontal = 20.dp),
-                            text = it.second
-                        )
+                        ClickableText(text = it.second) {
+                            selectedAccount = it
+                            showAccountTypeDialog = false
+                        }
                     }
                 }
             }
