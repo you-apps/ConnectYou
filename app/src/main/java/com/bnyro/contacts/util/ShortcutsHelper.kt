@@ -76,12 +76,18 @@ object ShortcutHelper {
             }.orEmpty()
         )
 
-        val icon = when (intentActionType) {
-            IntentActionType.DIAL -> R.drawable.ic_call
-            IntentActionType.SMS -> R.drawable.ic_message
-            IntentActionType.EMAIL -> R.drawable.ic_add
-            IntentActionType.CONTACT -> R.drawable.ic_contact
-            else -> return
+        val photo = contact.thumbnail ?: contact.photo
+        val iconBitmap = if (photo != null) {
+            IconCompat.createWithBitmap(photo)
+        } else {
+            val icon = when (intentActionType) {
+                IntentActionType.DIAL -> R.drawable.ic_call
+                IntentActionType.SMS -> R.drawable.ic_message
+                IntentActionType.EMAIL -> R.drawable.ic_add
+                IntentActionType.CONTACT -> R.drawable.ic_contact
+                else -> return
+            }
+            IconCompat.createWithResource(context, icon)
         }
 
         createShortcut(
@@ -89,7 +95,7 @@ object ShortcutHelper {
             intent,
             contact.displayName.orEmpty(),
             System.currentTimeMillis().toString(),
-            IconCompat.createWithResource(context, icon),
+            iconBitmap,
             true
         )
     }
