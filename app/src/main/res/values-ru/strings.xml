@@ -9,7 +9,7 @@
     <string name="version">Версия</string>
     <string name="irreversible">Вы уверены\? Это действие невозможно отменить.</string>
     <string name="cancel">Отмена</string>
-    <string name="okay">ОК</string>
+    <string name="okay">Ок</string>
     <string name="reset">Сброс</string>
     <string name="create_contact">Создать контакт</string>
     <string name="retry">Повторить</string>
@@ -44,7 +44,7 @@
     <string name="nothing_here">Пусто.</string>
     <string name="local">Приложение</string>
     <string name="sort_order">Порядок сортировки</string>
-    <string name="account_type">Аккаунт</string>
+    <string name="account_type">Тип учётной записи</string>
     <string name="note">Примечание</string>
     <string name="device">Устройство</string>
     <string name="theme">Тема</string>
@@ -62,12 +62,12 @@
     <string name="new_group">Создать</string>
     <string name="group_already_exists">Группа уже существует</string>
     <string name="groups">Группы</string>
-    <string name="max_backup_amount">Максимальное количество резервных копий</string>
+    <string name="max_backup_amount">Максимальное количество копий</string>
     <string name="selected">%1$s выбрано(-ы)</string>
-    <string name="backup_interval">Интервал резервного копирования</string>
+    <string name="backup_interval">Интервал</string>
     <string name="move">Переместить</string>
     <string name="misc">Прочее</string>
-    <string name="collapse_bottom_bar">Свернуть нижнюю панель при прокрутке</string>
+    <string name="collapse_bottom_bar">Сворачивать нижнюю панель при прокрутке</string>
     <string name="add_to_contact">Добавить к контакту</string>
     <string name="colorful_contact_icons">Цветные иконки контактов</string>
     <string name="dial">Набрать</string>
@@ -75,7 +75,7 @@
     <string name="message">Написать</string>
     <string name="new_contact">Новый контакт</string>
     <string name="contact">Контакт</string>
-    <string name="edit">Изменить</string>
+    <string name="edit">Редактировать</string>
     <string name="more">Больше</string>
     <string name="show_less">Свернуть</string>
     <string name="organization">Организация</string>
@@ -94,5 +94,5 @@
     <string name="appearance">Внешний вид</string>
     <string name="backup">Резервное копирование</string>
     <string name="backup_password">Пароль для резервных копий</string>
-    <string name="encrypt_backups">Зашифровать резервные копии в формат zip</string>
+    <string name="encrypt_backups">Шифровать резервные копии как zip</string>
 </resources>
