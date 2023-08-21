@@ -4,18 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.ContactsContract.Intents
 import android.provider.ContactsContract.QuickContact
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
-import com.bnyro.contacts.enums.ThemeMode
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.dialogs.AddToContactDialog
 import com.bnyro.contacts.ui.models.ContactsModel
-import com.bnyro.contacts.ui.models.ThemeModel
-import com.bnyro.contacts.ui.screens.ContactsScreen
+import com.bnyro.contacts.ui.screens.MainAppContent
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
 import com.bnyro.contacts.util.BackupHelper
 
@@ -29,7 +23,7 @@ class MainActivity : BaseActivity() {
 
         setContent {
             ConnectYouTheme(themeModel.themeMode) {
-                ContactsScreen()
+                MainAppContent()
                 getInsertOrEditNumber()?.let {
                     AddToContactDialog(it)
                 }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Message
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -18,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -36,6 +38,7 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.NavBarItem
 import com.bnyro.contacts.ui.components.ContactsPage
 import com.bnyro.contacts.ui.models.ContactsModel
+import com.bnyro.contacts.ui.models.SmsModel
 import com.bnyro.contacts.ui.models.ThemeModel
 import com.bnyro.contacts.util.DeviceContactsHelper
 import com.bnyro.contacts.util.LocalContactsHelper
@@ -48,11 +51,16 @@ import kotlinx.coroutines.withContext
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ContactsScreen() {
+fun MainAppContent() {
     val context = LocalContext.current
-    val viewModel: ContactsModel = viewModel()
+    val contactsModel: ContactsModel = viewModel()
+    val smsModel: SmsModel = viewModel()
     val themeModel: ThemeModel = viewModel()
     val scope = rememberCoroutineScope()
+
+    var selectedTab by remember {
+        mutableIntStateOf(Preferences.getInt(Preferences.homeTabKey, 0))
+    }
 
     val bottomBarHeight = 80.dp
     val bottomBarHeightPx = with(LocalDensity.current) { bottomBarHeight.roundToPx().toFloat() }
@@ -69,17 +77,17 @@ fun ContactsScreen() {
     }
 
     LaunchedEffect(Unit) {
-        viewModel.loadContacts(context)
+        contactsModel.loadContacts(context)
     }
 
-    LaunchedEffect(viewModel.isLoading) {
-        viewModel.initialContactId ?: return@LaunchedEffect
-        viewModel.contacts.firstOrNull {
-            it.contactId == viewModel.initialContactId
+    LaunchedEffect(contactsModel.isLoading) {
+        contactsModel.initialContactId ?: return@LaunchedEffect
+        contactsModel.contacts.firstOrNull {
+            it.contactId == contactsModel.initialContactId
         }?.let {
             scope.launch {
                 withContext(Dispatchers.IO) {
-                    viewModel.initialContactData = viewModel.loadAdvancedContactData(it)
+                    contactsModel.initialContactData = contactsModel.loadAdvancedContactData(it)
                 }
             }
         }
@@ -90,16 +98,20 @@ fun ContactsScreen() {
             stringResource(R.string.device),
             Icons.Default.Home
         ) {
-            viewModel.contactsHelper = DeviceContactsHelper(context)
-            viewModel.loadContacts(context)
+            contactsModel.contactsHelper = DeviceContactsHelper(context)
+            contactsModel.loadContacts(context)
         },
         NavBarItem(
             stringResource(R.string.local),
             Icons.Default.Storage
         ) {
-            viewModel.contactsHelper = LocalContactsHelper(context)
-            viewModel.loadContacts(context)
-        }
+            contactsModel.contactsHelper = LocalContactsHelper(context)
+            contactsModel.loadContacts(context)
+        },
+        NavBarItem(
+            stringResource(R.string.messages),
+            Icons.Default.Message
+        ) {}
     )
 
     Scaffold(
@@ -116,15 +128,12 @@ fun ContactsScreen() {
                 },
                 tonalElevation = 10.dp
             ) {
-                var selected by remember {
-                    mutableStateOf(Preferences.getInt(Preferences.homeTabKey, 0))
-                }
                 navItems.forEachIndexed { index, navItem ->
                     NavigationBarItem(
-                        selected = index == selected,
+                        selected = index == selectedTab,
                         onClick = {
-                            if (selected == index) return@NavigationBarItem
-                            selected = index
+                            if (selectedTab == index) return@NavigationBarItem
+                            selectedTab = index
                             navItem.onClick()
                         },
                         icon = {
@@ -146,17 +155,21 @@ fun ContactsScreen() {
                 },
             color = MaterialTheme.colorScheme.background
         ) {
-            ContactsPage(
-                viewModel.initialContactData,
-                nestedScrollConnection.takeIf { themeModel.collapsableBottomBar },
-                bottomBarOffsetHeight = with(LocalDensity.current) {
-                    bottomBarHeight - bottomBarOffsetHeightPx.value.absoluteValue.toDp()
-                }.takeIf { themeModel.collapsableBottomBar } ?: 0.dp
-            )
+            if (selectedTab == 2) {
+                SmsListScreen(smsModel)
+            } else {
+                ContactsPage(
+                    contactsModel.initialContactData,
+                    nestedScrollConnection.takeIf { themeModel.collapsableBottomBar },
+                    bottomBarOffsetHeight = with(LocalDensity.current) {
+                        bottomBarHeight - bottomBarOffsetHeightPx.value.absoluteValue.toDp()
+                    }.takeIf { themeModel.collapsableBottomBar } ?: 0.dp
+                )
+            }
         }
-        viewModel.initialContactData?.let {
+        contactsModel.initialContactData?.let {
             SingleContactScreen(it) {
-                viewModel.initialContactData = null
+                contactsModel.initialContactData = null
             }
         }
     }
