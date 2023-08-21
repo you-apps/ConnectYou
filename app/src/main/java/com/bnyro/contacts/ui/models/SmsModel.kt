@@ -17,14 +17,16 @@ import com.bnyro.contacts.util.SmsUtil
 class SmsModel: ViewModel() {
     private val smsPermissions = arrayOf(Manifest.permission.SEND_SMS, Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS)
 
-    var smsList by mutableStateOf(mapOf<Long, List<SmsData>>())
+    var smsList by mutableStateOf(listOf<SmsData>())
+    var smsGroups by mutableStateOf(mapOf<Long, List<SmsData>>())
 
     fun fetchSmsList(context: Context) {
         requestDefaultSMSApp(context)
 
         if (!PermissionHelper.checkPermissions(context, smsPermissions)) return
 
-        smsList = SmsUtil.getSmsList(context).groupBy { it.threadId }
+        smsList = SmsUtil.getSmsList(context)
+        smsGroups = smsList.groupBy { it.threadId }
     }
 
     private fun requestDefaultSMSApp(context: Context) {

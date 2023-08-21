@@ -77,6 +77,7 @@
     <string name="selected">%1$s selected</string>
     <!-- Sms -->
     <string name="messages">Messages</string>
+    <string name="send">Send message</string>
     <!-- Import & Export -->
     <string name="import_vcf">Import vCard</string>
     <string name="export_vcf">Export vCard</string>

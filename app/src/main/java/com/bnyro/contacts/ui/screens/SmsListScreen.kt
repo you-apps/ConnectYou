@@ -2,6 +2,7 @@ package com.bnyro.contacts.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,9 +15,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ElevatedCard
@@ -27,6 +28,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,11 +53,16 @@ fun SmsListScreen(smsModel: SmsModel) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
-        items(smsModel.smsList.entries.toList()) { (threadId, smsList) ->
+        items(smsModel.smsGroups.entries.toList()) { (threadId, smsList) ->
+            var showThreadScreen by remember {
+                mutableStateOf(false)
+            }
+
             val dismissState = rememberDismissState(
                 confirmValueChange = {
                     if (it == DismissValue.DismissedToEnd) {
                         SmsUtil.deleteThread(context, threadId)
+                        smsModel.fetchSmsList(context)
                         return@rememberDismissState true
                     }
                     return@rememberDismissState false
@@ -64,7 +74,13 @@ fun SmsListScreen(smsModel: SmsModel) {
                 state = dismissState,
                 background = {},
                 dismissContent = {
-                    ElevatedCard {
+                    ElevatedCard(
+                        modifier = Modifier
+                            .clip(CardDefaults.shape)
+                            .clickable {
+                                showThreadScreen = true
+                            }
+                    ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
@@ -104,6 +120,12 @@ fun SmsListScreen(smsModel: SmsModel) {
                 },
                 directions = setOf(DismissDirection.StartToEnd)
             )
+
+            if (showThreadScreen) {
+                SmsThreadScreen(smsModel = smsModel, address = smsList.first().address) {
+                    showThreadScreen = false
+                }
+            }
         }
     }
 }

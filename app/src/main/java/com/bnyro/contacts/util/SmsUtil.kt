@@ -61,9 +61,13 @@ object SmsUtil {
     }
 
     fun deleteThread(context: Context, threadId: Long) {
-        val cursor = context.contentResolver
-            .query(contentUri, arrayOf(Telephony.Sms._ID), null, null, null)
-            ?: return
+        val cursor = context.contentResolver.query(
+            contentUri,
+            arrayOf(Telephony.Sms._ID),
+            "${Telephony.Sms.THREAD_ID} = ?",
+            arrayOf(threadId.toString()),
+            null
+        ) ?: return
 
         while (cursor.moveToNext()) {
             val id = cursor.longValue(Telephony.Sms._ID) ?: continue
