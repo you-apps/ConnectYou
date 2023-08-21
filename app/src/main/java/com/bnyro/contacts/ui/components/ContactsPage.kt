@@ -284,21 +284,7 @@ fun ContactsPage(
                     )
                 }
             } else if (viewModel.contacts.isEmpty()) {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Icon(
-                        modifier = Modifier.size(120.dp),
-                        imageVector = Icons.Default.ImportContacts,
-                        contentDescription = null
-                    )
-                    Spacer(Modifier.height(10.dp))
-                    Text(
-                        text = stringResource(R.string.nothing_here)
-                    )
-                }
+                NothingHere()
             } else {
                 val state = rememberLazyListState()
                 LazyColumn(

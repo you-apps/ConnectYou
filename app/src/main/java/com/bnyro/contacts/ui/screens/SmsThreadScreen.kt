@@ -34,6 +34,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -62,7 +64,7 @@ fun SmsThreadScreen(
         smsList = smsModel.smsList
             .filter { it.address == address && it.type != SmsType.DRAFT }
             .sortedBy { it.timestamp }
-        lazyListState.scrollToItem(smsList.size - 1)
+        if (smsList.isNotEmpty()) lazyListState.scrollToItem(smsList.size - 1)
     }
 
     FullScreenDialog(onClose = onClose) {
@@ -150,9 +152,14 @@ fun SmsThreadScreen(
                     var text by remember {
                         mutableStateOf("")
                     }
+                    val focusRequester = remember {
+                        FocusRequester()
+                    }
 
                     OutlinedTextField(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier
+                            .weight(1f)
+                            .focusRequester(focusRequester),
                         value = text,
                         onValueChange = { text = it },
                         placeholder = {
@@ -170,6 +177,9 @@ fun SmsThreadScreen(
 
                         SmsUtil.sendSms(context, address, text)
                         smsModel.fetchSmsList(context)
+
+                        text = ""
+                        focusRequester.freeFocus()
                     }
                 }
             }

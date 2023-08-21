@@ -156,7 +156,7 @@ fun MainAppContent() {
             color = MaterialTheme.colorScheme.background
         ) {
             if (selectedTab == 2) {
-                SmsListScreen(smsModel)
+                SmsListScreen(smsModel, contactsModel)
             } else {
                 ContactsPage(
                     contactsModel.initialContactData,

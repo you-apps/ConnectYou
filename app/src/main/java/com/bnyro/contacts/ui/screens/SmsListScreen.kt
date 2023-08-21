@@ -16,12 +16,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
@@ -36,95 +40,166 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bnyro.contacts.R
+import com.bnyro.contacts.enums.SortOrder
+import com.bnyro.contacts.ui.components.ContactItem
+import com.bnyro.contacts.ui.components.NothingHere
+import com.bnyro.contacts.ui.components.dialogs.DialogButton
+import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.SmsModel
 import com.bnyro.contacts.util.SmsUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SmsListScreen(smsModel: SmsModel) {
+fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
     val context = LocalContext.current
+    var showContactPicker by remember {
+        mutableStateOf(false)
+    }
+
+    var smsAddress by remember {
+        mutableStateOf<String?>(null)
+    }
 
     LaunchedEffect(Unit) {
         smsModel.fetchSmsList(context)
     }
 
-    LazyColumn(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        items(smsModel.smsGroups.entries.toList()) { (threadId, smsList) ->
-            var showThreadScreen by remember {
-                mutableStateOf(false)
-            }
-
-            val dismissState = rememberDismissState(
-                confirmValueChange = {
-                    if (it == DismissValue.DismissedToEnd) {
-                        SmsUtil.deleteThread(context, threadId)
-                        smsModel.fetchSmsList(context)
-                        return@rememberDismissState true
+    Box {
+        if (smsModel.smsList.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(smsModel.smsGroups.entries.toList()) { (threadId, smsList) ->
+                    var showThreadScreen by remember {
+                        mutableStateOf(false)
                     }
-                    return@rememberDismissState false
-                }
-            )
 
-            SwipeToDismiss(
-                modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
-                state = dismissState,
-                background = {},
-                dismissContent = {
-                    ElevatedCard(
-                        modifier = Modifier
-                            .clip(CardDefaults.shape)
-                            .clickable {
-                                showThreadScreen = true
+                    val dismissState = rememberDismissState(
+                        confirmValueChange = {
+                            if (it == DismissValue.DismissedToEnd) {
+                                SmsUtil.deleteThread(context, threadId)
+                                smsModel.fetchSmsList(context)
+                                return@rememberDismissState true
                             }
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Box(
+                            return@rememberDismissState false
+                        }
+                    )
+
+                    SwipeToDismiss(
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                        state = dismissState,
+                        background = {},
+                        dismissContent = {
+                            ElevatedCard(
                                 modifier = Modifier
-                                    .size(60.dp)
-                                    .clip(CircleShape)
-                                    .background(MaterialTheme.colorScheme.primary, CircleShape),
-                                contentAlignment = Alignment.Center
+                                    .clip(CardDefaults.shape)
+                                    .clickable {
+                                        showThreadScreen = true
+                                    }
                             ) {
-                                Image(
-                                    modifier = Modifier
-                                        .padding(15.dp)
-                                        .fillMaxSize(),
-                                    imageVector = Icons.Default.Person,
-                                    contentDescription = null
-                                )
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(60.dp)
+                                            .clip(CircleShape)
+                                            .background(
+                                                MaterialTheme.colorScheme.primary,
+                                                CircleShape
+                                            ),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Image(
+                                            modifier = Modifier
+                                                .padding(15.dp)
+                                                .fillMaxSize(),
+                                            imageVector = Icons.Default.Person,
+                                            contentDescription = null
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.width(10.dp))
+                                    Column(
+                                        modifier = Modifier.padding(10.dp)
+                                    ) {
+                                        Text(
+                                            text = smsList.last().address,
+                                            color = MaterialTheme.colorScheme.primary,
+                                            fontSize = 16.sp
+                                        )
+                                        Spacer(modifier = Modifier.height(3.dp))
+                                        Text(
+                                            text = smsList.last().body,
+                                            maxLines = 2,
+                                            fontSize = 14.sp
+                                        )
+                                    }
+                                }
                             }
-                            Spacer(modifier = Modifier.width(10.dp))
-                            Column(
-                                modifier = Modifier.padding(10.dp)
-                            ) {
-                                Text(
-                                    text = smsList.last().address,
-                                    color = MaterialTheme.colorScheme.primary,
-                                    fontSize = 16.sp
-                                )
-                                Spacer(modifier = Modifier.height(3.dp))
-                                Text(
-                                    text = smsList.last().body,
-                                    maxLines = 2,
-                                    fontSize = 14.sp
-                                )
-                            }
+                        },
+                        directions = setOf(DismissDirection.StartToEnd)
+                    )
+
+                    if (showThreadScreen) {
+                        SmsThreadScreen(smsModel = smsModel, address = smsList.first().address) {
+                            showThreadScreen = false
                         }
                     }
-                },
-                directions = setOf(DismissDirection.StartToEnd)
-            )
-
-            if (showThreadScreen) {
-                SmsThreadScreen(smsModel = smsModel, address = smsList.first().address) {
-                    showThreadScreen = false
                 }
+            }
+        } else {
+            NothingHere()
+        }
+
+        FloatingActionButton(
+            modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.BottomEnd),
+            onClick = {
+                showContactPicker = true
+            }
+        ) {
+            Icon(Icons.Default.Edit, null)
+        }
+
+        if (showContactPicker) {
+            AlertDialog(
+                onDismissRequest = { showContactPicker = false },
+                confirmButton = {
+                    DialogButton(text = stringResource(R.string.cancel)) {
+                        showContactPicker = false
+                    }
+                },
+                title = {
+                    Text(stringResource(R.string.pick_contact))
+                },
+                text = {
+                    LazyColumn {
+                        items(contactsModel.contacts) {
+                            ContactItem(
+                                contact = it,
+                                sortOrder = SortOrder.FIRSTNAME,
+                                selected = false,
+                                onSinglePress = {
+                                    smsAddress = it.numbers.firstOrNull()?.value
+                                    showContactPicker = false
+                                    true
+                                },
+                                onLongPress = {}
+                            )
+                        }
+                    }
+                }
+            )
+        }
+
+        smsAddress?.let {
+            SmsThreadScreen(smsModel = smsModel, address = it) {
+                smsAddress = null
             }
         }
     }
