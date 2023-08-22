@@ -11,9 +11,13 @@
     <!-- Needed for adding contact shortcuts to the home screen -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
 
+    <!-- Sms permissions -->
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
+
+    <!-- Sms notifications -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <!-- Opt out from network permissions declared by whatever dependency -->
     <uses-permission
@@ -113,8 +117,10 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="android.intent.action.SENDTO" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="sms" />
                 <data android:scheme="smsto" />
                 <data android:scheme="mms" />
@@ -182,11 +188,15 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".receivers.ReplyReceiver"
+            android:exported="false" />
+
         <!-- BroadcastReceiver that listens for incoming MMS messages -->
         <receiver
             android:name=".receivers.MmsReceiver"
-            android:permission="android.permission.BROADCAST_WAP_PUSH"
-            android:exported="true">
+            android:exported="true"
+            android:permission="android.permission.BROADCAST_WAP_PUSH">
 
             <intent-filter>
                 <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER" />
@@ -203,6 +213,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.RESPOND_VIA_MESSAGE" />
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="sms" />
                 <data android:scheme="smsto" />
                 <data android:scheme="mms" />

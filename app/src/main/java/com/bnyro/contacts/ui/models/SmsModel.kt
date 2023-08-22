@@ -29,6 +29,12 @@ class SmsModel: ViewModel() {
         smsGroups = smsList.groupBy { it.threadId }
     }
 
+    fun sendSms(context: Context, address: String, body: String) {
+        val sms = SmsUtil.sendSms(context, address, body)
+        smsList += sms
+        smsGroups = smsList.groupBy { it.threadId }
+    }
+
     private fun requestDefaultSMSApp(context: Context) {
         if (Telephony.Sms.getDefaultSmsPackage(context) == context.packageName) return
 

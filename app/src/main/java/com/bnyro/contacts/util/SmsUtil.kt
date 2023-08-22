@@ -1,44 +1,43 @@
 package com.bnyro.contacts.util
 
+import android.content.ContentValues
 import android.content.Context
 import android.os.Build
 import android.provider.Telephony
 import android.telephony.SmsManager
-import com.bnyro.contacts.enums.SmsType
+import android.util.Log
+import com.bnyro.contacts.ext.intValue
 import com.bnyro.contacts.ext.longValue
 import com.bnyro.contacts.ext.stringValue
 import com.bnyro.contacts.obj.SmsData
+import java.util.Calendar
+import kotlin.random.Random
 
 object SmsUtil {
     private val contentUri = Telephony.Sms.CONTENT_URI
 
     fun getSmsList(context: Context): List<SmsData> {
-        val cursor = context.contentResolver
+        context.contentResolver
             .query(contentUri, null, null, null, null)
-            ?: return emptyList()
-        if (!cursor.moveToFirst()) return emptyList()
+            ?.use { cursor ->
+                if (!cursor.moveToFirst()) return emptyList()
 
-        val smsList = mutableListOf<SmsData>()
-        do {
-            val id = cursor.longValue(Telephony.Sms._ID) ?: continue
-            val threadId = cursor.longValue(Telephony.Sms.THREAD_ID) ?: 0
-            val address = cursor.stringValue(Telephony.Sms.ADDRESS).orEmpty()
-            val timestamp = cursor.longValue(Telephony.Sms.DATE) ?: 0
-            val body = cursor.stringValue(Telephony.Sms.BODY).orEmpty()
+                val smsList = mutableListOf<SmsData>()
+                do {
+                    val id = cursor.longValue(Telephony.Sms._ID) ?: continue
+                    val threadId = cursor.longValue(Telephony.Sms.THREAD_ID) ?: 0
+                    val address = cursor.stringValue(Telephony.Sms.ADDRESS).orEmpty()
+                    val timestamp = cursor.longValue(Telephony.Sms.DATE) ?: 0
+                    val body = cursor.stringValue(Telephony.Sms.BODY).orEmpty()
+                    val type = cursor.intValue(Telephony.Sms.TYPE) ?: 0
 
-            val type = when (cursor.stringValue(Telephony.Sms.TYPE).orEmpty().toInt()) {
-                Telephony.Sms.MESSAGE_TYPE_INBOX -> SmsType.INBOX
-                Telephony.Sms.MESSAGE_TYPE_SENT -> SmsType.SENT
-                Telephony.Sms.MESSAGE_TYPE_DRAFT -> SmsType.DRAFT
-                else -> SmsType.DRAFT
+                    smsList.add(SmsData(id, address, body, timestamp, threadId, type))
+                } while (cursor.moveToNext())
+
+                return smsList
             }
 
-            smsList.add(SmsData(id, address, body, timestamp, threadId, type))
-        } while (cursor.moveToNext())
-
-        cursor.close()
-
-        return smsList
+        return emptyList()
     }
 
     private fun getSmsManager(context: Context): SmsManager {
@@ -50,9 +49,17 @@ object SmsUtil {
         }
     }
 
-    fun sendSms(context: Context, recipient: String, body: String) {
+    fun sendSms(context: Context, address: String, body: String): SmsData {
         getSmsManager(context)
-            .sendTextMessage(recipient, null, body, null, null)
+            .sendTextMessage(address, null, body, null, null)
+
+        val timestamp = Calendar.getInstance().timeInMillis
+        val threadId = getOrCreateThreadId(context, address)
+
+        val smsData = SmsData(-1, address, body, timestamp, threadId, Telephony.Sms.MESSAGE_TYPE_SENT)
+        persistMessage(context, smsData)
+
+        return smsData
     }
 
     fun deleteMessage(context: Context, id: Long) {
@@ -61,19 +68,54 @@ object SmsUtil {
     }
 
     fun deleteThread(context: Context, threadId: Long) {
-        val cursor = context.contentResolver.query(
+        context.contentResolver.query(
             contentUri,
             arrayOf(Telephony.Sms._ID),
             "${Telephony.Sms.THREAD_ID} = ?",
             arrayOf(threadId.toString()),
             null
-        ) ?: return
-
-        while (cursor.moveToNext()) {
-            val id = cursor.longValue(Telephony.Sms._ID) ?: continue
-            deleteMessage(context, id)
+        )?.use { cursor ->
+            while (cursor.moveToNext()) {
+                val id = cursor.longValue(Telephony.Sms._ID) ?: continue
+                deleteMessage(context, id)
+            }
         }
+    }
 
-        cursor.close()
+    fun getOrCreateThreadId(context: Context, address: String): Long {
+        context.contentResolver
+            .query(
+                contentUri,
+                arrayOf(Telephony.Sms.THREAD_ID),
+                "${Telephony.Sms.ADDRESS} = ?",
+                arrayOf(address),
+                null
+            )
+            ?.use {
+                if (it.moveToFirst()) {
+                    return it.longValue(Telephony.Sms.THREAD_ID) ?: return@use
+                }
+            }
+
+        return Random.nextLong()
+    }
+
+    fun persistMessage(context: Context, smsData: SmsData): SmsData {
+        val values = ContentValues()
+        values.put(Telephony.Sms.ADDRESS, smsData.address)
+        values.put(Telephony.Sms.BODY, smsData.body)
+        values.put(Telephony.Sms.DATE, smsData.timestamp)
+        values.put(Telephony.Sms.READ, 1)
+        values.put(Telephony.Sms.TYPE, smsData.type)
+        values.put(Telephony.Sms.THREAD_ID, smsData.threadId)
+
+        val messageUri = context.contentResolver.insert(contentUri, values) ?: return smsData
+
+        Log.v("send_transaction", "inserted to uri: $messageUri")
+
+        context.contentResolver.query(messageUri, arrayOf(Telephony.Sms._ID), null, null, null)?.use {
+            if (it.moveToFirst()) smsData.id = it.longValue(Telephony.Sms._ID)!!
+        }
+        return smsData
     }
 }

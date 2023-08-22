@@ -1,10 +1,9 @@
 package com.bnyro.contacts.ui.screens
 
-import androidx.compose.foundation.layout.Arrangement
+import android.provider.Telephony
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -40,7 +39,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
-import com.bnyro.contacts.enums.SmsType
 import com.bnyro.contacts.obj.SmsData
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
@@ -62,7 +60,7 @@ fun SmsThreadScreen(
 
     LaunchedEffect(address + smsModel.smsList) {
         smsList = smsModel.smsList
-            .filter { it.address == address && it.type != SmsType.DRAFT }
+            .filter { it.address == address }
             .sortedBy { it.timestamp }
         if (smsList.isNotEmpty()) lazyListState.scrollToItem(smsList.size - 1)
     }
@@ -104,7 +102,11 @@ fun SmsThreadScreen(
                                 return@rememberDismissState false
                             }
                         )
-                        val isSender = smsData.type == SmsType.SENT
+                        val isSender = smsData.type in listOf(
+                            Telephony.Sms.MESSAGE_TYPE_DRAFT,
+                            Telephony.Sms.MESSAGE_TYPE_SENT,
+                            Telephony.Sms.MESSAGE_TYPE_OUTBOX
+                        )
                         val defaultCornerRadius = 12.dp
                         val edgedCornerRadius = 3.dp
                         val messageSidePadding = 70.dp
@@ -122,7 +124,8 @@ fun SmsThreadScreen(
                                         .padding(
                                             start = if (isSender) messageSidePadding else 0.dp,
                                             end = if (!isSender) messageSidePadding else 0.dp
-                                        ),
+                                        )
+                                        .fillMaxWidth(),
                                     shape = RoundedCornerShape(
                                         bottomEnd = if (isSender) edgedCornerRadius else defaultCornerRadius,
                                         bottomStart = if (isSender) defaultCornerRadius else edgedCornerRadius,
@@ -175,8 +178,7 @@ fun SmsThreadScreen(
                     ) {
                         if (text.isBlank()) return@ClickableIcon
 
-                        SmsUtil.sendSms(context, address, text)
-                        smsModel.fetchSmsList(context)
+                        smsModel.sendSms(context, address, text)
 
                         text = ""
                         focusRequester.freeFocus()

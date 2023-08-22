@@ -50,6 +50,8 @@ import com.bnyro.contacts.ui.components.NothingHere
 import com.bnyro.contacts.ui.components.dialogs.DialogButton
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.SmsModel
+import com.bnyro.contacts.util.NotificationHelper
+import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.SmsUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,6 +67,7 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
     }
 
     LaunchedEffect(Unit) {
+        PermissionHelper.checkPermissions(context, NotificationHelper.notificationPermissions)
         smsModel.fetchSmsList(context)
     }
 
@@ -73,7 +76,11 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(smsModel.smsGroups.entries.toList()) { (threadId, smsList) ->
+                val smsList = smsModel.smsGroups.entries.toList()
+                    .sortedBy { (_, smsList) -> smsList.maxOf { it.timestamp } }
+                    .reversed()
+                
+                items(smsList) { (threadId, smsList) ->
                     var showThreadScreen by remember {
                         mutableStateOf(false)
                     }
