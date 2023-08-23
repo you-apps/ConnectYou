@@ -79,7 +79,7 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                 val smsList = smsModel.smsGroups.entries.toList()
                     .sortedBy { (_, smsList) -> smsList.maxOf { it.timestamp } }
                     .reversed()
-                
+
                 items(smsList) { (threadId, smsList) ->
                     var showThreadScreen by remember {
                         mutableStateOf(false)
@@ -134,13 +134,13 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                                         modifier = Modifier.padding(10.dp)
                                     ) {
                                         Text(
-                                            text = smsList.last().address,
+                                            text = smsList.first().address,
                                             color = MaterialTheme.colorScheme.primary,
                                             fontSize = 16.sp
                                         )
                                         Spacer(modifier = Modifier.height(3.dp))
                                         Text(
-                                            text = smsList.last().body,
+                                            text = smsList.first().body,
                                             maxLines = 2,
                                             fontSize = 14.sp
                                         )
