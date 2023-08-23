@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
 
 class ExportHelper(
     private val context: Context,
-    private val contactsHelper: ContactsHelper
+    private val contactsRepository: ContactsRepository
 ) {
     private val contentResolver = context.contentResolver
     private val encryptBackups get() = Preferences.getBoolean(Preferences.encryptBackupsKey, false)
@@ -29,13 +29,13 @@ class ExportHelper(
             val content = input.bufferedReader().readText()
             val contacts = VcardHelper.importVcard(content)
             contacts.forEach { contact ->
-                contactsHelper.createContact(contact)
+                contactsRepository.createContact(contact)
             }
         }
     }
 
     fun exportContacts(uri: Uri, minimalContacts: List<ContactData>) {
-        val contacts = minimalContacts.pmap { contactsHelper.loadAdvancedData(it) }
+        val contacts = minimalContacts.pmap { contactsRepository.loadAdvancedData(it) }
         val vCardText = VcardHelper.exportVcard(contacts)
         contentResolver.openOutputStream(uri)?.use {
             if (!encryptBackups) {
@@ -49,9 +49,11 @@ class ExportHelper(
     suspend fun exportTempContact(minimalContact: ContactData, isFullContact: Boolean = false): Uri {
         val contact = if (isFullContact) {
             minimalContact
-        } else contactsHelper.loadAdvancedData(
-            minimalContact
-        )
+        } else {
+            contactsRepository.loadAdvancedData(
+                minimalContact
+            )
+        }
         val vCardText = VcardHelper.exportVcard(listOf(contact))
         val outputDir = File(context.cacheDir, "contacts").also {
             if (!it.exists()) it.mkdir()

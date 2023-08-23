@@ -39,7 +39,7 @@ fun GroupsDialog(
     participatingGroups: List<ContactsGroup>,
     onContactGroupsChanges: (participatingGroups: List<ContactsGroup>) -> Unit
 ) {
-    val contactsModel: ContactsModel = viewModel()
+    val contactsModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
@@ -105,7 +105,7 @@ fun GroupsDialog(
         ) {
             scope.launch {
                 withContext(Dispatchers.IO) {
-                    contactsModel.contactsHelper?.deleteGroup(it)
+                    contactsModel.contactsRepository.deleteGroup(it)
                 }
                 contactGroups = contactGroups - it
                 if (participatingGroups.contains(it)) {
@@ -127,7 +127,7 @@ fun GroupsDialog(
                     if (title.isNotBlank() && contactGroups.none { it.title == title }) {
                         scope.launch {
                             val group = withContext(Dispatchers.IO) {
-                                contactsModel.contactsHelper?.createGroup(title)
+                                contactsModel.contactsRepository.createGroup(title)
                             }
                             group?.let { contactGroups = contactGroups + it }
                             showCreateGroup = false

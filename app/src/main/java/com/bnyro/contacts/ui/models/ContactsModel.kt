@@ -4,19 +4,24 @@ import android.Manifest
 import android.content.Context
 import android.net.Uri
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.bnyro.contacts.App
 import com.bnyro.contacts.R
+import com.bnyro.contacts.enums.ContactsSource
 import com.bnyro.contacts.ext.toast
 import com.bnyro.contacts.obj.ContactData
-import com.bnyro.contacts.util.ContactsHelper
-import com.bnyro.contacts.util.DeviceContactsHelper
+import com.bnyro.contacts.util.ContactsRepository
+import com.bnyro.contacts.util.DeviceContactsRepository
 import com.bnyro.contacts.util.ExportHelper
 import com.bnyro.contacts.util.IntentHelper
-import com.bnyro.contacts.util.LocalContactsHelper
+import com.bnyro.contacts.util.LocalContactsRepository
 import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.Preferences
 import kotlinx.coroutines.CoroutineScope
@@ -25,10 +30,25 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 
-class ContactsModel : ViewModel() {
-    var contacts = mutableStateListOf<ContactData>()
+class ContactsModel(
+    private val localContactsRepository: LocalContactsRepository,
+    private val deviceContactsRepository: DeviceContactsRepository
+) : ViewModel() {
+    var contacts by mutableStateOf(listOf<ContactData>())
     var isLoading by mutableStateOf(true)
-    var contactsHelper by mutableStateOf<ContactsHelper?>(null)
+    var contactsSource by mutableStateOf(
+        ContactsSource.values().getOrNull(
+            Preferences.getInt(
+                Preferences.homeTabKey,
+                0
+            )
+        ) ?: ContactsSource.DEVICE
+    )
+    val contactsRepository: ContactsRepository
+        get() = when (contactsSource) {
+            ContactsSource.LOCAL -> localContactsRepository
+            ContactsSource.DEVICE -> deviceContactsRepository
+        }
     private val permissions = arrayOf(
         Manifest.permission.WRITE_CONTACTS,
         Manifest.permission.READ_CONTACTS
@@ -36,16 +56,9 @@ class ContactsModel : ViewModel() {
     var initialContactId: Long? by mutableStateOf(null)
     var initialContactData: ContactData? by mutableStateOf(null)
 
-    fun init(context: Context) {
-        contactsHelper = when (Preferences.getInt(Preferences.homeTabKey, 0)) {
-            0 -> DeviceContactsHelper(context)
-            else -> LocalContactsHelper(context)
-        }
-    }
-
     fun loadContacts(context: Context) {
         isLoading = true
-        if (contactsHelper is DeviceContactsHelper &&
+        if (contactsSource == ContactsSource.DEVICE &&
             !PermissionHelper.checkPermissions(context, permissions)
         ) {
             return
@@ -53,9 +66,7 @@ class ContactsModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             isLoading = true
             try {
-                val ct = contactsHelper?.getContactList().orEmpty()
-                contacts.clear()
-                contacts.addAll(ct)
+                contacts = contactsRepository.getContactList().toMutableStateList()
             } catch (e: Exception) {
                 return@launch
             }
@@ -63,73 +74,59 @@ class ContactsModel : ViewModel() {
             CoroutineScope(Dispatchers.IO).launch {
                 contacts.map {
                     async {
-                        contactsHelper?.loadAdvancedData(it)
+                        contactsRepository.loadAdvancedData(it)
                     }
                 }.awaitAll()
             }
         }
     }
 
-    private suspend fun deleteContactsSuspend(contactsToDelete: List<ContactData>) {
-        contactsHelper?.deleteContacts(contactsToDelete)
-        contacts.removeAll { ct ->
-            contactsToDelete.any {
-                it.contactId == ct.contactId
-            }
-        }
-    }
-
     fun deleteContacts(contactsToDelete: List<ContactData>) {
         viewModelScope.launch(Dispatchers.IO) {
-            deleteContactsSuspend(contactsToDelete)
+            contactsRepository.deleteContacts(contactsToDelete)
+            contacts = contacts.minus(contactsToDelete.toSet())
         }
     }
 
     fun createContact(context: Context, contact: ContactData) {
         viewModelScope.launch(Dispatchers.IO) {
-            contactsHelper?.createContact(contact)
+            contactsRepository.createContact(contact)
             loadContacts(context)
         }
     }
 
     fun updateContact(context: Context, contact: ContactData) {
         viewModelScope.launch(Dispatchers.IO) {
-            contactsHelper?.updateContact(contact)
+            contactsRepository.updateContact(contact)
             loadContacts(context)
-        }
-    }
-
-    private suspend fun copyContactsSuspend(context: Context, contacts: List<ContactData>) {
-        contacts.forEach { contact ->
-            val fullContact = loadAdvancedContactData(contact)
-            val otherHelper = when (contactsHelper) {
-                is DeviceContactsHelper -> LocalContactsHelper(context)
-                else -> DeviceContactsHelper(context)
-            }
-            otherHelper.createContact(fullContact)
         }
     }
 
     fun copyContacts(context: Context, contacts: List<ContactData>) {
         viewModelScope.launch(Dispatchers.IO) {
-            copyContactsSuspend(context, contacts)
+            contacts.forEach { contact ->
+                val fullContact = loadAdvancedContactData(contact)
+                val otherHelper = when (contactsRepository) {
+                    is DeviceContactsRepository -> (context.applicationContext as App).localContactsRepository
+                    else -> (context.applicationContext as App).deviceContactsRepository
+                }
+                otherHelper.createContact(fullContact)
+            }
         }
     }
 
     fun moveContacts(context: Context, contacts: List<ContactData>) {
-        viewModelScope.launch(Dispatchers.IO) {
-            copyContactsSuspend(context, contacts)
-            deleteContactsSuspend(contacts)
-        }
+        copyContacts(context, contacts)
+        deleteContacts(contacts)
     }
 
     suspend fun loadAdvancedContactData(contact: ContactData): ContactData {
-        return contactsHelper?.loadAdvancedData(contact) ?: contact
+        return contactsRepository.loadAdvancedData(contact)
     }
 
     fun importVcf(context: Context, uri: Uri) {
         viewModelScope.launch(Dispatchers.IO) {
-            val exportHelper = ExportHelper(context, contactsHelper!!)
+            val exportHelper = ExportHelper(context, contactsRepository)
             exportHelper.importContacts(uri)
             context.toast(R.string.import_success)
             loadContacts(context)
@@ -137,14 +134,14 @@ class ContactsModel : ViewModel() {
     }
 
     fun exportVcf(context: Context, uri: Uri) {
-        val exportHelper = ExportHelper(context, contactsHelper!!)
+        val exportHelper = ExportHelper(context, contactsRepository)
         exportHelper.exportContacts(uri, contacts)
         context.toast(R.string.export_success)
     }
 
     fun exportSingleVcf(context: Context, contact: ContactData) {
         viewModelScope.launch(Dispatchers.IO) {
-            val exportHelper = ExportHelper(context, contactsHelper!!)
+            val exportHelper = ExportHelper(context, contactsRepository)
             val tempFileUri = exportHelper.exportTempContact(contact, true)
             IntentHelper.shareContactVcf(context, tempFileUri)
         }
@@ -156,7 +153,7 @@ class ContactsModel : ViewModel() {
     fun getAvailableAccounts(): List<Pair<String, String>> {
         if (contacts.isEmpty()) {
             return listOf(
-                DeviceContactsHelper.ANDROID_ACCOUNT_TYPE to DeviceContactsHelper.ANDROID_CONTACTS_NAME
+                DeviceContactsRepository.ANDROID_ACCOUNT_TYPE to DeviceContactsRepository.ANDROID_CONTACTS_NAME
             )
         }
         return contacts.mapNotNull {
@@ -177,5 +174,15 @@ class ContactsModel : ViewModel() {
 
     companion object {
         val normalizeNumberRegex = Regex("[-_ ]")
+
+        val Factory = viewModelFactory {
+            initializer {
+                val application = this[APPLICATION_KEY] as App
+                ContactsModel(
+                    application.localContactsRepository,
+                    application.deviceContactsRepository
+                )
+            }
+        }
     }
 }

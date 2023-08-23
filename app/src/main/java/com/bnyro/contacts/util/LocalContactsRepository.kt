@@ -15,7 +15,7 @@ import com.bnyro.contacts.obj.ContactsGroup
 import com.bnyro.contacts.obj.ValueWithType
 import java.io.File
 
-class LocalContactsHelper(context: Context) : ContactsHelper() {
+class LocalContactsRepository(context: Context) : ContactsRepository {
     override val label: String = context.getString(R.string.local)
 
     private val picturesDir = File(context.filesDir, "images").also {

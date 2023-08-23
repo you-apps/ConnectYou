@@ -12,7 +12,7 @@ object BackupHelper {
     val openMimeTypes get() = if (encryptBackups) arrayOf("application/zip") else vCardMimeTypes
     val backupFileName get() = if (encryptBackups) "contacts.zip" else "contacts.vcf"
 
-    suspend fun backup(context: Context, contactsHelper: ContactsHelper) {
+    suspend fun backup(context: Context, contactsRepository: ContactsRepository) {
         val backupDirPref = Preferences.getString(Preferences.backupDirKey, "").takeIf {
             it.orEmpty().isNotBlank()
         } ?: return
@@ -23,7 +23,7 @@ object BackupHelper {
         val dateTime = CalendarUtils.getCurrentDateTime()
 
         val extension = if (encryptBackups) "zip" else "vcf"
-        val fullName = "${contactsHelper.label.lowercase()}-backup-$dateTime.$extension"
+        val fullName = "${contactsRepository.label.lowercase()}-backup-$dateTime.$extension"
 
         runCatching {
             backupDir.findFile(fullName)?.delete()
@@ -34,13 +34,13 @@ object BackupHelper {
             return
         }
 
-        val contacts = contactsHelper.getContactList()
-        val exportHelper = ExportHelper(context, contactsHelper)
+        val contacts = contactsRepository.getContactList()
+        val exportHelper = ExportHelper(context, contactsRepository)
         exportHelper.exportContacts(file.uri, contacts)
 
         // delete all the old backup files
         val backupFiles = backupDir.listFiles().filter {
-            it.name.orEmpty().startsWith(contactsHelper.label.lowercase())
+            it.name.orEmpty().startsWith(contactsRepository.label.lowercase())
         }
         if (backupFiles.size <= maxBackupAmount) return
 

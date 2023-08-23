@@ -44,7 +44,7 @@ fun SimImportDialog(
         mutableStateOf(true)
     }
     val context = LocalContext.current
-    val contactsModel: ContactsModel = viewModel()
+    val contactsModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
 
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
@@ -98,7 +98,9 @@ fun SimImportDialog(
                                 onCheckedChange = {
                                     if (it) {
                                         selectedContacts.add(contact)
-                                    } else selectedContacts.remove(contact)
+                                    } else {
+                                        selectedContacts.remove(contact)
+                                    }
                                 }
                             )
                             Spacer(modifier = Modifier.width(10.dp))

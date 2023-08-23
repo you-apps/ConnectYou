@@ -35,13 +35,12 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
+import com.bnyro.contacts.enums.ContactsSource
 import com.bnyro.contacts.obj.NavBarItem
 import com.bnyro.contacts.ui.components.ContactsPage
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.SmsModel
 import com.bnyro.contacts.ui.models.ThemeModel
-import com.bnyro.contacts.util.DeviceContactsHelper
-import com.bnyro.contacts.util.LocalContactsHelper
 import com.bnyro.contacts.util.Preferences
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
@@ -51,23 +50,21 @@ import kotlinx.coroutines.withContext
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainAppContent(
-    contactsModel: ContactsModel,
-    smsModel: SmsModel
-) {
+fun MainAppContent(smsModel: SmsModel) {
     val context = LocalContext.current
     val themeModel: ThemeModel = viewModel()
+    val contactsModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
     val scope = rememberCoroutineScope()
+
+    val bottomBarHeight = 80.dp
+    val bottomBarHeightPx = with(LocalDensity.current) { bottomBarHeight.roundToPx().toFloat() }
+    val bottomBarOffsetHeightPx = remember { mutableStateOf(0f) }
 
     var selectedTab by remember {
         val tab = if (smsModel.initialAddressAndBody != null) 2
         else Preferences.getInt(Preferences.homeTabKey, 0)
         mutableIntStateOf(tab)
     }
-
-    val bottomBarHeight = 80.dp
-    val bottomBarHeightPx = with(LocalDensity.current) { bottomBarHeight.roundToPx().toFloat() }
-    val bottomBarOffsetHeightPx = remember { mutableStateOf(0f) }
 
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
@@ -77,10 +74,6 @@ fun MainAppContent(
                 return Offset.Zero
             }
         }
-    }
-
-    LaunchedEffect(Unit) {
-        contactsModel.loadContacts(context)
     }
 
     LaunchedEffect(contactsModel.isLoading) {
@@ -101,20 +94,18 @@ fun MainAppContent(
             stringResource(R.string.device),
             Icons.Default.Home
         ) {
-            contactsModel.contactsHelper = DeviceContactsHelper(context)
-            contactsModel.loadContacts(context)
+            contactsModel.contactsSource = ContactsSource.DEVICE
         },
         NavBarItem(
             stringResource(R.string.local),
             Icons.Default.Storage
         ) {
-            contactsModel.contactsHelper = LocalContactsHelper(context)
-            contactsModel.loadContacts(context)
+            contactsModel.contactsSource = ContactsSource.LOCAL
         },
         NavBarItem(
             stringResource(R.string.messages),
             Icons.Default.Message
-        ) {}
+        )
     )
 
     Scaffold(
@@ -135,9 +126,10 @@ fun MainAppContent(
                     NavigationBarItem(
                         selected = index == selectedTab,
                         onClick = {
-                            if (selectedTab == index) return@NavigationBarItem
-                            selectedTab = index
+                            if (contactsModel.contactsSource.ordinal == index) return@NavigationBarItem
+                            if (index < 2) contactsModel.contactsSource = ContactsSource.values()[index]
                             navItem.onClick()
+                            selectedTab = index
                         },
                         icon = {
                             Icon(navItem.icon, null)
@@ -162,17 +154,11 @@ fun MainAppContent(
                 SmsListScreen(smsModel, contactsModel)
             } else {
                 ContactsPage(
-                    contactsModel.initialContactData,
                     nestedScrollConnection.takeIf { themeModel.collapsableBottomBar },
                     bottomBarOffsetHeight = with(LocalDensity.current) {
                         bottomBarHeight - bottomBarOffsetHeightPx.value.absoluteValue.toDp()
                     }.takeIf { themeModel.collapsableBottomBar } ?: 0.dp
                 )
-            }
-        }
-        contactsModel.initialContactData?.let {
-            SingleContactScreen(it) {
-                contactsModel.initialContactData = null
             }
         }
     }

@@ -53,6 +53,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
+import com.bnyro.contacts.enums.ContactsSource
 import com.bnyro.contacts.enums.SortOrder
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.FilterOptions
@@ -67,8 +68,8 @@ import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.AboutScreen
 import com.bnyro.contacts.ui.screens.EditorScreen
 import com.bnyro.contacts.ui.screens.SettingsScreen
+import com.bnyro.contacts.ui.screens.SingleContactScreen
 import com.bnyro.contacts.util.BackupHelper
-import com.bnyro.contacts.util.DeviceContactsHelper
 import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.Preferences
 import kotlinx.coroutines.delay
@@ -76,11 +77,10 @@ import kotlinx.coroutines.delay
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ContactsPage(
-    contactToInsert: ContactData?,
     scrollConnection: NestedScrollConnection?,
     bottomBarOffsetHeight: Dp
 ) {
-    val viewModel: ContactsModel = viewModel()
+    val viewModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
     val context = LocalContext.current
 
     val selectedContacts = remember {
@@ -88,7 +88,7 @@ fun ContactsPage(
     }
 
     var newContactToInsert by remember {
-        mutableStateOf(contactToInsert)
+        mutableStateOf(viewModel.initialContactData)
     }
 
     var showDelete by remember {
@@ -126,7 +126,14 @@ fun ContactsPage(
         uri?.let { viewModel.exportVcf(context, it) }
     }
 
-    val fabBottomPadding by animateDpAsState(targetValue = bottomBarOffsetHeight, label = "fab padding")
+    val fabBottomPadding by animateDpAsState(
+        targetValue = bottomBarOffsetHeight,
+        label = "fab padding"
+    )
+
+    LaunchedEffect(viewModel.contactsSource) {
+        viewModel.loadContacts(context)
+    }
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -270,7 +277,7 @@ fun ContactsPage(
 
             if (viewModel.isLoading) {
                 LaunchedEffect(Unit) {
-                    if (hasPerms() || viewModel.contactsHelper !is DeviceContactsHelper) return@LaunchedEffect
+                    if (hasPerms() || viewModel.contactsSource != ContactsSource.DEVICE) return@LaunchedEffect
                     while (!hasPerms()) {
                         delay(100)
                     }
@@ -375,7 +382,7 @@ fun ContactsPage(
             onClose = {
                 newContactToInsert = null
             },
-            isCreatingNewDeviceContact = viewModel.contactsHelper is DeviceContactsHelper,
+            isCreatingNewDeviceContact = viewModel.contactsSource == ContactsSource.DEVICE,
             onSave = {
                 viewModel.createContact(context, it)
             }
@@ -425,6 +432,11 @@ fun ContactsPage(
     if (showImportSimDialog) {
         SimImportDialog {
             showImportSimDialog = false
+        }
+    }
+    viewModel.initialContactData?.let {
+        SingleContactScreen(it) {
+            viewModel.initialContactData = null
         }
     }
 }

@@ -20,7 +20,7 @@ fun ShareDialog(
     contact: ContactData,
     onDismissRequest: () -> Unit
 ) {
-    val contactsModel: ContactsModel = viewModel()
+    val contactsModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
     val context = LocalContext.current
 
     val shareName = remember { mutableStateOf(true) }
