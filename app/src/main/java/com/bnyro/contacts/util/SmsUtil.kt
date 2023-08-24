@@ -6,6 +6,8 @@ import android.os.Build
 import android.provider.Telephony
 import android.telephony.SmsManager
 import android.util.Log
+import android.widget.Toast
+import com.bnyro.contacts.R
 import com.bnyro.contacts.ext.intValue
 import com.bnyro.contacts.ext.longValue
 import com.bnyro.contacts.ext.stringValue
@@ -49,7 +51,12 @@ object SmsUtil {
         }
     }
 
-    fun sendSms(context: Context, address: String, body: String): SmsData {
+    fun sendSms(context: Context, address: String, body: String): SmsData? {
+        if (!ConnectionHelper.hasSignalForSms(context)) {
+            Toast.makeText(context, R.string.connection_error, Toast.LENGTH_LONG).show()
+            return null
+        }
+
         getSmsManager(context)
             .sendTextMessage(address, null, body, null, null)
 

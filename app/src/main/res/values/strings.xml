@@ -79,6 +79,7 @@
     <string name="messages">Messages</string>
     <string name="send">Send message</string>
     <string name="reply">Reply</string>
+    <string name="connection_error">Connection error! Please make sure to disable air plane mode!</string>
     <!-- Import & Export -->
     <string name="import_vcf">Import vCard</string>
     <string name="export_vcf">Export vCard</string>

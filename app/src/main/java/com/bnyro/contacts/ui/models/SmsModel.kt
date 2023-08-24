@@ -30,7 +30,7 @@ class SmsModel: ViewModel() {
     }
 
     fun sendSms(context: Context, address: String, body: String) {
-        val sms = SmsUtil.sendSms(context, address, body)
+        val sms = SmsUtil.sendSms(context, address, body) ?: return
         smsList += sms
         smsGroups = smsList.groupBy { it.threadId }
     }
