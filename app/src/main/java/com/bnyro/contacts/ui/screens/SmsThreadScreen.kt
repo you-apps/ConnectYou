@@ -1,6 +1,8 @@
 package com.bnyro.contacts.ui.screens
 
 import android.provider.Telephony
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -39,6 +41,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
+import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.SmsData
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
@@ -49,6 +52,7 @@ import com.bnyro.contacts.util.SmsUtil
 @Composable
 fun SmsThreadScreen(
     smsModel: SmsModel,
+    contactData: ContactData?,
     address: String,
     onClose: () -> Unit
 ) {
@@ -57,6 +61,9 @@ fun SmsThreadScreen(
         mutableStateOf(listOf<SmsData>())
     }
     val lazyListState = rememberLazyListState()
+    var showContactScreen by remember {
+        mutableStateOf(false)
+    }
 
     LaunchedEffect(address + smsModel.smsList) {
         smsList = smsModel.smsList
@@ -69,7 +76,17 @@ fun SmsThreadScreen(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(address) },
+                    title = {
+                        val interactionSource = remember {
+                            MutableInteractionSource()
+                        }
+                        Text(
+                            modifier = Modifier.clickable(interactionSource, null) {
+                                if (contactData != null) showContactScreen = true
+                            },
+                            text = contactData?.displayName ?: address
+                        )
+                    },
                     navigationIcon = {
                         ClickableIcon(
                             icon = Icons.Default.ArrowBack,
@@ -143,9 +160,9 @@ fun SmsThreadScreen(
                         )
                     }
                 }
-                
+
                 Spacer(modifier = Modifier.height(10.dp))
-                
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -185,6 +202,12 @@ fun SmsThreadScreen(
                     }
                 }
             }
+        }
+    }
+
+    if (showContactScreen && contactData != null) {
+        SingleContactScreen(contact = contactData) {
+            showContactScreen = false
         }
     }
 }

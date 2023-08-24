@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -84,6 +85,8 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                     var showThreadScreen by remember {
                         mutableStateOf(false)
                     }
+                    val address = smsList.first().address
+                    val contactData = contactsModel.getContactByNumber(address)
 
                     val dismissState = rememberDismissState(
                         confirmValueChange = {
@@ -103,6 +106,7 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                         dismissContent = {
                             ElevatedCard(
                                 modifier = Modifier
+                                    .fillMaxWidth()
                                     .clip(CardDefaults.shape)
                                     .clickable {
                                         showThreadScreen = true
@@ -134,7 +138,7 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                                         modifier = Modifier.padding(10.dp)
                                     ) {
                                         Text(
-                                            text = smsList.first().address,
+                                            text = contactData?.displayName ?: address,
                                             color = MaterialTheme.colorScheme.primary,
                                             fontSize = 16.sp
                                         )
@@ -152,7 +156,7 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                     )
 
                     if (showThreadScreen) {
-                        SmsThreadScreen(smsModel = smsModel, address = smsList.first().address) {
+                        SmsThreadScreen(smsModel, contactData, address) {
                             showThreadScreen = false
                         }
                     }
@@ -205,7 +209,8 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
         }
 
         smsAddress?.let {
-            SmsThreadScreen(smsModel = smsModel, address = it) {
+            val contactData = contactsModel.getContactByNumber(it)
+            SmsThreadScreen(smsModel, contactData, it) {
                 smsAddress = null
             }
         }

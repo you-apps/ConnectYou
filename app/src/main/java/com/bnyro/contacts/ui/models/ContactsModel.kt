@@ -35,6 +35,7 @@ class ContactsModel : ViewModel() {
     )
     var initialContactId: Long? by mutableStateOf(null)
     var initialContactData: ContactData? by mutableStateOf(null)
+    private val normalizeNumberRegex = Regex("[-_ ]")
 
     fun init(context: Context) {
         contactsHelper = when (Preferences.getInt(Preferences.homeTabKey, 0)) {
@@ -165,4 +166,13 @@ class ContactsModel : ViewModel() {
     }
 
     fun getAvailableGroups() = contacts.map { it.groups }.flatten().distinct()
+
+    fun getContactByNumber(number: String): ContactData? {
+        val normalizedNumber = number.replace(normalizeNumberRegex, "")
+        return contacts.firstOrNull {
+            it.numbers.any { (value, _) ->
+                value.replace(normalizeNumberRegex, "") == normalizedNumber
+            }
+        }
+    }
 }
