@@ -36,8 +36,6 @@ class SmsModel: ViewModel() {
     }
 
     private fun requestDefaultSMSApp(context: Context) {
-        if (Telephony.Sms.getDefaultSmsPackage(context) == context.packageName) return
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val roleManager = context.getSystemService(RoleManager::class.java)
             if (roleManager!!.isRoleAvailable(RoleManager.ROLE_SMS)) {
