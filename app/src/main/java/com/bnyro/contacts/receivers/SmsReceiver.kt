@@ -11,8 +11,10 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
 import com.bnyro.contacts.R
+import com.bnyro.contacts.enums.IntentActionType
 import com.bnyro.contacts.obj.SmsData
 import com.bnyro.contacts.ui.activities.MainActivity
+import com.bnyro.contacts.util.IntentHelper
 import com.bnyro.contacts.util.NotificationHelper
 import com.bnyro.contacts.util.NotificationHelper.MESSAGES_CHANNEL_ID
 import com.bnyro.contacts.util.PermissionHelper
@@ -46,24 +48,33 @@ class SmsReceiver : BroadcastReceiver() {
     ) {
         val remoteInput = RemoteInput.Builder(KEY_TEXT_REPLY).build()
 
-        val resultIntent = Intent(context, ReplyReceiver::class.java)
+        val replyIntent = Intent(context, ReplyReceiver::class.java)
             .putExtra(KEY_EXTRA_ADDRESS, smsData.address)
             .putExtra(KEY_EXTRA_NOTIFICATION_ID, notificationId)
 
-        val resultPendingIntent = PendingIntent.getBroadcast(
+        val replyPendingIntent = PendingIntent.getBroadcast(
             context,
             0,
-            resultIntent,
+            replyIntent,
             PendingIntent.FLAG_MUTABLE
         )
 
         val replyAction = NotificationCompat.Action.Builder(
             android.R.drawable.ic_input_add,
             context.getString(R.string.reply),
-            resultPendingIntent
+            replyPendingIntent
         )
             .addRemoteInput(remoteInput)
             .build()
+
+        val smsThreadIntent = IntentHelper.getLaunchIntent(IntentActionType.SMS, smsData.address)
+
+        val smsThreadPendingIntent = PendingIntent.getActivity(
+            context,
+            1,
+            smsThreadIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
 
         val notification = NotificationCompat.Builder(context, MESSAGES_CHANNEL_ID)
             .setDefaults(Notification.DEFAULT_ALL)
@@ -71,6 +82,7 @@ class SmsReceiver : BroadcastReceiver() {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentTitle(smsData.address)
             .setContentText(smsData.body)
+            .setContentIntent(smsThreadPendingIntent)
             .setStyle(
                 NotificationCompat.BigTextStyle()
                     .bigText(smsData.body)

@@ -214,5 +214,12 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                 smsAddress = null
             }
         }
+
+        smsModel.initialAddressAndBody?.let {
+            val contactData = contactsModel.getContactByNumber(it.first)
+            SmsThreadScreen(smsModel, contactData, it.first) {
+                smsModel.initialAddressAndBody = null
+            }
+        }
     }
 }

@@ -20,6 +20,8 @@ class SmsModel: ViewModel() {
     var smsList by mutableStateOf(listOf<SmsData>())
     var smsGroups by mutableStateOf(mapOf<Long, List<SmsData>>())
 
+    var initialAddressAndBody by mutableStateOf<Pair<String, String?>?>(null)
+
     fun fetchSmsList(context: Context) {
         requestDefaultSMSApp(context)
 

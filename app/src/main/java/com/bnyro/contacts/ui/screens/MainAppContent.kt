@@ -60,7 +60,9 @@ fun MainAppContent(
     val scope = rememberCoroutineScope()
 
     var selectedTab by remember {
-        mutableIntStateOf(Preferences.getInt(Preferences.homeTabKey, 0))
+        val tab = if (smsModel.initialAddressAndBody != null) 2
+        else Preferences.getInt(Preferences.homeTabKey, 0)
+        mutableIntStateOf(tab)
     }
 
     val bottomBarHeight = 80.dp

@@ -54,6 +54,7 @@ fun SmsThreadScreen(
     smsModel: SmsModel,
     contactData: ContactData?,
     address: String,
+    initialText: String = "",
     onClose: () -> Unit
 ) {
     val context = LocalContext.current
@@ -170,7 +171,7 @@ fun SmsThreadScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     var text by remember {
-                        mutableStateOf("")
+                        mutableStateOf(initialText)
                     }
                     val focusRequester = remember {
                         FocusRequester()
