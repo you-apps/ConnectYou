@@ -1,6 +1,5 @@
 package com.bnyro.contacts.ui.components
 
-import android.Manifest
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.Crossfade
@@ -67,14 +66,14 @@ import com.bnyro.contacts.ui.screens.EditorScreen
 import com.bnyro.contacts.ui.screens.SettingsScreen
 import com.bnyro.contacts.ui.screens.SingleContactScreen
 import com.bnyro.contacts.util.BackupHelper
-import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.Preferences
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ContactsPage(
     scrollConnection: NestedScrollConnection?,
-    bottomBarOffsetHeight: Dp
+    bottomBarOffsetHeight: Dp,
+    contactsSource: ContactsSource
 ) {
     val viewModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
     val context = LocalContext.current
@@ -262,22 +261,13 @@ fun ContactsPage(
                 }
             }
 
-            fun hasPerms() = PermissionHelper.hasPermission(
-                context,
-                Manifest.permission.READ_CONTACTS
-            )
-
-            when (val contactState = viewModel.contactListState) {
+            when (
+                val contactState = when (contactsSource) {
+                    ContactsSource.DEVICE -> viewModel.deviceContacts
+                    ContactsSource.LOCAL -> viewModel.localContacts
+                }
+            ) {
                 ContactListState.Loading -> {
-                    /*
-                    LaunchedEffect(Unit) {
-                        if (hasPerms() || viewModel.contactsSource != ContactsSource.DEVICE) return@LaunchedEffect
-                        while (!hasPerms()) {
-                            delay(100)
-                        }
-                        viewModel.loadContacts(context)
-                    }
-                     */
                     Box(
                         modifier = Modifier.fillMaxSize()
                     ) {
@@ -293,17 +283,9 @@ fun ContactsPage(
 
                 is ContactListState.Success -> {
                     val state = rememberLazyListState()
-                    LazyColumn(
-                        state = state,
-                        modifier = Modifier
-                            .padding(end = 5.dp)
-                            .scrollbar(state, false)
-                            .let { modifier ->
-                                scrollConnection?.let { modifier.nestedScroll(it) } ?: modifier
-                            }
-                    ) {
+                    val contactGroups = remember(searchQuery.value, contactState) {
                         val query = searchQuery.value.text.lowercase()
-                        val contactGroups = contactState.contacts.asSequence().filter {
+                        contactState.contacts.asSequence().filter {
                             it.displayName.orEmpty().lowercase().contains(query) ||
                                 it.numbers.any { number -> number.value.contains(query) }
                         }.filter {
@@ -327,7 +309,16 @@ fun ContactsPage(
                                 SortOrder.LASTNAME -> it.alternativeName
                             }?.firstOrNull()?.uppercase()
                         }
-
+                    }
+                    LazyColumn(
+                        state = state,
+                        modifier = Modifier
+                            .padding(end = 5.dp)
+                            .scrollbar(state, false)
+                            .let { modifier ->
+                                scrollConnection?.let { modifier.nestedScroll(it) } ?: modifier
+                            }
+                    ) {
                         contactGroups.forEach { (firstLetter, groupedContacts) ->
                             stickyHeader {
                                 CharacterHeader(firstLetter.orEmpty())
@@ -382,7 +373,7 @@ fun ContactsPage(
             onClose = {
                 newContactToInsert = null
             },
-            isCreatingNewDeviceContact = viewModel.contactsSource == ContactsSource.DEVICE,
+            isCreatingNewDeviceContact = (contactsSource == ContactsSource.DEVICE),
             onSave = {
                 viewModel.createContact(context, it)
             }

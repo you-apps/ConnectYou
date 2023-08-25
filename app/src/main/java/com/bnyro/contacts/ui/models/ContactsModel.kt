@@ -70,12 +70,6 @@ class ContactsModel(
             }
         }
 
-    val contactListState: ContactListState
-        get() = when (contactsSource) {
-            ContactsSource.LOCAL -> localContacts
-            ContactsSource.DEVICE -> deviceContacts
-        }
-
     init {
         loadContacts(context)
     }
