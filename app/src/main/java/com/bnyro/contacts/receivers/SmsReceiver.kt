@@ -12,6 +12,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
 import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.SmsData
+import com.bnyro.contacts.ui.activities.MainActivity
 import com.bnyro.contacts.util.NotificationHelper
 import com.bnyro.contacts.util.NotificationHelper.MESSAGES_CHANNEL_ID
 import com.bnyro.contacts.util.PermissionHelper
@@ -28,10 +29,12 @@ class SmsReceiver : BroadcastReceiver() {
             val body = message.displayMessageBody
             val timestamp = message.timestampMillis
             val threadId = SmsUtil.getOrCreateThreadId(context, address)
-            val smsData = SmsData(-1, address, body, timestamp, threadId, Telephony.Sms.MESSAGE_TYPE_INBOX)
+            val bareSmsData = SmsData(-1, address, body, timestamp, threadId, Telephony.Sms.MESSAGE_TYPE_INBOX)
 
-            createNotification(context, notificationId, smsData)
-            SmsUtil.persistMessage(context, smsData)
+            createNotification(context, notificationId, bareSmsData)
+            val smsData = SmsUtil.persistMessage(context, bareSmsData)
+
+            MainActivity.smsModel?.addSmsToList(smsData)
         }
     }
 

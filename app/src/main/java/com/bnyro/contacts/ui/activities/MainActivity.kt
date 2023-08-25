@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.provider.ContactsContract.Intents
 import android.provider.ContactsContract.QuickContact
 import androidx.activity.compose.setContent
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.dialogs.AddToContactDialog
 import com.bnyro.contacts.ui.models.ContactsModel
+import com.bnyro.contacts.ui.models.SmsModel
 import com.bnyro.contacts.ui.screens.MainAppContent
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
 import com.bnyro.contacts.util.BackupHelper
@@ -22,8 +24,11 @@ class MainActivity : BaseActivity() {
         handleVcfShareAction(contactsModel)
 
         setContent {
+            val contactsModel: ContactsModel = viewModel()
+            smsModel = viewModel()
+
             ConnectYouTheme(themeModel.themeMode) {
-                MainAppContent()
+                MainAppContent(contactsModel, smsModel!!)
                 getInsertOrEditNumber()?.let {
                     AddToContactDialog(it)
                 }
@@ -85,5 +90,14 @@ class MainActivity : BaseActivity() {
     private fun handleVcfShareAction(contactsModel: ContactsModel) {
         if (intent.action != Intent.ACTION_VIEW || intent?.type !in BackupHelper.vCardMimeTypes) return
         contactsModel.importVcf(this, intent?.data ?: return)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        smsModel = null
+    }
+
+    companion object {
+        var smsModel: SmsModel? = null
     }
 }

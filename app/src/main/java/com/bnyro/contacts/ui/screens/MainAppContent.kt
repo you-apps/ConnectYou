@@ -51,10 +51,11 @@ import kotlinx.coroutines.withContext
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainAppContent() {
+fun MainAppContent(
+    contactsModel: ContactsModel,
+    smsModel: SmsModel
+) {
     val context = LocalContext.current
-    val contactsModel: ContactsModel = viewModel()
-    val smsModel: SmsModel = viewModel()
     val themeModel: ThemeModel = viewModel()
     val scope = rememberCoroutineScope()
 
