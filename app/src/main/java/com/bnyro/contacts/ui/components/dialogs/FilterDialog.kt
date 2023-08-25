@@ -21,7 +21,7 @@ import com.bnyro.contacts.ui.components.base.ChipSelector
 @Composable
 fun FilterDialog(
     initialFilters: FilterOptions,
-    availableAccountTypes: List<String>,
+    availableAccountTypes: List<Pair<String, String>>,
     availableGroups: List<ContactsGroup>,
     onDismissRequest: () -> Unit,
     onFilterChanged: (FilterOptions) -> Unit
@@ -69,15 +69,16 @@ fun FilterDialog(
                     Spacer(modifier = Modifier.height(10.dp))
                     ChipSelector(
                         title = stringResource(R.string.account_type),
-                        entries = availableAccountTypes,
+                        entries = availableAccountTypes.map { it.second },
                         selections = availableAccountTypes.filter {
-                            !hiddenAccountNames.contains(it)
-                        },
+                            !hiddenAccountNames.contains(it.first)
+                        }.map { it.second },
                         onSelectionChanged = { index, newValue ->
+                            val selectedAccountType = availableAccountTypes[index].first
                             hiddenAccountNames = if (newValue) {
-                                hiddenAccountNames - availableAccountTypes[index]
+                                hiddenAccountNames - selectedAccountType
                             } else {
-                                hiddenAccountNames + availableAccountTypes[index]
+                                hiddenAccountNames + selectedAccountType
                             }
                         }
                     )

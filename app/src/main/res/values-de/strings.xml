@@ -89,8 +89,11 @@
     <string name="ftp">FTP</string>
     <string name="behavior">Verhalten</string>
     <string name="appearance">Darstellung</string>
-    <string name="pick_contact">Wähle Kontakt</string>
+    <string name="pick_contact">Kontakt auswählen</string>
     <string name="photo">Foto</string>
     <string name="name">Name</string>
     <string name="import_sim">Von SIM importieren</string>
+    <string name="backup">Sicherung</string>
+    <string name="encrypt_backups">Sicherungen als ZIP verschlüsseln</string>
+    <string name="backup_password">Sicherungspasswort</string>
 </resources>
