@@ -128,6 +128,7 @@ class LocalContactsRepository(context: Context) : ContactsRepository {
         }
     }
 
+    @Deprecated("Useless function")
     override suspend fun loadAdvancedData(contact: ContactData): ContactData = contact
     override fun isAutoBackupEnabled(): Boolean {
         return Preferences.getBackupType() in listOf(BackupType.BOTH, BackupType.LOCAL)

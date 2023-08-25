@@ -6,7 +6,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -23,7 +21,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CopyAll
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.ImportContacts
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.MoveToInbox
 import androidx.compose.material.icons.filled.Sort
@@ -36,7 +33,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -65,6 +61,7 @@ import com.bnyro.contacts.ui.components.dialogs.FilterDialog
 import com.bnyro.contacts.ui.components.dialogs.SimImportDialog
 import com.bnyro.contacts.ui.components.modifier.scrollbar
 import com.bnyro.contacts.ui.models.ContactsModel
+import com.bnyro.contacts.ui.models.state.ContactListState
 import com.bnyro.contacts.ui.screens.AboutScreen
 import com.bnyro.contacts.ui.screens.EditorScreen
 import com.bnyro.contacts.ui.screens.SettingsScreen
@@ -72,7 +69,6 @@ import com.bnyro.contacts.ui.screens.SingleContactScreen
 import com.bnyro.contacts.util.BackupHelper
 import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.Preferences
-import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -130,10 +126,6 @@ fun ContactsPage(
         targetValue = bottomBarOffsetHeight,
         label = "fab padding"
     )
-
-    LaunchedEffect(viewModel.contactsSource) {
-        viewModel.loadContacts(context)
-    }
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -275,90 +267,98 @@ fun ContactsPage(
                 Manifest.permission.READ_CONTACTS
             )
 
-            if (viewModel.isLoading) {
-                LaunchedEffect(Unit) {
-                    if (hasPerms() || viewModel.contactsSource != ContactsSource.DEVICE) return@LaunchedEffect
-                    while (!hasPerms()) {
-                        delay(100)
-                    }
-                    viewModel.loadContacts(context)
-                }
-                Box(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-            } else if (viewModel.contacts.isEmpty()) {
-                NothingHere()
-            } else {
-                val state = rememberLazyListState()
-                LazyColumn(
-                    state = state,
-                    modifier = Modifier
-                        .padding(end = 5.dp)
-                        .scrollbar(state, false)
-                        .let { modifier ->
-                            scrollConnection?.let { modifier.nestedScroll(it) } ?: modifier
+            when (val contactState = viewModel.contactListState) {
+                ContactListState.Loading -> {
+                    /*
+                    LaunchedEffect(Unit) {
+                        if (hasPerms() || viewModel.contactsSource != ContactsSource.DEVICE) return@LaunchedEffect
+                        while (!hasPerms()) {
+                            delay(100)
                         }
-                ) {
-                    val query = searchQuery.value.text.lowercase()
-                    val contactGroups = viewModel.contacts.asSequence().filter {
-                        it.displayName.orEmpty().lowercase().contains(query) ||
-                            it.numbers.any { number -> number.value.contains(query) }
-                    }.filter {
-                        !filterOptions.hiddenAccountNames.contains(it.accountName)
-                    }.filter {
-                        if (filterOptions.visibleGroups.isEmpty()) {
-                            true
-                        } else {
-                            filterOptions.visibleGroups.any { group ->
-                                it.groups.contains(group)
+                        viewModel.loadContacts(context)
+                    }
+                     */
+                    Box(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
+                }
+
+                ContactListState.Empty, ContactListState.Error -> {
+                    NothingHere()
+                }
+
+                is ContactListState.Success -> {
+                    val state = rememberLazyListState()
+                    LazyColumn(
+                        state = state,
+                        modifier = Modifier
+                            .padding(end = 5.dp)
+                            .scrollbar(state, false)
+                            .let { modifier ->
+                                scrollConnection?.let { modifier.nestedScroll(it) } ?: modifier
+                            }
+                    ) {
+                        val query = searchQuery.value.text.lowercase()
+                        val contactGroups = contactState.contacts.asSequence().filter {
+                            it.displayName.orEmpty().lowercase().contains(query) ||
+                                it.numbers.any { number -> number.value.contains(query) }
+                        }.filter {
+                            !filterOptions.hiddenAccountNames.contains(it.accountName)
+                        }.filter {
+                            if (filterOptions.visibleGroups.isEmpty()) {
+                                true
+                            } else {
+                                filterOptions.visibleGroups.any { group ->
+                                    it.groups.contains(group)
+                                }
+                            }
+                        }.sortedBy {
+                            when (filterOptions.sortOder) {
+                                SortOrder.FIRSTNAME -> it.displayName
+                                SortOrder.LASTNAME -> it.alternativeName
+                            }
+                        }.groupBy {
+                            when (filterOptions.sortOder) {
+                                SortOrder.FIRSTNAME -> it.displayName
+                                SortOrder.LASTNAME -> it.alternativeName
+                            }?.firstOrNull()?.uppercase()
+                        }
+
+                        contactGroups.forEach { (firstLetter, groupedContacts) ->
+                            stickyHeader {
+                                CharacterHeader(firstLetter.orEmpty())
+                            }
+                            items(groupedContacts) {
+                                ContactItem(
+                                    contact = it,
+                                    sortOrder = filterOptions.sortOder,
+                                    selected = selectedContacts.contains(it),
+                                    onSinglePress = {
+                                        if (selectedContacts.isEmpty()) {
+                                            false
+                                        } else {
+                                            if (selectedContacts.contains(it)) {
+                                                selectedContacts.remove(it)
+                                            } else {
+                                                selectedContacts.add(it)
+                                            }
+                                            true
+                                        }
+                                    },
+                                    onLongPress = {
+                                        if (!selectedContacts.contains(it)) selectedContacts.add(it)
+                                    }
+                                )
                             }
                         }
-                    }.sortedBy {
-                        when (filterOptions.sortOder) {
-                            SortOrder.FIRSTNAME -> it.displayName
-                            SortOrder.LASTNAME -> it.alternativeName
-                        }
-                    }.groupBy {
-                        when (filterOptions.sortOder) {
-                            SortOrder.FIRSTNAME -> it.displayName
-                            SortOrder.LASTNAME -> it.alternativeName
-                        }?.firstOrNull()?.uppercase()
-                    }
 
-                    contactGroups.forEach { (firstLetter, groupedContacts) ->
-                        stickyHeader {
-                            CharacterHeader(firstLetter.orEmpty())
+                        item {
+                            Spacer(modifier = Modifier.height(10.dp))
                         }
-                        items(groupedContacts) {
-                            ContactItem(
-                                contact = it,
-                                sortOrder = filterOptions.sortOder,
-                                selected = selectedContacts.contains(it),
-                                onSinglePress = {
-                                    if (selectedContacts.isEmpty()) {
-                                        false
-                                    } else {
-                                        if (selectedContacts.contains(it)) {
-                                            selectedContacts.remove(it)
-                                        } else {
-                                            selectedContacts.add(it)
-                                        }
-                                        true
-                                    }
-                                },
-                                onLongPress = {
-                                    if (!selectedContacts.contains(it)) selectedContacts.add(it)
-                                }
-                            )
-                        }
-                    }
-
-                    item {
-                        Spacer(modifier = Modifier.height(10.dp))
                     }
                 }
             }

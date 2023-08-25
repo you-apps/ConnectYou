@@ -35,6 +35,8 @@ import com.bnyro.contacts.ext.stringValue
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ContactsGroup
 import com.bnyro.contacts.obj.ValueWithType
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class DeviceContactsRepository(private val context: Context) : ContactsRepository {
     override val label: String = context.getString(R.string.device)
@@ -71,91 +73,97 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
             Phone.DISPLAY_NAME + " ASC"
         ) ?: return contactList
 
-        cursor.use {
-            while (it.moveToNext()) {
-                val contactId = it.longValue(RawContacts.CONTACT_ID)!!
+        withContext(Dispatchers.IO) {
+            cursor.use {
+                while (it.moveToNext()) {
+                    val contactId = it.longValue(RawContacts.CONTACT_ID)!!
 
-                // avoid duplicates
-                if (contactList.any { contact -> contact.contactId == contactId }) continue
+                    // avoid duplicates
+                    if (contactList.any { contact -> contact.contactId == contactId }) continue
 
-                val displayName = it.stringValue(Contacts.DISPLAY_NAME)
-                val alternativeName = it.stringValue(Contacts.DISPLAY_NAME_ALTERNATIVE)
-                var firstName = it.stringValue(StructuredName.GIVEN_NAME)
-                var surName = it.stringValue(StructuredName.FAMILY_NAME)
+                    val displayName = it.stringValue(Contacts.DISPLAY_NAME)
+                    val alternativeName = it.stringValue(Contacts.DISPLAY_NAME_ALTERNATIVE)
+                    var firstName = it.stringValue(StructuredName.GIVEN_NAME)
+                    var surName = it.stringValue(StructuredName.FAMILY_NAME)
 
-                // try parsing the display name to a proper name
-                if (firstName.notAName() || surName.notAName()) {
-                    val nameParts = ContactsHelper.splitFullName(displayName)
-                    firstName = nameParts.first
-                    surName = nameParts.second
+                    // try parsing the display name to a proper name
+                    if (firstName.notAName() || surName.notAName()) {
+                        val nameParts = ContactsHelper.splitFullName(displayName)
+                        firstName = nameParts.first
+                        surName = nameParts.second
+                    }
+
+                    val contact = ContactData(
+                        rawContactId = it.intValue(Data.RAW_CONTACT_ID) ?: 0,
+                        contactId = contactId,
+                        accountType = it.stringValue(RawContacts.ACCOUNT_TYPE),
+                        accountName = it.stringValue(RawContacts.ACCOUNT_NAME),
+                        displayName = displayName,
+                        alternativeName = alternativeName,
+                        firstName = firstName,
+                        surName = surName
+                    )
+
+                    contactList.add(contact)
                 }
-
-                val contact = ContactData(
-                    rawContactId = it.intValue(Data.RAW_CONTACT_ID) ?: 0,
-                    contactId = contactId,
-                    accountType = it.stringValue(RawContacts.ACCOUNT_TYPE),
-                    accountName = it.stringValue(RawContacts.ACCOUNT_NAME),
-                    displayName = displayName,
-                    alternativeName = alternativeName,
-                    firstName = firstName,
-                    surName = surName
-                )
-
-                contactList.add(contact)
             }
         }
-
         return contactList
     }
 
+    @RequiresPermission(Manifest.permission.READ_CONTACTS)
     private fun getEntry(contactId: Long, type: String, column: String): String? {
         return getExtras(contactId, column, null, type).firstOrNull()?.value
     }
 
-    override suspend fun loadAdvancedData(contact: ContactData) = contact.apply {
-        thumbnail = getContactPhotoThumbnail(contactId)
-        photo = getContactPhoto(contactId) ?: thumbnail
-        groups = getGroups(contactId, storedContactGroups)
-        nickName = getEntry(contactId, Nickname.CONTENT_ITEM_TYPE, Nickname.NAME)
-        organization = getEntry(contactId, Organization.CONTENT_ITEM_TYPE, Organization.COMPANY)
-        events = getExtras(
-            contactId,
-            Event.START_DATE,
-            Event.TYPE,
-            Event.CONTENT_ITEM_TYPE
-        )
-        numbers = getExtras(
-            contactId,
-            Phone.NUMBER,
-            Phone.TYPE,
-            Phone.CONTENT_ITEM_TYPE
-        )
-        emails = getExtras(
-            contactId,
-            Email.ADDRESS,
-            Email.TYPE,
-            Email.CONTENT_ITEM_TYPE
-        )
-        addresses = getExtras(
-            contactId,
-            StructuredPostal.FORMATTED_ADDRESS,
-            StructuredPostal.TYPE,
-            StructuredPostal.CONTENT_ITEM_TYPE
-        )
-        notes = getExtras(
-            contactId,
-            Note.NOTE,
-            Note.DATA2,
-            Note.CONTENT_ITEM_TYPE
-        )
-        websites = getExtras(
-            contactId,
-            Website.URL,
-            Website.TYPE,
-            Website.CONTENT_ITEM_TYPE
-        )
+    @RequiresPermission(Manifest.permission.READ_CONTACTS)
+    override suspend fun loadAdvancedData(contact: ContactData) = withContext(Dispatchers.IO) {
+        contact.apply {
+            thumbnail = getContactPhotoThumbnail(contactId)
+            photo = getContactPhoto(contactId) ?: thumbnail
+            groups = getGroups(contactId, storedContactGroups)
+            nickName = getEntry(contactId, Nickname.CONTENT_ITEM_TYPE, Nickname.NAME)
+            organization = getEntry(contactId, Organization.CONTENT_ITEM_TYPE, Organization.COMPANY)
+            events = getExtras(
+                contactId,
+                Event.START_DATE,
+                Event.TYPE,
+                Event.CONTENT_ITEM_TYPE
+            )
+            numbers = getExtras(
+                contactId,
+                Phone.NUMBER,
+                Phone.TYPE,
+                Phone.CONTENT_ITEM_TYPE
+            )
+            emails = getExtras(
+                contactId,
+                Email.ADDRESS,
+                Email.TYPE,
+                Email.CONTENT_ITEM_TYPE
+            )
+            addresses = getExtras(
+                contactId,
+                StructuredPostal.FORMATTED_ADDRESS,
+                StructuredPostal.TYPE,
+                StructuredPostal.CONTENT_ITEM_TYPE
+            )
+            notes = getExtras(
+                contactId,
+                Note.NOTE,
+                Note.DATA2,
+                Note.CONTENT_ITEM_TYPE
+            )
+            websites = getExtras(
+                contactId,
+                Website.URL,
+                Website.TYPE,
+                Website.CONTENT_ITEM_TYPE
+            )
+        }
     }
 
+    @RequiresPermission(Manifest.permission.READ_CONTACTS)
     private fun getGroups(contactId: Long, storedGroups: List<ValueWithType>): List<ContactsGroup> {
         val groups = getExtras(
             contactId,
@@ -246,6 +254,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
     }
 
     @Suppress("SameParameterValue")
+    @RequiresPermission(Manifest.permission.READ_CONTACTS)
     private fun getExtras(contactId: Long, valueIndex: String, typeIndex: String?, itemType: String): List<ValueWithType> {
         val entries = mutableListOf<ValueWithType>()
         val projection = arrayOf(Data.CONTACT_ID, valueIndex, typeIndex ?: "data2")

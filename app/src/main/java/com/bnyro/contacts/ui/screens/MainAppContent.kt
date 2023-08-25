@@ -61,8 +61,11 @@ fun MainAppContent(smsModel: SmsModel) {
     val bottomBarOffsetHeightPx = remember { mutableStateOf(0f) }
 
     var selectedTab by remember {
-        val tab = if (smsModel.initialAddressAndBody != null) 2
-        else Preferences.getInt(Preferences.homeTabKey, 0)
+        val tab = if (smsModel.initialAddressAndBody != null) {
+            2
+        } else {
+            Preferences.getInt(Preferences.homeTabKey, 0)
+        }
         mutableIntStateOf(tab)
     }
 
@@ -76,7 +79,7 @@ fun MainAppContent(smsModel: SmsModel) {
         }
     }
 
-    LaunchedEffect(contactsModel.isLoading) {
+    LaunchedEffect(contactsModel.contactListState) {
         contactsModel.initialContactId ?: return@LaunchedEffect
         contactsModel.contacts.firstOrNull {
             it.contactId == contactsModel.initialContactId

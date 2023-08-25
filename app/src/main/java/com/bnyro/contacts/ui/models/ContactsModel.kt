@@ -1,12 +1,12 @@
 package com.bnyro.contacts.ui.models
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
@@ -17,6 +17,7 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.ContactsSource
 import com.bnyro.contacts.ext.toast
 import com.bnyro.contacts.obj.ContactData
+import com.bnyro.contacts.ui.models.state.ContactListState
 import com.bnyro.contacts.util.ContactsRepository
 import com.bnyro.contacts.util.DeviceContactsRepository
 import com.bnyro.contacts.util.ExportHelper
@@ -24,18 +25,17 @@ import com.bnyro.contacts.util.IntentHelper
 import com.bnyro.contacts.util.LocalContactsRepository
 import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.Preferences
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ContactsModel(
+    context: Context,
     private val localContactsRepository: LocalContactsRepository,
     private val deviceContactsRepository: DeviceContactsRepository
 ) : ViewModel() {
-    var contacts by mutableStateOf(listOf<ContactData>())
-    var isLoading by mutableStateOf(true)
     var contactsSource by mutableStateOf(
         ContactsSource.values().getOrNull(
             Preferences.getInt(
@@ -49,35 +49,80 @@ class ContactsModel(
             ContactsSource.LOCAL -> localContactsRepository
             ContactsSource.DEVICE -> deviceContactsRepository
         }
-    private val permissions = arrayOf(
-        Manifest.permission.WRITE_CONTACTS,
-        Manifest.permission.READ_CONTACTS
-    )
     var initialContactId: Long? by mutableStateOf(null)
     var initialContactData: ContactData? by mutableStateOf(null)
 
-    fun loadContacts(context: Context) {
-        isLoading = true
-        if (contactsSource == ContactsSource.DEVICE &&
-            !PermissionHelper.checkPermissions(context, permissions)
-        ) {
-            return
+    var localContacts: ContactListState by mutableStateOf(ContactListState.Loading)
+        private set
+
+    var deviceContacts: ContactListState by mutableStateOf(ContactListState.Loading)
+        private set
+
+    var contacts: List<ContactData>
+        get() = when (contactsSource) {
+            ContactsSource.LOCAL -> (localContacts as? ContactListState.Success)?.contacts.orEmpty()
+            ContactsSource.DEVICE -> (deviceContacts as? ContactListState.Success)?.contacts.orEmpty()
         }
-        viewModelScope.launch(Dispatchers.IO) {
-            isLoading = true
-            try {
-                contacts = contactsRepository.getContactList().toMutableStateList()
-            } catch (e: Exception) {
-                return@launch
+        private set(value) {
+            when (contactsSource) {
+                ContactsSource.LOCAL -> localContacts = ContactListState.Success(value)
+                ContactsSource.DEVICE -> deviceContacts = ContactListState.Success(value)
             }
-            isLoading = false
-            CoroutineScope(Dispatchers.IO).launch {
-                contacts.map {
+        }
+
+    val contactListState: ContactListState
+        get() = when (contactsSource) {
+            ContactsSource.LOCAL -> localContacts
+            ContactsSource.DEVICE -> deviceContacts
+        }
+
+    init {
+        loadContacts(context)
+    }
+
+    private suspend inline fun getLocalContacts() {
+        localContacts = try {
+            localContactsRepository.getContactList().takeIf { it.isNotEmpty() }?.let {
+                ContactListState.Success(it)
+            } ?: ContactListState.Empty
+        } catch (_: Exception) {
+            ContactListState.Error
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private suspend inline fun getDeviceContacts(context: Context) {
+        deviceContacts = ContactListState.Loading
+        while (!PermissionHelper.hasPermission(context, Manifest.permission.READ_CONTACTS)) {
+            deviceContacts = ContactListState.Error
+            delay(500)
+        }
+        deviceContacts = try {
+            deviceContactsRepository.getContactList().takeIf { it.isNotEmpty() }?.let {
+                ContactListState.Success(it)
+            } ?: ContactListState.Empty
+        } catch (_: Exception) {
+            ContactListState.Error
+        }
+
+        (deviceContacts as? ContactListState.Success)?.contacts?.let {
+            viewModelScope.launch {
+                it.map {
                     async {
-                        contactsRepository.loadAdvancedData(it)
+                        deviceContactsRepository.loadAdvancedData(it)
                     }
                 }.awaitAll()
             }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun loadContacts(context: Context) {
+        viewModelScope.launch {
+            getDeviceContacts(context)
+        }
+        viewModelScope.launch {
+            getLocalContacts()
         }
     }
 
@@ -107,8 +152,8 @@ class ContactsModel(
             contacts.forEach { contact ->
                 val fullContact = loadAdvancedContactData(contact)
                 val otherHelper = when (contactsRepository) {
-                    is DeviceContactsRepository -> (context.applicationContext as App).localContactsRepository
-                    else -> (context.applicationContext as App).deviceContactsRepository
+                    is DeviceContactsRepository -> localContactsRepository
+                    else -> deviceContactsRepository
                 }
                 otherHelper.createContact(fullContact)
             }
@@ -179,6 +224,7 @@ class ContactsModel(
             initializer {
                 val application = this[APPLICATION_KEY] as App
                 ContactsModel(
+                    application.applicationContext,
                     application.localContactsRepository,
                     application.deviceContactsRepository
                 )

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.ContentUris
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.provider.ContactsContract
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -37,8 +36,6 @@ class PickContactActivity : BaseActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        contactsModel.loadContacts(this)
 
         setContent {
             ConnectYouTheme(themeModel.themeMode) {
