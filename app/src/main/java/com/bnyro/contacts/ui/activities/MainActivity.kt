@@ -4,22 +4,22 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.ContactsContract.Intents
 import android.provider.ContactsContract.QuickContact
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
-import com.bnyro.contacts.enums.ThemeMode
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.dialogs.AddToContactDialog
 import com.bnyro.contacts.ui.models.ContactsModel
-import com.bnyro.contacts.ui.models.ThemeModel
-import com.bnyro.contacts.ui.screens.ContactsScreen
+import com.bnyro.contacts.ui.models.SmsModel
+import com.bnyro.contacts.ui.screens.MainAppContent
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
 import com.bnyro.contacts.util.BackupHelper
+import java.net.URLDecoder
 
 class MainActivity : BaseActivity() {
+    private val smsSendIntents = listOf(Intent.ACTION_VIEW, Intent.ACTION_SEND, Intent.ACTION_SENDTO)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -27,9 +27,12 @@ class MainActivity : BaseActivity() {
         contactsModel.initialContactData = getInsertContactData()
         handleVcfShareAction(contactsModel)
 
+        smsModel = ViewModelProvider(this).get()
+        smsModel?.initialAddressAndBody = getInitialSmsAddressAndBody()
+
         setContent {
             ConnectYouTheme(themeModel.themeMode) {
-                ContactsScreen()
+                MainAppContent(contactsModel, smsModel!!)
                 getInsertOrEditNumber()?.let {
                     AddToContactDialog(it)
                 }
@@ -88,8 +91,31 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    private fun getInitialSmsAddressAndBody(): Pair<String, String?>? {
+        if (intent?.action !in smsSendIntents) return null
+
+        val address = intent?.dataString
+            ?.split(":")
+            ?.lastOrNull()
+            // the number is url encoded and hence must be decoded first
+            ?.let { URLDecoder.decode(it, "UTF-8") }
+            ?: return null
+        val body = intent?.getStringExtra(Intent.EXTRA_TEXT)
+
+        return address.replace(ContactsModel.normalizeNumberRegex, "") to body
+    }
+
     private fun handleVcfShareAction(contactsModel: ContactsModel) {
         if (intent.action != Intent.ACTION_VIEW || intent?.type !in BackupHelper.vCardMimeTypes) return
         contactsModel.importVcf(this, intent?.data ?: return)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        smsModel = null
+    }
+
+    companion object {
+        var smsModel: SmsModel? = null
     }
 }

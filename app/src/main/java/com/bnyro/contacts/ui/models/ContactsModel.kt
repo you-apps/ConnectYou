@@ -165,4 +165,17 @@ class ContactsModel : ViewModel() {
     }
 
     fun getAvailableGroups() = contacts.map { it.groups }.flatten().distinct()
+
+    fun getContactByNumber(number: String): ContactData? {
+        val normalizedNumber = number.replace(normalizeNumberRegex, "")
+        return contacts.firstOrNull {
+            it.numbers.any { (value, _) ->
+                value.replace(normalizeNumberRegex, "") == normalizedNumber
+            }
+        }
+    }
+
+    companion object {
+        val normalizeNumberRegex = Regex("[-_ ]")
+    }
 }
