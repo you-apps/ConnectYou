@@ -32,7 +32,7 @@ class MainActivity : BaseActivity() {
 
         setContent {
             ConnectYouTheme(themeModel.themeMode) {
-                MainAppContent(contactsModel, smsModel!!)
+                MainAppContent(smsModel!!)
                 getInsertOrEditNumber()?.let {
                     AddToContactDialog(it)
                 }

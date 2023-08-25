@@ -57,7 +57,7 @@ import com.bnyro.contacts.ui.components.editor.DatePickerEditor
 import com.bnyro.contacts.ui.components.editor.TextFieldEditor
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.util.ContactsHelper
-import com.bnyro.contacts.util.DeviceContactsHelper
+import com.bnyro.contacts.util.DeviceContactsRepository
 import com.bnyro.contacts.util.ImageHelper
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -69,7 +69,7 @@ fun ContactEditor(
     onSave: (contact: ContactData) -> Unit
 ) {
     val context = LocalContext.current
-    val contactsModel: ContactsModel = viewModel()
+    val contactsModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
 
     fun List<ValueWithType>?.fillIfEmpty(): List<ValueWithType> {
         return if (this.isNullOrEmpty()) {
@@ -147,8 +147,8 @@ fun ContactEditor(
 
     var selectedAccount by remember {
         mutableStateOf(
-            (contact?.accountType ?: DeviceContactsHelper.ANDROID_ACCOUNT_TYPE) to
-                    (contact?.accountName ?: DeviceContactsHelper.ANDROID_CONTACTS_NAME)
+            (contact?.accountType ?: DeviceContactsRepository.ANDROID_ACCOUNT_TYPE) to
+                (contact?.accountName ?: DeviceContactsRepository.ANDROID_CONTACTS_NAME)
         )
     }
 

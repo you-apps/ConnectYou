@@ -36,7 +36,7 @@ import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ContactsGroup
 import com.bnyro.contacts.obj.ValueWithType
 
-class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
+class DeviceContactsRepository(private val context: Context) : ContactsRepository {
     override val label: String = context.getString(R.string.device)
 
     private val contentResolver = context.contentResolver
@@ -85,7 +85,7 @@ class DeviceContactsHelper(private val context: Context) : ContactsHelper() {
 
                 // try parsing the display name to a proper name
                 if (firstName.notAName() || surName.notAName()) {
-                    val nameParts = splitFullName(displayName)
+                    val nameParts = ContactsHelper.splitFullName(displayName)
                     firstName = nameParts.first
                     surName = nameParts.second
                 }

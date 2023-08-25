@@ -6,10 +6,9 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import com.bnyro.contacts.App
 import com.bnyro.contacts.enums.BackupType
 import com.bnyro.contacts.util.BackupHelper
-import com.bnyro.contacts.util.DeviceContactsHelper
-import com.bnyro.contacts.util.LocalContactsHelper
 import com.bnyro.contacts.util.Preferences
 import java.util.concurrent.TimeUnit
 
@@ -18,13 +17,15 @@ class BackupWorker(
     params: WorkerParameters
 ) : CoroutineWorker(appContext, params) {
     override suspend fun doWork(): Result {
+        val app = applicationContext as App
         val contactHelpers = when (Preferences.getBackupType()) {
             BackupType.BOTH -> listOf(
-                DeviceContactsHelper(applicationContext),
-                LocalContactsHelper(applicationContext)
+                app.deviceContactsRepository,
+                app.localContactsRepository
             )
-            BackupType.DEVICE -> listOf(DeviceContactsHelper(applicationContext))
-            BackupType.LOCAL -> listOf(LocalContactsHelper(applicationContext))
+
+            BackupType.DEVICE -> listOf(app.deviceContactsRepository)
+            BackupType.LOCAL -> listOf(app.localContactsRepository)
             else -> return Result.success()
         }
         contactHelpers.forEach {

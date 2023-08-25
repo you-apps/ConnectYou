@@ -52,7 +52,7 @@ fun ContactItem(
     onLongPress: () -> Unit
 ) {
     val shape = RoundedCornerShape(20.dp)
-    val viewModel: ContactsModel = viewModel()
+    val viewModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
     val themeModel: ThemeModel = viewModel()
 
     var showContactScreen by remember {

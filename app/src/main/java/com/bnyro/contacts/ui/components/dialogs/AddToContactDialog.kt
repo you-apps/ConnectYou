@@ -32,7 +32,7 @@ fun AddToContactDialog(
     newNumber: String
 ) {
     val context = LocalContext.current
-    val contactsModel: ContactsModel = viewModel()
+    val contactsModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
 
     var showDialog by remember {
         mutableStateOf(true)
@@ -85,7 +85,7 @@ fun AddToContactDialog(
                         modifier = Modifier.height(400.dp)
                     ) {
                         items(
-                            contactsModel.contacts.orEmpty()
+                            contactsModel.contacts
                                 .filter {
                                     it.displayName.orEmpty().lowercase().contains(
                                         searchQuery.lowercase()
