@@ -2,6 +2,11 @@ package com.bnyro.contacts.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.SnapshotMutationPolicy
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import com.bnyro.contacts.enums.BackupType
 
 object Preferences {
@@ -36,3 +41,45 @@ object Preferences {
         return BackupType.fromInt(getInt(backupTypeKey, BackupType.NONE.value))
     }
 }
+
+@Composable
+fun rememberPreference(key: String, defaultValue: Boolean): MutableState<Boolean> {
+    return remember {
+        mutableStatePreferenceOf(Preferences.getBoolean(key, defaultValue)) {
+            Preferences.edit { putBoolean(key, it) }
+        }
+    }
+}
+
+@Composable
+fun rememberPreference(key: String, defaultValue: Int): MutableState<Int> {
+    return remember {
+        mutableStatePreferenceOf(Preferences.getInt(key, defaultValue)) {
+            Preferences.edit { putInt(key, it) }
+        }
+    }
+}
+
+@Composable
+fun rememberPreference(key: String, defaultValue: String): MutableState<String> {
+    return remember {
+        mutableStatePreferenceOf(Preferences.getString(key, defaultValue) ?: defaultValue) {
+            Preferences.edit { putString(key, it) }
+        }
+    }
+}
+
+inline fun <T> mutableStatePreferenceOf(
+    value: T,
+    crossinline onStructuralInequality: (newValue: T) -> Unit
+) =
+    mutableStateOf(
+        value = value,
+        policy = object : SnapshotMutationPolicy<T> {
+            override fun equivalent(a: T, b: T): Boolean {
+                if (a == b) return true
+                onStructuralInequality(b)
+                return false
+            }
+        }
+    )
