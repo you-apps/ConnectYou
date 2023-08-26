@@ -14,6 +14,8 @@ import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ContactsGroup
 import com.bnyro.contacts.obj.ValueWithType
 import java.io.File
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class LocalContactsRepository(context: Context) : ContactsRepository {
     override val label: String = context.getString(R.string.local)
@@ -22,7 +24,7 @@ class LocalContactsRepository(context: Context) : ContactsRepository {
         if (!it.exists()) it.mkdirs()
     }
 
-    override suspend fun createContact(contact: ContactData) {
+    override suspend fun createContact(contact: ContactData) = withContext(Dispatchers.IO) {
         val localContact = LocalContact(
             displayName = contact.displayName,
             firstName = contact.firstName,
@@ -48,26 +50,30 @@ class LocalContactsRepository(context: Context) : ContactsRepository {
             }
         ).flatten()
         DatabaseHolder.Db.localContactsDao().insertData(*dataItems.toTypedArray())
-        contact.photo?.let { saveProfileImage(contactId, it) }
+        contact.photo?.let { saveProfileImage(contactId, it) } ?: Unit
     }
 
     override suspend fun updateContact(contact: ContactData) {
-        deleteContacts(listOf(contact))
-        createContact(contact)
-    }
-
-    override suspend fun deleteContacts(contacts: List<ContactData>) {
-        contacts.forEach {
-            with(DatabaseHolder.Db.localContactsDao()) {
-                deleteContactByID(it.contactId)
-                deleteDataByContactID(it.contactId)
-            }
-            deleteProfileImage(it.contactId)
+        withContext(Dispatchers.IO) {
+            deleteContacts(listOf(contact))
+            createContact(contact)
         }
     }
 
-    override suspend fun getContactList(): List<ContactData> {
-        return DatabaseHolder.Db.localContactsDao().getAll().pmap {
+    override suspend fun deleteContacts(contacts: List<ContactData>) {
+        withContext(Dispatchers.IO) {
+            contacts.forEach {
+                with(DatabaseHolder.Db.localContactsDao()) {
+                    deleteContactByID(it.contactId)
+                    deleteDataByContactID(it.contactId)
+                }
+                deleteProfileImage(it.contactId)
+            }
+        }
+    }
+
+    override suspend fun getContactList(): List<ContactData> = withContext(Dispatchers.IO) {
+        DatabaseHolder.Db.localContactsDao().getAll().pmap {
             val profileImage = getProfileImage(it.contact.id)
             ContactData(
                 contactId = it.contact.id,
@@ -143,7 +149,7 @@ class LocalContactsRepository(context: Context) : ContactsRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteGroup(group: ContactsGroup) {
+    override suspend fun deleteGroup(group: ContactsGroup) = withContext(Dispatchers.IO) {
         DatabaseHolder.Db.localContactsDao().deleteDataByCategoryAndValue(
             DataCategory.GROUP.value,
             group.title

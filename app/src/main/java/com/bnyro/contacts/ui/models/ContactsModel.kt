@@ -121,28 +121,28 @@ class ContactsModel(
     }
 
     fun deleteContacts(contactsToDelete: List<ContactData>) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             contactsRepository.deleteContacts(contactsToDelete)
             contacts = contacts.minus(contactsToDelete.toSet())
         }
     }
 
     fun createContact(context: Context, contact: ContactData) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             contactsRepository.createContact(contact)
             loadContacts(context)
         }
     }
 
     fun updateContact(context: Context, contact: ContactData) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             contactsRepository.updateContact(contact)
             loadContacts(context)
         }
     }
 
     fun copyContacts(context: Context, contacts: List<ContactData>) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             contacts.forEach { contact ->
                 val fullContact = loadAdvancedContactData(contact)
                 val otherHelper = when (contactsRepository) {
