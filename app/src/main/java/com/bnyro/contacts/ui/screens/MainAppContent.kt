@@ -18,12 +18,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -43,16 +41,12 @@ import com.bnyro.contacts.ui.models.SmsModel
 import com.bnyro.contacts.ui.models.ThemeModel
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainAppContent(smsModel: SmsModel) {
     val themeModel: ThemeModel = viewModel()
     val contactsModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
-    val scope = rememberCoroutineScope()
 
     val bottomBarHeight = 80.dp
     val bottomBarHeightPx = with(LocalDensity.current) { bottomBarHeight.roundToPx().toFloat() }
@@ -64,19 +58,6 @@ fun MainAppContent(smsModel: SmsModel) {
                 val newOffset = bottomBarOffsetHeightPx.value + available.y
                 bottomBarOffsetHeightPx.value = newOffset.coerceIn(-bottomBarHeightPx, 0f)
                 return Offset.Zero
-            }
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        contactsModel.initialContactId ?: return@LaunchedEffect
-        contactsModel.contacts.firstOrNull {
-            it.contactId == contactsModel.initialContactId
-        }?.let {
-            scope.launch {
-                withContext(Dispatchers.IO) {
-                    contactsModel.initialContactData = contactsModel.loadAdvancedContactData(it)
-                }
             }
         }
     }

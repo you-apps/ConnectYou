@@ -49,7 +49,7 @@ class ContactsModel(
             ContactsSource.LOCAL -> localContactsRepository
             ContactsSource.DEVICE -> deviceContactsRepository
         }
-    var initialContactId: Long? by mutableStateOf(null)
+    var initialContactId: Long? = null
     var initialContactData: ContactData? by mutableStateOf(null)
 
     var localContacts: ContactListState by mutableStateOf(ContactListState.Loading)
@@ -72,6 +72,10 @@ class ContactsModel(
 
     init {
         loadContacts(context)
+
+        initialContactId?.let {
+            setInitialContactID(it, context)
+        }
     }
 
     private suspend inline fun getLocalContacts() {
@@ -106,6 +110,18 @@ class ContactsModel(
                         deviceContactsRepository.loadAdvancedData(it)
                     }
                 }.awaitAll()
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun setInitialContactID(id: Long, context: Context) {
+        if (!PermissionHelper.hasPermission(context, Manifest.permission.READ_CONTACTS)) return
+        contacts.firstOrNull {
+            it.contactId == id
+        }?.let {
+            viewModelScope.launch {
+                initialContactData = deviceContactsRepository.loadAdvancedData(it)
             }
         }
     }
