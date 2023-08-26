@@ -203,15 +203,16 @@ class ContactsModel(
     /**
      * Returns a list of account type to account name
      */
-    fun getAvailableAccounts(): List<Pair<String, String>> {
+    fun getAvailableAccounts(): List<String> {
         if (contacts.isEmpty()) {
             return listOf(
-                DeviceContactsRepository.ANDROID_ACCOUNT_TYPE to DeviceContactsRepository.ANDROID_CONTACTS_NAME
+                DeviceContactsRepository.ANDROID_ACCOUNT_TYPE + ContactData.ACCOUNT_SEPARATOR + DeviceContactsRepository.ANDROID_CONTACTS_NAME
             )
         }
-        return contacts.mapNotNull {
-            it.accountType?.let { type -> type to it.accountName.orEmpty() }
-        }.distinct().toMutableList()
+        return contacts
+            .filter { it.accountType != null }
+            .map { it.accountIdentifier }
+            .distinct()
     }
 
     fun getAvailableGroups() = contacts.map { it.groups }.flatten().distinct()

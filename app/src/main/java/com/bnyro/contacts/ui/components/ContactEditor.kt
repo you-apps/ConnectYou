@@ -428,9 +428,10 @@ fun ContactEditor(
                 LazyColumn(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    items(availableAccounts) {
-                        ClickableText(text = it.second) {
-                            selectedAccount = it
+                    items(availableAccounts) { identifier ->
+                        val accountParts = identifier.split(ContactData.ACCOUNT_SEPARATOR)
+                        ClickableText(text = "${accountParts.first()} (${accountParts.last()})") {
+                            selectedAccount = accountParts.first() to accountParts.last()
                             showAccountTypeDialog = false
                         }
                     }

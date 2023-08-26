@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.SortOrder
+import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ContactsGroup
 import com.bnyro.contacts.obj.FilterOptions
 import com.bnyro.contacts.ui.components.base.ChipSelector
@@ -21,7 +22,7 @@ import com.bnyro.contacts.ui.components.base.ChipSelector
 @Composable
 fun FilterDialog(
     initialFilters: FilterOptions,
-    availableAccountTypes: List<Pair<String, String>>,
+    availableAccountIdentifiers: List<String>,
     availableGroups: List<ContactsGroup>,
     onDismissRequest: () -> Unit,
     onFilterChanged: (FilterOptions) -> Unit
@@ -30,8 +31,8 @@ fun FilterDialog(
         mutableStateOf(initialFilters.sortOder)
     }
 
-    var hiddenAccountNames by remember {
-        mutableStateOf(initialFilters.hiddenAccountNames)
+    var hiddenAccountIdentifiers by remember {
+        mutableStateOf(initialFilters.hiddenAccountIdentifiers)
     }
 
     var visibleGroups by remember {
@@ -42,7 +43,7 @@ fun FilterDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
             DialogButton(text = stringResource(R.string.okay)) {
-                val options = FilterOptions(sortOrder, hiddenAccountNames, visibleGroups)
+                val options = FilterOptions(sortOrder, hiddenAccountIdentifiers, visibleGroups)
                 onFilterChanged.invoke(options)
                 onDismissRequest.invoke()
             }
@@ -54,9 +55,10 @@ fun FilterDialog(
         },
         text = {
             Column {
-                val sortOrders = listOf(R.string.first_name, R.string.last_name, R.string.nick_name).map {
-                    stringResource(it)
-                }
+                val sortOrders =
+                    listOf(R.string.first_name, R.string.last_name, R.string.nick_name).map {
+                        stringResource(it)
+                    }
                 ChipSelector(
                     title = stringResource(R.string.sort_order),
                     entries = sortOrders,
@@ -65,20 +67,26 @@ fun FilterDialog(
                         sortOrder = SortOrder.fromInt(index)
                     }
                 )
-                if (availableAccountTypes.isNotEmpty()) {
+                if (availableAccountIdentifiers.isNotEmpty()) {
                     Spacer(modifier = Modifier.height(10.dp))
+
+                    val accountRepresentations = availableAccountIdentifiers.map {
+                        val accountParts = it.split(ContactData.ACCOUNT_SEPARATOR)
+                        "${accountParts.first()} (${accountParts.last()})"
+                    }
+                    val visibleAccounts = availableAccountIdentifiers.filter {
+                        !hiddenAccountIdentifiers.contains(it)
+                    }
                     ChipSelector(
                         title = stringResource(R.string.account_type),
-                        entries = availableAccountTypes.map { it.second },
-                        selections = availableAccountTypes.filter {
-                            !hiddenAccountNames.contains(it.first)
-                        }.map { it.second },
+                        entries = accountRepresentations,
+                        selections = List(visibleAccounts.size) { index -> accountRepresentations[index] },
                         onSelectionChanged = { index, newValue ->
-                            val selectedAccountType = availableAccountTypes[index].first
-                            hiddenAccountNames = if (newValue) {
-                                hiddenAccountNames - selectedAccountType
+                            val selection = availableAccountIdentifiers[index]
+                            hiddenAccountIdentifiers = if (newValue) {
+                                hiddenAccountIdentifiers - selection
                             } else {
-                                hiddenAccountNames + selectedAccountType
+                                hiddenAccountIdentifiers + selection
                             }
                         }
                     )

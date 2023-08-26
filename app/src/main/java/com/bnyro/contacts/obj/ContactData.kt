@@ -25,11 +25,20 @@ data class ContactData(
     var groups: List<ContactsGroup> = listOf(),
     var websites: List<ValueWithType> = listOf()
 ) {
+    /**
+     * Unique identifier for a device contacts storage account
+     */
+    val accountIdentifier get() = "${accountType.orEmpty()}${ACCOUNT_SEPARATOR}${accountName.orEmpty()}"
+
     fun getNameBySortOrder(sortOrder: SortOrder): String? {
         return when (sortOrder) {
             SortOrder.FIRSTNAME -> displayName
             SortOrder.LASTNAME -> alternativeName
             SortOrder.NICKNAME -> nickName ?: displayName
         }
+    }
+
+    companion object {
+        const val ACCOUNT_SEPARATOR = "|"
     }
 }

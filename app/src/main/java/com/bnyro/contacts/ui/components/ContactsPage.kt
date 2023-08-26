@@ -383,7 +383,7 @@ fun ContactsPage(
                 filterOptions = it
             },
             initialFilters = filterOptions,
-            availableAccountTypes = viewModel.getAvailableAccounts(),
+            availableAccountIdentifiers = viewModel.getAvailableAccounts(),
             availableGroups = viewModel.getAvailableGroups()
         )
     }
