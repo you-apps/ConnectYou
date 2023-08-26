@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SnapshotMutationPolicy
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,8 +37,23 @@ fun BlockPreference(
                 .fillMaxWidth()
         ) {
             val cornerRadius = 20.dp
+
             var selectedItem by remember {
-                mutableStateOf(Preferences.getInt(preferenceKey, 0))
+                mutableStateOf(
+                    value = Preferences.getInt(preferenceKey, 0),
+                    policy = object :
+                        SnapshotMutationPolicy<Int> {
+                        override fun equivalent(a: Int, b: Int): Boolean {
+                            val areEquals = a == b
+                            if (!areEquals) {
+                                Preferences.edit {
+                                    putInt(preferenceKey, b)
+                                }
+                            }
+                            return areEquals
+                        }
+                    }
+                )
             }
 
             entries.forEachIndexed { index, entry ->
