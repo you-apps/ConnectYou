@@ -10,12 +10,11 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.bnyro.contacts.util.Preferences
+import com.bnyro.contacts.util.rememberPreference
 
 @Composable
 fun SwitchPref(
@@ -25,11 +24,7 @@ fun SwitchPref(
     defaultValue: Boolean = false,
     onCheckedChange: (Boolean) -> Unit = {}
 ) {
-    var checked by remember {
-        mutableStateOf(
-            Preferences.getBoolean(prefKey, defaultValue)
-        )
-    }
+    var checked by rememberPreference(key = prefKey, defaultValue = defaultValue)
     val interactionSource = remember { MutableInteractionSource() }
 
     Row(
@@ -40,7 +35,6 @@ fun SwitchPref(
                 indication = null
             ) {
                 checked = !checked
-                Preferences.edit { putBoolean(prefKey, checked) }
             },
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -59,7 +53,6 @@ fun SwitchPref(
             checked = checked,
             onCheckedChange = {
                 checked = it
-                Preferences.edit { putBoolean(prefKey, it) }
                 onCheckedChange.invoke(it)
             }
         )

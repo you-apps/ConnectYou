@@ -12,15 +12,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SnapshotMutationPolicy
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.bnyro.contacts.util.Preferences
+import com.bnyro.contacts.util.rememberPreference
 
 @Composable
 fun BlockPreference(
@@ -38,23 +35,7 @@ fun BlockPreference(
         ) {
             val cornerRadius = 20.dp
 
-            var selectedItem by remember {
-                mutableStateOf(
-                    value = Preferences.getInt(preferenceKey, 0),
-                    policy = object :
-                        SnapshotMutationPolicy<Int> {
-                        override fun equivalent(a: Int, b: Int): Boolean {
-                            val areEquals = a == b
-                            if (!areEquals) {
-                                Preferences.edit {
-                                    putInt(preferenceKey, b)
-                                }
-                            }
-                            return areEquals
-                        }
-                    }
-                )
-            }
+            var selectedItem by rememberPreference(key = preferenceKey, defaultValue = 0)
 
             entries.forEachIndexed { index, entry ->
                 val startRadius = if (index != 0) 0.dp else cornerRadius
