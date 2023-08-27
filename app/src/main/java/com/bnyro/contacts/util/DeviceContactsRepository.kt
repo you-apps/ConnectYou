@@ -35,6 +35,8 @@ import com.bnyro.contacts.ext.stringValue
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ContactsGroup
 import com.bnyro.contacts.obj.ValueWithType
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class DeviceContactsRepository(private val context: Context) : ContactsRepository {
     override val label: String = context.getString(R.string.device)
@@ -71,91 +73,97 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
             Phone.DISPLAY_NAME + " ASC"
         ) ?: return contactList
 
-        cursor.use {
-            while (it.moveToNext()) {
-                val contactId = it.longValue(RawContacts.CONTACT_ID)!!
+        withContext(Dispatchers.IO) {
+            cursor.use {
+                while (it.moveToNext()) {
+                    val contactId = it.longValue(RawContacts.CONTACT_ID)!!
 
-                // avoid duplicates
-                if (contactList.any { contact -> contact.contactId == contactId }) continue
+                    // avoid duplicates
+                    if (contactList.any { contact -> contact.contactId == contactId }) continue
 
-                val displayName = it.stringValue(Contacts.DISPLAY_NAME)
-                val alternativeName = it.stringValue(Contacts.DISPLAY_NAME_ALTERNATIVE)
-                var firstName = it.stringValue(StructuredName.GIVEN_NAME)
-                var surName = it.stringValue(StructuredName.FAMILY_NAME)
+                    val displayName = it.stringValue(Contacts.DISPLAY_NAME)
+                    val alternativeName = it.stringValue(Contacts.DISPLAY_NAME_ALTERNATIVE)
+                    var firstName = it.stringValue(StructuredName.GIVEN_NAME)
+                    var surName = it.stringValue(StructuredName.FAMILY_NAME)
 
-                // try parsing the display name to a proper name
-                if (firstName.notAName() || surName.notAName()) {
-                    val nameParts = ContactsHelper.splitFullName(displayName)
-                    firstName = nameParts.first
-                    surName = nameParts.second
+                    // try parsing the display name to a proper name
+                    if (firstName.notAName() || surName.notAName()) {
+                        val nameParts = ContactsHelper.splitFullName(displayName)
+                        firstName = nameParts.first
+                        surName = nameParts.second
+                    }
+
+                    val contact = ContactData(
+                        rawContactId = it.intValue(Data.RAW_CONTACT_ID) ?: 0,
+                        contactId = contactId,
+                        accountType = it.stringValue(RawContacts.ACCOUNT_TYPE),
+                        accountName = it.stringValue(RawContacts.ACCOUNT_NAME),
+                        displayName = displayName,
+                        alternativeName = alternativeName,
+                        firstName = firstName,
+                        surName = surName
+                    )
+
+                    contactList.add(contact)
                 }
-
-                val contact = ContactData(
-                    rawContactId = it.intValue(Data.RAW_CONTACT_ID) ?: 0,
-                    contactId = contactId,
-                    accountType = it.stringValue(RawContacts.ACCOUNT_TYPE),
-                    accountName = it.stringValue(RawContacts.ACCOUNT_NAME),
-                    displayName = displayName,
-                    alternativeName = alternativeName,
-                    firstName = firstName,
-                    surName = surName
-                )
-
-                contactList.add(contact)
             }
         }
-
         return contactList
     }
 
+    @RequiresPermission(Manifest.permission.READ_CONTACTS)
     private fun getEntry(contactId: Long, type: String, column: String): String? {
         return getExtras(contactId, column, null, type).firstOrNull()?.value
     }
 
-    override suspend fun loadAdvancedData(contact: ContactData) = contact.apply {
-        thumbnail = getContactPhotoThumbnail(contactId)
-        photo = getContactPhoto(contactId) ?: thumbnail
-        groups = getGroups(contactId, storedContactGroups)
-        nickName = getEntry(contactId, Nickname.CONTENT_ITEM_TYPE, Nickname.NAME)
-        organization = getEntry(contactId, Organization.CONTENT_ITEM_TYPE, Organization.COMPANY)
-        events = getExtras(
-            contactId,
-            Event.START_DATE,
-            Event.TYPE,
-            Event.CONTENT_ITEM_TYPE
-        )
-        numbers = getExtras(
-            contactId,
-            Phone.NUMBER,
-            Phone.TYPE,
-            Phone.CONTENT_ITEM_TYPE
-        )
-        emails = getExtras(
-            contactId,
-            Email.ADDRESS,
-            Email.TYPE,
-            Email.CONTENT_ITEM_TYPE
-        )
-        addresses = getExtras(
-            contactId,
-            StructuredPostal.FORMATTED_ADDRESS,
-            StructuredPostal.TYPE,
-            StructuredPostal.CONTENT_ITEM_TYPE
-        )
-        notes = getExtras(
-            contactId,
-            Note.NOTE,
-            Note.DATA2,
-            Note.CONTENT_ITEM_TYPE
-        )
-        websites = getExtras(
-            contactId,
-            Website.URL,
-            Website.TYPE,
-            Website.CONTENT_ITEM_TYPE
-        )
+    @RequiresPermission(Manifest.permission.READ_CONTACTS)
+    override suspend fun loadAdvancedData(contact: ContactData) = withContext(Dispatchers.IO) {
+        contact.apply {
+            thumbnail = getContactPhotoThumbnail(contactId)
+            photo = getContactPhoto(contactId) ?: thumbnail
+            groups = getGroups(contactId, storedContactGroups)
+            nickName = getEntry(contactId, Nickname.CONTENT_ITEM_TYPE, Nickname.NAME)
+            organization = getEntry(contactId, Organization.CONTENT_ITEM_TYPE, Organization.COMPANY)
+            events = getExtras(
+                contactId,
+                Event.START_DATE,
+                Event.TYPE,
+                Event.CONTENT_ITEM_TYPE
+            )
+            numbers = getExtras(
+                contactId,
+                Phone.NUMBER,
+                Phone.TYPE,
+                Phone.CONTENT_ITEM_TYPE
+            )
+            emails = getExtras(
+                contactId,
+                Email.ADDRESS,
+                Email.TYPE,
+                Email.CONTENT_ITEM_TYPE
+            )
+            addresses = getExtras(
+                contactId,
+                StructuredPostal.FORMATTED_ADDRESS,
+                StructuredPostal.TYPE,
+                StructuredPostal.CONTENT_ITEM_TYPE
+            )
+            notes = getExtras(
+                contactId,
+                Note.NOTE,
+                Note.DATA2,
+                Note.CONTENT_ITEM_TYPE
+            )
+            websites = getExtras(
+                contactId,
+                Website.URL,
+                Website.TYPE,
+                Website.CONTENT_ITEM_TYPE
+            )
+        }
     }
 
+    @RequiresPermission(Manifest.permission.READ_CONTACTS)
     private fun getGroups(contactId: Long, storedGroups: List<ValueWithType>): List<ContactsGroup> {
         val groups = getExtras(
             contactId,
@@ -171,21 +179,23 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
     }
 
     override suspend fun createGroup(groupName: String): ContactsGroup? {
-        val operations = ArrayList<ContentProviderOperation>()
-        ContentProviderOperation.newInsert(ContactsContract.Groups.CONTENT_URI).apply {
-            withValue(ContactsContract.Groups.TITLE, groupName)
-            withValue(ContactsContract.Groups.GROUP_VISIBLE, 1)
-            withValue(ContactsContract.Groups.ACCOUNT_NAME, ANDROID_CONTACTS_NAME)
-            withValue(ContactsContract.Groups.ACCOUNT_TYPE, ANDROID_ACCOUNT_TYPE)
-            operations.add(build())
-        }
+        return withContext(Dispatchers.IO) {
+            val operations = ArrayList<ContentProviderOperation>()
+            ContentProviderOperation.newInsert(ContactsContract.Groups.CONTENT_URI).apply {
+                withValue(ContactsContract.Groups.TITLE, groupName)
+                withValue(ContactsContract.Groups.GROUP_VISIBLE, 1)
+                withValue(ContactsContract.Groups.ACCOUNT_NAME, ANDROID_CONTACTS_NAME)
+                withValue(ContactsContract.Groups.ACCOUNT_TYPE, ANDROID_ACCOUNT_TYPE)
+                operations.add(build())
+            }
 
-        runCatching {
-            val results = context.contentResolver.applyBatch(AUTHORITY, operations)
-            val rawId = ContentUris.parseId(results[0].uri!!)
-            return ContactsGroup(groupName, rawId.toInt())
+            runCatching {
+                val results = context.contentResolver.applyBatch(AUTHORITY, operations)
+                val rawId = ContentUris.parseId(results[0].uri!!)
+                return@withContext ContactsGroup(groupName, rawId.toInt())
+            }
+            return@withContext null
         }
-        return null
     }
 
     override suspend fun renameGroup(group: ContactsGroup, newName: String) {
@@ -204,19 +214,21 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
     }
 
     override suspend fun deleteGroup(group: ContactsGroup) {
-        val operations = ArrayList<ContentProviderOperation>()
-        val uri = ContentUris.withAppendedId(
-            ContactsContract.Groups.CONTENT_URI,
-            group.rowId.toLong()
-        )
-            .buildUpon()
-            .appendQueryParameter(CALLER_IS_SYNCADAPTER, "true")
-            .build()
+        withContext(Dispatchers.IO) {
+            val operations = ArrayList<ContentProviderOperation>()
+            val uri = ContentUris.withAppendedId(
+                ContactsContract.Groups.CONTENT_URI,
+                group.rowId.toLong()
+            )
+                .buildUpon()
+                .appendQueryParameter(CALLER_IS_SYNCADAPTER, "true")
+                .build()
 
-        operations.add(ContentProviderOperation.newDelete(uri).build())
+            operations.add(ContentProviderOperation.newDelete(uri).build())
 
-        runCatching {
-            context.contentResolver.applyBatch(AUTHORITY, operations)
+            runCatching {
+                context.contentResolver.applyBatch(AUTHORITY, operations)
+            }
         }
     }
 
@@ -246,6 +258,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
     }
 
     @Suppress("SameParameterValue")
+    @RequiresPermission(Manifest.permission.READ_CONTACTS)
     private fun getExtras(contactId: Long, valueIndex: String, typeIndex: String?, itemType: String): List<ValueWithType> {
         val entries = mutableListOf<ValueWithType>()
         val projection = arrayOf(Data.CONTACT_ID, valueIndex, typeIndex ?: "data2")
@@ -271,233 +284,239 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
 
     @RequiresPermission(Manifest.permission.WRITE_CONTACTS)
     override suspend fun deleteContacts(contacts: List<ContactData>) {
-        val operations = ArrayList<ContentProviderOperation>()
-        val selection = "${RawContacts.CONTACT_ID} = ?"
-        contacts.forEach {
-            ContentProviderOperation.newDelete(RawContacts.CONTENT_URI).apply {
-                val selectionArgs = arrayOf(it.contactId.toString())
-                withSelection(selection, selectionArgs)
-                operations.add(build())
+        withContext(Dispatchers.IO) {
+            val operations = ArrayList<ContentProviderOperation>()
+            val selection = "${RawContacts.CONTACT_ID} = ?"
+            contacts.forEach {
+                ContentProviderOperation.newDelete(RawContacts.CONTENT_URI).apply {
+                    val selectionArgs = arrayOf(it.contactId.toString())
+                    withSelection(selection, selectionArgs)
+                    operations.add(build())
+                }
             }
-        }
 
-        context.contentResolver.applyBatch(AUTHORITY, operations)
+            context.contentResolver.applyBatch(AUTHORITY, operations)
+        }
     }
 
     @SuppressLint("MissingPermission")
     @RequiresPermission(Manifest.permission.WRITE_CONTACTS)
     override suspend fun createContact(contact: ContactData) {
-        val ops = listOfNotNull(
-            getCreateAction(
-                contact.accountType ?: ANDROID_ACCOUNT_TYPE,
-                contact.accountName ?: ANDROID_CONTACTS_NAME
-            ),
-            getInsertAction(
-                StructuredName.CONTENT_ITEM_TYPE,
-                StructuredName.DISPLAY_NAME,
-                contact.displayName.orEmpty()
-            ),
-            getInsertAction(
-                StructuredName.CONTENT_ITEM_TYPE,
-                StructuredName.GIVEN_NAME,
-                contact.firstName.orEmpty()
-            ),
-            getInsertAction(
-                StructuredName.CONTENT_ITEM_TYPE,
-                StructuredName.FAMILY_NAME,
-                contact.surName.orEmpty()
-            ),
-            contact.nickName?.let {
+        withContext(Dispatchers.IO) {
+            val ops = listOfNotNull(
+                getCreateAction(
+                    contact.accountType ?: ANDROID_ACCOUNT_TYPE,
+                    contact.accountName ?: ANDROID_CONTACTS_NAME
+                ),
                 getInsertAction(
-                    Nickname.CONTENT_ITEM_TYPE,
-                    Nickname.NAME,
-                    it
-                )
-            },
-            contact.organization?.let {
+                    StructuredName.CONTENT_ITEM_TYPE,
+                    StructuredName.DISPLAY_NAME,
+                    contact.displayName.orEmpty()
+                ),
                 getInsertAction(
-                    Organization.CONTENT_ITEM_TYPE,
-                    Organization.COMPANY,
-                    it
-                )
-            },
-            contact.photo?.let {
-                getInsertAction(Photo.CONTENT_ITEM_TYPE, Photo.PHOTO, getBitmapBytes(it))
-            },
-            *contact.websites.map {
+                    StructuredName.CONTENT_ITEM_TYPE,
+                    StructuredName.GIVEN_NAME,
+                    contact.firstName.orEmpty()
+                ),
                 getInsertAction(
-                    Website.CONTENT_ITEM_TYPE,
-                    Website.URL,
-                    it.value,
-                    Website.TYPE,
-                    it.type
-                )
-            }.toTypedArray(),
-            *contact.numbers.map {
-                getInsertAction(
-                    Phone.CONTENT_ITEM_TYPE,
-                    Phone.NUMBER,
-                    it.value,
-                    Phone.TYPE,
-                    it.type
-                )
-            }.toTypedArray(),
-            *contact.emails.map {
-                getInsertAction(
-                    Email.CONTENT_ITEM_TYPE,
-                    Email.ADDRESS,
-                    it.value,
-                    Email.TYPE,
-                    it.type
-                )
-            }.toTypedArray(),
-            *contact.addresses.map {
-                getInsertAction(
-                    StructuredPostal.CONTENT_ITEM_TYPE,
-                    StructuredPostal.FORMATTED_ADDRESS,
-                    it.value,
-                    StructuredPostal.TYPE,
-                    it.type
-                )
-            }.toTypedArray(),
-            *contact.events.map {
-                getInsertAction(
-                    Event.CONTENT_ITEM_TYPE,
-                    Event.START_DATE,
-                    it.value,
-                    Event.TYPE,
-                    it.type
-                )
-            }.toTypedArray(),
-            *contact.notes.map {
-                getInsertAction(
-                    Note.CONTENT_ITEM_TYPE,
-                    Note.NOTE,
-                    it.value
-                )
-            }.toTypedArray(),
-            *contact.groups.map {
-                getInsertAction(
-                    GroupMembership.CONTENT_ITEM_TYPE,
-                    GroupMembership.GROUP_ROW_ID,
-                    it.rowId.toString()
-                )
-            }.toTypedArray()
-        ).let { ArrayList(it) }
+                    StructuredName.CONTENT_ITEM_TYPE,
+                    StructuredName.FAMILY_NAME,
+                    contact.surName.orEmpty()
+                ),
+                contact.nickName?.let {
+                    getInsertAction(
+                        Nickname.CONTENT_ITEM_TYPE,
+                        Nickname.NAME,
+                        it
+                    )
+                },
+                contact.organization?.let {
+                    getInsertAction(
+                        Organization.CONTENT_ITEM_TYPE,
+                        Organization.COMPANY,
+                        it
+                    )
+                },
+                contact.photo?.let {
+                    getInsertAction(Photo.CONTENT_ITEM_TYPE, Photo.PHOTO, getBitmapBytes(it))
+                },
+                *contact.websites.map {
+                    getInsertAction(
+                        Website.CONTENT_ITEM_TYPE,
+                        Website.URL,
+                        it.value,
+                        Website.TYPE,
+                        it.type
+                    )
+                }.toTypedArray(),
+                *contact.numbers.map {
+                    getInsertAction(
+                        Phone.CONTENT_ITEM_TYPE,
+                        Phone.NUMBER,
+                        it.value,
+                        Phone.TYPE,
+                        it.type
+                    )
+                }.toTypedArray(),
+                *contact.emails.map {
+                    getInsertAction(
+                        Email.CONTENT_ITEM_TYPE,
+                        Email.ADDRESS,
+                        it.value,
+                        Email.TYPE,
+                        it.type
+                    )
+                }.toTypedArray(),
+                *contact.addresses.map {
+                    getInsertAction(
+                        StructuredPostal.CONTENT_ITEM_TYPE,
+                        StructuredPostal.FORMATTED_ADDRESS,
+                        it.value,
+                        StructuredPostal.TYPE,
+                        it.type
+                    )
+                }.toTypedArray(),
+                *contact.events.map {
+                    getInsertAction(
+                        Event.CONTENT_ITEM_TYPE,
+                        Event.START_DATE,
+                        it.value,
+                        Event.TYPE,
+                        it.type
+                    )
+                }.toTypedArray(),
+                *contact.notes.map {
+                    getInsertAction(
+                        Note.CONTENT_ITEM_TYPE,
+                        Note.NOTE,
+                        it.value
+                    )
+                }.toTypedArray(),
+                *contact.groups.map {
+                    getInsertAction(
+                        GroupMembership.CONTENT_ITEM_TYPE,
+                        GroupMembership.GROUP_ROW_ID,
+                        it.rowId.toString()
+                    )
+                }.toTypedArray()
+            ).let { ArrayList(it) }
 
-        contentResolver.applyBatch(AUTHORITY, ops)
+            contentResolver.applyBatch(AUTHORITY, ops)
+        }
     }
 
     @RequiresPermission(Manifest.permission.WRITE_CONTACTS)
     override suspend fun updateContact(contact: ContactData) {
-        val operations = ArrayList<ContentProviderOperation>()
-        val rawContactId = contact.rawContactId.toString()
+        withContext(Dispatchers.IO) {
+            val operations = ArrayList<ContentProviderOperation>()
+            val rawContactId = contact.rawContactId.toString()
 
-        val selection = "${Data.RAW_CONTACT_ID} = ? AND ${Data.MIMETYPE} = ?"
-        ContentProviderOperation.newUpdate(contactsUri).apply {
-            val selectionArgs = arrayOf(rawContactId, StructuredName.CONTENT_ITEM_TYPE)
-            withSelection(selection, selectionArgs)
-            withValue(StructuredName.GIVEN_NAME, contact.firstName)
-            withValue(StructuredName.FAMILY_NAME, contact.surName)
-            withValue(StructuredName.DISPLAY_NAME, contact.displayName)
-            operations.add(build())
-        }
+            val selection = "${Data.RAW_CONTACT_ID} = ? AND ${Data.MIMETYPE} = ?"
+            ContentProviderOperation.newUpdate(contactsUri).apply {
+                val selectionArgs = arrayOf(rawContactId, StructuredName.CONTENT_ITEM_TYPE)
+                withSelection(selection, selectionArgs)
+                withValue(StructuredName.GIVEN_NAME, contact.firstName)
+                withValue(StructuredName.FAMILY_NAME, contact.surName)
+                withValue(StructuredName.DISPLAY_NAME, contact.displayName)
+                operations.add(build())
+            }
 
-        operations.addAll(
-            getUpdateSingleAction(
-                rawContactId,
-                Nickname.CONTENT_ITEM_TYPE,
-                Nickname.NAME,
-                contact.nickName
-            )
-        )
-        operations.addAll(
-            getUpdateSingleAction(
-                rawContactId,
-                Organization.CONTENT_ITEM_TYPE,
-                Organization.COMPANY,
-                contact.organization
-            )
-        )
-
-        operations.addAll(
-            getUpdateMultipleAction(
-                rawContactId,
-                Website.CONTENT_ITEM_TYPE,
-                contact.websites,
-                Website.URL,
-                Website.TYPE
-            )
-        )
-        operations.addAll(
-            getUpdateMultipleAction(
-                rawContactId,
-                Phone.CONTENT_ITEM_TYPE,
-                contact.numbers,
-                Phone.NUMBER,
-                Phone.TYPE
-            )
-        )
-        operations.addAll(
-            getUpdateMultipleAction(
-                rawContactId,
-                Email.CONTENT_ITEM_TYPE,
-                contact.emails,
-                Email.ADDRESS,
-                Email.TYPE
-            )
-        )
-        operations.addAll(
-            getUpdateMultipleAction(
-                rawContactId,
-                StructuredPostal.CONTENT_ITEM_TYPE,
-                contact.addresses,
-                StructuredPostal.FORMATTED_ADDRESS,
-                StructuredPostal.TYPE
-            )
-        )
-        operations.addAll(
-            getUpdateMultipleAction(
-                rawContactId,
-                Event.CONTENT_ITEM_TYPE,
-                contact.events,
-                Event.START_DATE,
-                Event.TYPE
-            )
-        )
-        operations.addAll(
-            getUpdateMultipleAction(
-                rawContactId,
-                Note.CONTENT_ITEM_TYPE,
-                contact.notes,
-                Note.NOTE,
-                null
-            )
-        )
-        operations.addAll(
-            getUpdateMultipleAction(
-                rawContactId,
-                GroupMembership.CONTENT_ITEM_TYPE,
-                // The value to be saved here is only the row id!
-                contact.groups.map { ValueWithType(it.rowId.toString(), null) },
-                GroupMembership.GROUP_ROW_ID,
-                null
-            )
-        )
-
-        operations.add(deletePhoto(contact.rawContactId))
-        contact.photo?.let {
-            operations.add(
-                getInsertAction(
-                    Photo.CONTENT_ITEM_TYPE,
-                    Photo.PHOTO,
-                    getBitmapBytes(it),
-                    rawContactId = contact.rawContactId
+            operations.addAll(
+                getUpdateSingleAction(
+                    rawContactId,
+                    Nickname.CONTENT_ITEM_TYPE,
+                    Nickname.NAME,
+                    contact.nickName
                 )
             )
-        }
+            operations.addAll(
+                getUpdateSingleAction(
+                    rawContactId,
+                    Organization.CONTENT_ITEM_TYPE,
+                    Organization.COMPANY,
+                    contact.organization
+                )
+            )
 
-        context.contentResolver.applyBatch(AUTHORITY, operations)
+            operations.addAll(
+                getUpdateMultipleAction(
+                    rawContactId,
+                    Website.CONTENT_ITEM_TYPE,
+                    contact.websites,
+                    Website.URL,
+                    Website.TYPE
+                )
+            )
+            operations.addAll(
+                getUpdateMultipleAction(
+                    rawContactId,
+                    Phone.CONTENT_ITEM_TYPE,
+                    contact.numbers,
+                    Phone.NUMBER,
+                    Phone.TYPE
+                )
+            )
+            operations.addAll(
+                getUpdateMultipleAction(
+                    rawContactId,
+                    Email.CONTENT_ITEM_TYPE,
+                    contact.emails,
+                    Email.ADDRESS,
+                    Email.TYPE
+                )
+            )
+            operations.addAll(
+                getUpdateMultipleAction(
+                    rawContactId,
+                    StructuredPostal.CONTENT_ITEM_TYPE,
+                    contact.addresses,
+                    StructuredPostal.FORMATTED_ADDRESS,
+                    StructuredPostal.TYPE
+                )
+            )
+            operations.addAll(
+                getUpdateMultipleAction(
+                    rawContactId,
+                    Event.CONTENT_ITEM_TYPE,
+                    contact.events,
+                    Event.START_DATE,
+                    Event.TYPE
+                )
+            )
+            operations.addAll(
+                getUpdateMultipleAction(
+                    rawContactId,
+                    Note.CONTENT_ITEM_TYPE,
+                    contact.notes,
+                    Note.NOTE,
+                    null
+                )
+            )
+            operations.addAll(
+                getUpdateMultipleAction(
+                    rawContactId,
+                    GroupMembership.CONTENT_ITEM_TYPE,
+                    // The value to be saved here is only the row id!
+                    contact.groups.map { ValueWithType(it.rowId.toString(), null) },
+                    GroupMembership.GROUP_ROW_ID,
+                    null
+                )
+            )
+
+            operations.add(deletePhoto(contact.rawContactId))
+            contact.photo?.let {
+                operations.add(
+                    getInsertAction(
+                        Photo.CONTENT_ITEM_TYPE,
+                        Photo.PHOTO,
+                        getBitmapBytes(it),
+                        rawContactId = contact.rawContactId
+                    )
+                )
+            }
+
+            context.contentResolver.applyBatch(AUTHORITY, operations)
+        }
     }
 
     private fun getCreateAction(accountType: String, accountName: String): ContentProviderOperation {
