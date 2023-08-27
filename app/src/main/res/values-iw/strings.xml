@@ -31,7 +31,7 @@
     <string name="theme">ערכת עיצוב</string>
     <string name="auto_backup">גיבוי אוטומטי</string>
     <string name="backup_interval">הפרש בין גיבויים</string>
-    <string name="choose_dir">בחירת תיקייה</string>
+    <string name="choose_dir">תיקייה</string>
     <string name="both">גם וגם</string>
     <string name="none">ללא</string>
     <string name="misc">שונות</string>
@@ -94,5 +94,9 @@
     <string name="appearance">מראה</string>
     <string name="encrypt_backups">הצפנת גיבויים כ־zip</string>
     <string name="backup">גיבוי</string>
-    <string name="backup_password">סיסמה לגיבויים</string>
+    <string name="backup_password">סיסמה</string>
+    <string name="connection_error">שגיאת חיבור! נא לוודא להשבית את מצב הטיסה!</string>
+    <string name="messages">הודעות</string>
+    <string name="reply">תגובה</string>
+    <string name="send">שליחת הודעה</string>
 </resources>
