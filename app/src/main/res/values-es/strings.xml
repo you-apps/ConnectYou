@@ -64,7 +64,7 @@
     <string name="move">Mover</string>
     <string name="delete">Borrar</string>
     <string name="max_backup_amount">Número máximo de copias de seguridad</string>
-    <string name="choose_dir">Seleccionar directorio</string>
+    <string name="choose_dir">Directorio</string>
     <string name="light">Claro</string>
     <string name="both">Ambos</string>
     <string name="none">Ninguno</string>
@@ -94,5 +94,9 @@
     <string name="behavior">Comportamiento</string>
     <string name="encrypt_backups">Cifrar las copias de seguridad como un zip</string>
     <string name="backup">Copia de seguridad</string>
-    <string name="backup_password">Contraseña para las copias de seguridad</string>
+    <string name="backup_password">Contraseña</string>
+    <string name="messages">Mensajes</string>
+    <string name="send">Enviar un mensaje</string>
+    <string name="reply">Responder</string>
+    <string name="connection_error">¡Error en la conexión!. ¡Por favor, asegúrate de desactivar el modo avión!</string>
 </resources>
