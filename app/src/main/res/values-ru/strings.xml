@@ -55,7 +55,7 @@
     <string name="both">В оба расположения</string>
     <string name="none">Отключить</string>
     <string name="delete">Удалить</string>
-    <string name="choose_dir">Выбрать папку</string>
+    <string name="choose_dir">Папка</string>
     <string name="manage_groups">Управление группами</string>
     <string name="delete_group">Удалить группу для всех</string>
     <string name="title">Название</string>
@@ -93,6 +93,10 @@
     <string name="behavior">Поведение</string>
     <string name="appearance">Внешний вид</string>
     <string name="backup">Резервное копирование</string>
-    <string name="backup_password">Пароль для резервных копий</string>
+    <string name="backup_password">Пароль</string>
     <string name="encrypt_backups">Шифровать резервные копии как zip</string>
+    <string name="send">Отправить сообщение</string>
+    <string name="reply">Ответить</string>
+    <string name="messages">Сообщения</string>
+    <string name="connection_error">Ошибка соединения! Пожалуйста, убедитесь, что режим полёта отключён!</string>
 </resources>
