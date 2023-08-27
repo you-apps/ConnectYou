@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="copied">Kopioitu leikepöydälle</string>
-    <string name="irreversible">Oletko varma\? Toimintoa ei voida perua.</string>
+    <string name="irreversible">Oletko varma\? Tätä ei voi perua.</string>
     <string name="cancel">Peruuta</string>
     <string name="okay">OK</string>
     <string name="reset">Nollaa</string>
@@ -69,7 +69,7 @@
     <string name="move">Siirrä</string>
     <string name="theme">Teema</string>
     <string name="collapse_bottom_bar">Pienennä alapalkki vierittäessä</string>
-    <string name="about">Tietoa</string>
+    <string name="about">Tietoja</string>
     <string name="create_shortcut">Luo pikakuvake</string>
     <string name="dial">Soita</string>
     <string name="message">Viesti</string>
