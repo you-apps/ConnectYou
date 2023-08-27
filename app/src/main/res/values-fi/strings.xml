@@ -91,7 +91,7 @@
     <string name="appearance">Ulkoasu</string>
     <string name="behavior">Toiminta</string>
     <string name="backup">Varmuuskopio</string>
-    <string name="backup_password">Varmuuskopioiden salasana</string>
+    <string name="backup_password">Salasana</string>
     <string name="pick_contact">Valitse yhteystieto</string>
     <string name="import_sim">Tuo SIM-kortilta</string>
 </resources>
