@@ -47,7 +47,7 @@
     <string name="settings">Ayarlar</string>
     <string name="copy">Kopyala</string>
     <string name="delete">Sil</string>
-    <string name="choose_dir">Dizin seç</string>
+    <string name="choose_dir">Dizin</string>
     <string name="sort_order">Sıralama düzeni</string>
     <string name="account_type">Hesap türü</string>
     <string name="note">Not</string>
@@ -55,7 +55,7 @@
     <string name="system">Sistem</string>
     <string name="light">Açık</string>
     <string name="dark">Koyu</string>
-    <string name="auto_backup">Otomatik Yedekleme</string>
+    <string name="auto_backup">Otomatik yedekleme</string>
     <string name="both">Her ikisi de</string>
     <string name="none">Hiçbiri</string>
     <string name="selected">%1$s seçildi</string>
@@ -95,5 +95,9 @@
     <string name="appearance">Görünüm</string>
     <string name="backup">Yedekle</string>
     <string name="encrypt_backups">Yedeklemeleri zip olarak şifrele</string>
-    <string name="backup_password">Yedeklemeler için parola</string>
+    <string name="backup_password">Parola</string>
+    <string name="messages">Mesajlar</string>
+    <string name="send">Mesaj gönder</string>
+    <string name="reply">Yanıtla</string>
+    <string name="connection_error">Bağlantı hatası! Lütfen uçak modunu devre dışı bıraktığınızdan emin olun!</string>
 </resources>
