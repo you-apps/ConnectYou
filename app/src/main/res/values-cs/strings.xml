@@ -14,7 +14,7 @@
     <string name="start_tab">Karta při spuštění</string>
     <string name="both">Oba</string>
     <string name="translation">Překlad</string>
-    <string name="choose_dir">Vybrat adresář</string>
+    <string name="choose_dir">Adresář</string>
     <string name="reset">Obnovit</string>
     <string name="irreversible">Opravdu\? Tato akce je nevratná.</string>
     <string name="okay">Okay</string>
@@ -94,5 +94,9 @@
     <string name="appearance">Vzhled</string>
     <string name="backup">Záloha</string>
     <string name="encrypt_backups">Šifrovat zálohy jako zip</string>
-    <string name="backup_password">Heslo pro zálohy</string>
+    <string name="backup_password">Heslo</string>
+    <string name="messages">Zprávy</string>
+    <string name="connection_error">Chyba spojení! Nemáte zapnutý režim letadlo\?</string>
+    <string name="reply">Odpověď</string>
+    <string name="send">Poslat zprávu</string>
 </resources>
