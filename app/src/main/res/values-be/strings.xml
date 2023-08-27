@@ -18,7 +18,7 @@
     <string name="both">У абодва размяшчэнні</string>
     <string name="none">Адкл.</string>
     <string name="settings">Налады</string>
-    <string name="choose_dir">Выберыце каталог</string>
+    <string name="choose_dir">Каталог</string>
     <string name="about">Аб праграме</string>
     <string name="light">Светлая</string>
     <string name="author">Аўтар</string>
@@ -93,6 +93,10 @@
     <string name="appearance">Знешні выгляд</string>
     <string name="backup">Рэзервовае капіраванне</string>
     <string name="encrypt_backups">Зашыфраваць рэзервовыя копіі ў фармаце zip</string>
-    <string name="backup_password">Пароль для рэзервовых копій</string>
+    <string name="backup_password">Пароль</string>
     <string name="pick_contact">Выберыце кантакт</string>
+    <string name="messages">Паведамлення</string>
+    <string name="send">Адправіць паведамленне</string>
+    <string name="reply">Адказаць</string>
+    <string name="connection_error">Памылка злучэння! Не забудзьцеся адключыць рэжым палёту!</string>
 </resources>
