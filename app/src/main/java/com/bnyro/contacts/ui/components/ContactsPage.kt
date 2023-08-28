@@ -308,7 +308,7 @@ fun ContactsPage(
                         it.displayName.orEmpty().lowercase().contains(query) ||
                             it.numbers.any { number -> number.value.contains(query) }
                     }.filter {
-                        !filterOptions.hiddenAccountNames.contains(it.accountName)
+                        !filterOptions.hiddenAccountNames.contains(it.accountType + "|" + it.accountName)
                     }.filter {
                         if (filterOptions.visibleGroups.isEmpty()) {
                             true

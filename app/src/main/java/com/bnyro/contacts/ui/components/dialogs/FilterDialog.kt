@@ -71,10 +71,11 @@ fun FilterDialog(
                         title = stringResource(R.string.account_type),
                         entries = availableAccountTypes.map { it.second },
                         selections = availableAccountTypes.filter {
-                            !hiddenAccountNames.contains(it.second)
+                            !hiddenAccountNames.contains(it.first + "|" + it.second)
                         }.map { it.second },
                         onSelectionChanged = { index, newValue ->
-                            val selectedAccountName = availableAccountTypes[index].second
+                            val selection = availableAccountTypes[index]
+                            val selectedAccountName = selection.first + "|" + selection.second
                             hiddenAccountNames = if (newValue) {
                                 hiddenAccountNames - selectedAccountName
                             } else {
