@@ -31,7 +31,7 @@ fun FilterDialog(
     }
 
     var hiddenAccountNames by remember {
-        mutableStateOf(initialFilters.hiddenAccountNames)
+        mutableStateOf(initialFilters.hiddenAccountIdentifiers)
     }
 
     var visibleGroups by remember {

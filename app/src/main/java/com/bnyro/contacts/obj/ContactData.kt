@@ -25,6 +25,7 @@ data class ContactData(
     var groups: List<ContactsGroup> = listOf(),
     var websites: List<ValueWithType> = listOf()
 ) {
+    val accountIdentifier get() = "$accountType|$accountName"
     fun getNameBySortOrder(sortOrder: SortOrder): String? {
         return when (sortOrder) {
             SortOrder.FIRSTNAME -> displayName
