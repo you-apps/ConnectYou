@@ -10,6 +10,9 @@ object CalendarUtils {
     val isoDateFormat = SimpleDateFormat("yyyy-MM-dd")
 
     @SuppressLint("SimpleDateFormat")
+    val isoDateFormatWithoutYear = SimpleDateFormat("MM-dd")
+
+    @SuppressLint("SimpleDateFormat")
     val isoTimeFormat = SimpleDateFormat("yyyy-MM-dd-HH:mm:ss")
     private val localizedFormat get() = DateFormat.getDateInstance()
 
@@ -22,10 +25,21 @@ object CalendarUtils {
     fun dateToMillis(date: String) = isoDateFormat.parse(date)?.time
 
     fun localizeIsoDate(isoDate: String): String {
+        val isDateWithoutYear = isoDate.startsWith('-')
+        val newIsoDate = if (isDateWithoutYear) isoDate.replace("--", "") else isoDate
+        val formatter = if (isDateWithoutYear) isoDateFormatWithoutYear else isoDateFormat
+
         val date = runCatching {
-            isoDateFormat.parse(isoDate) ?: return isoDate
-        }.getOrNull() ?: return isoDate
-        return localizedFormat.format(date) ?: isoDate
+            formatter.parse(newIsoDate)
+        }.getOrNull() ?: return newIsoDate
+        return localizedFormat.format(date).let {
+            if (isDateWithoutYear) {
+                // Due to the limitations of the API we're getting 1970 when there's no year
+                it.replace("1970", "")
+            } else {
+                it
+            }
+        }
     }
 
     fun getCurrentDateTime(): String {
