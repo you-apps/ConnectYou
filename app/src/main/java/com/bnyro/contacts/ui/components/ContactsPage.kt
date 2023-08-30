@@ -5,26 +5,27 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.CopyAll
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.MoveToInbox
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -40,25 +41,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.ContactsSource
-import com.bnyro.contacts.enums.SortOrder
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.FilterOptions
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.OptionMenu
-import com.bnyro.contacts.ui.components.base.SearchBar
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.components.dialogs.FilterDialog
 import com.bnyro.contacts.ui.components.dialogs.SimImportDialog
-import com.bnyro.contacts.ui.components.modifier.scrollbar
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.state.ContactListState
 import com.bnyro.contacts.ui.screens.AboutScreen
@@ -72,8 +68,7 @@ import com.bnyro.contacts.util.Preferences
 @Composable
 fun ContactsPage(
     scrollConnection: NestedScrollConnection?,
-    bottomBarOffsetHeight: Dp,
-    contactsSource: ContactsSource
+    bottomBarOffsetHeight: Dp
 ) {
     val viewModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
     val context = LocalContext.current
@@ -95,6 +90,10 @@ fun ContactsPage(
     }
 
     var showSettings by remember {
+        mutableStateOf(false)
+    }
+
+    var showSearch by remember {
         mutableStateOf(false)
     }
 
@@ -132,41 +131,68 @@ fun ContactsPage(
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            val searchQuery = remember {
-                mutableStateOf(TextFieldValue())
-            }
-
             Crossfade(targetState = selectedContacts.isEmpty(), label = "main layout") { state ->
                 when (state) {
                     true -> {
-                        SearchBar(
-                            modifier = Modifier
-                                .padding(horizontal = 10.dp)
-                                .padding(top = 15.dp),
-                            state = searchQuery
-                        ) {
-                            Box(
-                                modifier = Modifier.align(Alignment.End)
-                            ) {
+                        TopAppBar(
+                            title = {
+                                var expanded by remember { mutableStateOf(false) }
+                                Row(
+                                    Modifier
+                                        .padding(8.dp)
+                                        .clickable {
+                                            expanded = true
+                                        },
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = stringResource(
+                                            id = viewModel.contactsSource.stringRes
+                                        )
+                                    )
+                                    Icon(
+                                        imageVector = Icons.Default.ArrowDropDown,
+                                        contentDescription = null
+                                    )
+                                }
+
+                                DropdownMenu(
+                                    expanded = expanded,
+                                    onDismissRequest = { expanded = false }
+                                ) {
+                                    ContactsSource.values().forEach {
+                                        DropdownMenuItem(
+                                            text = { Text(stringResource(id = it.stringRes)) },
+                                            onClick = {
+                                                viewModel.contactsSource = it
+                                                expanded = false
+                                            }
+                                        )
+                                    }
+                                }
+                            },
+                            actions = {
                                 var expandedOptions by remember {
                                     mutableStateOf(false)
                                 }
-
-                                Row {
-                                    ClickableIcon(
-                                        icon = Icons.Default.Sort,
-                                        contentDescription = R.string.filter
-                                    ) {
-                                        showFilterDialog = true
-                                    }
-                                    ClickableIcon(
-                                        icon = Icons.Default.MoreVert,
-                                        contentDescription = R.string.more
-                                    ) {
-                                        expandedOptions = !expandedOptions
-                                    }
+                                ClickableIcon(
+                                    icon = Icons.Default.Search,
+                                    contentDescription = R.string.search
+                                ) {
+                                    showSearch = true
                                 }
-
+                                ClickableIcon(
+                                    icon = Icons.Default.Sort,
+                                    contentDescription = R.string.filter
+                                ) {
+                                    showFilterDialog = true
+                                }
+                                ClickableIcon(
+                                    icon = Icons.Default.MoreVert,
+                                    contentDescription = R.string.more
+                                ) {
+                                    expandedOptions = !expandedOptions
+                                }
                                 OptionMenu(
                                     expanded = expandedOptions,
                                     options = listOf(
@@ -205,7 +231,7 @@ fun ContactsPage(
                                     }
                                 )
                             }
-                        }
+                        )
                     }
                     false -> {
                         TopAppBar(
@@ -262,7 +288,7 @@ fun ContactsPage(
             }
 
             when (
-                val contactState = when (contactsSource) {
+                val contactState = when (viewModel.contactsSource) {
                     ContactsSource.DEVICE -> viewModel.deviceContacts
                     ContactsSource.LOCAL -> viewModel.localContacts
                 }
@@ -282,74 +308,18 @@ fun ContactsPage(
                 }
 
                 is ContactListState.Success -> {
-                    val state = rememberLazyListState()
-                    val contactGroups = remember(searchQuery.value, contactState) {
-                        val query = searchQuery.value.text.lowercase()
-                        contactState.contacts.asSequence().filter {
-                            it.displayName.orEmpty().lowercase().contains(query) ||
-                                it.numbers.any { number -> number.value.contains(query) }
-                        }.filter {
-                            !filterOptions.hiddenAccountNames.contains(it.accountName)
-                        }.filter {
-                            if (filterOptions.visibleGroups.isEmpty()) {
-                                true
-                            } else {
-                                filterOptions.visibleGroups.any { group ->
-                                    it.groups.contains(group)
-                                }
-                            }
-                        }.sortedBy {
-                            when (filterOptions.sortOder) {
-                                SortOrder.FIRSTNAME -> it.displayName
-                                SortOrder.LASTNAME -> it.alternativeName
-                            }
-                        }.groupBy {
-                            when (filterOptions.sortOder) {
-                                SortOrder.FIRSTNAME -> it.displayName
-                                SortOrder.LASTNAME -> it.alternativeName
-                            }?.firstOrNull()?.uppercase()
-                        }
-                    }
-                    LazyColumn(
-                        state = state,
-                        modifier = Modifier
-                            .padding(end = 5.dp)
-                            .scrollbar(state, false)
-                            .let { modifier ->
-                                scrollConnection?.let { modifier.nestedScroll(it) } ?: modifier
-                            }
-                    ) {
-                        contactGroups.forEach { (firstLetter, groupedContacts) ->
-                            stickyHeader {
-                                CharacterHeader(firstLetter.orEmpty())
-                            }
-                            items(groupedContacts) {
-                                ContactItem(
-                                    contact = it,
-                                    sortOrder = filterOptions.sortOder,
-                                    selected = selectedContacts.contains(it),
-                                    onSinglePress = {
-                                        if (selectedContacts.isEmpty()) {
-                                            false
-                                        } else {
-                                            if (selectedContacts.contains(it)) {
-                                                selectedContacts.remove(it)
-                                            } else {
-                                                selectedContacts.add(it)
-                                            }
-                                            true
-                                        }
-                                    },
-                                    onLongPress = {
-                                        if (!selectedContacts.contains(it)) selectedContacts.add(it)
-                                    }
-                                )
-                            }
-                        }
-
-                        item {
-                            Spacer(modifier = Modifier.height(10.dp))
-                        }
+                    ContactsList(
+                        contacts = contactState.contacts,
+                        filterOptions = filterOptions,
+                        scrollConnection = scrollConnection,
+                        selectedContacts = selectedContacts
+                    )
+                    if (showSearch) {
+                        ContactSearchScreen(
+                            contacts = contactState.contacts,
+                            filterOptions = filterOptions,
+                            onDismissRequest = { showSearch = false }
+                        )
                     }
                 }
             }
@@ -373,7 +343,7 @@ fun ContactsPage(
             onClose = {
                 newContactToInsert = null
             },
-            isCreatingNewDeviceContact = (contactsSource == ContactsSource.DEVICE),
+            isCreatingNewDeviceContact = (viewModel.contactsSource == ContactsSource.DEVICE),
             onSave = {
                 viewModel.createContact(context, it)
             }

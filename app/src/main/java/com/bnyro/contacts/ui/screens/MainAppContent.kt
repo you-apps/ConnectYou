@@ -7,9 +7,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Message
-import androidx.compose.material.icons.filled.Storage
+import androidx.compose.material.icons.rounded.Message
+import androidx.compose.material.icons.rounded.People
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -33,7 +32,6 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
-import com.bnyro.contacts.enums.ContactsSource
 import com.bnyro.contacts.obj.NavBarItem
 import com.bnyro.contacts.ui.components.ContactsPage
 import com.bnyro.contacts.ui.models.ContactsModel
@@ -64,29 +62,21 @@ fun MainAppContent(smsModel: SmsModel) {
 
     val navItems = listOf(
         NavBarItem(
-            stringResource(R.string.device),
-            Icons.Default.Home
-        ) {
-            contactsModel.contactsSource = ContactsSource.DEVICE
-        },
-        NavBarItem(
-            stringResource(R.string.local),
-            Icons.Default.Storage
-        ) {
-            contactsModel.contactsSource = ContactsSource.LOCAL
-        },
+            stringResource(R.string.contacts),
+            Icons.Rounded.People
+        ),
         NavBarItem(
             stringResource(R.string.messages),
-            Icons.Default.Message
+            Icons.Rounded.Message
         )
     )
 
     var currentPage by remember {
         mutableIntStateOf(
             if (smsModel.initialAddressAndBody != null) {
-                2
+                1
             } else {
-                contactsModel.contactsSource.ordinal
+                0
             }
         )
     }
@@ -133,15 +123,14 @@ fun MainAppContent(smsModel: SmsModel) {
         ) {
             Crossfade(targetState = currentPage, label = "crossfade pager") { index ->
                 when (index) {
-                    0, 1 -> ContactsPage(
+                    0 -> ContactsPage(
                         nestedScrollConnection.takeIf { themeModel.collapsableBottomBar },
                         bottomBarOffsetHeight = with(LocalDensity.current) {
                             bottomBarHeight - bottomBarOffsetHeightPx.value.absoluteValue.toDp()
-                        }.takeIf { themeModel.collapsableBottomBar } ?: 0.dp,
-                        ContactsSource.values()[index]
+                        }.takeIf { themeModel.collapsableBottomBar } ?: 0.dp
                     )
 
-                    2 -> SmsListScreen(smsModel, contactsModel)
+                    1 -> SmsListScreen(smsModel, contactsModel)
                 }
             }
         }
