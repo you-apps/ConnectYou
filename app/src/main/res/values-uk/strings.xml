@@ -53,7 +53,7 @@
     <string name="theme">Тема</string>
     <string name="dark">Темна</string>
     <string name="auto_backup">Автоматичне резервне копіювання</string>
-    <string name="choose_dir">Виберіть каталог</string>
+    <string name="choose_dir">Каталог</string>
     <string name="both">Обидва</string>
     <string name="delete">Видалити</string>
     <string name="none">Вимк.</string>
@@ -95,5 +95,9 @@
     <string name="appearance">Зовнішній вигляд</string>
     <string name="backup">Резервне копіювання</string>
     <string name="encrypt_backups">Шифрування резервних копій у форматі zip</string>
-    <string name="backup_password">Пароль для резервних копій</string>
+    <string name="backup_password">Пароль</string>
+    <string name="messages">Повідомлення</string>
+    <string name="send">Відправити повідомлення</string>
+    <string name="reply">Відповідь</string>
+    <string name="connection_error">Помилка з\'єднання! Обов’язково вимкніть режим польоту!</string>
 </resources>

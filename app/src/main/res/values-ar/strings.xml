@@ -54,7 +54,7 @@
     <string name="light">مظيء</string>
     <string name="dark">داكن</string>
     <string name="auto_backup">نسخ احتياطيٌّ تلقائيٌّ</string>
-    <string name="choose_dir">اختر مجلَّدًا</string>
+    <string name="choose_dir">المسار</string>
     <string name="none">لا شيء</string>
     <string name="both">كلاهما</string>
     <string name="manage_groups">أدر المجموعات</string>
@@ -94,5 +94,9 @@
     <string name="behavior">السلوك</string>
     <string name="backup">النسخ الإحتياطي</string>
     <string name="encrypt_backups">تشفير النسخ الاحتياطية كملف مضغوط</string>
-    <string name="backup_password">كلمة مرور للنسخ الاحتياطية</string>
+    <string name="backup_password">كلمة السر</string>
+    <string name="messages">الرسائل</string>
+    <string name="send">إرسال رسالة</string>
+    <string name="reply">رد</string>
+    <string name="connection_error">خطأ في الإتصال! يرجى التأكد من تعطيل وضع الطائرة!</string>
 </resources>

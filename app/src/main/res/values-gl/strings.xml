@@ -64,7 +64,7 @@
     <string name="auto_backup">Copia automática</string>
     <string name="backup_interval">Intervalo da copia</string>
     <string name="max_backup_amount">Núm. máximo de copias</string>
-    <string name="choose_dir">Elexir directorio</string>
+    <string name="choose_dir">Directorio</string>
     <string name="both">Ambos</string>
     <string name="misc">Varios</string>
     <string name="about">Acerca de</string>
@@ -93,6 +93,10 @@
     <string name="behavior">Comportamento</string>
     <string name="appearance">Aparencia</string>
     <string name="encrypt_backups">Cifrar a copia nun zip</string>
-    <string name="backup_password">Contrasinal para a copia</string>
+    <string name="backup_password">Contrasinal</string>
     <string name="backup">Copia de apoio</string>
+    <string name="messages">Mensaxes</string>
+    <string name="send">Enviar mensaxe</string>
+    <string name="reply">Responder</string>
+    <string name="connection_error">Erro na conexión! Comproba que non activaches o modo avión!</string>
 </resources>

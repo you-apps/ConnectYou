@@ -45,7 +45,7 @@
     <string name="start_tab">Separador inicial</string>
     <string name="move">Mover</string>
     <string name="settings">Definições</string>
-    <string name="choose_dir">Escolher directório</string>
+    <string name="choose_dir">Diretório</string>
     <string name="none">Nenhum</string>
     <string name="both">Ambos</string>
     <string name="sort_order">Ordem</string>
@@ -55,7 +55,7 @@
     <string name="account_type">Tipo de conta</string>
     <string name="note">Nota</string>
     <string name="delete">Excluir</string>
-    <string name="auto_backup">Backup automático</string>
+    <string name="auto_backup">Cópia de segurança automática</string>
     <string name="theme">Tema</string>
     <string name="delete_group">Eliminar grupo para todos</string>
     <string name="title">Título</string>
@@ -94,5 +94,9 @@
     <string name="pick_contact">Escolher contacto</string>
     <string name="backup">Cópia de segurança</string>
     <string name="encrypt_backups">Encriptar as cópias de segurança como zip</string>
-    <string name="backup_password">Palavra-passe para cópias de segurança</string>
+    <string name="backup_password">Palavra-passe</string>
+    <string name="messages">Mensagens</string>
+    <string name="send">Enviar mensagem</string>
+    <string name="reply">Responder</string>
+    <string name="connection_error">Erro de ligação! Certifique-se de que desativou o modo de avião!</string>
 </resources>
