@@ -28,6 +28,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDismissState
@@ -72,10 +73,18 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
         smsModel.fetchSmsList(context)
     }
 
-    Box {
+    Scaffold(floatingActionButton = {
+        FloatingActionButton(
+            onClick = {
+                showContactPicker = true
+            }
+        ) {
+            Icon(Icons.Default.Edit, null)
+        }
+    }) { pv ->
         if (smsModel.smsList.isNotEmpty()) {
             LazyColumn(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize().padding(pv)
             ) {
                 val smsList = smsModel.smsGroups.entries.toList()
                     .sortedBy { (_, smsList) -> smsList.maxOf { it.timestamp } }
@@ -113,7 +122,7 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                                     }
                             ) {
                                 Row(
-                                    verticalAlignment = Alignment.CenterVertically,
+                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Box(
                                         modifier = Modifier
@@ -163,18 +172,9 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                 }
             }
         } else {
-            NothingHere()
-        }
-
-        FloatingActionButton(
-            modifier = Modifier
-                .padding(16.dp)
-                .align(Alignment.BottomEnd),
-            onClick = {
-                showContactPicker = true
+            Column(Modifier.padding(pv)) {
+                NothingHere()
             }
-        ) {
-            Icon(Icons.Default.Edit, null)
         }
 
         if (showContactPicker) {
