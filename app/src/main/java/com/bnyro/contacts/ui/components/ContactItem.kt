@@ -62,6 +62,7 @@ fun ContactItem(
     val contactName = when (sortOrder) {
         SortOrder.FIRSTNAME -> contact.displayName
         SortOrder.LASTNAME -> contact.alternativeName
+        SortOrder.NICKNAME -> contact.nickName
     }.orEmpty().trim()
 
     ElevatedCard(
