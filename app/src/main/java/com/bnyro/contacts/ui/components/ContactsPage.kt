@@ -3,8 +3,6 @@ package com.bnyro.contacts.ui.components
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.Crossfade
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +28,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -43,7 +42,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
@@ -64,11 +62,10 @@ import com.bnyro.contacts.ui.screens.SingleContactScreen
 import com.bnyro.contacts.util.BackupHelper
 import com.bnyro.contacts.util.Preferences
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactsPage(
-    scrollConnection: NestedScrollConnection?,
-    bottomBarOffsetHeight: Dp
+    scrollConnection: NestedScrollConnection?
 ) {
     val viewModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
     val context = LocalContext.current
@@ -120,16 +117,19 @@ fun ContactsPage(
         uri?.let { viewModel.exportVcf(context, it) }
     }
 
-    val fabBottomPadding by animateDpAsState(
-        targetValue = bottomBarOffsetHeight,
-        label = "fab padding"
-    )
-
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    newContactToInsert = ContactData()
+                }
+            ) {
+                Icon(Icons.Default.Create, null)
+            }
+        }
+    ) { pv ->
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.padding(pv).fillMaxSize()
         ) {
             Crossfade(targetState = selectedContacts.isEmpty(), label = "main layout") { state ->
                 when (state) {
@@ -323,17 +323,6 @@ fun ContactsPage(
                     }
                 }
             }
-        }
-        FloatingActionButton(
-            modifier = Modifier
-                .padding(16.dp)
-                .padding(bottom = fabBottomPadding)
-                .align(Alignment.BottomEnd),
-            onClick = {
-                newContactToInsert = ContactData()
-            }
-        ) {
-            Icon(Icons.Default.Create, null)
         }
     }
 
