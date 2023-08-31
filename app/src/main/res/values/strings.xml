@@ -42,7 +42,7 @@
     <string name="account_type">Account type</string>
     <string name="name">Name</string>
     <string name="first_name">First name</string>
-    <string name="last_name">Last Name</string>
+    <string name="last_name">Last name</string>
     <string name="nick_name">Nickname</string>
     <string name="organization">Organization</string>
     <!-- Types -->

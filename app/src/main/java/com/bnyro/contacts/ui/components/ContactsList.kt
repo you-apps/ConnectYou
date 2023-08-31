@@ -42,11 +42,13 @@ fun ContactsList(
             when (filterOptions.sortOder) {
                 SortOrder.FIRSTNAME -> it.displayName
                 SortOrder.LASTNAME -> it.alternativeName
+                SortOrder.NICKNAME -> it.nickName
             }
         }.groupBy {
             when (filterOptions.sortOder) {
                 SortOrder.FIRSTNAME -> it.displayName
                 SortOrder.LASTNAME -> it.alternativeName
+                SortOrder.NICKNAME -> it.nickName
             }?.firstOrNull()?.uppercase()
         }
     }

@@ -54,7 +54,7 @@ fun FilterDialog(
         },
         text = {
             Column {
-                val sortOrders = listOf(R.string.first_name, R.string.last_name).map {
+                val sortOrders = listOf(R.string.first_name, R.string.last_name, R.string.nick_name).map {
                     stringResource(it)
                 }
                 ChipSelector(
