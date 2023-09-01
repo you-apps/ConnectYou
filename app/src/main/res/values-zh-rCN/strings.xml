@@ -45,7 +45,7 @@
     <string name="move">移动</string>
     <string name="settings">设置</string>
     <string name="start_tab">起始标签页</string>
-    <string name="choose_dir">选择目录</string>
+    <string name="choose_dir">目录</string>
     <string name="dark">暗色</string>
     <string name="delete">删除</string>
     <string name="sort_order">排列顺序</string>
@@ -92,7 +92,11 @@
     <string name="pick_contact">选取联系人</string>
     <string name="appearance">外观</string>
     <string name="behavior">行为</string>
-    <string name="backup_password">备份所用的密码</string>
+    <string name="backup_password">密码</string>
     <string name="encrypt_backups">将备份加密为 Zip</string>
     <string name="backup">备份</string>
+    <string name="connection_error">连接错误！请确保已禁用飞行模式！</string>
+    <string name="messages">短信</string>
+    <string name="send">发送短信</string>
+    <string name="reply">回复</string>
 </resources>
