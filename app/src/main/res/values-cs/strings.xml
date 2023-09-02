@@ -99,4 +99,5 @@
     <string name="connection_error">Chyba spojení! Nemáte zapnutý režim letadlo\?</string>
     <string name="reply">Odpověď</string>
     <string name="send">Poslat zprávu</string>
+    <string name="contacts">Kontakty</string>
 </resources>
