@@ -6,7 +6,7 @@
     <string name="cancel">Скасувати</string>
     <string name="search" tools:ignore="PrivateResource">Пошук</string>
     <string name="copied">Скопійовано в буфер обміну</string>
-    <string name="empty_name">Ім\'я не може бути порожнім!</string>
+    <string name="empty_name">Ім’я не може бути порожнім!</string>
     <string name="fax_home">Факс дому</string>
     <string name="irreversible">Ви впевнені\? Це не можна відмінити.</string>
     <string name="create_contact">Створити контакт</string>
@@ -21,14 +21,14 @@
     <string name="type">Тип</string>
     <string name="about">Про застосунок</string>
     <string name="license">Ліцензія</string>
-    <string name="custom">Власне</string>
+    <string name="custom">Власна</string>
     <string name="import_vcf">Імпорт vCard</string>
     <string name="author">Автор</string>
-    <string name="first_name">Ім\'я та прізвище</string>
+    <string name="first_name">Ім’я</string>
     <string name="version">Версія</string>
     <string name="last_name">Прізвище</string>
-    <string name="home">Головна</string>
-    <string name="work">Робота</string>
+    <string name="home">Домашній</string>
+    <string name="work">Робочий</string>
     <string name="mobile">Мобільний</string>
     <string name="other">Інше</string>
     <string name="car">Автомобіль</string>
@@ -46,7 +46,7 @@
     <string name="settings">Налаштування</string>
     <string name="move">Перемістити</string>
     <string name="start_tab">Початкова вкладка</string>
-    <string name="system">Як у системі</string>
+    <string name="system">Система</string>
     <string name="sort_order">Порядок сортування</string>
     <string name="account_type">Тип облікового запису</string>
     <string name="note">Примітка</string>
@@ -65,15 +65,15 @@
     <string name="selected">%1$s вибрано</string>
     <string name="backup_interval">Інтервал</string>
     <string name="max_backup_amount">Максимальна кількість копій</string>
-    <string name="new_group">Нова</string>
+    <string name="new_group">Створити</string>
     <string name="groups">Групи</string>
     <string name="misc">Різне</string>
-    <string name="collapse_bottom_bar">Згорнути нижню панель під час прокручування</string>
+    <string name="collapse_bottom_bar">Згортати нижню панель під час прокручування</string>
     <string name="add_to_contact">Додати до контакту</string>
-    <string name="colorful_contact_icons">Кольорові іконки контактів</string>
+    <string name="colorful_contact_icons">Кольорові значки контактів</string>
     <string name="create_shortcut">Створити ярлик</string>
     <string name="dial">Набрати</string>
-    <string name="message">Повідомити</string>
+    <string name="message">Написати</string>
     <string name="new_contact">Новий контакт</string>
     <string name="contact">Контакт</string>
     <string name="edit">Редагувати</string>
@@ -88,16 +88,17 @@
     <string name="more">Більше</string>
     <string name="organization">Організація</string>
     <string name="photo">Фото</string>
-    <string name="name">Ім\'я</string>
+    <string name="name">Ім’я</string>
     <string name="import_sim">Імпорт з SIM-карти</string>
     <string name="pick_contact">Виберіть контакт</string>
     <string name="behavior">Поведінка</string>
     <string name="appearance">Зовнішній вигляд</string>
     <string name="backup">Резервне копіювання</string>
-    <string name="encrypt_backups">Шифрування резервних копій у форматі zip</string>
+    <string name="encrypt_backups">Шифрувати резервні копії у форматі zip</string>
     <string name="backup_password">Пароль</string>
     <string name="messages">Повідомлення</string>
     <string name="send">Відправити повідомлення</string>
     <string name="reply">Відповідь</string>
-    <string name="connection_error">Помилка з\'єднання! Обов’язково вимкніть режим польоту!</string>
+    <string name="connection_error">Помилка з’єднання! Обов’язково вимкніть режим польоту!</string>
+    <string name="contacts">Контакти</string>
 </resources>
