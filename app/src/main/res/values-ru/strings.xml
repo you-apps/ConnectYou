@@ -99,4 +99,5 @@
     <string name="reply">Ответить</string>
     <string name="messages">Сообщения</string>
     <string name="connection_error">Ошибка соединения! Пожалуйста, убедитесь, что режим полёта отключён!</string>
+    <string name="contacts">Контакты</string>
 </resources>
