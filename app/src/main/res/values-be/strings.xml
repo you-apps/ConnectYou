@@ -99,4 +99,5 @@
     <string name="send">Адправіць паведамленне</string>
     <string name="reply">Адказаць</string>
     <string name="connection_error">Памылка злучэння! Не забудзьцеся адключыць рэжым палёту!</string>
+    <string name="contacts">Кантакты</string>
 </resources>
