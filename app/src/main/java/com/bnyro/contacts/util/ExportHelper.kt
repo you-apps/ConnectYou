@@ -46,21 +46,26 @@ class ExportHelper(
         }
     }
 
-    suspend fun exportTempContact(minimalContact: ContactData, isFullContact: Boolean = false): Uri {
-        val contact = if (isFullContact) {
-            minimalContact
-        } else {
-            contactsRepository.loadAdvancedData(
-                minimalContact
-            )
-        }
-        val vCardText = VcardHelper.exportVcard(listOf(contact))
+    suspend fun exportTempContact(contacts: List<ContactData>): Uri {
+        val vCardText = VcardHelper.exportVcard(contacts)
         val outputDir = File(context.cacheDir, "contacts").also {
             if (!it.exists()) it.mkdir()
         }
         val outFile = withContext(Dispatchers.IO) {
-            val contactName = contact.displayName.orEmpty().replace(" ", "_")
-            File.createTempFile("$contactName-contact-export", ".vcf", outputDir)
+            var fileName: String
+            if (contacts.size == 1) {
+                fileName = contacts
+                    .firstOrNull()
+                    ?.displayName
+                    ?.replace(" ", "_")
+                    .orEmpty()
+
+                // if the file name is too short, this can lead to crashes
+                if (fileName.length < 10) fileName += "-$CONTACTS_EXPORT_FILE_SUFFIX"
+            } else {
+                fileName = CONTACTS_EXPORT_FILE_SUFFIX
+            }
+            File.createTempFile("${fileName}_", ".vcf", outputDir)
         }
         contentResolver.openOutputStream(Uri.fromFile(outFile))?.use {
             it.write(vCardText.toByteArray())
@@ -70,5 +75,9 @@ class ExportHelper(
             context.applicationContext.packageName + ".provider",
             outFile
         )
+    }
+
+    companion object {
+        private const val CONTACTS_EXPORT_FILE_SUFFIX = "contacts-export"
     }
 }

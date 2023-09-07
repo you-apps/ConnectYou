@@ -78,7 +78,7 @@ fun ShareDialog(
                     if (!sharePhone.value) numbers = emptyList()
                     if (!shareWebsite.value) websites = emptyList()
                 }
-                contactsModel.exportSingleVcf(context, editedContact)
+                contactsModel.shareTempContacts(context, listOf(editedContact))
             }
         }
     )
