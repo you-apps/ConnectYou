@@ -14,6 +14,7 @@ object Preferences {
     private lateinit var preferences: SharedPreferences
 
     const val homeTabKey = "homeTab"
+    const val selectedContactsRepo = "selectedContactsRepo"
     const val themeKey = "theme"
     const val backupDirKey = "backupDir"
     const val backupTypeKey = "backupType"

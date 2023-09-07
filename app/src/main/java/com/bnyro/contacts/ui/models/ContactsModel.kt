@@ -38,10 +38,7 @@ class ContactsModel(
 ) : ViewModel() {
     var contactsSource by mutableStateOf(
         ContactsSource.values().getOrNull(
-            Preferences.getInt(
-                Preferences.homeTabKey,
-                0
-            )
+            Preferences.getInt(Preferences.selectedContactsRepo, 0)
         ) ?: ContactsSource.DEVICE
     )
     val contactsRepository: ContactsRepository

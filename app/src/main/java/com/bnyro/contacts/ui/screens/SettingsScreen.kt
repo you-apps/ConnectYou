@@ -93,7 +93,7 @@ fun SettingsScreen(onDismissRequest: () -> Unit) {
                 Text(stringResource(R.string.start_tab))
                 BlockPreference(
                     preferenceKey = Preferences.homeTabKey,
-                    entries = listOf(R.string.device, R.string.local).map {
+                    entries = listOf(R.string.contacts, R.string.messages).map {
                         stringResource(it)
                     }
                 )

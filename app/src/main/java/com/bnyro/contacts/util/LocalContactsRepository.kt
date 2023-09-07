@@ -20,7 +20,7 @@ import kotlinx.coroutines.withContext
 class LocalContactsRepository(context: Context) : ContactsRepository {
     override val label: String = context.getString(R.string.local)
 
-    private val picturesDir = File(context.filesDir, Companion.PICTURES_DIR).also {
+    private val picturesDir = File(context.filesDir, PICTURES_DIR).also {
         if (!it.exists()) it.mkdirs()
     }
 

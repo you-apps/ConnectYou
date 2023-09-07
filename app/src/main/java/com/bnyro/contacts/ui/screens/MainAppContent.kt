@@ -36,6 +36,7 @@ import com.bnyro.contacts.ui.components.ContactsPage
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.SmsModel
 import com.bnyro.contacts.ui.models.ThemeModel
+import com.bnyro.contacts.util.Preferences
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -70,11 +71,10 @@ fun MainAppContent(smsModel: SmsModel) {
 
     var currentPage by remember {
         mutableIntStateOf(
-            if (smsModel.initialAddressAndBody != null) {
-                1
-            } else {
+            smsModel.initialAddressAndBody?.let { 1 } ?: Preferences.getInt(
+                Preferences.homeTabKey,
                 0
-            }
+            )
         )
     }
 
@@ -98,7 +98,6 @@ fun MainAppContent(smsModel: SmsModel) {
                     NavigationBarItem(
                         selected = (index == currentPage),
                         onClick = {
-                            navItem.onClick.invoke()
                             currentPage = index
                         },
                         icon = {

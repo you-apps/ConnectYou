@@ -160,11 +160,12 @@ fun ContactsPage(
                                     expanded = expanded,
                                     onDismissRequest = { expanded = false }
                                 ) {
-                                    ContactsSource.values().forEach {
+                                    ContactsSource.values().forEachIndexed { index, source ->
                                         DropdownMenuItem(
-                                            text = { Text(stringResource(id = it.stringRes)) },
+                                            text = { Text(stringResource(id = source.stringRes)) },
                                             onClick = {
-                                                viewModel.contactsSource = it
+                                                viewModel.contactsSource = source
+                                                Preferences.edit { putInt(Preferences.selectedContactsRepo, index) }
                                                 expanded = false
                                             }
                                         )
