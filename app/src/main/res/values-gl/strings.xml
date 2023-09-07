@@ -99,4 +99,5 @@
     <string name="send">Enviar mensaxe</string>
     <string name="reply">Responder</string>
     <string name="connection_error">Erro na conexión! Comproba que non activaches o modo avión!</string>
+    <string name="contacts">Contactos</string>
 </resources>
