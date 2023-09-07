@@ -155,16 +155,17 @@ class ContactsModel(
     }
 
     fun copyContacts(context: Context, contacts: List<ContactData>) {
+        val otherHelper = when (contactsRepository) {
+            is DeviceContactsRepository -> localContactsRepository
+            else -> deviceContactsRepository
+        }
         viewModelScope.launch {
             contacts.forEach { contact ->
                 val fullContact = loadAdvancedContactData(contact)
-                val otherHelper = when (contactsRepository) {
-                    is DeviceContactsRepository -> localContactsRepository
-                    else -> deviceContactsRepository
-                }
                 otherHelper.createContact(fullContact)
             }
         }
+        loadContacts(context)
     }
 
     fun moveContacts(context: Context, contacts: List<ContactData>) {
