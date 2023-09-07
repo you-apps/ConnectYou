@@ -10,7 +10,7 @@ import com.bnyro.contacts.util.Preferences
 class ThemeModel : ViewModel() {
     var themeMode by mutableStateOf(
         ThemeMode.fromInt(
-            Preferences.getInt(Preferences.themeKey, ThemeMode.SYSTEM.value)
+            Preferences.getInt(Preferences.themeKey, ThemeMode.SYSTEM.ordinal)
         )
     )
     var collapsableBottomBar by mutableStateOf(

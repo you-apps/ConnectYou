@@ -20,7 +20,7 @@ import kotlinx.coroutines.withContext
 class LocalContactsRepository(context: Context) : ContactsRepository {
     override val label: String = context.getString(R.string.local)
 
-    private val picturesDir = File(context.filesDir, "images").also {
+    private val picturesDir = File(context.filesDir, Companion.PICTURES_DIR).also {
         if (!it.exists()) it.mkdirs()
     }
 
@@ -43,7 +43,7 @@ class LocalContactsRepository(context: Context) : ContactsRepository {
             contact.groups.map {
                 DbDataItem(
                     contactId = contactId,
-                    category = DataCategory.GROUP.value,
+                    category = DataCategory.GROUP.ordinal,
                     value = it.title,
                     type = -1
                 )
@@ -93,7 +93,7 @@ class LocalContactsRepository(context: Context) : ContactsRepository {
                 events = it.dataItems.toValueWithType(DataCategory.EVENT),
                 notes = it.dataItems.toValueWithType(DataCategory.NOTE),
                 websites = it.dataItems.toValueWithType(DataCategory.WEBSITE),
-                groups = it.dataItems.filter { d -> d.category == DataCategory.GROUP.value }
+                groups = it.dataItems.filter { d -> d.category == DataCategory.GROUP.ordinal }
                     .map { group -> ContactsGroup(group.value, -1) }
             )
         }
@@ -120,21 +120,20 @@ class LocalContactsRepository(context: Context) : ContactsRepository {
     }
 
     private fun List<DbDataItem>.toValueWithType(category: DataCategory): List<ValueWithType> {
-        return filter { it.category == category.value }.map { ValueWithType(it.value, it.type) }
+        return filter { it.category == category.ordinal }.map { ValueWithType(it.value, it.type) }
     }
 
     private fun List<ValueWithType>.toDataItem(contactId: Long, category: DataCategory): List<DbDataItem> {
         return map {
             DbDataItem(
                 contactId = contactId,
-                category = category.value,
+                category = category.ordinal,
                 value = it.value,
                 type = it.type
             )
         }
     }
 
-    @Deprecated("Useless function")
     override suspend fun loadAdvancedData(contact: ContactData): ContactData = contact
     override fun isAutoBackupEnabled(): Boolean {
         return Preferences.getBackupType() in listOf(BackupType.BOTH, BackupType.LOCAL)
@@ -151,8 +150,12 @@ class LocalContactsRepository(context: Context) : ContactsRepository {
 
     override suspend fun deleteGroup(group: ContactsGroup) = withContext(Dispatchers.IO) {
         DatabaseHolder.Db.localContactsDao().deleteDataByCategoryAndValue(
-            DataCategory.GROUP.value,
+            DataCategory.GROUP.ordinal,
             group.title
         )
+    }
+
+    companion object {
+        private const val PICTURES_DIR = "images"
     }
 }

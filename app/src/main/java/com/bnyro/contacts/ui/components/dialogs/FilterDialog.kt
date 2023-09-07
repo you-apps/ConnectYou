@@ -60,7 +60,7 @@ fun FilterDialog(
                 ChipSelector(
                     title = stringResource(R.string.sort_order),
                     entries = sortOrders,
-                    selections = listOf(sortOrders[sortOrder.value]),
+                    selections = listOf(sortOrders[sortOrder.ordinal]),
                     onSelectionChanged = { index, _ ->
                         sortOrder = SortOrder.fromInt(index)
                     }

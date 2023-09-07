@@ -1,11 +1,11 @@
 package com.bnyro.contacts.enums
 
-enum class ThemeMode(val value: Int) {
-    SYSTEM(0),
-    LIGHT(1),
-    DARK(2);
+enum class ThemeMode {
+    SYSTEM,
+    LIGHT,
+    DARK;
 
     companion object {
-        fun fromInt(value: Int) = ThemeMode.values().first { it.value == value }
+        fun fromInt(value: Int) = ThemeMode.values().first { it.ordinal == value }
     }
 }

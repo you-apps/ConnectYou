@@ -38,7 +38,7 @@ object Preferences {
     }
 
     fun getBackupType(): BackupType {
-        return BackupType.fromInt(getInt(backupTypeKey, BackupType.NONE.value))
+        return BackupType.fromInt(getInt(backupTypeKey, BackupType.NONE.ordinal))
     }
 }
 
