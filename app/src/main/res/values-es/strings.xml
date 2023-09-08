@@ -13,7 +13,7 @@
     <string name="event">Evento</string>
     <string name="sort_order">Ordenación</string>
     <string name="first_name">Nombre</string>
-    <string name="last_name">Apellidos</string>
+    <string name="last_name">Apellido</string>
     <string name="type">Tipo</string>
     <string name="home">Inicio</string>
     <string name="car">Coche</string>
@@ -99,4 +99,5 @@
     <string name="send">Enviar un mensaje</string>
     <string name="reply">Responder</string>
     <string name="connection_error">¡Error en la conexión!. ¡Por favor, asegúrate de desactivar el modo avión!</string>
+    <string name="contacts">Contactos</string>
 </resources>
