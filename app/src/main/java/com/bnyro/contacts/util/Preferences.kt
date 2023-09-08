@@ -19,6 +19,7 @@ object Preferences {
     const val backupDirKey = "backupDir"
     const val backupTypeKey = "backupType"
     const val sortOrderKey = "sorting"
+    const val hiddenAccountsKey = "hiddenAccounts"
     const val backupIntervalKey = "backupInterval"
     const val maxBackupAmountKey = "maxBackupAmount"
     const val collapseBottomBarKey = "collapseBottomBar"
@@ -33,6 +34,7 @@ object Preferences {
     fun getBoolean(key: String, defValue: Boolean) = preferences.getBoolean(key, defValue)
     fun getString(key: String, defValue: String) = preferences.getString(key, defValue)
     fun getInt(key: String, defValue: Int) = preferences.getInt(key, defValue)
+    fun getStringSet(key: String, defValue: Set<String>) = preferences.getStringSet(key, defValue)
 
     fun edit(action: SharedPreferences.Editor.() -> Unit) {
         preferences.edit().apply(action).apply()
