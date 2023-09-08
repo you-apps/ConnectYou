@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.MoveToInbox
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
@@ -274,6 +275,13 @@ fun ContactsPage(
                                     contentDescription = R.string.move
                                 ) {
                                     viewModel.moveContacts(context, selectedContacts.toList())
+                                    selectedContacts.clear()
+                                }
+                                ClickableIcon(
+                                    icon = Icons.Default.Share,
+                                    contentDescription = R.string.share
+                                ) {
+                                    viewModel.shareTempContacts(context, selectedContacts)
                                     selectedContacts.clear()
                                 }
                                 ClickableIcon(

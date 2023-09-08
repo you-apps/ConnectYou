@@ -192,10 +192,10 @@ class ContactsModel(
         context.toast(R.string.export_success)
     }
 
-    fun exportSingleVcf(context: Context, contact: ContactData) {
+    fun shareTempContacts(context: Context, contacts: List<ContactData>) {
         viewModelScope.launch(Dispatchers.IO) {
             val exportHelper = ExportHelper(context, contactsRepository)
-            val tempFileUri = exportHelper.exportTempContact(contact, true)
+            val tempFileUri = exportHelper.exportTempContact(contacts)
             IntentHelper.shareContactVcf(context, tempFileUri)
         }
     }
