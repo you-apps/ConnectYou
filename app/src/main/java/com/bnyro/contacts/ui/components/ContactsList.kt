@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
-import com.bnyro.contacts.enums.SortOrder
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.FilterOptions
 import com.bnyro.contacts.ui.components.modifier.scrollbar
@@ -39,17 +38,9 @@ fun ContactsList(
                 }
             }
         }.sortedBy {
-            when (filterOptions.sortOder) {
-                SortOrder.FIRSTNAME -> it.displayName
-                SortOrder.LASTNAME -> it.alternativeName
-                SortOrder.NICKNAME -> it.nickName
-            }
+            it.getNameBySortOrder(filterOptions.sortOder)
         }.groupBy {
-            when (filterOptions.sortOder) {
-                SortOrder.FIRSTNAME -> it.displayName
-                SortOrder.LASTNAME -> it.alternativeName
-                SortOrder.NICKNAME -> it.nickName
-            }?.firstOrNull()?.uppercase()
+            it.getNameBySortOrder(filterOptions.sortOder)?.firstOrNull()?.uppercase()
         }
     }
     LazyColumn(

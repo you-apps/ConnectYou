@@ -59,11 +59,7 @@ fun ContactItem(
         mutableStateOf(false)
     }
 
-    val contactName = when (sortOrder) {
-        SortOrder.FIRSTNAME -> contact.displayName
-        SortOrder.LASTNAME -> contact.alternativeName
-        SortOrder.NICKNAME -> contact.nickName
-    }.orEmpty().trim()
+    val contactName = contact.getNameBySortOrder(sortOrder).orEmpty().trim()
 
     ElevatedCard(
         modifier = Modifier

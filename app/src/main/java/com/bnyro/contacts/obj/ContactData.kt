@@ -1,6 +1,7 @@
 package com.bnyro.contacts.obj
 
 import android.graphics.Bitmap
+import com.bnyro.contacts.enums.SortOrder
 
 data class ContactData(
     var dataId: Int = 0,
@@ -23,4 +24,12 @@ data class ContactData(
     var notes: List<ValueWithType> = listOf(),
     var groups: List<ContactsGroup> = listOf(),
     var websites: List<ValueWithType> = listOf()
-)
+) {
+    fun getNameBySortOrder(sortOrder: SortOrder): String? {
+        return when (sortOrder) {
+            SortOrder.FIRSTNAME -> displayName
+            SortOrder.LASTNAME -> alternativeName
+            SortOrder.NICKNAME -> nickName ?: displayName
+        }
+    }
+}
