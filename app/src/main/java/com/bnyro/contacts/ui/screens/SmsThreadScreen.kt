@@ -2,6 +2,7 @@ package com.bnyro.contacts.ui.screens
 
 import android.provider.Telephony
 import android.text.format.DateUtils
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
@@ -205,6 +206,10 @@ fun SmsThreadScreen(
                         contentDescription = R.string.send
                     ) {
                         if (text.isBlank()) return@ClickableIcon
+                        if (!SmsUtil.isShortEnoughForSms(text)) {
+                            Toast.makeText(context, R.string.message_too_long, Toast.LENGTH_SHORT).show()
+                            return@ClickableIcon
+                        }
 
                         smsModel.sendSms(context, address, text)
 

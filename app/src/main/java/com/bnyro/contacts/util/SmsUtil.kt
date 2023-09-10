@@ -12,11 +12,14 @@ import com.bnyro.contacts.ext.intValue
 import com.bnyro.contacts.ext.longValue
 import com.bnyro.contacts.ext.stringValue
 import com.bnyro.contacts.obj.SmsData
+import java.lang.Character.UnicodeBlock
 import java.util.Calendar
 import kotlin.random.Random
 
 object SmsUtil {
     private val contentUri = Telephony.Sms.CONTENT_URI
+    private const val MAX_CHAR_LIMIT = 160
+    private const val MAX_CHAR_LIMIT_WITH_UNICODE = 70
 
     fun getSmsList(context: Context): List<SmsData> {
         context.contentResolver
@@ -124,5 +127,16 @@ object SmsUtil {
             if (it.moveToFirst()) smsData.id = it.longValue(Telephony.Sms._ID)!!
         }
         return smsData
+    }
+
+    fun isShortEnoughForSms(text: String): Boolean {
+        if (text.length > MAX_CHAR_LIMIT) return false
+
+        // text messages containing one or more unicode chars are limited to 70 characters
+        if (text.any { c -> UnicodeBlock.of(c) != UnicodeBlock.BASIC_LATIN }) {
+            return text.length < MAX_CHAR_LIMIT_WITH_UNICODE
+        }
+
+        return true
     }
 }
