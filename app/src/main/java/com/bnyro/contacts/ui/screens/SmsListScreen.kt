@@ -32,6 +32,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDismissState
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -41,6 +42,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -122,6 +124,7 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                                     }
                             ) {
                                 Row(
+                                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Box(
@@ -139,7 +142,10 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                                                 .padding(15.dp)
                                                 .fillMaxSize(),
                                             imageVector = Icons.Default.Person,
-                                            contentDescription = null
+                                            contentDescription = null,
+                                            colorFilter = ColorFilter.tint(
+                                                MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp)
+                                            ),
                                         )
                                     }
                                     Spacer(modifier = Modifier.width(10.dp))
