@@ -1,6 +1,7 @@
 package com.bnyro.contacts.ui.screens
 
 import android.provider.Telephony
+import android.text.format.DateUtils
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SwipeToDismiss
@@ -40,6 +42,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.SmsData
@@ -129,10 +132,9 @@ fun SmsThreadScreen(
                         val edgedCornerRadius = 3.dp
                         val messageSidePadding = 70.dp
 
+                        val messageAlignment = if (isSender) Alignment.End else Alignment.Start
                         SwipeToDismiss(
-                            modifier = Modifier.align(
-                                if (isSender) Alignment.End else Alignment.Start
-                            ),
+                            modifier = Modifier.align(messageAlignment),
                             state = state,
                             background = {},
                             dismissContent = {
@@ -151,10 +153,18 @@ fun SmsThreadScreen(
                                         topStart = defaultCornerRadius
                                     )
                                 ) {
-                                    Text(
-                                        modifier = Modifier.padding(10.dp),
-                                        text = smsData.body
-                                    )
+                                    Column(
+                                        modifier = Modifier.padding(12.dp),
+                                    ) {
+                                        Text(text = smsData.body)
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                        Text(
+                                            modifier = Modifier.align(messageAlignment),
+                                            fontSize = 14.sp,
+                                            color = MaterialTheme.colorScheme.primary,
+                                            text = DateUtils.getRelativeTimeSpanString(smsData.timestamp).toString()
+                                        )
+                                    }
                                 }
                             },
                             directions = setOf(DismissDirection.StartToEnd)
