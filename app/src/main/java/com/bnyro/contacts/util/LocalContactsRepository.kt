@@ -13,9 +13,9 @@ import com.bnyro.contacts.ext.pmap
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ContactsGroup
 import com.bnyro.contacts.obj.ValueWithType
-import java.io.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.File
 
 class LocalContactsRepository(context: Context) : ContactsRepository {
     override val label: String = context.getString(R.string.local)

@@ -66,7 +66,7 @@ fun SmsThreadScreen(
         mutableStateOf(false)
     }
 
-    LaunchedEffect(address + smsModel.smsList) {
+    LaunchedEffect(address, smsModel.smsList) {
         smsList = smsModel.smsList
             .filter { it.address == address }
             .sortedBy { it.timestamp }

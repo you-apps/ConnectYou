@@ -1,7 +1,7 @@
 package com.bnyro.contacts
 
 import com.bnyro.contacts.util.CalendarUtils
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 /**
