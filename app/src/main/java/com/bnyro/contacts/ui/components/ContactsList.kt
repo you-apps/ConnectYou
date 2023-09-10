@@ -26,7 +26,7 @@ fun ContactsList(
     selectedContacts: MutableList<ContactData>
 ) {
     val state = rememberLazyListState()
-    val contactGroups = remember(contacts) {
+    val contactGroups = remember(contacts, filterOptions) {
         contacts.asSequence().filter {
             !filterOptions.hiddenAccountIdentifiers.contains(it.accountIdentifier)
         }.filter {
