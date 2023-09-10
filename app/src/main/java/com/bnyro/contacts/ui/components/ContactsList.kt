@@ -28,7 +28,7 @@ fun ContactsList(
     val state = rememberLazyListState()
     val contactGroups = remember(contacts) {
         contacts.asSequence().filter {
-            !filterOptions.hiddenAccountNames.contains(it.accountName)
+            !filterOptions.hiddenAccountIdentifiers.contains(it.accountIdentifier)
         }.filter {
             if (filterOptions.visibleGroups.isEmpty()) {
                 true

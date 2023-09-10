@@ -379,7 +379,10 @@ fun ContactsPage(
                 showFilterDialog = false
             },
             onFilterChanged = {
-                Preferences.edit { putInt(Preferences.sortOrderKey, it.sortOder.ordinal) }
+                Preferences.edit {
+                    putInt(Preferences.sortOrderKey, it.sortOder.ordinal)
+                    putStringSet(Preferences.hiddenAccountsKey, it.hiddenAccountIdentifiers.toSet())
+                }
                 filterOptions = it
             },
             initialFilters = filterOptions,

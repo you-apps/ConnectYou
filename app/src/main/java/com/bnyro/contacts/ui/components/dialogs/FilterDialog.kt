@@ -31,7 +31,7 @@ fun FilterDialog(
     }
 
     var hiddenAccountNames by remember {
-        mutableStateOf(initialFilters.hiddenAccountNames)
+        mutableStateOf(initialFilters.hiddenAccountIdentifiers)
     }
 
     var visibleGroups by remember {
@@ -71,14 +71,15 @@ fun FilterDialog(
                         title = stringResource(R.string.account_type),
                         entries = availableAccountTypes.map { it.second },
                         selections = availableAccountTypes.filter {
-                            !hiddenAccountNames.contains(it.first)
+                            !hiddenAccountNames.contains(it.first + "|" + it.second)
                         }.map { it.second },
                         onSelectionChanged = { index, newValue ->
-                            val selectedAccountType = availableAccountTypes[index].first
+                            val selection = availableAccountTypes[index]
+                            val selectedAccountName = selection.first + "|" + selection.second
                             hiddenAccountNames = if (newValue) {
-                                hiddenAccountNames - selectedAccountType
+                                hiddenAccountNames - selectedAccountName
                             } else {
-                                hiddenAccountNames + selectedAccountType
+                                hiddenAccountNames + selectedAccountName
                             }
                         }
                     )
