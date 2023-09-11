@@ -84,4 +84,5 @@
     <string name="website">Nettside</string>
     <string name="organization">Organisasjon</string>
     <string name="ftp">FTP</string>
+    <string name="behavior">Adferd</string>
 </resources>
