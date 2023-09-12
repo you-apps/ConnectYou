@@ -22,7 +22,7 @@
     <string name="auto_backup">ස්වයංක්‍රීය උපස්ථය</string>
     <string name="backup_interval">උපස්ථ පරතරය</string>
     <string name="max_backup_amount">උපරිම උපස්ථ ගණන</string>
-    <string name="choose_dir">නාමාවලිය තෝරන්න</string>
+    <string name="choose_dir">නාමාවලිය</string>
     <string name="collapse_bottom_bar">අනුචලනයේදී පහළ තීරුව හකුළන්න</string>
     <string name="colorful_contact_icons">වර්ණවත් සබඳතා නිරූපක</string>
     <string name="about">පිළිබඳව</string>
@@ -92,7 +92,12 @@
     <string name="pick_contact">සබඳතාව තෝරන්න</string>
     <string name="behavior">හැසිරීම</string>
     <string name="appearance">පෙනුම</string>
-    <string name="backup_password">උපස්ථ සඳහා මුරපදය</string>
+    <string name="backup_password">මුරපදය</string>
     <string name="backup">උපස්ථය</string>
     <string name="encrypt_backups">zip ලෙස උපස්ථ සංකේතනය</string>
+    <string name="reply">පිළිතුර</string>
+    <string name="contacts">සබඳතා</string>
+    <string name="send">පණිවිඩය යවන්න</string>
+    <string name="messages">පණිවිඩ</string>
+    <string name="connection_error">සම්බන්ධතාවේ දෝෂයකි! ගුවන්යානා ප්‍රකාරය අබල කර ඇත්දැයි බලන්න.</string>
 </resources>
