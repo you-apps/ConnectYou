@@ -101,4 +101,5 @@
     <string name="reply">Yanıtla</string>
     <string name="connection_error">Bağlantı hatası! Lütfen uçak modunu devre dışı bıraktığınızdan emin olun!</string>
     <string name="contacts">Kişiler</string>
+    <string name="message_too_long">Mesaj çok uzun!</string>
 </resources>
