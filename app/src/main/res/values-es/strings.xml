@@ -100,4 +100,5 @@
     <string name="reply">Responder</string>
     <string name="connection_error">¡Error en la conexión!. ¡Por favor, asegúrate de desactivar el modo avión!</string>
     <string name="contacts">Contactos</string>
+    <string name="message_too_long">¡El mensaje es demasiado largo!</string>
 </resources>
