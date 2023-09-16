@@ -100,4 +100,5 @@
     <string name="reply">תגובה</string>
     <string name="send">שליחת הודעה</string>
     <string name="contacts">אנשי קשר</string>
+    <string name="message_too_long">ההודעה ארוכה מדי!</string>
 </resources>
