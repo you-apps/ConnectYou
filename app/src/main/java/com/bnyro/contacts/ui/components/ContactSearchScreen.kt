@@ -64,7 +64,7 @@ fun ContactSearchScreen(
                         .map { (value, _) -> value } + listOf(it.organization, it.nickName, it.displayName)
 
                     contactInfoStrings.filterNotNull().any { str ->
-                        str.contains(query)
+                        str.lowercase().contains(query)
                     }
                 }
             }
