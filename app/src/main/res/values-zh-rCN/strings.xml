@@ -100,4 +100,5 @@
     <string name="send">发送短信</string>
     <string name="reply">回复</string>
     <string name="contacts">联系人</string>
+    <string name="message_too_long">消息太长啦！</string>
 </resources>

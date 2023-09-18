@@ -100,4 +100,5 @@
     <string name="reply">Odpověď</string>
     <string name="send">Poslat zprávu</string>
     <string name="contacts">Kontakty</string>
+    <string name="message_too_long">Zpráva je příliš dlouhá!</string>
 </resources>

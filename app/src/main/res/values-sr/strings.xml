@@ -5,23 +5,23 @@
     <string name="search" tools:ignore="PrivateResource">Претрага</string>
     <string name="copied">Копирано у привремену меморију</string>
     <string name="delete_contact">Избриши контакт</string>
-    <string name="irreversible">Да ли сте сигурни? Ово не може бити поништено!</string>
-    <string name="cancel">Одустани</string>
+    <string name="irreversible">Да ли сте сигурни\? Ово не може бити поништено.</string>
+    <string name="cancel">Откажи</string>
     <string name="okay">У реду</string>
     <string name="reset">Ресетуј</string>
     <string name="create_contact">Креирај контакт</string>
-    <string name="retry">Покушај опет</string>
+    <string name="retry">Покушај поново</string>
     <string name="share">Подели</string>
     <string name="add_to_contact">Додај контакту</string>
     <string name="new_contact">Нови контакт</string>
     <string name="create_shortcut">Креирај пречицу</string>
     <string name="dial">Позови</string>
-    <string name="message">Пошаљи поруку</string>
+    <string name="message">Порука</string>
     <string name="contact">Контакт</string>
-    <string name="edit">Измени</string>
+    <string name="edit">Уреди</string>
     <string name="filter">Филтер</string>
-    <string name="more">Још</string>
-    <string name="show_more_fields">Прикажи још поља</string>
+    <string name="more">Више</string>
+    <string name="show_more_fields">Прикажи више поља</string>
     <string name="show_less">Прикажи мање</string>
     <!-- Warnings -->
     <string name="empty_name">Име не може бити празно!</string>
@@ -33,7 +33,7 @@
     <string name="email">Имејл</string>
     <string name="address">Адреса</string>
     <string name="event">Догађај</string>
-    <string name="website">Сајт</string>
+    <string name="website">Веб-сајт</string>
     <!-- Sorting and filter -->
     <string name="sort_order">Редослед сортирања</string>
     <string name="account_type">Врста налога</string>
@@ -47,15 +47,15 @@
     <string name="work">Посао</string>
     <string name="mobile">Мобилни</string>
     <string name="other">Друго</string>
-    <string name="custom">Произвољно</string>
-    <string name="car">Ауто</string>
+    <string name="custom">Проилагођено</string>
+    <string name="car">Аутомобил</string>
     <string name="fax_home">Кућни факс</string>
     <string name="fax_work">Пословни факс</string>
     <string name="assistant">Асистент</string>
     <string name="birthday">Рођендан</string>
     <string name="anniversary">Годишњица</string>
     <string name="note">Белешка</string>
-    <string name="homepage">Почетна страна</string>
+    <string name="homepage">Почетна страница</string>
     <string name="ftp" translatable="false">FTP</string>
     <string name="blog">Блог</string>
     <!-- Contact groups -->
@@ -77,19 +77,19 @@
     <string name="export_vcf">Извези vCard</string>
     <!-- Settings -->
     <string name="settings">Подешавања</string>
-    <string name="start_tab">Почетни одељак</string>
+    <string name="start_tab">Почетна картица</string>
     <string name="theme">Тема</string>
-    <string name="system">Како систем</string>
+    <string name="system">Систем</string>
     <string name="light">Светла</string>
-    <string name="dark">Мрачна</string>
+    <string name="dark">Тамна</string>
     <string name="auto_backup">Аутоматска резервна копија</string>
     <string name="backup_interval">Интервал за резервну копију</string>
     <string name="max_backup_amount">Максимална количина резервних копија</string>
-    <string name="choose_dir">Изаберите директоријум</string>
+    <string name="choose_dir">Директоријум</string>
     <string name="both">Оба</string>
     <string name="none">Ниједно</string>
     <string name="misc">Остало</string>
-    <string name="collapse_bottom_bar">Смањи траку на дну при скроловању</string>
+    <string name="collapse_bottom_bar">Скупи доњу траку при скроловању</string>
     <string name="colorful_contact_icons">Шарене иконице контаката</string>
     <!-- About -->
     <string name="about">О апликацији</string>
@@ -98,4 +98,18 @@
     <string name="version">Верзија</string>
     <string name="translation">Превод</string>
     <string name="appearance">Изглед</string>
+    <string name="behavior">Понашање</string>
+    <string name="reply">Одговори</string>
+    <string name="import_sim">Увези са SIM-а</string>
+    <string name="name">Име</string>
+    <string name="encrypt_backups">Шифруј резервне копије као zip</string>
+    <string name="message_too_long">Порука је предугачка!</string>
+    <string name="contacts">Контакти</string>
+    <string name="send">Пошаљи поруку</string>
+    <string name="photo">Фотографија</string>
+    <string name="backup">Резервна копија</string>
+    <string name="pick_contact">Изабери контакт</string>
+    <string name="messages">Поруке</string>
+    <string name="backup_password">Лозинка</string>
+    <string name="connection_error">Грешка у мрежној вези! Обавезно онемогућите режим рада у авиону!</string>
 </resources>
