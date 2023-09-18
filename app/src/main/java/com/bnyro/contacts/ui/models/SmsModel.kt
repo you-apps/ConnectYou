@@ -40,12 +40,14 @@ class SmsModel: ViewModel() {
         createSmsGroups()
     }
 
-    fun removeFromSmsList(id: Long) {
+    fun deleteSms(context: Context, id: Long) {
+        SmsUtil.deleteMessage(context, id)
         smsList = smsList.filter { it.id != id }
         createSmsGroups()
     }
 
-    fun removeByThreadId(threadId: Long) {
+    fun deleteThread(context: Context, threadId: Long) {
+        SmsUtil.deleteThread(context, threadId)
         smsList = smsList.filter { it.threadId != threadId }
         createSmsGroups()
     }

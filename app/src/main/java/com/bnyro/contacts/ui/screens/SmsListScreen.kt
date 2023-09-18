@@ -56,7 +56,6 @@ import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.SmsModel
 import com.bnyro.contacts.util.NotificationHelper
 import com.bnyro.contacts.util.PermissionHelper
-import com.bnyro.contacts.util.SmsUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -102,8 +101,7 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                     val dismissState = rememberDismissState(
                         confirmValueChange = {
                             if (it == DismissValue.DismissedToEnd) {
-                                SmsUtil.deleteThread(context, threadId)
-                                smsModel.removeByThreadId(threadId)
+                                smsModel.deleteThread(context, threadId)
                             }
                             return@rememberDismissState false
                         }

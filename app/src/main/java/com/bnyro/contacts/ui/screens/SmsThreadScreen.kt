@@ -117,8 +117,7 @@ fun SmsThreadScreen(
                         val state = rememberDismissState(
                             confirmValueChange = {
                                 if (it == DismissValue.DismissedToEnd) {
-                                    SmsUtil.deleteMessage(context, smsData.id)
-                                    smsModel.removeFromSmsList(smsData.id)
+                                    smsModel.deleteSms(context, smsData.id)
                                 }
                                 return@rememberDismissState false
                             }
