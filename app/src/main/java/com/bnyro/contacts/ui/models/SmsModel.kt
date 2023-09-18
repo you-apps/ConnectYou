@@ -28,12 +28,26 @@ class SmsModel: ViewModel() {
         if (!PermissionHelper.checkPermissions(context, smsPermissions)) return
 
         smsList = SmsUtil.getSmsList(context)
+        createSmsGroups()
+    }
+
+    private fun createSmsGroups() {
         smsGroups = smsList.groupBy { it.threadId }
     }
 
     fun addSmsToList(sms: SmsData) {
         smsList += sms
-        smsGroups = smsList.groupBy { it.threadId }
+        createSmsGroups()
+    }
+
+    fun removeFromSmsList(id: Long) {
+        smsList = smsList.filter { it.id != id }
+        createSmsGroups()
+    }
+
+    fun removeByThreadId(threadId: Long) {
+        smsList = smsList.filter { it.threadId != threadId }
+        createSmsGroups()
     }
 
     fun sendSms(context: Context, address: String, body: String) {

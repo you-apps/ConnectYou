@@ -103,8 +103,7 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                         confirmValueChange = {
                             if (it == DismissValue.DismissedToEnd) {
                                 SmsUtil.deleteThread(context, threadId)
-                                smsModel.fetchSmsList(context)
-                                return@rememberDismissState true
+                                smsModel.removeByThreadId(threadId)
                             }
                             return@rememberDismissState false
                         }

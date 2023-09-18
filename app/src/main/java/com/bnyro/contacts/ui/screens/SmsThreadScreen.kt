@@ -118,8 +118,7 @@ fun SmsThreadScreen(
                             confirmValueChange = {
                                 if (it == DismissValue.DismissedToEnd) {
                                     SmsUtil.deleteMessage(context, smsData.id)
-                                    smsModel.fetchSmsList(context)
-                                    return@rememberDismissState true
+                                    smsModel.removeFromSmsList(smsData.id)
                                 }
                                 return@rememberDismissState false
                             }
