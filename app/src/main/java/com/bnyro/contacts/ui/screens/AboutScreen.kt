@@ -68,12 +68,12 @@ fun AboutScreen(onDismissRequest: () -> Unit) {
                 )
                 AboutRow(
                     title = "GitHub",
-                    url = "https://github.com/Bnyro/ConnectYou/"
+                    url = "https://github.com/you-apps/ConnectYou/"
                 )
                 AboutRow(
                     title = stringResource(R.string.author),
-                    summary = "Bnyro",
-                    url = "https://github.com/Bnyro/"
+                    summary = "You Apps",
+                    url = "https://github.com/you-apps/"
                 )
                 AboutRow(
                     title = stringResource(R.string.translation),
