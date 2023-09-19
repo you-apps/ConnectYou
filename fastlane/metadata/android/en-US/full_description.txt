@@ -1,5 +1,3 @@
-Important: Since the keys the app had been signed with is lost, please export all your local contacts as vcf before updating the app! Updating the app will require you to uninstall it first.
-
 <i>Connect You</i> is a Contacts app built with <a href="https://m3.material.io/">Material Design 3 (You)</a>.
 
 It supports all the common features such as creating, modifying and deleting contacts as well as phone numbers, emails, addresses and events.
