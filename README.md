@@ -2,7 +2,7 @@
 <div align="center">
   <img width="200" height="200"src="fastlane/metadata/android/en-US/images/icon.png">
   <h1>Connect You</h1>
-<p>Modern contacts app using <a href="https://m3.material.io/">Material Design 3 (You)</a> and Jetpack Compose.</p>
+<p>Modern contacts/SMS app using <a href="https://m3.material.io/">Material Design 3 (You)</a> and Jetpack Compose.</p>
 
 <!-- ---------- Badges ---------- -->
   <div align="center">
@@ -23,6 +23,7 @@
 - [X] Uses the Android contacts system API
 - [X] Contact creation, editing and deleting
 - [X] Support for phone numbers, emails, addresses and events
+- [X] Receiving, sending and deleting SMS
 - [X] Written in Jetpack Compose 
 
 <!-- ---------- Download ---------- -->

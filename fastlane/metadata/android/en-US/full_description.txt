@@ -1,7 +1,7 @@
-<i>Connect You</i> is a Contacts app built with <a href="https://m3.material.io/">Material Design 3 (You)</a>.
+<i>Connect You</i> is a Contacts/SMS app built with <a href="https://m3.material.io/">Material Design 3 (You)</a>.
 
 It supports all the common features such as creating, modifying and deleting contacts as well as phone numbers, emails, addresses and events.
 
 <i>Connect You</i> uses the Android system's contacts API, thus all your contacts are in sync with your OS and usable in other apps as a dialer or messenger.
 
-It doesn't have any dependencies apart from the Android base and Material design libraries, therefore the app is very lightweight.
+Additionally, <i>Connect You</i> supports sending, receiving and deleting SMS messages and threads. MMS are not supported however.

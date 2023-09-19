@@ -1,1 +1,3 @@
 Important: The signing keys for this release have changed, hence you must reinstall the app and can't update it directly.
+
+This release adds support for SMS/messages! To use that new feature, you must also grant it permissions to access SMS and make Connect You your default SMS app in the Android settings under Apps -> Default Apps. If you prefer to, you can still continue using Connect You for contacts only.
