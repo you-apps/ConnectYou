@@ -23,7 +23,7 @@ import com.bnyro.contacts.util.SmsUtil
 class SmsReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        if (!listOf(SMS_RECEIVED, SMS_DELIVER).contains(intent.action)) return
+        if (intent.action != SMS_RECEIVED) return
 
         Telephony.Sms.Intents.getMessagesFromIntent(intent).forEach { message ->
             val notificationId = message.timestampMillis.hashCode()
@@ -101,7 +101,6 @@ class SmsReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        private const val SMS_DELIVER = "android.provider.Telephony.SMS_DELIVER"
         private const val SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED"
         const val KEY_TEXT_REPLY = "key_text_reply"
         const val KEY_EXTRA_ADDRESS = "key_extra_address"
