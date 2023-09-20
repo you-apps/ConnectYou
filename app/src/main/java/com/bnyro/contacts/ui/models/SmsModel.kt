@@ -7,6 +7,8 @@ import android.content.Intent
 import android.os.Build
 import android.provider.Telephony
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -16,10 +18,8 @@ import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.SmsUtil
 
 class SmsModel: ViewModel() {
-    private val smsPermissions = arrayOf(Manifest.permission.SEND_SMS, Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS)
-
-    var smsList by mutableStateOf(listOf<SmsData>())
-    var smsGroups by mutableStateOf(mapOf<Long, List<SmsData>>())
+    val smsList = mutableStateListOf<SmsData>()
+    val smsGroups = mutableStateMapOf<Long, MutableList<SmsData>>()
 
     var initialAddressAndBody by mutableStateOf<Pair<String, String?>?>(null)
 
@@ -29,29 +29,36 @@ class SmsModel: ViewModel() {
 
         requestDefaultSMSApp(context)
 
-        smsList = SmsUtil.getSmsList(context)
-        createSmsGroups()
-    }
+        val tempSmsList = SmsUtil.getSmsList(context)
 
-    private fun createSmsGroups() {
-        smsGroups = smsList.groupBy { it.threadId }
+        smsList.clear()
+        smsGroups.clear()
+
+        smsList.addAll(tempSmsList)
+        val groups = smsList.groupBy { it.threadId }
+            .map { (threadId, smsList) -> threadId to smsList.toMutableList() }
+        smsGroups.putAll(groups)
     }
 
     fun addSmsToList(sms: SmsData) {
-        smsList += sms
-        createSmsGroups()
+        smsList.add(sms)
+        if (smsGroups.containsKey(sms.threadId)) {
+            smsGroups[sms.threadId]?.add(sms)
+        } else {
+            smsGroups[sms.threadId] = mutableListOf(sms)
+        }
     }
 
-    fun deleteSms(context: Context, id: Long) {
-        SmsUtil.deleteMessage(context, id)
-        smsList = smsList.filter { it.id != id }
-        createSmsGroups()
+    fun deleteSms(context: Context, sms: SmsData) {
+        SmsUtil.deleteMessage(context, sms.id)
+        smsList.removeAll { it.id == sms.id }
+        smsGroups[sms.threadId]?.removeAll { it.id == sms.id }
     }
 
     fun deleteThread(context: Context, threadId: Long) {
         SmsUtil.deleteThread(context, threadId)
-        smsList = smsList.filter { it.threadId != threadId }
-        createSmsGroups()
+        smsList.removeAll { it.threadId == threadId }
+        smsGroups.remove(threadId)
     }
 
     fun sendSms(context: Context, address: String, body: String) {
@@ -83,5 +90,9 @@ class SmsModel: ViewModel() {
 
     private fun getSmsPermissions(context: Context) {
         PermissionHelper.checkPermissions(context, smsPermissions)
+    }
+
+    companion object {
+        private val smsPermissions = arrayOf(Manifest.permission.SEND_SMS, Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS)
     }
 }

@@ -84,15 +84,16 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize().padding(pv)
             ) {
-                val smsList = smsModel.smsGroups.entries.toList()
+                val smsGroups = smsModel.smsGroups.entries.toList()
                     .sortedBy { (_, smsList) -> smsList.maxOf { it.timestamp } }
                     .reversed()
 
-                items(smsList) { (threadId, smsList) ->
+                items(smsGroups) { (threadId, smsList) ->
                     var showThreadScreen by remember {
                         mutableStateOf(false)
                     }
-                    val address = smsList.first().address
+                    // safe call to avoid crashes when re-rendering
+                    val address = smsList.firstOrNull()?.address.orEmpty()
                     val contactData = contactsModel.getContactByNumber(address)
 
                     val dismissState = rememberDismissState(
@@ -153,7 +154,8 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                                         )
                                         Spacer(modifier = Modifier.height(3.dp))
                                         Text(
-                                            text = smsList.first().body,
+                                            // safe call to avoid crashes when re-rendering
+                                            text = smsList.firstOrNull()?.body.orEmpty(),
                                             maxLines = 2,
                                             fontSize = 14.sp
                                         )

@@ -2,6 +2,7 @@ package com.bnyro.contacts.ui.screens
 
 import android.provider.Telephony
 import android.text.format.DateUtils
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -62,19 +63,12 @@ fun SmsThreadScreen(
     onClose: () -> Unit
 ) {
     val context = LocalContext.current
-    var smsList by remember {
-        mutableStateOf(listOf<SmsData>())
-    }
+
+    val threadId = smsModel.smsList.firstOrNull { it.address == address }?.threadId
+    val smsList = threadId?.let { smsModel.smsGroups[threadId]?.sortedBy { it.timestamp } } ?: listOf()
     val lazyListState = rememberLazyListState()
     var showContactScreen by remember {
         mutableStateOf(false)
-    }
-
-    LaunchedEffect(address, smsModel.smsList) {
-        smsList = smsModel.smsList
-            .filter { it.address == address }
-            .sortedBy { it.timestamp }
-        if (smsList.isNotEmpty()) lazyListState.scrollToItem(smsList.size - 1)
     }
 
     FullScreenDialog(onClose = onClose) {
@@ -117,7 +111,7 @@ fun SmsThreadScreen(
                         val state = rememberDismissState(
                             confirmValueChange = {
                                 if (it == DismissValue.DismissedToEnd) {
-                                    smsModel.deleteSms(context, smsData.id)
+                                    smsModel.deleteSms(context, smsData)
                                 }
                                 return@rememberDismissState false
                             }
