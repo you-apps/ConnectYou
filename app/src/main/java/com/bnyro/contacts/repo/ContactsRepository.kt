@@ -1,4 +1,4 @@
-package com.bnyro.contacts.util
+package com.bnyro.contacts.repo
 
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ContactsGroup

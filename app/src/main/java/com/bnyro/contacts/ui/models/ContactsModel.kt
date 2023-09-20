@@ -18,11 +18,11 @@ import com.bnyro.contacts.enums.ContactsSource
 import com.bnyro.contacts.ext.toast
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.models.state.ContactListState
-import com.bnyro.contacts.util.ContactsRepository
-import com.bnyro.contacts.util.DeviceContactsRepository
+import com.bnyro.contacts.repo.ContactsRepository
+import com.bnyro.contacts.repo.DeviceContactsRepository
 import com.bnyro.contacts.util.ExportHelper
 import com.bnyro.contacts.util.IntentHelper
-import com.bnyro.contacts.util.LocalContactsRepository
+import com.bnyro.contacts.repo.LocalContactsRepository
 import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.Preferences
 import kotlinx.coroutines.Dispatchers

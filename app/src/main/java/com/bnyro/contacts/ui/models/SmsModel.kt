@@ -12,10 +12,14 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.bnyro.contacts.obj.SmsData
+import androidx.lifecycle.viewModelScope
+import com.bnyro.contacts.db.obj.SmsData
 import com.bnyro.contacts.util.NotificationHelper
 import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.SmsUtil
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SmsModel: ViewModel() {
     val smsList = mutableStateListOf<SmsData>()
@@ -29,15 +33,19 @@ class SmsModel: ViewModel() {
 
         requestDefaultSMSApp(context)
 
-        val tempSmsList = SmsUtil.getSmsList(context)
+        viewModelScope.launch {
+            val tempSmsList = withContext(Dispatchers.IO) {
+                SmsUtil.getSmsList(context)
+            }
 
-        smsList.clear()
-        smsGroups.clear()
+            smsList.clear()
+            smsGroups.clear()
 
-        smsList.addAll(tempSmsList)
-        val groups = smsList.groupBy { it.threadId }
-            .map { (threadId, smsList) -> threadId to smsList.toMutableList() }
-        smsGroups.putAll(groups)
+            smsList.addAll(tempSmsList)
+            val groups = smsList.groupBy { it.threadId }
+                .map { (threadId, smsList) -> threadId to smsList.toMutableList() }
+            smsGroups.putAll(groups)
+        }
     }
 
     fun addSmsToList(sms: SmsData) {
@@ -50,20 +58,28 @@ class SmsModel: ViewModel() {
     }
 
     fun deleteSms(context: Context, sms: SmsData) {
-        SmsUtil.deleteMessage(context, sms.id)
         smsList.removeAll { it.id == sms.id }
         smsGroups[sms.threadId]?.removeAll { it.id == sms.id }
+        viewModelScope.launch(Dispatchers.IO) {
+            SmsUtil.deleteMessage(context, sms.id)
+        }
     }
 
     fun deleteThread(context: Context, threadId: Long) {
-        SmsUtil.deleteThread(context, threadId)
         smsList.removeAll { it.threadId == threadId }
         smsGroups.remove(threadId)
+        viewModelScope.launch(Dispatchers.IO) {
+            SmsUtil.deleteThread(context, threadId)
+        }
     }
 
     fun sendSms(context: Context, address: String, body: String) {
-        val sms = SmsUtil.sendSms(context, address, body) ?: return
-        addSmsToList(sms)
+        viewModelScope.launch {
+            val sms = withContext(Dispatchers.IO) {
+                SmsUtil.sendSms(context, address, body)
+            } ?: return@launch
+            addSmsToList(sms)
+        }
     }
 
     private fun requestDefaultSMSApp(context: Context) {
@@ -90,6 +106,11 @@ class SmsModel: ViewModel() {
 
     private fun getSmsPermissions(context: Context) {
         PermissionHelper.checkPermissions(context, smsPermissions)
+    }
+
+    fun refreshLocalSmsPreference(context: Context) {
+        SmsUtil.initSmsRepo()
+        fetchSmsList(context)
     }
 
     companion object {

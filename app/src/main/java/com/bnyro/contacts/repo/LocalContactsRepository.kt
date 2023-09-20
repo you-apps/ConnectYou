@@ -1,4 +1,4 @@
-package com.bnyro.contacts.util
+package com.bnyro.contacts.repo
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -13,6 +13,8 @@ import com.bnyro.contacts.ext.pmap
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ContactsGroup
 import com.bnyro.contacts.obj.ValueWithType
+import com.bnyro.contacts.util.ImageHelper
+import com.bnyro.contacts.util.Preferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File

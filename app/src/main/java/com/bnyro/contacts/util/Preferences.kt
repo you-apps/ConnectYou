@@ -26,6 +26,7 @@ object Preferences {
     const val colorfulContactIconsKey = "colorfulContactIcons"
     const val encryptBackupsKey = "encryptBackups"
     const val encryptBackupPasswordKey = "encryptBackupsPassword"
+    const val storeSmsLocallyKey = "storeSmsLocally"
 
     fun init(context: Context) {
         preferences = context.getSharedPreferences(prefFile, Context.MODE_PRIVATE)
