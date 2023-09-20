@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.bnyro.contacts.obj.SmsData
+import com.bnyro.contacts.util.NotificationHelper
 import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.SmsUtil
 
@@ -23,9 +24,10 @@ class SmsModel: ViewModel() {
     var initialAddressAndBody by mutableStateOf<Pair<String, String?>?>(null)
 
     fun fetchSmsList(context: Context) {
-        requestDefaultSMSApp(context)
+        val requiredPermissions = smsPermissions + NotificationHelper.notificationPermissions
+        if (!PermissionHelper.checkPermissions(context, requiredPermissions)) return
 
-        if (!PermissionHelper.checkPermissions(context, smsPermissions)) return
+        requestDefaultSMSApp(context)
 
         smsList = SmsUtil.getSmsList(context)
         createSmsGroups()

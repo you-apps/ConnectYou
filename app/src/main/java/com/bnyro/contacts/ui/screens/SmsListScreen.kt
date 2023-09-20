@@ -54,8 +54,6 @@ import com.bnyro.contacts.ui.components.NothingHere
 import com.bnyro.contacts.ui.components.dialogs.DialogButton
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.SmsModel
-import com.bnyro.contacts.util.NotificationHelper
-import com.bnyro.contacts.util.PermissionHelper
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,7 +68,6 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
     }
 
     LaunchedEffect(Unit) {
-        PermissionHelper.checkPermissions(context, NotificationHelper.notificationPermissions)
         smsModel.fetchSmsList(context)
     }
 

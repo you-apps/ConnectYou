@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat
 
 object PermissionHelper {
     fun checkPermissions(context: Context, permissions: Array<String>): Boolean {
+        if (permissions.isEmpty()) return true
         if (!hasPermission(context, permissions.first())) {
             ActivityCompat.requestPermissions(
                 context as Activity,
