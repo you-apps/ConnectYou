@@ -1,2 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="reset">بازنشانی</string>
+    <string name="new_contact">مخاطب جدید</string>
+    <string name="copy">رونوشت</string>
+    <string name="delete_contact">حذف مخاطب</string>
+    <string name="create_contact">ایجاد مخاطب</string>
+    <string name="retry">تلاش دوباره</string>
+    <string name="about">درباره</string>
+    <string name="cancel">بیخیال</string>
+    <string name="irreversible">آیا مطمئن هستید؟ این کار غیرقابل بازگشت است.</string>
+    <string name="okay">باشه</string>
+    <string name="search" tools:ignore="PrivateResource">جستجو</string>
+    <string name="share">اشتراک گذاری</string>
+</resources>
