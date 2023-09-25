@@ -12,13 +12,15 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.IntentActionType
-import com.bnyro.contacts.obj.SmsData
+import com.bnyro.contacts.db.obj.SmsData
 import com.bnyro.contacts.ui.activities.MainActivity
 import com.bnyro.contacts.util.IntentHelper
 import com.bnyro.contacts.util.NotificationHelper
 import com.bnyro.contacts.util.NotificationHelper.MESSAGES_CHANNEL_ID
 import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.SmsUtil
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 
 class SmsReceiver : BroadcastReceiver() {
 
@@ -30,11 +32,13 @@ class SmsReceiver : BroadcastReceiver() {
             val address = message.displayOriginatingAddress
             val body = message.displayMessageBody
             val timestamp = message.timestampMillis
-            val threadId = SmsUtil.getOrCreateThreadId(context, address)
+            val threadId = runBlocking(Dispatchers.IO) { SmsUtil.getOrCreateThreadId(context, address) }
             val bareSmsData = SmsData(-1, address, body, timestamp, threadId, Telephony.Sms.MESSAGE_TYPE_INBOX)
 
             createNotification(context, notificationId, bareSmsData)
-            val smsData = SmsUtil.persistMessage(context, bareSmsData)
+            val smsData = runBlocking(Dispatchers.IO) {
+                SmsUtil.persistMessage(context, bareSmsData)
+            }
 
             MainActivity.smsModel?.addSmsToList(smsData)
         }

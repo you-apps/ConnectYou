@@ -57,7 +57,7 @@ import com.bnyro.contacts.ui.components.editor.DatePickerEditor
 import com.bnyro.contacts.ui.components.editor.TextFieldEditor
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.util.ContactsHelper
-import com.bnyro.contacts.util.DeviceContactsRepository
+import com.bnyro.contacts.repo.DeviceContactsRepository
 import com.bnyro.contacts.util.ImageHelper
 
 @OptIn(ExperimentalFoundationApi::class)

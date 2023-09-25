@@ -1,4 +1,4 @@
-package com.bnyro.contacts.util
+package com.bnyro.contacts.repo
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -35,6 +35,9 @@ import com.bnyro.contacts.ext.stringValue
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ContactsGroup
 import com.bnyro.contacts.obj.ValueWithType
+import com.bnyro.contacts.util.ContactsHelper
+import com.bnyro.contacts.util.ImageHelper
+import com.bnyro.contacts.util.Preferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

@@ -6,6 +6,9 @@ import android.content.Intent
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
 import com.bnyro.contacts.util.SmsUtil
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ReplyReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -19,6 +22,8 @@ class ReplyReceiver: BroadcastReceiver() {
         val message = remoteInput.getCharSequence(SmsReceiver.KEY_TEXT_REPLY).toString()
         if (message.isBlank()) return
 
-        SmsUtil.sendSms(context, address, message)
+        CoroutineScope(Dispatchers.IO).launch {
+            SmsUtil.sendSms(context, address, message)
+        }
     }
 }

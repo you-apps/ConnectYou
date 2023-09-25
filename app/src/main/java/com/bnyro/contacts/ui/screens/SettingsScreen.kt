@@ -17,6 +17,7 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -29,6 +30,7 @@ import com.bnyro.contacts.ui.components.prefs.BlockPreference
 import com.bnyro.contacts.ui.components.prefs.EncryptBackupsPref
 import com.bnyro.contacts.ui.components.prefs.SettingsCategory
 import com.bnyro.contacts.ui.components.prefs.SwitchPref
+import com.bnyro.contacts.ui.models.SmsModel
 import com.bnyro.contacts.ui.models.ThemeModel
 import com.bnyro.contacts.util.Preferences
 
@@ -36,6 +38,9 @@ import com.bnyro.contacts.util.Preferences
 @Composable
 fun SettingsScreen(onDismissRequest: () -> Unit) {
     val themeModel: ThemeModel = viewModel()
+    val smsModel: SmsModel = viewModel()
+
+    val context = LocalContext.current
 
     FullScreenDialog(onClose = onDismissRequest) {
         val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
@@ -84,6 +89,18 @@ fun SettingsScreen(onDismissRequest: () -> Unit) {
                     title = stringResource(R.string.colorful_contact_icons)
                 ) {
                     themeModel.colorfulIcons = it
+                }
+                Divider(
+                    modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
+                    color = MaterialTheme.colorScheme.surfaceVariant
+                )
+                SettingsCategory(title = stringResource(R.string.messages))
+                SwitchPref(
+                    prefKey = Preferences.storeSmsLocallyKey,
+                    title = stringResource(R.string.private_sms_database),
+                    summary = stringResource(R.string.private_sms_database_desc)
+                ) {
+                    smsModel.refreshLocalSmsPreference(context)
                 }
                 Divider(
                     modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
