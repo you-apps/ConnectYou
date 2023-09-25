@@ -186,9 +186,9 @@ class ContactsModel(
         }
     }
 
-    fun exportVcf(context: Context, uri: Uri) {
+    fun exportVcf(context: Context, uri: Uri, contactsToExport: List<ContactData>? = null) {
         val exportHelper = ExportHelper(context, contactsRepository)
-        exportHelper.exportContacts(uri, contacts)
+        exportHelper.exportContacts(uri, contactsToExport ?: contacts)
         context.toast(R.string.export_success)
     }
 

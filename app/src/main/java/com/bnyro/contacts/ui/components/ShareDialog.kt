@@ -1,5 +1,8 @@
 package com.bnyro.contacts.ui.components
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
@@ -14,6 +17,7 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.dialogs.DialogButton
 import com.bnyro.contacts.ui.models.ContactsModel
+import com.bnyro.contacts.util.BackupHelper
 
 @Composable
 fun ShareDialog(
@@ -45,6 +49,35 @@ fun ShareDialog(
         R.string.note to shareNote
     )
 
+    fun getContactData(): ContactData {
+        return contact.copy().apply {
+            if (!shareName.value) {
+                displayName = null
+                alternativeName = null
+                firstName = null
+                surName = null
+            }
+            if (!sharePhoto.value) photo = null
+            if (!shareNickName.value) nickName = null
+            if (!shareOrganization.value) organization = null
+            if (!shareAddress.value) addresses = emptyList()
+            if (!shareEmail.value) emails = emptyList()
+            if (!shareNote.value) notes = emptyList()
+            if (!sharePhone.value) numbers = emptyList()
+            if (!shareWebsite.value) websites = emptyList()
+        }
+    }
+
+    val openFilePicker = rememberLauncherForActivityResult(
+        ActivityResultContracts.CreateDocument(BackupHelper.vCardMimeTypes.first())
+    ) { uri ->
+        if (uri == null) return@rememberLauncherForActivityResult
+
+        val editedContact = getContactData()
+        contactsModel.exportVcf(context, uri, listOf(editedContact))
+        onDismissRequest.invoke()
+    }
+
     AlertDialog(
         onDismissRequest = onDismissRequest,
         title = { Text(stringResource(R.string.share)) },
@@ -61,24 +94,15 @@ fun ShareDialog(
             }
         },
         confirmButton = {
-            DialogButton(stringResource(R.string.share)) {
-                val editedContact = contact.copy().apply {
-                    if (!shareName.value) {
-                        displayName = null
-                        alternativeName = null
-                        firstName = null
-                        surName = null
-                    }
-                    if (!sharePhoto.value) photo = null
-                    if (!shareNickName.value) nickName = null
-                    if (!shareOrganization.value) organization = null
-                    if (!shareAddress.value) addresses = emptyList()
-                    if (!shareEmail.value) emails = emptyList()
-                    if (!shareNote.value) notes = emptyList()
-                    if (!sharePhone.value) numbers = emptyList()
-                    if (!shareWebsite.value) websites = emptyList()
+            Row {
+                DialogButton(stringResource(R.string.save)) {
+                    openFilePicker.launch("${contact.displayName}.vcf")
                 }
-                contactsModel.shareTempContacts(context, listOf(editedContact))
+                DialogButton(stringResource(R.string.share)) {
+                    val editedContact = getContactData()
+                    contactsModel.shareTempContacts(context, listOf(editedContact))
+                    onDismissRequest.invoke()
+                }
             }
         }
     )

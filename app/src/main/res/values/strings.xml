@@ -25,6 +25,7 @@
     <string name="show_more_fields">Show more fields</string>
     <string name="show_less">Show less</string>
     <string name="pick_contact">Pick contact</string>
+    <string name="save">Save</string>
     <!-- Warnings -->
     <string name="empty_name">Name can\'t be empty!</string>
     <string name="import_success">Imported.</string>
