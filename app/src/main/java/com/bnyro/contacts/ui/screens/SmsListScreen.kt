@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DismissDirection
@@ -28,6 +29,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
@@ -51,6 +53,7 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.SortOrder
 import com.bnyro.contacts.ui.components.ContactItem
 import com.bnyro.contacts.ui.components.NothingHere
+import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.components.dialogs.DialogButton
 import com.bnyro.contacts.ui.models.ContactsModel
@@ -126,7 +129,10 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                                     }
                             ) {
                                 Row(
-                                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                                    modifier = Modifier.padding(
+                                        horizontal = 10.dp,
+                                        vertical = 5.dp
+                                    ),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Box(
@@ -209,6 +215,32 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                 },
                 text = {
                     LazyColumn {
+                        item {
+                            var numberInput by remember {
+                                mutableStateOf("")
+                            }
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                OutlinedTextField(
+                                    modifier = Modifier.weight(1f),
+                                    value = numberInput,
+                                    onValueChange = { numberInput = it },
+                                    label = {
+                                        Text(stringResource(R.string.phone_number))
+                                    }
+                                )
+                                ClickableIcon(
+                                    modifier = Modifier.padding(top = 3.dp),
+                                    icon = Icons.Default.Send
+                                ) {
+                                    smsAddress = numberInput
+                                    showContactPicker = false
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(10.dp))
+                        }
                         items(contactsModel.contacts) {
                             ContactItem(
                                 contact = it,

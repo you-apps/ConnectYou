@@ -37,6 +37,7 @@
     <string name="event">Event</string>
     <string name="website">Website</string>
     <string name="photo">Photo</string>
+    <string name="phone_number">Phone number</string>
     <!-- Sorting and filter -->
     <string name="sort_order">Sort order</string>
     <string name="account_type">Account type</string>
