@@ -51,6 +51,7 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.SortOrder
 import com.bnyro.contacts.ui.components.ContactItem
 import com.bnyro.contacts.ui.components.NothingHere
+import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.components.dialogs.DialogButton
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.SmsModel
@@ -82,7 +83,9 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
     }) { pv ->
         if (smsModel.smsList.isNotEmpty()) {
             LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(pv)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(pv)
             ) {
                 val smsGroups = smsModel.smsGroups.entries.toList()
                     .sortedBy { (_, smsList) -> smsList.maxOf { it.timestamp } }
@@ -92,6 +95,10 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                     var showThreadScreen by remember {
                         mutableStateOf(false)
                     }
+                    var showDeleteThreadDialog by remember {
+                        mutableStateOf(false)
+                    }
+
                     // safe call to avoid crashes when re-rendering
                     val address = smsList.firstOrNull()?.address.orEmpty()
                     val contactData = contactsModel.getContactByNumber(address)
@@ -99,7 +106,7 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                     val dismissState = rememberDismissState(
                         confirmValueChange = {
                             if (it == DismissValue.DismissedToEnd) {
-                                smsModel.deleteThread(context, threadId)
+                                showDeleteThreadDialog = true
                             }
                             return@rememberDismissState false
                         }
@@ -169,6 +176,16 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                     if (showThreadScreen) {
                         SmsThreadScreen(smsModel, contactData, address) {
                             showThreadScreen = false
+                        }
+                    }
+
+                    if (showDeleteThreadDialog) {
+                        ConfirmationDialog(
+                            onDismissRequest = { showDeleteThreadDialog = false },
+                            title = stringResource(R.string.delete_thread),
+                            text = stringResource(R.string.irreversible)
+                        ) {
+                            smsModel.deleteThread(context, threadId)
                         }
                     }
                 }

@@ -47,6 +47,7 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
+import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.models.SmsModel
 import com.bnyro.contacts.util.SmsUtil
 
@@ -105,10 +106,14 @@ fun SmsThreadScreen(
                     state = lazyListState
                 ) {
                     items(smsList) { smsData ->
+                        var showDeleteSmsDialog by remember {
+                            mutableStateOf(false)
+                        }
+
                         val state = rememberDismissState(
                             confirmValueChange = {
                                 if (it == DismissValue.DismissedToEnd) {
-                                    smsModel.deleteSms(context, smsData)
+                                    showDeleteSmsDialog = true
                                 }
                                 return@rememberDismissState false
                             }
@@ -159,6 +164,16 @@ fun SmsThreadScreen(
                             },
                             directions = setOf(DismissDirection.StartToEnd)
                         )
+
+                        if (showDeleteSmsDialog) {
+                            ConfirmationDialog(
+                                onDismissRequest = { showDeleteSmsDialog = false },
+                                title = stringResource(R.string.delete_message),
+                                text = stringResource(R.string.irreversible)
+                            ) {
+                                smsModel.deleteSms(context, smsData)
+                            }
+                        }
                     }
                 }
 
