@@ -54,7 +54,7 @@
     <string name="auto_backup">Automaattinen varmuuskopio</string>
     <string name="backup_interval">Varmuuskopion aikaväli</string>
     <string name="max_backup_amount">Varmuuskopioiden enimmäismäärä</string>
-    <string name="choose_dir">Valitse hakemisto</string>
+    <string name="choose_dir">Hakemisto</string>
     <string name="both">Molemmat</string>
     <string name="none">Ei mitään</string>
     <string name="misc">Muut</string>
@@ -94,4 +94,10 @@
     <string name="backup_password">Salasana</string>
     <string name="pick_contact">Valitse yhteystieto</string>
     <string name="import_sim">Tuo SIM-kortilta</string>
+    <string name="reply">Vastaa</string>
+    <string name="message_too_long">Viesti on liian pitkä!</string>
+    <string name="contacts">Yhteystiedot</string>
+    <string name="send">Lähetä viesti</string>
+    <string name="messages">Viestit</string>
+    <string name="connection_error">Yhteysvirhe! Varmista, että lentokonetila ei ole päällä!</string>
 </resources>
