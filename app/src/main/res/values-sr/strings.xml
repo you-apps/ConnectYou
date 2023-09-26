@@ -112,4 +112,10 @@
     <string name="messages">Поруке</string>
     <string name="backup_password">Лозинка</string>
     <string name="connection_error">Грешка у мрежној вези! Обавезно онемогућите режим рада у авиону!</string>
+    <string name="save">Сачувај</string>
+    <string name="delete_thread">Избриши нит</string>
+    <string name="private_sms_database">Приватна SMS база података</string>
+    <string name="delete_message">Избриши поруку</string>
+    <string name="private_sms_database_desc">SMS ће бити сачуван само у апликацији и неће бити доступан у другим апликацијама.</string>
+    <string name="phone_number">Број телефона</string>
 </resources>
