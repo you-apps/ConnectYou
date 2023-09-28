@@ -101,4 +101,10 @@
     <string name="connection_error">Erro na conexión! Comproba que non activaches o modo avión!</string>
     <string name="contacts">Contactos</string>
     <string name="message_too_long">Mensaxe demasiado longa!</string>
+    <string name="save">Gardar</string>
+    <string name="delete_thread">Eliminar conversa</string>
+    <string name="private_sms_database">Base de datos privada de SMS</string>
+    <string name="delete_message">Eliminar mensaxe</string>
+    <string name="private_sms_database_desc">Os SMS vanse gardar dentro da app e as outras apps non poden acceder a eles.</string>
+    <string name="phone_number">Número de teléfono</string>
 </resources>
