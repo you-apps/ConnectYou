@@ -101,4 +101,10 @@
     <string name="send">שליחת הודעה</string>
     <string name="contacts">אנשי קשר</string>
     <string name="message_too_long">ההודעה ארוכה מדי!</string>
+    <string name="save">שמירה</string>
+    <string name="delete_thread">מחיקת שרשור</string>
+    <string name="private_sms_database">מסד נתוני מסרונים פרטי</string>
+    <string name="delete_message">מחיקת הודעה</string>
+    <string name="private_sms_database_desc">המסרונים יאוחסנו ביישומון בלבד וליישומונים אחרים לא תהיה גישה אליהם.</string>
+    <string name="phone_number">מספר טלפון</string>
 </resources>

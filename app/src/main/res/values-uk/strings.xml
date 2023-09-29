@@ -102,4 +102,10 @@
     <string name="connection_error">Помилка з’єднання! Обов’язково вимкніть режим польоту!</string>
     <string name="contacts">Контакти</string>
     <string name="message_too_long">Повідомлення занадто довге!</string>
+    <string name="save">Зберегти</string>
+    <string name="delete_thread">Видалити гілку</string>
+    <string name="private_sms_database">База даних приватних SMS</string>
+    <string name="delete_message">Видалити повідомлення</string>
+    <string name="private_sms_database_desc">SMS зберігатимуться лише у застосунку і не будуть доступні в інших застосунках.</string>
+    <string name="phone_number">Номер телефону</string>
 </resources>

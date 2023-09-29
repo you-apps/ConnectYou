@@ -101,4 +101,10 @@
     <string name="send">Poslat zprávu</string>
     <string name="contacts">Kontakty</string>
     <string name="message_too_long">Zpráva je příliš dlouhá!</string>
+    <string name="save">Uložit</string>
+    <string name="delete_thread">Odstranit vlákno</string>
+    <string name="private_sms_database">Soukromá databáze SMS</string>
+    <string name="delete_message">Odstranit zprávu</string>
+    <string name="private_sms_database_desc">Zprávy SMS budou ukládány pouze do této aplikace a nebudou k nim mít přístup ostatní aplikace.</string>
+    <string name="phone_number">Číslo mobilu</string>
 </resources>
