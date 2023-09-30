@@ -101,4 +101,10 @@
     <string name="connection_error">Ошибка соединения! Пожалуйста, убедитесь, что режим полёта отключён!</string>
     <string name="contacts">Контакты</string>
     <string name="message_too_long">Сообщение слишком длинное!</string>
+    <string name="save">Сохранить</string>
+    <string name="delete_thread">Удалить переписку</string>
+    <string name="private_sms_database">Частная БД SMS</string>
+    <string name="delete_message">Удалить сообщение</string>
+    <string name="private_sms_database_desc">SMS будут сохранены внутри приложения и не будут доступны другим приложениям.</string>
+    <string name="phone_number">Номер телефона</string>
 </resources>
