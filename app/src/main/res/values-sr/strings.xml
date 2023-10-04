@@ -85,7 +85,7 @@
     <string name="auto_backup">Аутоматска резервна копија</string>
     <string name="backup_interval">Интервал за резервну копију</string>
     <string name="max_backup_amount">Максимална количина резервних копија</string>
-    <string name="choose_dir">Директоријум</string>
+    <string name="choose_dir">Фолдер</string>
     <string name="both">Оба</string>
     <string name="none">Ниједно</string>
     <string name="misc">Остало</string>
