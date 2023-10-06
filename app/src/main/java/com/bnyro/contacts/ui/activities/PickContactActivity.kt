@@ -61,6 +61,7 @@ class PickContactActivity : BaseActivity() {
                             ) {
                                 items(contactsModel.contacts) {
                                     ContactItem(
+                                        modifier = Modifier.padding(horizontal = 10.dp),
                                         contact = it,
                                         sortOrder = SortOrder.FIRSTNAME,
                                         selected = false,

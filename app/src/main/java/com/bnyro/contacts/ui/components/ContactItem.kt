@@ -46,6 +46,7 @@ import kotlinx.coroutines.runBlocking
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ContactItem(
+    modifier: Modifier = Modifier,
     contact: ContactData,
     sortOrder: SortOrder,
     selected: Boolean,
@@ -63,8 +64,8 @@ fun ContactItem(
     val contactName = contact.getNameBySortOrder(sortOrder).orEmpty().trim()
 
     ElevatedCard(
-        modifier = Modifier
-            .padding(horizontal = 10.dp, vertical = 5.dp)
+        modifier = modifier
+            .padding(vertical = 5.dp)
             .fillMaxWidth()
             .clip(shape)
             .combinedClickable(

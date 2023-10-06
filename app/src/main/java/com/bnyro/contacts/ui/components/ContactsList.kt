@@ -58,6 +58,7 @@ fun ContactsList(
             }
             items(groupedContacts) {
                 ContactItem(
+                    modifier = Modifier.padding(horizontal = 10.dp),
                     contact = it,
                     sortOrder = filterOptions.sortOder,
                     selected = selectedContacts.contains(it),
