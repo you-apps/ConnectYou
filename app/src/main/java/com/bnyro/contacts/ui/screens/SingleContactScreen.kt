@@ -3,8 +3,11 @@ package com.bnyro.contacts.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.Button
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -38,6 +42,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -51,14 +56,17 @@ import com.bnyro.contacts.ui.components.ContactProfilePicture
 import com.bnyro.contacts.ui.components.ShareDialog
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
+import com.bnyro.contacts.ui.components.base.LargeButtonWithIcon
+import com.bnyro.contacts.ui.components.base.SmallButtonWithIcon
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.components.dialogs.ShortcutDialog
+import com.bnyro.contacts.ui.components.shapes.curlyCornerShape
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.util.CalendarUtils
 import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.IntentHelper
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
     val viewModel: ContactsModel = viewModel()
@@ -99,6 +107,18 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                         ) {
                             showShortcutDialog = true
                         }
+                        ClickableIcon(
+                            icon = Icons.Default.Edit,
+                            contentDescription = R.string.edit
+                        ) {
+                            showEditor = true
+                        }
+                        ClickableIcon(
+                            icon = Icons.Default.Delete,
+                            contentDescription = R.string.delete
+                        ) {
+                            showDelete = true
+                        }
                     }
                 )
             }
@@ -119,9 +139,9 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(135.dp)
+                            .size(240.dp)
                             .background(
-                                shape = CircleShape,
+                                shape = curlyCornerShape,
                                 color = MaterialTheme.colorScheme.primary
                             )
                     ) {
@@ -130,14 +150,15 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                                 modifier = Modifier.align(Alignment.Center),
                                 text = (contact.displayName?.firstOrNull() ?: "").toString(),
                                 color = MaterialTheme.colorScheme.onPrimary,
-                                fontSize = 65.sp,
-                                fontWeight = FontWeight.Bold
+                                fontSize = 100.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center
                             )
                         } else {
                             Image(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .clip(CircleShape)
+                                    .clip(curlyCornerShape)
                                     .clickable {
                                         showZoomablePhoto = true
                                     },
@@ -147,7 +168,7 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                             )
                         }
                     }
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(50.dp))
                     Text(
                         text = contact.displayName.orEmpty(),
                         fontSize = 30.sp,
@@ -155,57 +176,41 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     )
                 }
 
-                ElevatedCard(
-                    modifier = Modifier
-                        .padding(bottom = 20.dp)
-                        .align(Alignment.CenterHorizontally),
-                    shape = RoundedCornerShape(12.dp)
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Row(
-                        modifier = Modifier.padding(vertical = 6.dp, horizontal = 15.dp)
+                        modifier = Modifier.padding(vertical = 6.dp, horizontal = 15.dp),
+                        horizontalArrangement = Arrangement.Center
                     ) {
-                        ClickableIcon(
-                            icon = Icons.Default.Call,
-                            contentDescription = R.string.dial
-                        ) {
-                            IntentHelper.launchAction(
-                                context,
-                                IntentActionType.DIAL,
-                                contact.numbers.firstOrNull()?.value ?: return@ClickableIcon
-                            )
-                        }
-                        Spacer(modifier = Modifier.width(5.dp))
-                        ClickableIcon(
-                            icon = Icons.Default.Message,
-                            contentDescription = R.string.message
+                        SmallButtonWithIcon(
+                            imageVector = Icons.Default.Message,
+                            text = stringResource(R.string.message)
                         ) {
                             IntentHelper.launchAction(
                                 context,
                                 IntentActionType.SMS,
-                                contact.numbers.firstOrNull()?.value ?: return@ClickableIcon
+                                contact.numbers.firstOrNull()?.value ?: return@SmallButtonWithIcon
                             )
                         }
-                        Spacer(modifier = Modifier.width(5.dp))
-                        ClickableIcon(
-                            icon = Icons.Default.Share,
-                            contentDescription = R.string.share
+                        Spacer(modifier = Modifier.size(10.dp))
+                        SmallButtonWithIcon(
+                            imageVector = Icons.Default.Share,
+                            text = stringResource(R.string.share)
                         ) {
                             showShareDialog = true
                         }
-                        Spacer(modifier = Modifier.width(5.dp))
-                        ClickableIcon(
-                            icon = Icons.Default.Edit,
-                            contentDescription = R.string.edit
-                        ) {
-                            showEditor = true
-                        }
-                        Spacer(modifier = Modifier.width(5.dp))
-                        ClickableIcon(
-                            icon = Icons.Default.Delete,
-                            contentDescription = R.string.delete
-                        ) {
-                            showDelete = true
-                        }
+                    }
+                    Spacer(modifier = Modifier.size(10.dp))
+                    LargeButtonWithIcon(
+                        imageVector = Icons.Default.Call,
+                        text = stringResource(R.string.dial)
+                    ) {
+                        IntentHelper.launchAction(
+                            context,
+                            IntentActionType.DIAL,
+                            contact.numbers.firstOrNull()?.value ?: return@LargeButtonWithIcon
+                        )
                     }
                 }
 
