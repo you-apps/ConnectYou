@@ -25,6 +25,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.PlainTooltipBox
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
@@ -63,7 +64,8 @@ fun SmsThreadScreen(
     val context = LocalContext.current
 
     val threadId = smsModel.smsList.firstOrNull { it.address == address }?.threadId
-    val smsList = threadId?.let { smsModel.smsGroups[threadId]?.sortedBy { it.timestamp } } ?: listOf()
+    val smsList =
+        threadId?.let { smsModel.smsGroups[threadId]?.sortedBy { it.timestamp } } ?: listOf()
     val lazyListState = rememberLazyListState()
     var showContactScreen by remember {
         mutableStateOf(false)
@@ -77,12 +79,18 @@ fun SmsThreadScreen(
                         val interactionSource = remember {
                             MutableInteractionSource()
                         }
-                        Text(
-                            modifier = Modifier.clickable(interactionSource, null) {
-                                if (contactData != null) showContactScreen = true
-                            },
-                            text = contactData?.displayName ?: address
-                        )
+                        PlainTooltipBox(
+                            tooltip = { Text(address) }
+                        ) {
+                            Text(
+                                modifier = Modifier
+                                    .tooltipTrigger()
+                                    .clickable(interactionSource, null) {
+                                        if (contactData != null) showContactScreen = true
+                                    },
+                                text = contactData?.displayName ?: address
+                            )
+                        }
                     },
                     navigationIcon = {
                         ClickableIcon(
@@ -157,7 +165,8 @@ fun SmsThreadScreen(
                                             modifier = Modifier.align(messageAlignment),
                                             fontSize = 14.sp,
                                             color = MaterialTheme.colorScheme.primary,
-                                            text = DateUtils.getRelativeTimeSpanString(smsData.timestamp).toString()
+                                            text = DateUtils.getRelativeTimeSpanString(smsData.timestamp)
+                                                .toString()
                                         )
                                     }
                                 }
@@ -211,7 +220,8 @@ fun SmsThreadScreen(
                     ) {
                         if (text.isBlank()) return@ClickableIcon
                         if (!SmsUtil.isShortEnoughForSms(text)) {
-                            Toast.makeText(context, R.string.message_too_long, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, R.string.message_too_long, Toast.LENGTH_SHORT)
+                                .show()
                             return@ClickableIcon
                         }
 
