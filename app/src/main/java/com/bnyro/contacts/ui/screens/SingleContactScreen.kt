@@ -130,7 +130,8 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                                 modifier = Modifier.align(Alignment.Center),
                                 text = (contact.displayName?.firstOrNull() ?: "").toString(),
                                 color = MaterialTheme.colorScheme.onPrimary,
-                                fontSize = 65.sp
+                                fontSize = 65.sp,
+                                fontWeight = FontWeight.Bold
                             )
                         } else {
                             Image(

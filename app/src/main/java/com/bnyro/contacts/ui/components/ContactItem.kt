@@ -31,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.enums.SortOrder
@@ -112,7 +113,8 @@ fun ContactItem(
                     Text(
                         modifier = Modifier.align(Alignment.Center),
                         text = (contactName.firstOrNull() ?: "").toString(),
-                        color = contentColor // MaterialTheme.colorScheme.onPrimary
+                        color = contentColor,
+                        fontWeight = FontWeight.Bold
                     )
                 } else {
                     Image(
