@@ -10,7 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ReplyReceiver: BroadcastReceiver() {
+class ReplyReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val address = intent.getStringExtra(SmsReceiver.KEY_EXTRA_ADDRESS) ?: return
         val notificationId = intent.getIntExtra(SmsReceiver.KEY_EXTRA_NOTIFICATION_ID, -1)

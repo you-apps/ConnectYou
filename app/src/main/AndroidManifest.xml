@@ -16,6 +16,9 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
 
+    <!-- Dual Sim support -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <!-- Sms notifications -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
