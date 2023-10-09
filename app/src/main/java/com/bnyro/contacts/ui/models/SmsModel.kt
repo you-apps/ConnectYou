@@ -1,11 +1,13 @@
 package com.bnyro.contacts.ui.models
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.role.RoleManager
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.provider.Telephony
+import android.telephony.SubscriptionInfo
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
@@ -21,11 +23,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SmsModel: ViewModel() {
+class SmsModel : ViewModel() {
     val smsList = mutableStateListOf<SmsData>()
     val smsGroups = mutableStateMapOf<Long, MutableList<SmsData>>()
 
     var initialAddressAndBody by mutableStateOf<Pair<String, String?>?>(null)
+
+    var currentSubscription: SubscriptionInfo? = null
 
     fun fetchSmsList(context: Context) {
         val requiredPermissions = smsPermissions + NotificationHelper.notificationPermissions
@@ -73,10 +77,11 @@ class SmsModel: ViewModel() {
         }
     }
 
+    @SuppressLint("NewApi")
     fun sendSms(context: Context, address: String, body: String) {
         viewModelScope.launch {
             val sms = withContext(Dispatchers.IO) {
-                SmsUtil.sendSms(context, address, body)
+                SmsUtil.sendSms(context, address, body, currentSubscription?.subscriptionId)
             } ?: return@launch
             addSmsToList(sms)
         }
@@ -114,6 +119,11 @@ class SmsModel: ViewModel() {
     }
 
     companion object {
-        private val smsPermissions = arrayOf(Manifest.permission.SEND_SMS, Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS)
+        private val smsPermissions = arrayOf(
+            Manifest.permission.SEND_SMS,
+            Manifest.permission.READ_SMS,
+            Manifest.permission.RECEIVE_SMS,
+            Manifest.permission.READ_PHONE_STATE
+        )
     }
 }

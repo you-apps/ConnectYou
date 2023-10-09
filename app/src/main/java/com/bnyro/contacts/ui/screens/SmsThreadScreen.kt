@@ -1,10 +1,13 @@
 package com.bnyro.contacts.ui.screens
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.provider.Telephony
 import android.text.format.DateUtils
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,6 +27,7 @@ import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.PlainTooltipBox
 import androidx.compose.material3.Scaffold
@@ -32,7 +36,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -52,6 +58,7 @@ import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.models.SmsModel
 import com.bnyro.contacts.util.SmsUtil
 
+@SuppressLint("NewApi")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SmsThreadScreen(
@@ -69,6 +76,13 @@ fun SmsThreadScreen(
     val lazyListState = rememberLazyListState()
     var showContactScreen by remember {
         mutableStateOf(false)
+    }
+    val subscriptions = remember {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            SmsUtil.getSubscriptions(context)
+        } else {
+            null
+        }
     }
 
     FullScreenDialog(onClose = onClose) {
@@ -105,7 +119,7 @@ fun SmsThreadScreen(
         ) { pV ->
             Column(
                 modifier = Modifier
-                    .padding(pV),
+                    .padding(pV)
             ) {
                 LazyColumn(
                     modifier = Modifier
@@ -157,7 +171,7 @@ fun SmsThreadScreen(
                                     )
                                 ) {
                                     Column(
-                                        modifier = Modifier.padding(12.dp),
+                                        modifier = Modifier.padding(12.dp)
                                     ) {
                                         Text(text = smsData.body)
                                         Spacer(modifier = Modifier.height(4.dp))
@@ -165,7 +179,9 @@ fun SmsThreadScreen(
                                             modifier = Modifier.align(messageAlignment),
                                             fontSize = 14.sp,
                                             color = MaterialTheme.colorScheme.primary,
-                                            text = DateUtils.getRelativeTimeSpanString(smsData.timestamp)
+                                            text = DateUtils.getRelativeTimeSpanString(
+                                                smsData.timestamp
+                                            )
                                                 .toString()
                                         )
                                     }
@@ -187,7 +203,23 @@ fun SmsThreadScreen(
                 }
 
                 Spacer(modifier = Modifier.height(10.dp))
-
+                if (subscriptions != null && subscriptions.size >= 2) {
+                    var currentSub by remember { mutableIntStateOf(0) }
+                    LaunchedEffect(Unit) {
+                        currentSub = 0
+                        smsModel.currentSubscription = subscriptions[currentSub]
+                    }
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                        OutlinedButton(onClick = {
+                            currentSub = if (currentSub == 0) 1 else 0
+                            smsModel.currentSubscription = subscriptions[currentSub]
+                        }) {
+                            Text(
+                                text = "SIM ${subscriptions[currentSub].simSlotIndex + 1} - ${subscriptions[currentSub].displayName}"
+                            )
+                        }
+                    }
+                }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()

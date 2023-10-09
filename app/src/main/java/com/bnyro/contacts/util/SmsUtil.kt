@@ -1,10 +1,14 @@
 package com.bnyro.contacts.util
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.provider.Telephony
 import android.telephony.SmsManager
+import android.telephony.SubscriptionInfo
+import android.telephony.SubscriptionManager
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.bnyro.contacts.R
 import com.bnyro.contacts.db.obj.SmsData
 import com.bnyro.contacts.repo.DeviceSmsRepo
@@ -29,28 +33,49 @@ object SmsUtil {
 
     suspend fun getSmsList(context: Context) = smsRepo.getSmsList(context)
 
-    private fun getSmsManager(context: Context): SmsManager {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            context.getSystemService(SmsManager::class.java)
+    private fun getSmsManager(subscriptionId: Int?): SmsManager {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 && subscriptionId != null) {
+            @Suppress("DEPRECATION")
+            SmsManager.getSmsManagerForSubscriptionId(subscriptionId)
         } else {
             @Suppress("DEPRECATION")
             SmsManager.getDefault()
         }
     }
 
-    suspend fun sendSms(context: Context, address: String, body: String): SmsData? {
+    @SuppressLint("MissingPermission")
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
+    fun getSubscriptions(context: Context): List<SubscriptionInfo> {
+        val subscriptionManager =
+            context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager?
+        return subscriptionManager!!.activeSubscriptionInfoList
+    }
+
+    suspend fun sendSms(
+        context: Context,
+        address: String,
+        body: String,
+        subscriptionId: Int? = null
+    ): SmsData? {
         if (!ConnectionHelper.hasSignalForSms(context)) {
             Toast.makeText(context, R.string.connection_error, Toast.LENGTH_LONG).show()
             return null
         }
 
-        getSmsManager(context)
+        getSmsManager(subscriptionId)
             .sendTextMessage(address, null, body, null, null)
 
         val timestamp = Calendar.getInstance().timeInMillis
         val threadId = getOrCreateThreadId(context, address)
 
-        val smsData = SmsData(-1, address, body, timestamp, threadId, Telephony.Sms.MESSAGE_TYPE_SENT)
+        val smsData = SmsData(
+            -1,
+            address,
+            body,
+            timestamp,
+            threadId,
+            Telephony.Sms.MESSAGE_TYPE_SENT
+        )
         persistMessage(context, smsData)
 
         return smsData
@@ -58,11 +83,21 @@ object SmsUtil {
 
     suspend fun deleteMessage(context: Context, id: Long) = smsRepo.deleteSms(context, id)
 
-    suspend fun deleteThread(context: Context, threadId: Long) = smsRepo.deleteThread(context, threadId)
+    suspend fun deleteThread(context: Context, threadId: Long) = smsRepo.deleteThread(
+        context,
+        threadId
+    )
 
-    suspend fun persistMessage(context: Context, smsData: SmsData) = smsRepo.persistSms(context, smsData)
+    suspend fun persistMessage(context: Context, smsData: SmsData) = smsRepo.persistSms(
+        context,
+        smsData
+    )
 
-    suspend fun getOrCreateThreadId(context: Context, address: String) = smsRepo.getOrCreateThreadId(context, address)
+    suspend fun getOrCreateThreadId(context: Context, address: String) =
+        smsRepo.getOrCreateThreadId(
+            context,
+            address
+        )
 
     fun isShortEnoughForSms(text: String): Boolean {
         if (text.length > MAX_CHAR_LIMIT) return false
