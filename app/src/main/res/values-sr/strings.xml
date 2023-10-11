@@ -12,9 +12,9 @@
     <string name="create_contact">Креирај контакт</string>
     <string name="retry">Покушај поново</string>
     <string name="share">Дели</string>
-    <string name="add_to_contact">Додај контакту</string>
+    <string name="add_to_contact">Додај у контакт</string>
     <string name="new_contact">Нови контакт</string>
-    <string name="create_shortcut">Креирај пречицу</string>
+    <string name="create_shortcut">Направи пречицу</string>
     <string name="dial">Позови</string>
     <string name="message">Порука</string>
     <string name="contact">Контакт</string>
@@ -108,10 +108,10 @@
     <string name="send">Пошаљи поруку</string>
     <string name="photo">Фотографија</string>
     <string name="backup">Резервна копија</string>
-    <string name="pick_contact">Изабери контакт</string>
+    <string name="pick_contact">Избор контакта</string>
     <string name="messages">Поруке</string>
     <string name="backup_password">Лозинка</string>
-    <string name="connection_error">Грешка у мрежној вези! Обавезно онемогућите режим рада у авиону!</string>
+    <string name="connection_error">Није могуће повезати се. Уверите се да је режим рада у авиону искључен.</string>
     <string name="save">Сачувај</string>
     <string name="delete_thread">Избриши нит</string>
     <string name="private_sms_database">Приватна SMS база података</string>
