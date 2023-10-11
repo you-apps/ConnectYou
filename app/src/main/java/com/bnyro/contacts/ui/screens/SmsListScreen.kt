@@ -43,6 +43,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -135,25 +137,35 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                                 ) {
                                     Box(
                                         modifier = Modifier
-                                            .padding(2.dp)
                                             .size(58.dp)
                                             .clip(CircleShape)
                                             .background(
                                                 MaterialTheme.colorScheme.primary,
                                                 CircleShape
-                                            )
-                                            .padding(vertical = 12.dp),
+                                            ),
                                         contentAlignment = Alignment.Center
                                     ) {
-                                        Image(
-                                            modifier = Modifier
-                                                .fillMaxSize(),
-                                            imageVector = Icons.Default.Person,
-                                            contentDescription = null,
-                                            colorFilter = ColorFilter.tint(
-                                                MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp)
-                                            ),
-                                        )
+                                        if (contactData?.thumbnail != null) {
+                                            Image(
+                                                modifier = Modifier
+                                                    .fillMaxSize()
+                                                    .clip(CircleShape),
+                                                bitmap = contactData.thumbnail!!.asImageBitmap(),
+                                                contentDescription = null,
+                                                contentScale = ContentScale.Crop
+                                            )
+                                        } else {
+                                            Image(
+                                                modifier = Modifier
+                                                    .padding(vertical = 12.dp)
+                                                    .fillMaxSize(),
+                                                imageVector = Icons.Default.Person,
+                                                contentDescription = null,
+                                                colorFilter = ColorFilter.tint(
+                                                    MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp)
+                                                ),
+                                            )
+                                        }
                                     }
                                     Spacer(modifier = Modifier.width(10.dp))
                                     Column(
