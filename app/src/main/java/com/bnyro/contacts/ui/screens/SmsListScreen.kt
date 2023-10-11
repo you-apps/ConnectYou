@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
@@ -114,13 +115,16 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                         state = dismissState,
                         background = {},
                         dismissContent = {
+                            val shape = RoundedCornerShape(20.dp)
+
                             ElevatedCard(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .clip(CardDefaults.shape)
+                                    .clip(shape)
                                     .clickable {
                                         showThreadScreen = true
-                                    }
+                                    },
+                                shape = shape
                             ) {
                                 Row(
                                     modifier = Modifier.padding(
@@ -131,17 +135,18 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                                 ) {
                                     Box(
                                         modifier = Modifier
-                                            .size(60.dp)
+                                            .padding(2.dp)
+                                            .size(58.dp)
                                             .clip(CircleShape)
                                             .background(
                                                 MaterialTheme.colorScheme.primary,
                                                 CircleShape
-                                            ),
+                                            )
+                                            .padding(vertical = 12.dp),
                                         contentAlignment = Alignment.Center
                                     ) {
                                         Image(
                                             modifier = Modifier
-                                                .padding(15.dp)
                                                 .fillMaxSize(),
                                             imageVector = Icons.Default.Person,
                                             contentDescription = null,
@@ -164,7 +169,8 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                                             // safe call to avoid crashes when re-rendering
                                             text = smsList.firstOrNull()?.body.orEmpty(),
                                             maxLines = 2,
-                                            fontSize = 14.sp
+                                            fontSize = 14.sp,
+                                            lineHeight = 18.sp
                                         )
                                     }
                                 }
