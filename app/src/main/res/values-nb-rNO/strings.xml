@@ -85,4 +85,27 @@
     <string name="organization">Organisasjon</string>
     <string name="ftp">FTP</string>
     <string name="behavior">Adferd</string>
+    <string name="reply">Svar</string>
+    <string name="save">Lagre</string>
+    <string name="filter">Filter</string>
+    <string name="import_sim">Importer fra SIM</string>
+    <string name="delete_thread">Slett tråd</string>
+    <string name="private_sms_database">Privat SMS-database</string>
+    <string name="delete_message">Slett melding</string>
+    <string name="appearance">Utseende</string>
+    <string name="name">Navn</string>
+    <string name="encrypt_backups">Krypter sikkerhetskopier som ZIP</string>
+    <string name="message_too_long">Meldingen er for lang.</string>
+    <string name="contacts">Kontakter</string>
+    <string name="send">Send melding</string>
+    <string name="photo">Bilde</string>
+    <string name="backup">Sikkerhetskopi</string>
+    <string name="private_sms_database_desc">SMS vil kun lagres i programmet og er ikke tilgjengelig i andre programmer.</string>
+    <string name="nick_name">Kallenavn</string>
+    <string name="pick_contact">Velg kontakt</string>
+    <string name="messages">Meldinger</string>
+    <string name="show_less">Vis færre</string>
+    <string name="phone_number">Telefonnummer</string>
+    <string name="backup_password">Passord</string>
+    <string name="connection_error">Tilkoblingsfeil. Forsikre deg om at du har skrudd av flymodus.</string>
 </resources>
