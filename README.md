@@ -30,7 +30,6 @@
 ## Download
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/com.bnyro.contacts/)
-[<img alt="Get it on Accrescent" src="https://accrescent.app/badges/get-it-on.png" height="80">](https://accrescent.app/app/com.bnyro.contacts)
 [<img src="ghbadge.png" alt="Get it on GitHub" height="80">](https://github.com/you-apps/connectyou/releases)
 
 <!-- ---------- Contribution ---------- -->
