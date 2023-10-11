@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,15 +23,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Send
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.PlainTooltipBox
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -45,7 +50,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -168,6 +172,9 @@ fun SmsThreadScreen(
                                         bottomStart = if (isSender) defaultCornerRadius else edgedCornerRadius,
                                         topEnd = defaultCornerRadius,
                                         topStart = defaultCornerRadius
+                                    ),
+                                    elevation = CardDefaults.elevatedCardElevation(
+                                        defaultElevation = if (isSender) 20.dp else 5.dp
                                     )
                                 ) {
                                     Column(
@@ -233,34 +240,45 @@ fun SmsThreadScreen(
                         FocusRequester()
                     }
 
-                    OutlinedTextField(
-                        modifier = Modifier
-                            .weight(1f)
-                            .focusRequester(focusRequester),
-                        value = text,
-                        onValueChange = { text = it },
+                    SearchBar(
+                        modifier = Modifier.weight(1f),
+                        query = text,
+                        onQueryChange = { text = it },
                         placeholder = {
                             Text(stringResource(R.string.send))
-                        }
+                        },
+                        onSearch = {},
+                        active = false,
+                        onActiveChange = {},
+                        content = {}
                     )
 
-                    Spacer(modifier = Modifier.width(5.dp))
+                    Spacer(modifier = Modifier.width(8.dp))
 
-                    ClickableIcon(
-                        icon = Icons.Default.Send,
-                        contentDescription = R.string.send
-                    ) {
-                        if (text.isBlank()) return@ClickableIcon
-                        if (!SmsUtil.isShortEnoughForSms(text)) {
-                            Toast.makeText(context, R.string.message_too_long, Toast.LENGTH_SHORT)
-                                .show()
-                            return@ClickableIcon
+                    FilledIconButton(
+                        modifier = Modifier.size(48.dp),
+                        onClick = {
+                            if (text.isBlank()) return@FilledIconButton
+                            if (!SmsUtil.isShortEnoughForSms(text)) {
+                                Toast.makeText(
+                                    context,
+                                    R.string.message_too_long,
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                return@FilledIconButton
+                            }
+
+                            smsModel.sendSms(context, address, text)
+
+                            text = ""
+                            focusRequester.freeFocus()
                         }
-
-                        smsModel.sendSms(context, address, text)
-
-                        text = ""
-                        focusRequester.freeFocus()
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Send,
+                            contentDescription = stringResource(R.string.send)
+                        )
                     }
                 }
             }

@@ -96,7 +96,7 @@ fun ContactItem(
 
             Box(
                 modifier = Modifier
-                    .size(40.dp)
+                    .size(42.dp)
                     .background(
                         shape = CircleShape,
                         color = backgroundColor
