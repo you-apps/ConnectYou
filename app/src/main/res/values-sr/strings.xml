@@ -5,13 +5,13 @@
     <string name="search" tools:ignore="PrivateResource">Претрага</string>
     <string name="copied">Копирано у привремену меморију</string>
     <string name="delete_contact">Избриши контакт</string>
-    <string name="irreversible">Да ли сте сигурни\? Ово не може бити поништено.</string>
+    <string name="irreversible">Да ли сте сигурни\? Ово се не може поништити.</string>
     <string name="cancel">Откажи</string>
     <string name="okay">У реду</string>
     <string name="reset">Ресетуј</string>
     <string name="create_contact">Креирај контакт</string>
     <string name="retry">Покушај поново</string>
-    <string name="share">Подели</string>
+    <string name="share">Дели</string>
     <string name="add_to_contact">Додај контакту</string>
     <string name="new_contact">Нови контакт</string>
     <string name="create_shortcut">Креирај пречицу</string>
@@ -79,7 +79,7 @@
     <string name="settings">Подешавања</string>
     <string name="start_tab">Почетна картица</string>
     <string name="theme">Тема</string>
-    <string name="system">Систем</string>
+    <string name="system">Системски</string>
     <string name="light">Светла</string>
     <string name="dark">Тамна</string>
     <string name="auto_backup">Аутоматска резервна копија</string>
