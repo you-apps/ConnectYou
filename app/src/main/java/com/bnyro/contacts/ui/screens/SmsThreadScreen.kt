@@ -23,6 +23,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Send
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ElevatedCard
@@ -170,6 +172,9 @@ fun SmsThreadScreen(
                                         bottomStart = if (isSender) defaultCornerRadius else edgedCornerRadius,
                                         topEnd = defaultCornerRadius,
                                         topStart = defaultCornerRadius
+                                    ),
+                                    elevation = CardDefaults.elevatedCardElevation(
+                                        defaultElevation = if (isSender) 20.dp else 5.dp
                                     )
                                 ) {
                                     Column(
