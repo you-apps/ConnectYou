@@ -82,7 +82,7 @@
     <string name="messages">Messages</string>
     <string name="send">Send message</string>
     <string name="reply">Reply</string>
-    <string name="connection_error">Connection error! Please make sure to disable air plane mode!</string>
+    <string name="connection_error">Could not connect. Please ensure airplane mode is off.</string>
     <string name="message_too_long">Message is too long!</string>
     <string name="private_sms_database">Private SMS Database</string>
     <string name="private_sms_database_desc">The SMS will only be stored within the app and not be accessible in other apps.</string>
