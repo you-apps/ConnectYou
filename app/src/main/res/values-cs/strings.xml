@@ -96,7 +96,7 @@
     <string name="encrypt_backups">Šifrovat zálohy jako zip</string>
     <string name="backup_password">Heslo</string>
     <string name="messages">Zprávy</string>
-    <string name="connection_error">Chyba spojení! Nemáte zapnutý režim letadlo\?</string>
+    <string name="connection_error">Nepodařilo se spojit. Ujistěte se, že nemáte zapnutý režim letadlo.</string>
     <string name="reply">Odpověď</string>
     <string name="send">Poslat zprávu</string>
     <string name="contacts">Kontakty</string>
