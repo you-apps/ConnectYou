@@ -16,7 +16,7 @@
     <string name="create_contact">Criar contato</string>
     <string name="retry">Repetir</string>
     <string name="share">Compartilhar</string>
-    <string name="empty_name">O nome não estar vazio!</string>
+    <string name="empty_name">O nome não pode estar vazio!</string>
     <string name="import_success">Importado.</string>
     <string name="export_success">Exportado.</string>
     <string name="nothing_here">Nada aqui.</string>
@@ -40,7 +40,7 @@
     <string name="author">Autor</string>
     <string name="version">Versão</string>
     <string name="translation">Tradução</string>
-    <string name="last_name">Ultimo Nome</string>
+    <string name="last_name">Sobrenome</string>
     <string name="manage_groups">Gerenciar grupos</string>
     <string name="groups">Grupos</string>
     <string name="delete">Excluir</string>
@@ -61,7 +61,7 @@
     <string name="sort_order">Ordem de classificação</string>
     <string name="account_type">Tipo de conta</string>
     <string name="note">Nota</string>
-    <string name="choose_dir">Escolher diretório</string>
+    <string name="choose_dir">Diretório</string>
     <string name="none">Nenhum</string>
     <string name="both">Ambos</string>
     <string name="auto_backup">Backup automático</string>
@@ -75,7 +75,7 @@
     <string name="more">Mais</string>
     <string name="show_more_fields">Exibir mais campos</string>
     <string name="show_less">Exibir menos</string>
-    <string name="website">Website</string>
+    <string name="website">Site</string>
     <string name="import_sim">Importar do SIM</string>
     <string name="behavior">Comportamento</string>
     <string name="appearance">Aparência</string>
@@ -92,4 +92,19 @@
     <string name="new_contact">Novo contato</string>
     <string name="dial">Discagem</string>
     <string name="colorful_contact_icons">Ícones de contatos coloridos</string>
+    <string name="reply">Responder</string>
+    <string name="save">Salvar</string>
+    <string name="delete_thread">Apagar tópico</string>
+    <string name="private_sms_database">SMS de base de dados privado</string>
+    <string name="delete_message">Excluir mensagem</string>
+    <string name="encrypt_backups">Criptografar backups em formato zip</string>
+    <string name="message_too_long">Mensagem muito grande!</string>
+    <string name="contacts">Contatos</string>
+    <string name="send">Enviar mensagem</string>
+    <string name="backup">Backup</string>
+    <string name="private_sms_database_desc">O SMS será salvo apenas no aplicativo e não estará disponível em outros apps.</string>
+    <string name="messages">Mensagens</string>
+    <string name="phone_number">Número de telefone</string>
+    <string name="backup_password">Senha</string>
+    <string name="connection_error">Não foi possível conectar. Por favor, verifique se o modo avião está desligado.</string>
 </resources>
