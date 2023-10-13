@@ -98,7 +98,7 @@
     <string name="messages">Mensaxes</string>
     <string name="send">Enviar mensaxe</string>
     <string name="reply">Responder</string>
-    <string name="connection_error">Erro na conexión! Comproba que non activaches o modo avión!</string>
+    <string name="connection_error">Non se puido conectar. Comproba que non estás en modo avión.</string>
     <string name="contacts">Contactos</string>
     <string name="message_too_long">Mensaxe demasiado longa!</string>
     <string name="save">Gardar</string>
