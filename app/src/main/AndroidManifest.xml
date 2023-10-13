@@ -198,6 +198,10 @@
             android:name=".receivers.ReplyReceiver"
             android:exported="false" />
 
+        <receiver
+            android:name=".receivers.DeleteSmsReceiver"
+            android:exported="false" />
+
         <!-- BroadcastReceiver that listens for incoming MMS messages -->
         <receiver
             android:name=".receivers.MmsReceiver"

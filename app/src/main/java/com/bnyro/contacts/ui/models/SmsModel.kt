@@ -61,11 +61,11 @@ class SmsModel : ViewModel() {
         }
     }
 
-    fun deleteSms(context: Context, sms: SmsData) {
-        smsList.removeAll { it.id == sms.id }
-        smsGroups[sms.threadId]?.removeAll { it.id == sms.id }
+    fun deleteSms(context: Context, id: Long, threadId: Long) {
+        smsList.removeAll { it.id == id }
+        smsGroups[threadId]?.removeAll { it.id == id }
         viewModelScope.launch(Dispatchers.IO) {
-            SmsUtil.deleteMessage(context, sms.id)
+            SmsUtil.deleteMessage(context, id)
         }
     }
 

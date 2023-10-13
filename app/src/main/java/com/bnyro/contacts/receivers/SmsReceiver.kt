@@ -71,6 +71,24 @@ class SmsReceiver : BroadcastReceiver() {
             .addRemoteInput(remoteInput)
             .build()
 
+        val deleteIntent = Intent(context, DeleteSmsReceiver::class.java)
+            .putExtra(KEY_EXTRA_NOTIFICATION_ID, notificationId)
+            .putExtra(KEY_EXTRA_SMS_ID, smsData.id)
+            .putExtra(KEY_EXTRA_THREAD_ID, smsData.threadId)
+
+        val deletePendingIntent = PendingIntent.getBroadcast(
+            context,
+            1,
+            deleteIntent,
+            PendingIntent.FLAG_MUTABLE
+        )
+
+        val deleteMessageAction = NotificationCompat.Action.Builder(
+            R.drawable.ic_delete,
+            context.getString(R.string.delete),
+            deletePendingIntent
+        ).build()
+
         val smsThreadIntent = IntentHelper.getLaunchIntent(IntentActionType.SMS, smsData.address)
 
         val smsThreadPendingIntent = PendingIntent.getActivity(
@@ -94,6 +112,7 @@ class SmsReceiver : BroadcastReceiver() {
             .setAutoCancel(true)
             .setOnlyAlertOnce(true)
             .addAction(replyAction)
+            .addAction(deleteMessageAction)
             .build()
 
         if (!PermissionHelper.checkPermissions(
@@ -108,6 +127,8 @@ class SmsReceiver : BroadcastReceiver() {
         private const val SMS_DELIVER = "android.provider.Telephony.SMS_DELIVER"
         const val KEY_TEXT_REPLY = "key_text_reply"
         const val KEY_EXTRA_ADDRESS = "key_extra_address"
+        const val KEY_EXTRA_SMS_ID = "key_extra_sms_id"
+        const val KEY_EXTRA_THREAD_ID = "key_extra_thread_id"
         const val KEY_EXTRA_NOTIFICATION_ID = "notification_id"
     }
 }

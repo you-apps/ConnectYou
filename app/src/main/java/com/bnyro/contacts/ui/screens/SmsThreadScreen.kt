@@ -203,7 +203,7 @@ fun SmsThreadScreen(
                                 title = stringResource(R.string.delete_message),
                                 text = stringResource(R.string.irreversible)
                             ) {
-                                smsModel.deleteSms(context, smsData)
+                                smsModel.deleteSms(context, smsData.id, smsData.threadId)
                             }
                         }
                     }
