@@ -99,7 +99,7 @@
     <string name="messages">Повідомлення</string>
     <string name="send">Відправити повідомлення</string>
     <string name="reply">Відповідь</string>
-    <string name="connection_error">Помилка з’єднання! Обов’язково вимкніть режим польоту!</string>
+    <string name="connection_error">Не вдалося встановити підключення. Переконайтеся, що режим польоту вимкнено.</string>
     <string name="contacts">Контакти</string>
     <string name="message_too_long">Повідомлення занадто довге!</string>
     <string name="save">Зберегти</string>
