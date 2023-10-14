@@ -98,7 +98,7 @@
     <string name="messages">الرسائل</string>
     <string name="send">إرسال رسالة</string>
     <string name="reply">رد</string>
-    <string name="connection_error">خطأ في الإتصال! يرجى التأكد من تعطيل وضع الطائرة!</string>
+    <string name="connection_error">خطأ في الإتصال. يرجى التأكد من تعطيل وضع الطائرة.</string>
     <string name="contacts">جهات الاتصال</string>
     <string name="message_too_long">الرسالة طويلة جدا!</string>
     <string name="save">حفظ</string>
