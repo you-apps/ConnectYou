@@ -95,7 +95,7 @@
     <string name="encrypt_backups">הצפנת גיבויים כ־zip</string>
     <string name="backup">גיבוי</string>
     <string name="backup_password">סיסמה</string>
-    <string name="connection_error">שגיאת חיבור! נא לוודא להשבית את מצב הטיסה!</string>
+    <string name="connection_error">לא ניתן להתחבר. נא לוודא שמצב טיסה כבוי.</string>
     <string name="messages">הודעות</string>
     <string name="reply">תגובה</string>
     <string name="send">שליחת הודעה</string>

@@ -95,7 +95,7 @@
     <string name="backup_password">密码</string>
     <string name="encrypt_backups">将备份加密为 Zip</string>
     <string name="backup">备份</string>
-    <string name="connection_error">连接错误！请确保已禁用飞行模式！</string>
+    <string name="connection_error">无法连接。请确保飞行模式处于关闭状态。</string>
     <string name="messages">短信</string>
     <string name="send">发送短信</string>
     <string name="reply">回复</string>

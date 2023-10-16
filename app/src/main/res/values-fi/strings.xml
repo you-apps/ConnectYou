@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="copied">Kopioitu leikepöydälle</string>
     <string name="irreversible">Oletko varma\? Tätä ei voi perua.</string>
-    <string name="cancel">Peruuta</string>
+    <string name="cancel">Peru</string>
     <string name="okay">OK</string>
     <string name="reset">Nollaa</string>
     <string name="create_contact">Luo yhteystieto</string>
@@ -76,11 +76,11 @@
     <string name="new_contact">Uusi yhteystieto</string>
     <string name="contact">Yhteystieto</string>
     <string name="edit">Muokkaa</string>
-    <string name="filter">Suodata</string>
+    <string name="filter">Suodatin</string>
     <string name="more">Lisää</string>
     <string name="show_more_fields">Näytä lisää kenttiä</string>
     <string name="show_less">Näytä vähemmän</string>
-    <string name="website">Verkkosivu</string>
+    <string name="website">Verkkosivusto</string>
     <string name="organization">Organisaatio</string>
     <string name="homepage">Kotisivu</string>
     <string name="ftp">FTP</string>
@@ -99,5 +99,9 @@
     <string name="contacts">Yhteystiedot</string>
     <string name="send">Lähetä viesti</string>
     <string name="messages">Viestit</string>
-    <string name="connection_error">Yhteysvirhe! Varmista, että lentokonetila ei ole päällä!</string>
+    <string name="connection_error">Yhdistäminen ei onnistunut. Varmista, että lentokonetila ei ole päällä.</string>
+    <string name="save">Tallenna</string>
+    <string name="delete_thread">Poista ketju</string>
+    <string name="delete_message">Poista viesti</string>
+    <string name="phone_number">Puhelinnumero</string>
 </resources>
