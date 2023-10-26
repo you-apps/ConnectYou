@@ -109,6 +109,8 @@ class SmsReceiver : BroadcastReceiver() {
                 NotificationCompat.BigTextStyle()
                     .bigText(smsData.body)
             )
+            .setWhen(smsData.timestamp)
+            .setShowWhen(true)
             .setAutoCancel(true)
             .setOnlyAlertOnce(true)
             .addAction(replyAction)
