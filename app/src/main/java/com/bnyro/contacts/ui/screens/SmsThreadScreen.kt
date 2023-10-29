@@ -20,11 +20,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ElevatedCard
@@ -51,6 +52,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -180,7 +182,22 @@ fun SmsThreadScreen(
                                     Column(
                                         modifier = Modifier.padding(12.dp)
                                     ) {
-                                        Text(text = smsData.body)
+                                        SelectionContainer {
+                                            val uriHandler = LocalUriHandler.current
+                                            ClickableText(
+                                                text = smsData.formatted,
+                                                onClick = { offset ->
+                                                    val annotation =
+                                                        smsData.formatted.getStringAnnotations(
+                                                            offset,
+                                                            offset
+                                                        ).firstOrNull()
+                                                    annotation?.let {
+                                                        uriHandler.openUri(it.item)
+                                                    }
+                                                }
+                                            )
+                                        }
                                         Spacer(modifier = Modifier.height(4.dp))
                                         Text(
                                             modifier = Modifier.align(messageAlignment),
