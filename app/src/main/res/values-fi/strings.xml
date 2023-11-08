@@ -104,4 +104,7 @@
     <string name="delete_thread">Poista ketju</string>
     <string name="delete_message">Poista viesti</string>
     <string name="phone_number">Puhelinnumero</string>
+    <string name="private_sms_database">Yksityinen SMS-tietokanta</string>
+    <string name="encrypt_backups">Salaa varmuuskopiot Zip-tiedostossa</string>
+    <string name="private_sms_database_desc">SMS tallennetaan vain tässä sovelluksessa, eikä muut sovellukset pääse siihen käsiksi.</string>
 </resources>

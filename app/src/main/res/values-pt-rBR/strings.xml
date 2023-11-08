@@ -19,7 +19,7 @@
     <string name="empty_name">O nome não pode estar vazio!</string>
     <string name="import_success">Importado.</string>
     <string name="export_success">Exportado.</string>
-    <string name="nothing_here">Nada aqui.</string>
+    <string name="nothing_here">Nada por aqui.</string>
     <string name="phone">Telefone</string>
     <string name="email">E-mail</string>
     <string name="address">Endereço</string>

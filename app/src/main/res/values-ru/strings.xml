@@ -48,7 +48,7 @@
     <string name="note">Примечание</string>
     <string name="device">Устройство</string>
     <string name="theme">Тема</string>
-    <string name="system">Системная</string>
+    <string name="system">Как в системе</string>
     <string name="light">Светлая</string>
     <string name="dark">Тёмная</string>
     <string name="auto_backup">Автоматическое резервное копирование</string>

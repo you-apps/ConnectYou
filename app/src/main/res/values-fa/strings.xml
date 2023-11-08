@@ -6,10 +6,19 @@
     <string name="delete_contact">حذف مخاطب</string>
     <string name="create_contact">ایجاد مخاطب</string>
     <string name="retry">تلاش دوباره</string>
-    <string name="about">درباره</string>
-    <string name="cancel">بیخیال</string>
-    <string name="irreversible">آیا مطمئن هستید؟ این کار غیرقابل بازگشت است.</string>
+    <string name="about">درباره ما</string>
+    <string name="cancel">انصراف</string>
+    <string name="irreversible">آیا مطمئن هستید؟ این کار برگشت‌ناپذیر است.</string>
     <string name="okay">باشه</string>
     <string name="search" tools:ignore="PrivateResource">جستجو</string>
-    <string name="share">اشتراک گذاری</string>
+    <string name="share">هم‌رسانی</string>
+    <string name="theme">پوسته</string>
+    <string name="light">روشن</string>
+    <string name="delete">حذف</string>
+    <string name="copied">در بریده‌دان کپی شد</string>
+    <string name="translation">ترجمه</string>
+    <string name="dark">تیره</string>
+    <string name="settings">تنظیمات</string>
+    <string name="author">نویسنده</string>
+    <string name="system">سامانه</string>
 </resources>
