@@ -306,10 +306,11 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
     @RequiresPermission(Manifest.permission.WRITE_CONTACTS)
     override suspend fun createContact(contact: ContactData) {
         withContext(Dispatchers.IO) {
+            val lastChosenAccount = Preferences.getLastChosenAccount()
             val ops = listOfNotNull(
                 getCreateAction(
-                    contact.accountType ?: ANDROID_ACCOUNT_TYPE,
-                    contact.accountName ?: ANDROID_CONTACTS_NAME
+                    contact.accountType ?: lastChosenAccount.first,
+                    contact.accountName ?: lastChosenAccount.second
                 ),
                 getInsertAction(
                     StructuredName.CONTENT_ITEM_TYPE,

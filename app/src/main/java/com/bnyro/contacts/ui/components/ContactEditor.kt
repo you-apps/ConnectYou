@@ -57,8 +57,8 @@ import com.bnyro.contacts.ui.components.editor.DatePickerEditor
 import com.bnyro.contacts.ui.components.editor.TextFieldEditor
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.util.ContactsHelper
-import com.bnyro.contacts.repo.DeviceContactsRepository
 import com.bnyro.contacts.util.ImageHelper
+import com.bnyro.contacts.util.Preferences
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -146,9 +146,10 @@ fun ContactEditor(
     }
 
     var selectedAccount by remember {
+        val lastChosenAccount = Preferences.getLastChosenAccount()
         mutableStateOf(
-            (contact?.accountType ?: DeviceContactsRepository.ANDROID_ACCOUNT_TYPE) to
-                (contact?.accountName ?: DeviceContactsRepository.ANDROID_CONTACTS_NAME)
+            (contact?.accountType ?: lastChosenAccount.first) to
+                    (contact?.accountName ?: lastChosenAccount.second)
         )
     }
 
@@ -431,6 +432,9 @@ fun ContactEditor(
                     items(availableAccounts) {
                         ClickableText(text = it.second) {
                             selectedAccount = it
+                            Preferences.edit {
+                                putString(Preferences.lastChosenAccount, "${it.first}|${it.second}")
+                            }
                             showAccountTypeDialog = false
                         }
                     }
