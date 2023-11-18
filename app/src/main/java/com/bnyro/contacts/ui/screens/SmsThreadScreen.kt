@@ -54,6 +54,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bnyro.contacts.R
@@ -186,6 +187,10 @@ fun SmsThreadScreen(
                                             val uriHandler = LocalUriHandler.current
                                             ClickableText(
                                                 text = smsData.formatted,
+                                                style = TextStyle.Default.copy(
+                                                    color = MaterialTheme.colorScheme.onBackground,
+                                                    fontSize = 15.sp
+                                                ),
                                                 onClick = { offset ->
                                                     val annotation =
                                                         smsData.formatted.getStringAnnotations(
