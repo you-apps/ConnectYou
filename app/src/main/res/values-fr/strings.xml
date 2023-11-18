@@ -90,4 +90,5 @@
     <string name="photo">Photo</string>
     <string name="name">Nom</string>
     <string name="import_sim">Importer depuis une SIM</string>
+    <string name="behavior">Comportement</string>
 </resources>
