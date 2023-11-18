@@ -16,9 +16,9 @@ object CalendarUtils {
     val isoTimeFormat = SimpleDateFormat("yyyy-MM-dd-HH:mm:ss")
     private val localizedFormat get() = DateFormat.getDateInstance()
 
-    fun millisToDate(milliSeconds: String, formatter: DateFormat = localizedFormat): String {
+    fun millisToDate(milliSeconds: Long, formatter: DateFormat = localizedFormat): String {
         val calendar: Calendar = Calendar.getInstance()
-        calendar.timeInMillis = milliSeconds.toLong()
+        calendar.timeInMillis = milliSeconds
         return formatter.format(calendar.time)
     }
 

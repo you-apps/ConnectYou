@@ -1,6 +1,7 @@
 package com.bnyro.contacts.util
 
 import android.graphics.BitmapFactory
+import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.Email
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
@@ -14,9 +15,13 @@ import ezvcard.parameter.EmailType
 import ezvcard.parameter.ImageType
 import ezvcard.parameter.TelephoneType
 import ezvcard.property.Address
+import ezvcard.property.Anniversary
+import ezvcard.property.Birthday
 import ezvcard.property.FormattedName
 import ezvcard.property.Photo
 import ezvcard.property.StructuredName
+import java.time.Instant
+import java.util.Date
 
 object VcardHelper {
     private val addressTypes = listOf(
@@ -96,6 +101,20 @@ object VcardHelper {
                     addNote(note.value)
                 }
             }
+            contact.events.forEach { event ->
+                when (event.type) {
+                    ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY -> {
+                        CalendarUtils.dateToMillis(event.value)?.let { time ->
+                            birthday = Birthday(Date(time))
+                        }
+                    }
+                    ContactsContract.CommonDataKinds.Event.TYPE_ANNIVERSARY -> {
+                        CalendarUtils.dateToMillis(event.value)?.let { time ->
+                            anniversary = Anniversary(Date(time))
+                        }
+                    }
+                }
+            }
             (contact.photo ?: contact.thumbnail)?.let {
                 val photo = Photo(ImageHelper.bitmapToByteArray(it), ImageType.PNG)
                 addPhoto(photo)
@@ -151,6 +170,17 @@ object VcardHelper {
                 },
                 notes = it.notes.orEmpty().map { note ->
                     ValueWithType(note.value, null)
+                },
+                events = it.anniversaries.map { anniversary ->
+                    ValueWithType(
+                        CalendarUtils.millisToDate(anniversary.date.time, formatter = CalendarUtils.isoDateFormat),
+                        ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY
+                    )
+                } + it.birthdays.map { birthday ->
+                    ValueWithType(
+                        CalendarUtils.millisToDate(birthday.date.time, formatter = CalendarUtils.isoDateFormat),
+                        ContactsContract.CommonDataKinds.Event.TYPE_ANNIVERSARY
+                    )
                 },
                 photo = photo,
                 thumbnail = photo
