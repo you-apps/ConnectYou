@@ -3,24 +3,26 @@ package com.bnyro.contacts.util
 import android.provider.ContactsContract
 import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.TranslatedType
+import ezvcard.parameter.AddressType
+import ezvcard.parameter.EmailType
+import ezvcard.parameter.TelephoneType
 
 object ContactsHelper {
-
     val emailTypes = listOf(
-        TranslatedType(ContactsContract.CommonDataKinds.Email.TYPE_HOME, R.string.home),
-        TranslatedType(ContactsContract.CommonDataKinds.Email.TYPE_WORK, R.string.work),
-        TranslatedType(ContactsContract.CommonDataKinds.Email.TYPE_MOBILE, R.string.mobile),
+        TranslatedType(ContactsContract.CommonDataKinds.Email.TYPE_HOME, R.string.home, EmailType.HOME),
+        TranslatedType(ContactsContract.CommonDataKinds.Email.TYPE_WORK, R.string.work, EmailType.WORK),
+        TranslatedType(ContactsContract.CommonDataKinds.Email.TYPE_MOBILE, R.string.mobile, EmailType.PREF),
         TranslatedType(ContactsContract.CommonDataKinds.Email.TYPE_CUSTOM, R.string.custom),
         TranslatedType(ContactsContract.CommonDataKinds.Email.TYPE_OTHER, R.string.other)
     )
 
     val phoneNumberTypes = listOf(
-        TranslatedType(ContactsContract.CommonDataKinds.Phone.TYPE_HOME, R.string.home),
-        TranslatedType(ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE, R.string.mobile),
-        TranslatedType(ContactsContract.CommonDataKinds.Phone.TYPE_WORK, R.string.work),
-        TranslatedType(ContactsContract.CommonDataKinds.Phone.TYPE_CAR, R.string.car),
-        TranslatedType(ContactsContract.CommonDataKinds.Phone.TYPE_FAX_HOME, R.string.fax_home),
-        TranslatedType(ContactsContract.CommonDataKinds.Phone.TYPE_FAX_WORK, R.string.fax_work),
+        TranslatedType(ContactsContract.CommonDataKinds.Phone.TYPE_HOME, R.string.home, TelephoneType.HOME),
+        TranslatedType(ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE, R.string.mobile, TelephoneType.CELL),
+        TranslatedType(ContactsContract.CommonDataKinds.Phone.TYPE_WORK, R.string.work, TelephoneType.WORK),
+        TranslatedType(ContactsContract.CommonDataKinds.Phone.TYPE_CAR, R.string.car, TelephoneType.CAR),
+        TranslatedType(ContactsContract.CommonDataKinds.Phone.TYPE_FAX_HOME, R.string.fax_home, TelephoneType.FAX),
+        TranslatedType(ContactsContract.CommonDataKinds.Phone.TYPE_FAX_WORK, R.string.fax_work, TelephoneType.FAX),
         TranslatedType(
             ContactsContract.CommonDataKinds.Phone.TYPE_ASSISTANT,
             R.string.assistant
@@ -32,11 +34,13 @@ object ContactsHelper {
     val addressTypes = listOf(
         TranslatedType(
             ContactsContract.CommonDataKinds.StructuredPostal.TYPE_HOME,
-            R.string.home
+            R.string.home,
+            AddressType.HOME
         ),
         TranslatedType(
             ContactsContract.CommonDataKinds.StructuredPostal.TYPE_WORK,
-            R.string.work
+            R.string.work,
+            AddressType.WORK
         ),
         TranslatedType(
             ContactsContract.CommonDataKinds.StructuredPostal.TYPE_CUSTOM,

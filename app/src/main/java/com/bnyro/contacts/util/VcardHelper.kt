@@ -2,9 +2,6 @@ package com.bnyro.contacts.util
 
 import android.graphics.BitmapFactory
 import android.provider.ContactsContract
-import android.provider.ContactsContract.CommonDataKinds.Email
-import android.provider.ContactsContract.CommonDataKinds.Phone
-import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ValueWithType
 import ezvcard.Ezvcard
@@ -23,29 +20,6 @@ import ezvcard.property.StructuredName
 import java.util.Date
 
 object VcardHelper {
-    private val addressTypes = listOf(
-        Pair(StructuredPostal.TYPE_HOME, AddressType.HOME),
-        Pair(StructuredPostal.TYPE_WORK, AddressType.WORK),
-        Pair(StructuredPostal.TYPE_OTHER, null)
-    )
-
-    private val emailTypes = listOf(
-        Pair(Email.TYPE_HOME, EmailType.HOME),
-        Pair(Email.TYPE_WORK, EmailType.WORK),
-        Pair(Email.TYPE_MOBILE, EmailType.PREF),
-        Pair(Email.TYPE_OTHER, null)
-    )
-
-    private val phoneNumberTypes = listOf(
-        Pair(Phone.TYPE_MOBILE, TelephoneType.CELL),
-        Pair(Phone.TYPE_HOME, TelephoneType.HOME),
-        Pair(Phone.TYPE_WORK, TelephoneType.WORK),
-        Pair(Phone.TYPE_MAIN, TelephoneType.PREF),
-        Pair(Phone.TYPE_FAX_HOME, TelephoneType.FAX),
-        Pair(Phone.TYPE_FAX_WORK, TelephoneType.FAX),
-        Pair(Phone.TYPE_OTHER, null)
-    )
-
     fun exportVcard(contacts: List<ContactData>): String {
         val vCards = contacts.map { createVcardContact(it) }
 
@@ -66,9 +40,9 @@ object VcardHelper {
                 setOrganization(it)
             }
             contact.numbers.forEachIndexed { index, number ->
-                val type = phoneNumberTypes.firstOrNull {
-                    it.first == number.type
-                }?.second ?: TelephoneType.HOME
+                val type = ContactsHelper.phoneNumberTypes.firstOrNull {
+                    it.id == number.type
+                }?.vcardType as? TelephoneType ?: TelephoneType.HOME
                 runCatching {
                     addTelephoneNumber(number.value, type).also {
                         if (index == 0) it.types.add(TelephoneType.PREF)
@@ -76,21 +50,21 @@ object VcardHelper {
                 }
             }
             contact.emails.forEach { email ->
-                val type = emailTypes.firstOrNull {
-                    it.first == email.type
-                }?.second ?: EmailType.HOME
+                val type = ContactsHelper.emailTypes.firstOrNull {
+                    it.id == email.type
+                }?.vcardType as? EmailType ?: EmailType.HOME
                 runCatching {
                     addEmail(email.value, type)
                 }
             }
             contact.addresses.forEach { address ->
-                val addressType = addressTypes.firstOrNull {
-                    it.first == address.type
-                }?.second?.value ?: AddressType.HOME.value
+                val addressType = ContactsHelper.addressTypes.firstOrNull {
+                    it.id == address.type
+                }?.vcardType as? AddressType ?: AddressType.HOME
                 runCatching {
                     val newAddress = Address().apply {
                         streetAddress = address.value
-                        parameters.addType(addressType)
+                        parameters.addType(addressType?.value)
                     }
                     addAddress(newAddress)
                 }
@@ -140,17 +114,17 @@ object VcardHelper {
                 }.map { number ->
                     ValueWithType(
                         number.text,
-                        phoneNumberTypes.firstOrNull { pair ->
-                            pair.second == number.types.firstOrNull()
-                        }?.first
+                        ContactsHelper.phoneNumberTypes.firstOrNull { type ->
+                            type.vcardType == number.types.firstOrNull()
+                        }?.id
                     )
                 },
                 emails = it.emails.orEmpty().map { email ->
                     ValueWithType(
                         email.value,
-                        emailTypes.firstOrNull { pair ->
-                            pair.second == email.types.firstOrNull()
-                        }?.first
+                        ContactsHelper.emailTypes.firstOrNull { type ->
+                            type.vcardType == email.types.firstOrNull()
+                        }?.id
                     )
                 },
                 addresses = it.addresses.orEmpty().map { address ->
@@ -162,9 +136,9 @@ object VcardHelper {
                             address.postalCode,
                             address.country
                         ).filter { entry -> entry.isNotBlank() }.joinToString(" ").trim(),
-                        addressTypes.firstOrNull { pair ->
-                            pair.second == address.types.firstOrNull()
-                        }?.first
+                        ContactsHelper.addressTypes.firstOrNull { type ->
+                            type.vcardType == address.types.firstOrNull()
+                        }?.id
                     )
                 },
                 notes = it.notes.orEmpty().map { note ->
