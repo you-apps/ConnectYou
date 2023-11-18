@@ -20,7 +20,6 @@ import ezvcard.property.Birthday
 import ezvcard.property.FormattedName
 import ezvcard.property.Photo
 import ezvcard.property.StructuredName
-import java.time.Instant
 import java.util.Date
 
 object VcardHelper {

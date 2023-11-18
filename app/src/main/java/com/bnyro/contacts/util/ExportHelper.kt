@@ -7,9 +7,9 @@ import androidx.core.content.FileProvider
 import com.bnyro.contacts.ext.pmap
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.repo.ContactsRepository
+import java.io.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.File
 
 class ExportHelper(
     private val context: Context,
@@ -17,7 +17,10 @@ class ExportHelper(
 ) {
     private val contentResolver = context.contentResolver
     private val encryptBackups get() = Preferences.getBoolean(Preferences.encryptBackupsKey, false)
-    private val password get() = Preferences.getString(Preferences.encryptBackupPasswordKey, "").orEmpty()
+    private val password get() = Preferences.getString(
+        Preferences.encryptBackupPasswordKey,
+        ""
+    ).orEmpty()
 
     @SuppressLint("MissingPermission")
     suspend fun importContacts(uri: Uri) {

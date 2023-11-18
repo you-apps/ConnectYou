@@ -5,7 +5,7 @@ import com.bnyro.contacts.db.DatabaseHolder
 import com.bnyro.contacts.db.obj.SmsData
 import kotlin.random.Random
 
-class LocalSmsRepo: SmsRepository {
+class LocalSmsRepo : SmsRepository {
     override suspend fun getSmsList(context: Context): List<SmsData> {
         return DatabaseHolder.Db.localSmsDao().getAll()
     }

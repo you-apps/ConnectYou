@@ -166,7 +166,12 @@ fun ContactsPage(
                                             text = { Text(stringResource(id = source.stringRes)) },
                                             onClick = {
                                                 viewModel.contactsSource = source
-                                                Preferences.edit { putInt(Preferences.selectedContactsRepo, index) }
+                                                Preferences.edit {
+                                                    putInt(
+                                                        Preferences.selectedContactsRepo,
+                                                        index
+                                                    )
+                                                }
                                                 expanded = false
                                             }
                                         )

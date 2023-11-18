@@ -1,7 +1,6 @@
 package com.bnyro.contacts.db.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.bnyro.contacts.db.obj.SmsData

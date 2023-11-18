@@ -55,7 +55,7 @@ object Preferences {
                 return split.first() to split.last()
             }
 
-       return DeviceContactsRepository.ANDROID_ACCOUNT_TYPE to DeviceContactsRepository.ANDROID_CONTACTS_NAME
+        return DeviceContactsRepository.ANDROID_ACCOUNT_TYPE to DeviceContactsRepository.ANDROID_CONTACTS_NAME
     }
 }
 

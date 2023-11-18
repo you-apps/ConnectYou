@@ -149,7 +149,7 @@ fun ContactEditor(
         val lastChosenAccount = Preferences.getLastChosenAccount()
         mutableStateOf(
             (contact?.accountType ?: lastChosenAccount.first) to
-                    (contact?.accountName ?: lastChosenAccount.second)
+                (contact?.accountName ?: lastChosenAccount.second)
         )
     }
 

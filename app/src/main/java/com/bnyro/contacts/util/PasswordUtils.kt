@@ -1,6 +1,5 @@
 package com.bnyro.contacts.util
 
-
 object PasswordUtils {
     private const val CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz|!£$%&/=@#"
 

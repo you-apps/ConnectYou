@@ -16,6 +16,6 @@ fun SettingsCategory(
         modifier = modifier.padding(top = 16.dp, bottom = 8.dp),
         text = title.uppercase(),
         style = MaterialTheme.typography.bodySmall,
-        color = MaterialTheme.colorScheme.primary,
+        color = MaterialTheme.colorScheme.primary
     )
 }

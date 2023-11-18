@@ -262,7 +262,12 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
 
     @Suppress("SameParameterValue")
     @RequiresPermission(Manifest.permission.READ_CONTACTS)
-    private fun getExtras(contactId: Long, valueIndex: String, typeIndex: String?, itemType: String): List<ValueWithType> {
+    private fun getExtras(
+        contactId: Long,
+        valueIndex: String,
+        typeIndex: String?,
+        itemType: String
+    ): List<ValueWithType> {
         val entries = mutableListOf<ValueWithType>()
         val projection = arrayOf(Data.CONTACT_ID, valueIndex, typeIndex ?: "data2")
 

@@ -38,8 +38,10 @@ fun EncryptBackupsPref() {
         title = stringResource(R.string.encrypt_backups)
     ) {
         encryptBackups = it
-        if (it) Preferences.edit {
-            putString(Preferences.encryptBackupPasswordKey, PasswordUtils.randomString(12))
+        if (it) {
+            Preferences.edit {
+                putString(Preferences.encryptBackupPasswordKey, PasswordUtils.randomString(12))
+            }
         }
     }
     AnimatedVisibility(encryptBackups) {
@@ -78,12 +80,18 @@ fun EncryptBackupsPref() {
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
-                    visualTransformation = if (passwordVisible) VisualTransformation.None
-                    else PasswordVisualTransformation(),
+                    visualTransformation = if (passwordVisible) {
+                        VisualTransformation.None
+                    } else {
+                        PasswordVisualTransformation()
+                    },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     trailingIcon = {
-                        val image = if (passwordVisible) Icons.Filled.Visibility
-                        else Icons.Filled.VisibilityOff
+                        val image = if (passwordVisible) {
+                            Icons.Filled.Visibility
+                        } else {
+                            Icons.Filled.VisibilityOff
+                        }
                         ClickableIcon(
                             icon = image,
                             onClick = { passwordVisible = !passwordVisible }

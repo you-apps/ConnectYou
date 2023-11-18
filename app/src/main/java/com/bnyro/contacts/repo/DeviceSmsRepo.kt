@@ -4,14 +4,14 @@ import android.content.ContentValues
 import android.content.Context
 import android.provider.Telephony
 import android.util.Log
+import com.bnyro.contacts.db.obj.SmsData
 import com.bnyro.contacts.ext.intValue
 import com.bnyro.contacts.ext.longValue
 import com.bnyro.contacts.ext.stringValue
-import com.bnyro.contacts.db.obj.SmsData
 import com.bnyro.contacts.util.SmsUtil
 import kotlin.random.Random
 
-class DeviceSmsRepo: SmsRepository {
+class DeviceSmsRepo : SmsRepository {
     private val contentUri = Telephony.Sms.CONTENT_URI
 
     override suspend fun getSmsList(context: Context): List<SmsData> {
@@ -51,7 +51,13 @@ class DeviceSmsRepo: SmsRepository {
 
         Log.v("send_transaction", "inserted to uri: $messageUri")
 
-        context.contentResolver.query(messageUri, arrayOf(Telephony.Sms._ID), null, null, null)?.use {
+        context.contentResolver.query(
+            messageUri,
+            arrayOf(Telephony.Sms._ID),
+            null,
+            null,
+            null
+        )?.use {
             if (it.moveToFirst()) smsData.id = it.longValue(Telephony.Sms._ID)!!
         }
         return smsData

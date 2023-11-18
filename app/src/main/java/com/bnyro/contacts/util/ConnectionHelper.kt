@@ -12,7 +12,9 @@ object ConnectionHelper {
                 TelephonyManager.SIM_STATE_READY,
                 TelephonyManager.SIM_STATE_UNKNOWN
             )
-        ) return false
+        ) {
+            return false
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             return (telephonyManager.signalStrength?.level ?: -1) > 0

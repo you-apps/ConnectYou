@@ -15,7 +15,7 @@ val curlyCornerShape = CurlyCornerShape()
 
 class CurlyCornerShape(
     private val amp: Double = 10.0,
-    private val count: Int = 8,
+    private val count: Int = 8
 ) : CornerBasedShape(
     topStart = ZeroCornerSize,
     topEnd = ZeroCornerSize,
@@ -29,7 +29,7 @@ class CurlyCornerShape(
         d3: Double,
         d4: Double,
         d5: Double,
-        i: Int,
+        i: Int
     ): List<Double> = (i.toDouble() * d5).run {
         listOf(
             (sin(this) * d4 + d3) * cos(d5) + d1,
@@ -43,7 +43,7 @@ class CurlyCornerShape(
         topEnd: Float,
         bottomEnd: Float,
         bottomStart: Float,
-        layoutDirection: LayoutDirection,
+        layoutDirection: LayoutDirection
     ): Outline {
         val d = 2.0
         val r2: Double = size.width / d
@@ -56,9 +56,14 @@ class CurlyCornerShape(
             val i2 = i + 1
             val d3 = r13
             val r5: List<Double> = sineCircleXYatAngle(
-                r2, r13, r18, amp, Math.toRadians(
+                r2,
+                r13,
+                r18,
+                amp,
+                Math.toRadians(
                     i.toDouble()
-                ), count
+                ),
+                count
             )
             path.lineTo(r5[0].toFloat(), r5[1].toFloat())
             if (i2 >= 360) {
@@ -74,7 +79,7 @@ class CurlyCornerShape(
         topStart: CornerSize,
         topEnd: CornerSize,
         bottomEnd: CornerSize,
-        bottomStart: CornerSize,
+        bottomStart: CornerSize
     ) = RoundedCornerShape(
         topStart = topStart,
         topEnd = topEnd,

@@ -11,8 +11,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
 import com.bnyro.contacts.R
-import com.bnyro.contacts.enums.IntentActionType
 import com.bnyro.contacts.db.obj.SmsData
+import com.bnyro.contacts.enums.IntentActionType
 import com.bnyro.contacts.ui.activities.MainActivity
 import com.bnyro.contacts.util.IntentHelper
 import com.bnyro.contacts.util.NotificationHelper
@@ -32,8 +32,10 @@ class SmsReceiver : BroadcastReceiver() {
             val address = message.displayOriginatingAddress
             val body = message.displayMessageBody
             val timestamp = message.timestampMillis
-            val threadId = runBlocking(Dispatchers.IO) { SmsUtil.getOrCreateThreadId(context, address) }
-            val bareSmsData = SmsData(-1, address, body, timestamp, threadId, Telephony.Sms.MESSAGE_TYPE_INBOX)
+            val threadId =
+                runBlocking(Dispatchers.IO) { SmsUtil.getOrCreateThreadId(context, address) }
+            val bareSmsData =
+                SmsData(-1, address, body, timestamp, threadId, Telephony.Sms.MESSAGE_TYPE_INBOX)
 
             createNotification(context, notificationId, bareSmsData)
             val smsData = runBlocking(Dispatchers.IO) {
@@ -121,7 +123,9 @@ class SmsReceiver : BroadcastReceiver() {
                 context,
                 NotificationHelper.notificationPermissions
             )
-        ) return
+        ) {
+            return
+        }
         NotificationManagerCompat.from(context).notify(notificationId, notification)
     }
 

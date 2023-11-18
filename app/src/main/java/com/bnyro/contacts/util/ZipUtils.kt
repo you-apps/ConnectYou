@@ -1,15 +1,18 @@
 package com.bnyro.contacts.util
 
+import java.io.InputStream
+import java.io.OutputStream
 import net.lingala.zip4j.io.inputstream.ZipInputStream
 import net.lingala.zip4j.io.outputstream.ZipOutputStream
 import net.lingala.zip4j.model.ZipParameters
 import net.lingala.zip4j.model.enums.EncryptionMethod
-import java.io.InputStream
-import java.io.OutputStream
-
 
 object ZipUtils {
-    fun writeToEncryptedZip(password: String, bytesToExport: ByteArray?, outputStream: OutputStream) {
+    fun writeToEncryptedZip(
+        password: String,
+        bytesToExport: ByteArray?,
+        outputStream: OutputStream
+    ) {
         val zipParameters = ZipParameters()
         zipParameters.isEncryptFiles = true
         zipParameters.fileNameInZip = "contacts.vcf"

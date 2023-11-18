@@ -20,7 +20,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ElevatedCard
@@ -162,8 +161,10 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                                                 imageVector = Icons.Default.Person,
                                                 contentDescription = null,
                                                 colorFilter = ColorFilter.tint(
-                                                    MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp)
-                                                ),
+                                                    MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                        10.dp
+                                                    )
+                                                )
                                             )
                                         }
                                     }

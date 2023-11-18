@@ -11,7 +11,10 @@ data class FilterOptions(
     companion object {
         fun default(): FilterOptions {
             val sortOrder = SortOrder.fromInt(Preferences.getInt(Preferences.sortOrderKey, 0))
-            val hiddenAccounts = Preferences.getStringSet(Preferences.hiddenAccountsKey, emptySet())!!.toList()
+            val hiddenAccounts = Preferences.getStringSet(
+                Preferences.hiddenAccountsKey,
+                emptySet()
+            )!!.toList()
             return FilterOptions(sortOrder, hiddenAccounts, listOf())
         }
     }

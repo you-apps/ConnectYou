@@ -10,7 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DeleteSmsReceiver: BroadcastReceiver() {
+class DeleteSmsReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val smsId = intent.getLongExtra(SmsReceiver.KEY_EXTRA_SMS_ID, -1)
         val threadId = intent.getLongExtra(SmsReceiver.KEY_EXTRA_THREAD_ID, -1)

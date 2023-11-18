@@ -76,11 +76,16 @@ fun GroupsDialog(
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Checkbox(checked = participatingGroups.contains(group), onCheckedChange = { newValue ->
-                            onContactGroupsChanges(
-                                if (newValue) participatingGroups + group else participatingGroups - group
-                            )
-                        })
+                        Checkbox(
+                            checked = participatingGroups.contains(
+                                group
+                            ),
+                            onCheckedChange = { newValue ->
+                                onContactGroupsChanges(
+                                    if (newValue) participatingGroups + group else participatingGroups - group
+                                )
+                            }
+                        )
                         Text(
                             modifier = Modifier.weight(1f),
                             text = group.title
@@ -133,7 +138,11 @@ fun GroupsDialog(
                             showCreateGroup = false
                         }
                     } else {
-                        Toast.makeText(context, R.string.group_already_exists, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            R.string.group_already_exists,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             },

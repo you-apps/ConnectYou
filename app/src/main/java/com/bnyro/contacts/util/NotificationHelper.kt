@@ -17,7 +17,10 @@ object NotificationHelper {
     }
 
     fun createChannels(context: Context) {
-        val messagesChannel = NotificationChannelCompat.Builder(MESSAGES_CHANNEL_ID, NotificationManagerCompat.IMPORTANCE_HIGH)
+        val messagesChannel = NotificationChannelCompat.Builder(
+            MESSAGES_CHANNEL_ID,
+            NotificationManagerCompat.IMPORTANCE_HIGH
+        )
             .setName(context.getString(R.string.messages))
             .setLightsEnabled(true)
             .setVibrationEnabled(true)

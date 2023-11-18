@@ -24,7 +24,7 @@ fun SmallButtonWithIcon(
 ) {
     OutlinedButton(
         modifier = modifier,
-        onClick = onClick,
+        onClick = onClick
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
