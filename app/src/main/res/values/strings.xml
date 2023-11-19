@@ -88,6 +88,12 @@
     <string name="private_sms_database_desc">The SMS will only be stored within the app and not be accessible in other apps.</string>
     <string name="delete_thread">Delete thread</string>
     <string name="delete_message">Delete message</string>
+    <!-- Dialer -->
+    <string name="in_progress">In progress</string>
+    <string name="ringing">Ringing…</string>
+    <string name="disconnecting">Disconnecting…</string>
+    <string name="connecting">Connecting…</string>
+    <string name="confirm_start_call">Do you want to call %1$s?</string>
     <!-- Import & Export -->
     <string name="import_vcf">Import vCard</string>
     <string name="export_vcf">Export vCard</string>
