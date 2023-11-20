@@ -205,15 +205,27 @@ fun SmsThreadScreen(
                                             )
                                         }
                                         Spacer(modifier = Modifier.height(4.dp))
-                                        Text(
-                                            modifier = Modifier.align(messageAlignment),
-                                            fontSize = 14.sp,
-                                            color = MaterialTheme.colorScheme.primary,
-                                            text = DateUtils.getRelativeTimeSpanString(
-                                                smsData.timestamp
+                                        Row(
+                                            Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.End
+                                        ) {
+                                            Text(
+                                                fontSize = 14.sp,
+                                                color = MaterialTheme.colorScheme.primary,
+                                                text = DateUtils.getRelativeTimeSpanString(
+                                                    smsData.timestamp
+                                                )
+                                                    .toString()
                                             )
-                                                .toString()
-                                        )
+                                            if (smsData.simNumber != null) {
+                                                Spacer(modifier = Modifier.width(8.dp))
+                                                Text(
+                                                    fontSize = 14.sp,
+                                                    color = MaterialTheme.colorScheme.primary,
+                                                    text = "SIM ${smsData.simNumber}"
+                                                )
+                                            }
+                                        }
                                     }
                                 }
                             },

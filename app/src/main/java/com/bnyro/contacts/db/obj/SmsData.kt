@@ -18,7 +18,8 @@ data class SmsData(
     @ColumnInfo val body: String = "",
     @ColumnInfo val timestamp: Long = 0,
     @ColumnInfo val threadId: Long = 0,
-    @ColumnInfo val type: Int = 0
+    @ColumnInfo val type: Int = 0,
+    @ColumnInfo(defaultValue = "NULL") var simNumber: Int? = null
 ) {
     val formatted: AnnotatedString
         get() {
