@@ -2,6 +2,7 @@ package com.bnyro.contacts.repo
 
 import android.content.ContentValues
 import android.content.Context
+import android.os.Build
 import android.provider.Telephony
 import android.util.Log
 import com.bnyro.contacts.db.obj.SmsData
@@ -15,6 +16,12 @@ class DeviceSmsRepo : SmsRepository {
     private val contentUri = Telephony.Sms.CONTENT_URI
 
     override suspend fun getSmsList(context: Context): List<SmsData> {
+        val simSlotMap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            SmsUtil.getSubscriptions(context)
+                .associateBy({ it.subscriptionId }, { it.simSlotIndex })
+        } else {
+            null
+        }
         context.contentResolver
             .query(contentUri, null, null, null, null)
             ?.use { cursor ->
@@ -28,8 +35,15 @@ class DeviceSmsRepo : SmsRepository {
                     val timestamp = cursor.longValue(Telephony.Sms.DATE) ?: 0
                     val body = cursor.stringValue(Telephony.Sms.BODY).orEmpty()
                     val type = cursor.intValue(Telephony.Sms.TYPE) ?: 0
+                    val simIndex = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                        cursor.intValue(Telephony.Sms.SUBSCRIPTION_ID)?.takeIf { it > 0 }?.let {
+                            simSlotMap?.get(it)
+                        }?.plus(1)
+                    } else {
+                        null
+                    }
 
-                    smsList.add(SmsData(id, address, body, timestamp, threadId, type))
+                    smsList.add(SmsData(id, address, body, timestamp, threadId, type, simIndex))
                 } while (cursor.moveToNext())
 
                 return smsList
