@@ -1,2 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="behavior">Comportamento</string>
+    <string name="save">Salvar</string>
+    <string name="filter">Filtrar</string>
+    <string name="reset">Reinitialisar</string>
+    <string name="message">Message</string>
+    <string name="add_to_contact">Adder al contacto</string>
+    <string name="website">Sito web</string>
+    <string name="nothing_here">Nihil hic.</string>
+    <string name="new_contact">Nove contacto</string>
+    <string name="email">E-mail</string>
+    <string name="edit">Modificar</string>
+    <string name="copy">Copiar</string>
+    <string name="none">Necun</string>
+    <string name="delete_contact">Deler le contacto</string>
+    <string name="phone">Telephono</string>
+    <string name="create_contact">Crear contacto</string>
+    <string name="contacts">Contactos</string>
+    <string name="event">Evento</string>
+    <string name="retry">Retentar</string>
+    <string name="contact">Contacto</string>
+    <string name="show_more_fields">Monstrar plus de campos</string>
+    <string name="empty_name">Le nomine non pote esser vacue!</string>
+    <string name="license">Licentia</string>
+    <string name="about">A proposito de</string>
+    <string name="more">Plus</string>
+    <string name="translation">Traduction</string>
+    <string name="address">Adresse</string>
+    <string name="cancel">Cancellar</string>
+    <string name="okay">OK</string>
+    <string name="pick_contact">Seliger un contacto</string>
+    <string name="show_less">Monstrar minus</string>
+    <string name="settings">Parametros</string>
+    <string name="create_shortcut">Crear un accesso directe</string>
+    <string name="system">Systema</string>
+    <string name="share">Compartir</string>
+</resources>
