@@ -38,7 +38,7 @@
     <string name="system">Sistema</string>
     <string name="backup_interval">Intervalo de copia de seguridad</string>
     <string name="colorful_contact_icons">Iconos de contacto de colores</string>
-    <string name="irreversible">¿Estás seguro\? Esto no se puede deshacer.</string>
+    <string name="irreversible">¿Estás seguro? ¡Esto no se puede deshacer!</string>
     <string name="share">Compartir</string>
     <string name="about">Acerca de</string>
     <string name="license">Licencia</string>
