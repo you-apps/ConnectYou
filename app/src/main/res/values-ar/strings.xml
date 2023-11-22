@@ -55,7 +55,7 @@
     <string name="dark">داكن</string>
     <string name="auto_backup">نسخ احتياطيٌّ تلقائيٌّ</string>
     <string name="choose_dir">المسار</string>
-    <string name="none">لا شيء</string>
+    <string name="none">لاشيء</string>
     <string name="both">كلاهما</string>
     <string name="manage_groups">أدر المجموعات</string>
     <string name="delete_group">حذف المجموعة للجميع</string>
