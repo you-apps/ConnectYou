@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="irreversible">هل أنت متأكد؟ هذا لا يمكن التراجع عنه.</string>
+    <string name="irreversible">هل أنت متأكد؟ هذا لا يمكن التراجع عنه!</string>
     <string name="email">البريد الإلكترونيُّ</string>
     <string name="other">أخرى</string>
     <string name="car">سيَّارة</string>
