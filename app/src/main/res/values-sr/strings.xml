@@ -5,7 +5,7 @@
     <string name="search" tools:ignore="PrivateResource">Претрага</string>
     <string name="copied">Копирано у привремену меморију</string>
     <string name="delete_contact">Избриши контакт</string>
-    <string name="irreversible">Да ли сте сигурни\? Ово се не може поништити.</string>
+    <string name="irreversible">Да ли сте сигурни? Ово се не може поништити!</string>
     <string name="cancel">Откажи</string>
     <string name="okay">У реду</string>
     <string name="reset">Ресетуј</string>
