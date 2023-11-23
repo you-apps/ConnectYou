@@ -7,7 +7,7 @@
     <string name="fax_work">Рабочий факс</string>
     <string name="anniversary">Юбилей</string>
     <string name="version">Версия</string>
-    <string name="irreversible">Вы уверены\? Это действие невозможно отменить.</string>
+    <string name="irreversible">Вы уверены? Это действие невозможно отменить!</string>
     <string name="cancel">Отмена</string>
     <string name="okay">Ок</string>
     <string name="reset">Сброс</string>
@@ -53,7 +53,7 @@
     <string name="dark">Тёмная</string>
     <string name="auto_backup">Автоматическое резервное копирование</string>
     <string name="both">В оба расположения</string>
-    <string name="none">Отключить</string>
+    <string name="none">Откл.</string>
     <string name="delete">Удалить</string>
     <string name="choose_dir">Папка</string>
     <string name="manage_groups">Управление группами</string>
