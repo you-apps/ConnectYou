@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="behavior">Comportamento</string>
     <string name="save">Salvar</string>
     <string name="filter">Filtrar</string>
@@ -35,4 +35,37 @@
     <string name="create_shortcut">Crear un accesso directe</string>
     <string name="system">Systema</string>
     <string name="share">Compartir</string>
+    <string name="reply">Responder</string>
+    <string name="device">Apparato</string>
+    <string name="both">Ambe</string>
+    <string name="import_sim">Importar ab un carta SIM</string>
+    <string name="ftp">FTP</string>
+    <string name="delete_message">Deler message</string>
+    <string name="theme">Thema</string>
+    <string name="type">Typo</string>
+    <string name="appearance">Apparentia</string>
+    <string name="import_vcf">Importar vCard</string>
+    <string name="backup_interval">Intervallo de copias de securitate</string>
+    <string name="light">Clar</string>
+    <string name="delete">Deler</string>
+    <string name="message_too_long">Le message es troppo longe!</string>
+    <string name="version">Version</string>
+    <string name="selected">%1$s seligite</string>
+    <string name="start_tab">Scheda de initio</string>
+    <string name="copied">Copiate al area de transferentia</string>
+    <string name="send">Inviar un message</string>
+    <string name="other">Altere</string>
+    <string name="choose_dir">Directorio</string>
+    <string name="backup">Copia de securitate</string>
+    <string name="local">Local</string>
+    <string name="dark">Obscur</string>
+    <string name="search" tools:ignore="PrivateResource">Cercar</string>
+    <string name="new_group">Nove</string>
+    <string name="messages">Messages</string>
+    <string name="auto_backup">Copia de securitate automatic</string>
+    <string name="author">Autor</string>
+    <string name="account_type">Typo de conto</string>
+    <string name="backup_password">Contrasigno</string>
+    <string name="export_vcf">Exportar vCard</string>
+    <string name="custom">Personalisate</string>
 </resources>
