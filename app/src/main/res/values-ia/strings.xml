@@ -68,4 +68,15 @@
     <string name="backup_password">Contrasigno</string>
     <string name="export_vcf">Exportar vCard</string>
     <string name="custom">Personalisate</string>
+    <string name="title">Titulo</string>
+    <string name="fax_work">Fax de travalio</string>
+    <string name="birthday">Die natal</string>
+    <string name="name">Nomine</string>
+    <string name="organization">Organisation</string>
+    <string name="work">Travalio</string>
+    <string name="car">Automobile</string>
+    <string name="irreversible">Es tu secur? Isto non potera esser disfacite!</string>
+    <string name="phone_number">Numero de telephono</string>
+    <string name="anniversary">Anniversario</string>
+    <string name="mobile">Mobile</string>
 </resources>
