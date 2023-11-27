@@ -50,8 +50,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
@@ -61,6 +59,7 @@ import androidx.compose.ui.unit.sp
 import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.base.ClickableIcon
+import com.bnyro.contacts.ui.components.base.ElevatedTextInputField
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.models.SmsModel
@@ -271,23 +270,15 @@ fun SmsThreadScreen(
                     var text by remember {
                         mutableStateOf(initialText)
                     }
-                    val focusRequester = remember {
-                        FocusRequester()
-                    }
 
-                    SearchBar(
+                    ElevatedTextInputField(
                         modifier = Modifier
-                            .weight(1f)
-                            .focusRequester(focusRequester),
+                            .weight(1f),
                         query = text,
                         onQueryChange = { text = it },
                         placeholder = {
                             Text(stringResource(R.string.send))
                         },
-                        onSearch = {},
-                        active = false,
-                        onActiveChange = {},
-                        content = {}
                     )
 
                     Spacer(modifier = Modifier.width(8.dp))
@@ -309,7 +300,6 @@ fun SmsThreadScreen(
                             smsModel.sendSms(context, address, text)
 
                             text = ""
-                            focusRequester.freeFocus()
                         }
                     ) {
                         Icon(
