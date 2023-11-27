@@ -36,7 +36,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.PlainTooltipBox
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -267,6 +266,10 @@ fun SmsThreadScreen(
                         .padding(start = 10.dp, end = 5.dp, bottom = 20.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    var showConfirmSendMultipleSmsDialog by remember {
+                        mutableStateOf(false)
+                    }
+
                     var text by remember {
                         mutableStateOf(initialText)
                     }
@@ -288,12 +291,7 @@ fun SmsThreadScreen(
                         onClick = {
                             if (text.isBlank()) return@FilledIconButton
                             if (!SmsUtil.isShortEnoughForSms(text)) {
-                                Toast.makeText(
-                                    context,
-                                    R.string.message_too_long,
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
+                                showConfirmSendMultipleSmsDialog = true
                                 return@FilledIconButton
                             }
 
@@ -306,6 +304,20 @@ fun SmsThreadScreen(
                             imageVector = Icons.Default.Send,
                             contentDescription = stringResource(R.string.send)
                         )
+                    }
+
+                    if (showConfirmSendMultipleSmsDialog) {
+                        ConfirmationDialog(
+                            onDismissRequest = { showConfirmSendMultipleSmsDialog = false },
+                            title = stringResource(R.string.message_too_long),
+                            text = stringResource(R.string.send_message_as_multiple)
+                        ) {
+                            SmsUtil.splitSmsText(text).forEach {
+                                smsModel.sendSms(context, address, it)
+                            }
+
+                            text = ""
+                        }
                     }
                 }
             }

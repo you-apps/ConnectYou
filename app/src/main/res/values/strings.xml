@@ -84,6 +84,7 @@
     <string name="reply">Reply</string>
     <string name="connection_error">Could not connect. Please ensure airplane mode is off.</string>
     <string name="message_too_long">Message is too long!</string>
+    <string name="send_message_as_multiple">Do you want to send the message as multiple smaller ones?</string>
     <string name="private_sms_database">Private SMS Database</string>
     <string name="private_sms_database_desc">The SMS will only be stored within the app and not be accessible in other apps.</string>
     <string name="delete_thread">Delete thread</string>
