@@ -107,4 +107,5 @@
     <string name="delete_message">حذف الرسالة</string>
     <string name="private_sms_database_desc">سيتم تخزين الرسائل النصية داخل التطبيق فقط ولن يكون من الممكن الوصول إليها في التطبيقات الأخرى.</string>
     <string name="phone_number">رقم الهاتف</string>
+    <string name="send_message_as_multiple">هل تريد إرسال الرسالة كرسائل أصغر متعددة؟</string>
 </resources>
