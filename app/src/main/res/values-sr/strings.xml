@@ -118,4 +118,5 @@
     <string name="delete_message">Избриши поруку</string>
     <string name="private_sms_database_desc">SMS ће бити сачуван само у апликацији и неће бити доступан у другим апликацијама.</string>
     <string name="phone_number">Број телефона</string>
+    <string name="send_message_as_multiple">Желите ли да пошаљете поруку као више мањих порука?</string>
 </resources>
