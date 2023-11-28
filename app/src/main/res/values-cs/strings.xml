@@ -107,4 +107,5 @@
     <string name="delete_message">Odstranit zprávu</string>
     <string name="private_sms_database_desc">Zprávy SMS budou ukládány pouze do této aplikace a nebudou k nim mít přístup ostatní aplikace.</string>
     <string name="phone_number">Číslo mobilu</string>
+    <string name="send_message_as_multiple">Chcete odeslat zprávu jako několik menších?</string>
 </resources>
