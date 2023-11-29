@@ -108,4 +108,5 @@
     <string name="delete_message">Видалити повідомлення</string>
     <string name="private_sms_database_desc">SMS зберігатимуться лише у застосунку і не будуть доступні в інших застосунках.</string>
     <string name="phone_number">Номер телефону</string>
+    <string name="send_message_as_multiple">Ви хочете надіслати повідомлення кількома меншими?</string>
 </resources>
