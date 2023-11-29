@@ -107,4 +107,5 @@
     <string name="delete_message">Eliminar mensaxe</string>
     <string name="private_sms_database_desc">Os SMS vanse gardar dentro da app e as outras apps non poden acceder a eles.</string>
     <string name="phone_number">Número de teléfono</string>
+    <string name="send_message_as_multiple">Queres enviar a mensaxe en forma de varios máis pequenos?</string>
 </resources>
