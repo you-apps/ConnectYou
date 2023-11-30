@@ -107,4 +107,5 @@
     <string name="delete_message">Удалить сообщение</string>
     <string name="private_sms_database_desc">SMS будут сохранены внутри приложения и не будут доступны другим приложениям.</string>
     <string name="phone_number">Номер телефона</string>
+    <string name="send_message_as_multiple">Разбить сообщение на несколько маленьких перед отправкой?</string>
 </resources>
