@@ -79,4 +79,5 @@
     <string name="phone_number">Numero de telephono</string>
     <string name="anniversary">Anniversario</string>
     <string name="mobile">Mobile</string>
+    <string name="sort_order">Ordinar</string>
 </resources>
