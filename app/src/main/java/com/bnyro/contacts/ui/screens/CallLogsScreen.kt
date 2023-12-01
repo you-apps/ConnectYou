@@ -7,24 +7,22 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Dialpad
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -36,12 +34,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.bnyro.contacts.R
+import com.bnyro.contacts.ext.removeLastChar
 import com.bnyro.contacts.obj.CallLogEntry
 import com.bnyro.contacts.ui.components.ContactIconPlaceholder
 import com.bnyro.contacts.ui.components.NothingHere
 import com.bnyro.contacts.ui.components.NumberInput
+import com.bnyro.contacts.ui.components.PhoneNumberDisplay
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.DialerModel
@@ -100,11 +99,11 @@ fun CallLogsScreen(
                         mutableStateOf(false)
                     }
 
-                    ElevatedCard (
+                    ElevatedCard(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 10.dp, vertical = 5.dp)
-                            .clickable { if (it.phoneNumber.isNotBlank()) showCallDialog = true },
+                            .clickable { if (it.phoneNumber.isNotBlank()) showCallDialog = true }
                     ) {
                         Row(
                             modifier = Modifier.padding(vertical = 10.dp, horizontal = 16.dp),
@@ -119,7 +118,10 @@ fun CallLogsScreen(
 
                             Column {
                                 Text(text = contact?.displayName ?: it.phoneNumber, maxLines = 1)
-                                Text(text = DateUtils.getRelativeTimeSpanString(it.time)?.toString().orEmpty())
+                                Text(
+                                    text = DateUtils.getRelativeTimeSpanString(it.time)?.toString()
+                                        .orEmpty()
+                                )
                             }
                         }
                     }
@@ -128,7 +130,10 @@ fun CallLogsScreen(
                         ConfirmationDialog(
                             onDismissRequest = { showCallDialog = false },
                             title = stringResource(id = R.string.dial),
-                            text = stringResource(id = R.string.confirm_start_call, contact?.displayName ?: it.phoneNumber)
+                            text = stringResource(
+                                id = R.string.confirm_start_call,
+                                contact?.displayName ?: it.phoneNumber
+                            )
                         ) {
                             callNumber(it.phoneNumber)
                         }
@@ -141,24 +146,22 @@ fun CallLogsScreen(
     }
 
     if (showNumberPicker) {
-        ModalBottomSheet(onDismissRequest = { showNumberPicker = false }) {
+        val state = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+        ModalBottomSheet(onDismissRequest = { showNumberPicker = false }, sheetState = state) {
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 30.dp),
+                    .fillMaxSize()
+                    .padding(horizontal = 8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = numberToCall, fontSize = 20.sp)
-                NumberInput(initialNumber = numberToCall, onNumberChange = { numberToCall = it })
-                ExtendedFloatingActionButton(
-                    shape = CircleShape,
-                    onClick = {
-                        callNumber(numberToCall)
-                    }
-                ) {
-                    Icon(Icons.Default.Call, contentDescription = stringResource(R.string.dial))
-                }
-                Spacer(modifier = Modifier.height(30.dp))
+                PhoneNumberDisplay(displayText = numberToCall)
+                NumberInput(onNumberInput = {
+                    numberToCall += it
+                }, onDelete = {
+                    numberToCall = numberToCall.removeLastChar()
+                }, onDial = {
+                    callNumber(numberToCall)
+                })
             }
         }
     }
