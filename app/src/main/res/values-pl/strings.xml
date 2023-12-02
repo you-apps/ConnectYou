@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="last_name">Nazwisko</string>
     <string name="type">Typ</string>
-    <string name="home">Główny ekran</string>
+    <string name="home">Dom</string>
     <string name="search" tools:ignore="PrivateResource">Szukaj</string>
     <string name="copied">Skopiowano do schowka</string>
     <string name="delete_contact">Usuń kontakt</string>
@@ -21,7 +21,7 @@
     <string name="empty_name">Nazwa nie może być pusta!</string>
     <string name="import_success">Zaimportowano.</string>
     <string name="export_success">Wyeksportowano.</string>
-    <string name="nothing_here">Nic tutaj nie ma.</string>
+    <string name="nothing_here">Nie ma tu nic.</string>
     <string name="phone">Telefon</string>
     <string name="email">E-mail</string>
     <string name="address">Adres</string>
@@ -41,7 +41,7 @@
     <string name="anniversary">Rocznica</string>
     <string name="note">Notatka</string>
     <string name="manage_groups">Zarządzaj grupami</string>
-    <string name="delete_group">Usuń grupę globalnie</string>
+    <string name="delete_group">Usuń grupę dla wszystkich</string>
     <string name="title">Tytuł</string>
     <string name="new_group">Nowe</string>
     <string name="group_already_exists">Grupa już istnieje</string>
@@ -106,4 +106,6 @@
     <string name="backup_password">Hasło</string>
     <string name="connection_error">Nie można się połączyć. Upewnij się, czy tryb samolotowy jest wyłączony.</string>
     <string name="homepage">Strona główna</string>
+    <string name="website">Strona internetowa</string>
+    <string name="send_message_as_multiple">Czy chcesz wysłać wiadomość jako kilka mniejszych wiadomości?</string>
 </resources>
