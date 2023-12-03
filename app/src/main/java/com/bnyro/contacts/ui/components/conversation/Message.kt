@@ -18,25 +18,38 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material3.DismissValue
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDismissState
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.bnyro.contacts.R
 import com.bnyro.contacts.db.obj.SmsData
+import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
+import com.bnyro.contacts.ui.models.SmsModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColumnScope.Messages(
     messages: List<SmsData>,
     scrollState: LazyListState,
-    modifier: Modifier = Modifier
+    smsModel: SmsModel
 ) {
     val timestamped = messages.groupBy {
         DateUtils.getRelativeDateTimeString(
@@ -59,16 +72,44 @@ fun ColumnScope.Messages(
                     timestamp.key
                 )
             }
-            items(items = timestamp.value) {
-                val isUserMe = it.type in listOf(
+            items(items = timestamp.value) { smsData ->
+                val isUserMe = smsData.type in listOf(
                     Telephony.Sms.MESSAGE_TYPE_DRAFT,
                     Telephony.Sms.MESSAGE_TYPE_SENT,
                     Telephony.Sms.MESSAGE_TYPE_OUTBOX
                 )
-                Message(
-                    msg = it,
-                    isUserMe = isUserMe
+                var showDeleteSmsDialog by remember {
+                    mutableStateOf(false)
+                }
+
+                val state = rememberDismissState(
+                    confirmValueChange = {
+                        if (it == DismissValue.DismissedToEnd) {
+                            showDeleteSmsDialog = true
+                        }
+                        return@rememberDismissState false
+                    }
                 )
+                SwipeToDismiss(
+                    state = state,
+                    background = {},
+                    dismissContent = {
+                        Message(
+                            msg = smsData,
+                            isUserMe = isUserMe
+                        )
+                    }
+                )
+                if (showDeleteSmsDialog) {
+                    val context = LocalContext.current
+                    ConfirmationDialog(
+                        onDismissRequest = { showDeleteSmsDialog = false },
+                        title = stringResource(R.string.delete_message),
+                        text = stringResource(R.string.irreversible)
+                    ) {
+                        smsModel.deleteSms(context, smsData.id, smsData.threadId)
+                    }
+                }
             }
         }
     }

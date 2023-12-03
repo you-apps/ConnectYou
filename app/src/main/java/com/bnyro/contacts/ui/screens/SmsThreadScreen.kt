@@ -112,7 +112,7 @@ fun SmsThreadScreen(
                     .padding(pV)
             ) {
                 val state = rememberLazyListState()
-                Messages(messages = smsList, scrollState = state)
+                Messages(messages = smsList, scrollState = state, smsModel = smsModel)
 
                 Spacer(modifier = Modifier.height(10.dp))
                 if (subscriptions != null && subscriptions.size >= 2) {
