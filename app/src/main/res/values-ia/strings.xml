@@ -80,4 +80,24 @@
     <string name="anniversary">Anniversario</string>
     <string name="mobile">Mobile</string>
     <string name="sort_order">Ordinar</string>
+    <string name="max_backup_amount">Numero maxime de copias de securitate</string>
+    <string name="assistant">Assistente</string>
+    <string name="move">Displaciar</string>
+    <string name="delete_thread">Deler le topico</string>
+    <string name="private_sms_database">Base de datos private de SMS</string>
+    <string name="manage_groups">Gerer le gruppos</string>
+    <string name="photo">Photo</string>
+    <string name="last_name">Supernomine</string>
+    <string name="private_sms_database_desc">Le SMS solmente essera immagazinate intra del application e non essera accessibile in altere applicationes.</string>
+    <string name="blog">Blog</string>
+    <string name="nick_name">Pseudonymo</string>
+    <string name="delete_group">Deler le gruppo pro totos</string>
+    <string name="groups">Gruppos</string>
+    <string name="first_name">Prenomine</string>
+    <string name="group_already_exists">Le gruppo jam existe</string>
+    <string name="import_success">Importate.</string>
+    <string name="connection_error">Non pote connecter se. Assecura te de haber le modo aeroplano disactivate.</string>
+    <string name="note">Nota</string>
+    <string name="homepage">Pagina personal</string>
+    <string name="export_success">Exportate.</string>
 </resources>
