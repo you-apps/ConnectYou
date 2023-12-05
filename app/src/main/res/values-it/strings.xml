@@ -52,7 +52,7 @@
     <string name="light">Chiaro</string>
     <string name="dark">Scuro</string>
     <string name="auto_backup">Backup automatico</string>
-    <string name="choose_dir">Scegli la cartella</string>
+    <string name="choose_dir">Cartella</string>
     <string name="both">Entrambi</string>
     <string name="none">Nessuno</string>
     <string name="sort_order">Ordina per</string>
@@ -93,4 +93,14 @@
     <string name="behavior">Comportamento</string>
     <string name="appearance">Aspetto</string>
     <string name="backup">Backup</string>
+    <string name="reply">Rispondi</string>
+    <string name="save">Salva</string>
+    <string name="message_too_long">Il messaggio è troppo lungo!</string>
+    <string name="contacts">Contatti</string>
+    <string name="send">Invia messaggio</string>
+    <string name="messages">Messaggi</string>
+    <string name="phone_number">Numero di telefono</string>
+    <string name="backup_password">Password</string>
+    <string name="connection_error">Impossibile connettersi. Assicurati che la modalità aereo sia disattivata.</string>
+    <string name="send_message_as_multiple">Vuoi inviare il messaggio come messaggi più piccoli?</string>
 </resources>
