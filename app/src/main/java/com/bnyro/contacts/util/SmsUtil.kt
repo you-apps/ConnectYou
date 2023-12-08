@@ -115,12 +115,16 @@ object SmsUtil {
         val splits = mutableListOf<String>()
 
         while (currentIndex < text.length) {
-            var fullPart = text.substring(currentIndex, minOf(currentIndex + MAX_CHAR_LIMIT, text.length))
+            var fullPart =
+                text.substring(currentIndex, minOf(currentIndex + MAX_CHAR_LIMIT, text.length))
 
             if (isShortEnoughForSms(fullPart)) {
                 currentIndex += MAX_CHAR_LIMIT
             } else {
-                fullPart = text.substring(currentIndex, minOf(currentIndex + MAX_CHAR_LIMIT_WITH_UNICODE, text.length))
+                fullPart = text.substring(
+                    currentIndex,
+                    minOf(currentIndex + MAX_CHAR_LIMIT_WITH_UNICODE, text.length)
+                )
                 currentIndex += MAX_CHAR_LIMIT_WITH_UNICODE
             }
 

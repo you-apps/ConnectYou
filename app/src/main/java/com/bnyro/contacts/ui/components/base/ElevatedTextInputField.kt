@@ -45,7 +45,7 @@ fun ElevatedTextInputField(
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     colors: TextFieldColors = SearchBarDefaults.inputFieldColors(),
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
     val focusRequester = remember { FocusRequester() }
 
@@ -98,7 +98,7 @@ fun ElevatedTextInputField(
                     shape = SearchBarDefaults.inputFieldShape,
                     colors = colors,
                     contentPadding = TextFieldDefaults.contentPaddingWithoutLabel(),
-                    container = {},
+                    container = {}
                 )
             }
         )
