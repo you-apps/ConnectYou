@@ -13,7 +13,7 @@ import com.bnyro.contacts.ui.models.DialerModel
 import com.bnyro.contacts.ui.screens.DialerScreen
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
 
-class CallActivity: BaseActivity() {
+class CallActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -28,7 +28,7 @@ class CallActivity: BaseActivity() {
                             .padding(pV)
                     ) {
                         DialerScreen(contactsModel = contactsModel, dialerModel = dialerModel) {
-                            // TODO: finish()
+                            this@CallActivity.finish()
                         }
                     }
                 }

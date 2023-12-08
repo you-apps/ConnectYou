@@ -1,5 +1,7 @@
 package com.bnyro.contacts.ui.screens
 
+import android.os.Handler
+import android.os.Looper
 import android.telecom.Call
 import android.text.format.DateUtils
 import androidx.compose.foundation.layout.Column
@@ -31,8 +33,6 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.DialerModel
 import com.bnyro.contacts.util.CallManager
-import java.util.Timer
-import kotlin.concurrent.scheduleAtFixedRate
 
 @Composable
 fun DialerScreen(
@@ -49,19 +49,24 @@ fun DialerScreen(
     var elapsedTime by remember {
         mutableLongStateOf(0L)
     }
-    val timer = Timer()
+    val handler = remember { Handler(Looper.getMainLooper()) }
+
+    fun updateTime() {
+        elapsedTime++
+        handler.postDelayed(::updateTime, 1000L)
+    }
 
     DisposableEffect(Unit) {
         val listener: (Int) -> Unit = {
             callState = it
 
-            if (callState == Call.STATE_DISCONNECTED) onClose.invoke()
+            if (callState == Call.STATE_DISCONNECTED) {
+                handler.removeCallbacks(::updateTime)
+                onClose.invoke()
+            }
 
             if (callState == Call.STATE_ACTIVE) {
-                timer.cancel()
-                timer.scheduleAtFixedRate(1000, 1000) {
-                    elapsedTime++
-                }
+                updateTime()
             }
         }
 
@@ -79,7 +84,10 @@ fun DialerScreen(
         Spacer(modifier = Modifier.height(50.dp))
         Text(
             text = when (callState) {
-                Call.STATE_RINGING, Call.STATE_DIALING, Call.STATE_PULLING_CALL -> stringResource(R.string.ringing)
+                Call.STATE_RINGING, Call.STATE_DIALING, Call.STATE_PULLING_CALL -> stringResource(
+                    R.string.ringing
+                )
+
                 Call.STATE_DISCONNECTING -> stringResource(R.string.disconnecting)
                 Call.STATE_ACTIVE -> stringResource(R.string.in_progress)
                 Call.STATE_CONNECTING -> stringResource(R.string.connecting)
