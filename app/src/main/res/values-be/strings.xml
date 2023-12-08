@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="search" tools:ignore="PrivateResource">Пошук</string>
-    <string name="irreversible">Вы ўпэўнены\? Гэтае дзеянне немагчыма адмяніць.</string>
+    <string name="irreversible">Вы ўпэўнены? Гэтае дзеянне немагчыма адмяніць!</string>
     <string name="cancel">Адмена</string>
     <string name="okay">ОК</string>
     <string name="reset">Скід</string>
@@ -98,7 +98,13 @@
     <string name="messages">Паведамлення</string>
     <string name="send">Адправіць паведамленне</string>
     <string name="reply">Адказаць</string>
-    <string name="connection_error">Памылка злучэння! Не забудзьцеся адключыць рэжым палёту!</string>
+    <string name="connection_error">Не атрымалася злучыцца. Пераканайцеся, што рэжым палёту выключаны.</string>
     <string name="contacts">Кантакты</string>
     <string name="message_too_long">Паведамленне занадта доўгае!</string>
+    <string name="save">Захаваць</string>
+    <string name="delete_thread">Выдаліць галінку</string>
+    <string name="private_sms_database">База дадзеных прыватных SMS</string>
+    <string name="delete_message">Выдаліць паведамленне</string>
+    <string name="private_sms_database_desc">SMS будзе захоўвацца толькі ў праграме і не будзе даступны ў іншых праграмах.</string>
+    <string name="phone_number">Нумар тэлефона</string>
 </resources>

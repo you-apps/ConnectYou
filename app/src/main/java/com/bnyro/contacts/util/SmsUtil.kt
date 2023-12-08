@@ -18,7 +18,7 @@ import java.lang.Character.UnicodeBlock
 import java.util.Calendar
 
 object SmsUtil {
-    private const val MAX_CHAR_LIMIT = 160
+    const val MAX_CHAR_LIMIT = 160
     private const val MAX_CHAR_LIMIT_WITH_UNICODE = 70
 
     lateinit var smsRepo: SmsRepository
@@ -108,5 +108,29 @@ object SmsUtil {
         }
 
         return true
+    }
+
+    fun splitSmsText(text: String): List<String> {
+        var currentIndex = 0
+        val splits = mutableListOf<String>()
+
+        while (currentIndex < text.length) {
+            var fullPart =
+                text.substring(currentIndex, minOf(currentIndex + MAX_CHAR_LIMIT, text.length))
+
+            if (isShortEnoughForSms(fullPart)) {
+                currentIndex += MAX_CHAR_LIMIT
+            } else {
+                fullPart = text.substring(
+                    currentIndex,
+                    minOf(currentIndex + MAX_CHAR_LIMIT_WITH_UNICODE, text.length)
+                )
+                currentIndex += MAX_CHAR_LIMIT_WITH_UNICODE
+            }
+
+            splits.add(fullPart)
+        }
+
+        return splits
     }
 }

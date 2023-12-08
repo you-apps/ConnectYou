@@ -8,7 +8,7 @@
     <string name="copied">Скопійовано в буфер обміну</string>
     <string name="empty_name">Ім’я не може бути порожнім!</string>
     <string name="fax_home">Факс дому</string>
-    <string name="irreversible">Ви впевнені\? Це не можна відмінити.</string>
+    <string name="irreversible">Ви впевнені? Це не можна відмінити!</string>
     <string name="create_contact">Створити контакт</string>
     <string name="share">Поділитися</string>
     <string name="retry">Спробувати знову</string>

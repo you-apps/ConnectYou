@@ -2,7 +2,6 @@ package com.bnyro.contacts.ui.screens
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +23,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.PlainTooltipBox
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -36,16 +34,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.base.ClickableIcon
+import com.bnyro.contacts.ui.components.base.ElevatedTextInputField
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
 import com.bnyro.contacts.ui.components.conversation.Messages
+import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.models.SmsModel
 import com.bnyro.contacts.util.SmsUtil
 
@@ -138,26 +136,22 @@ fun SmsThreadScreen(
                         .padding(start = 10.dp, end = 5.dp, bottom = 20.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    var showConfirmSendMultipleSmsDialog by remember {
+                        mutableStateOf(false)
+                    }
+
                     var text by remember {
                         mutableStateOf(initialText)
                     }
-                    val focusRequester = remember {
-                        FocusRequester()
-                    }
 
-                    SearchBar(
+                    ElevatedTextInputField(
                         modifier = Modifier
-                            .weight(1f)
-                            .focusRequester(focusRequester),
+                            .weight(1f),
                         query = text,
                         onQueryChange = { text = it },
                         placeholder = {
                             Text(stringResource(R.string.send))
-                        },
-                        onSearch = {},
-                        active = false,
-                        onActiveChange = {},
-                        content = {}
+                        }
                     )
 
                     Spacer(modifier = Modifier.width(8.dp))
@@ -167,25 +161,33 @@ fun SmsThreadScreen(
                         onClick = {
                             if (text.isBlank()) return@FilledIconButton
                             if (!SmsUtil.isShortEnoughForSms(text)) {
-                                Toast.makeText(
-                                    context,
-                                    R.string.message_too_long,
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
+                                showConfirmSendMultipleSmsDialog = true
                                 return@FilledIconButton
                             }
 
                             smsModel.sendSms(context, address, text)
 
                             text = ""
-                            focusRequester.freeFocus()
                         }
                     ) {
                         Icon(
                             imageVector = Icons.Default.Send,
                             contentDescription = stringResource(R.string.send)
                         )
+                    }
+
+                    if (showConfirmSendMultipleSmsDialog) {
+                        ConfirmationDialog(
+                            onDismissRequest = { showConfirmSendMultipleSmsDialog = false },
+                            title = stringResource(R.string.message_too_long),
+                            text = stringResource(R.string.send_message_as_multiple)
+                        ) {
+                            SmsUtil.splitSmsText(text).forEach {
+                                smsModel.sendSms(context, address, it)
+                            }
+
+                            text = ""
+                        }
                     }
                 }
             }

@@ -11,7 +11,7 @@
     <string name="search" tools:ignore="PrivateResource">搜索</string>
     <string name="copied">已复制到剪贴板</string>
     <string name="delete_contact">删除联系人</string>
-    <string name="irreversible">你确定吗？此操作无法撤销。</string>
+    <string name="irreversible">你确定吗？此操作无法撤销！</string>
     <string name="cancel">取消</string>
     <string name="okay">确定</string>
     <string name="reset">重设</string>
