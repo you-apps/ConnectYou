@@ -95,7 +95,7 @@ class SmsReceiver : BroadcastReceiver() {
 
         val smsThreadPendingIntent = PendingIntent.getActivity(
             context,
-            1,
+            2,
             smsThreadIntent,
             PendingIntent.FLAG_IMMUTABLE
         )
