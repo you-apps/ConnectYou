@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.PersonAddAlt1
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
@@ -43,6 +44,7 @@ import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.ElevatedTextInputField
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
 import com.bnyro.contacts.ui.components.conversation.Messages
+import com.bnyro.contacts.ui.components.dialogs.AddToContactDialog
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.models.SmsModel
 import com.bnyro.contacts.util.SmsUtil
@@ -62,15 +64,19 @@ fun SmsThreadScreen(
     val threadId = smsModel.smsList.firstOrNull { it.address == address }?.threadId
     val smsList =
         threadId?.let { smsModel.smsGroups[threadId]?.sortedBy { it.timestamp } } ?: listOf()
-    var showContactScreen by remember {
-        mutableStateOf(false)
-    }
     val subscriptions = remember {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             SmsUtil.getSubscriptions(context)
         } else {
             null
         }
+    }
+
+    var showContactScreen by remember {
+        mutableStateOf(false)
+    }
+    var showAddToContactDialog by remember {
+        mutableStateOf(false)
     }
 
     FullScreenDialog(onClose = onClose) {
@@ -100,6 +106,13 @@ fun SmsThreadScreen(
                             contentDescription = R.string.okay
                         ) {
                             onClose.invoke()
+                        }
+                    },
+                    actions = {
+                        if (contactData == null) {
+                            ClickableIcon(icon = Icons.Default.PersonAddAlt1) {
+                                showAddToContactDialog = true
+                            }
                         }
                     }
                 )
@@ -198,5 +211,9 @@ fun SmsThreadScreen(
         SingleContactScreen(contact = contactData) {
             showContactScreen = false
         }
+    }
+    
+    if (showAddToContactDialog) {
+        AddToContactDialog(newNumber = address)
     }
 }

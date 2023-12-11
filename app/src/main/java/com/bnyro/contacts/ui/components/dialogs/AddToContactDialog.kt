@@ -28,9 +28,7 @@ import com.bnyro.contacts.ui.screens.EditorScreen
 import kotlinx.coroutines.launch
 
 @Composable
-fun AddToContactDialog(
-    newNumber: String
-) {
+fun AddToContactDialog(newNumber: String) {
     val context = LocalContext.current
     val contactsModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
 
