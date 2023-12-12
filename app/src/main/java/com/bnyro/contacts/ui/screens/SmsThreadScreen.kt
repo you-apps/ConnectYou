@@ -158,13 +158,10 @@ fun SmsThreadScreen(
                     }
 
                     ElevatedTextInputField(
-                        modifier = Modifier
-                            .weight(1f),
+                        modifier = Modifier.weight(1f),
                         query = text,
                         onQueryChange = { text = it },
-                        placeholder = {
-                            Text(stringResource(R.string.send))
-                        }
+                        placeholder = stringResource(R.string.send)
                     )
 
                     Spacer(modifier = Modifier.width(8.dp))

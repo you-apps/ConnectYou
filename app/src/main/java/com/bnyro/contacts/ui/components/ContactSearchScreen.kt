@@ -31,6 +31,7 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.FilterOptions
 import com.bnyro.contacts.ui.components.base.ClickableIcon
+import com.bnyro.contacts.ui.components.base.ElevatedTextInputField
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -74,31 +75,17 @@ fun ContactSearchScreen(
         }
 
         Column(Modifier.fillMaxSize()) {
-            TextField(
+            ElevatedTextInputField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp)
-                    .padding(top = 8.dp)
-                    .focusRequester(focusRequester),
-                value = searchQuery,
-                onValueChange = { searchQuery = it },
-                placeholder = { Text(stringResource(id = R.string.search)) },
-                leadingIcon = {
-                    Icon(imageVector = Icons.Default.Search, contentDescription = null)
-                },
-                trailingIcon = {
-                    if (searchQuery.isNotEmpty()) {
-                        ClickableIcon(icon = Icons.Default.Close) {
-                            searchQuery = ""
-                        }
-                    }
-                },
-                shape = RoundedCornerShape(50),
-                colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                ),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
+                    .padding(top = 8.dp),
+                query = searchQuery,
+                onQueryChange = { searchQuery = it },
+                leadingIcon = Icons.Default.Search,
+                placeholder = stringResource(id = R.string.search),
+                imeAction = ImeAction.Done,
+                focusRequester = focusRequester
             )
             ContactsList(
                 contacts = visibleContacts,
