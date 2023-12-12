@@ -4,16 +4,23 @@ import android.os.Handler
 import android.os.Looper
 import android.telecom.Call
 import android.text.format.DateUtils
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.CallEnd
+import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.MicOff
+import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,10 +33,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bnyro.contacts.R
+import com.bnyro.contacts.ui.components.DialerButton
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.DialerModel
 import com.bnyro.contacts.util.CallManager
@@ -40,6 +49,8 @@ fun DialerScreen(
     dialerModel: DialerModel,
     onClose: () -> Unit
 ) {
+    val context = LocalContext.current
+
     val contactInfo = remember {
         contactsModel.getContactByNumber(CallManager.callerDisplayNumber)
     }
@@ -103,6 +114,27 @@ fun DialerScreen(
         )
         Spacer(modifier = Modifier.height(5.dp))
         Text(text = DateUtils.formatElapsedTime(elapsedTime))
+        Spacer(modifier = Modifier.weight(1f))
+        LazyHorizontalGrid(rows = GridCells.Fixed(3)) {
+            item {
+                DialerButton(
+                    isEnabled = dialerModel.currentMuteState,
+                    icon = Icons.Default.MicOff,
+                    hint = stringResource(R.string.mute)
+                ) {
+                    dialerModel.toggleMute(context)
+                }
+            }
+            item {
+                DialerButton(
+                    isEnabled = dialerModel.currentSpeakerState,
+                    icon = Icons.Default.VolumeUp,
+                    hint = stringResource(R.string.speakers)
+                ) {
+                    dialerModel.toggleSpeakers(context)
+                }
+            }
+        }
         Spacer(modifier = Modifier.weight(1f))
         Row {
             if (callState == Call.STATE_RINGING) {

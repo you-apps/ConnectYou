@@ -94,6 +94,8 @@
     <string name="disconnecting">Disconnecting…</string>
     <string name="connecting">Connecting…</string>
     <string name="confirm_start_call">Do you want to call %1$s?</string>
+    <string name="mute">Mute</string>
+    <string name="speakers">Speakers</string>
     <!-- Import & Export -->
     <string name="import_vcf">Import vCard</string>
     <string name="export_vcf">Export vCard</string>
