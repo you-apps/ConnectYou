@@ -96,7 +96,7 @@
     <string name="delete_thread">Supprimer la discussion</string>
     <string name="private_sms_database">Base de données SMS privée</string>
     <string name="delete_message">Effacer le message</string>
-    <string name="appearance">Aspect</string>
+    <string name="appearance">Apparence</string>
     <string name="encrypt_backups">Chiffrer les sauvegardes sous format zip</string>
     <string name="message_too_long">Le message est trop long !</string>
     <string name="contacts">Contacts</string>
