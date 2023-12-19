@@ -10,7 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
-class DialerModel: ViewModel() {
+class DialerModel : ViewModel() {
     var initialPhoneNumber: String? = null
     var currentMuteState by mutableStateOf(false)
     var currentSpeakerState by mutableStateOf(false)
@@ -42,6 +42,9 @@ class DialerModel: ViewModel() {
     }
 
     companion object {
-        val phonePerms = arrayOf(Manifest.permission.CALL_PHONE)
+        val phonePerms = arrayOf(
+            Manifest.permission.CALL_PHONE,
+            Manifest.permission.READ_PHONE_STATE
+        )
     }
 }

@@ -1,7 +1,7 @@
 package com.bnyro.contacts.ui.components
 
 import android.annotation.SuppressLint
-import android.os.Build
+import android.telephony.SubscriptionInfo
 import android.view.SoundEffectConstants
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -42,14 +42,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
-import com.bnyro.contacts.util.SmsUtil
 
 val keypadNumbers = arrayOf(
     arrayOf("1", "2", "3"),
@@ -63,17 +61,11 @@ val keypadNumbers = arrayOf(
 fun NumberInput(
     onNumberInput: (String) -> Unit,
     onDelete: () -> Unit,
-    onDial: () -> Unit
+    onDial: () -> Unit,
+    subscriptions: List<SubscriptionInfo>?,
+    onSubscriptionIndexChange: (Int) -> Unit
 ) {
     val buttonSpacing = 8.dp
-    val context = LocalContext.current
-    val subscriptions = remember {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            SmsUtil.getSubscriptions(context)
-        } else {
-            null
-        }
-    }
     Column(
         modifier = Modifier
             .padding(8.dp)
@@ -128,7 +120,9 @@ fun NumberInput(
             }
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 OutlinedButton(onClick = {
-                    currentSub = if (currentSub == 0) 1 else 0
+                    val newSub = (currentSub + 1) % subscriptions.size
+                    currentSub = newSub
+                    onSubscriptionIndexChange(newSub)
                 }) {
                     Text(
                         text = "SIM ${subscriptions[currentSub].simSlotIndex + 1} - ${subscriptions[currentSub].displayName}"

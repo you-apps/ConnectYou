@@ -1,7 +1,11 @@
 package com.bnyro.contacts.ui.screens
 
+import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
+import android.telecom.PhoneAccountHandle
+import android.telecom.TelecomManager
 import android.text.format.DateUtils
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -47,6 +51,7 @@ import com.bnyro.contacts.ui.models.DialerModel
 import com.bnyro.contacts.ui.models.ThemeModel
 import com.bnyro.contacts.util.CallLogHelper
 import com.bnyro.contacts.util.PermissionHelper
+import com.bnyro.contacts.util.SmsUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -66,11 +71,35 @@ fun CallLogsScreen(
     var callLog by remember {
         mutableStateOf(emptyList<CallLogEntry>())
     }
+    val subscriptions = remember {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            SmsUtil.getSubscriptions(context)
+        } else {
+            null
+        }
+    }
+
+    var chosenSubInfo = remember {
+        subscriptions?.firstOrNull()
+    }
 
     fun callNumber(number: String) {
         if (!PermissionHelper.checkPermissions(context, DialerModel.phonePerms)) return
 
-        val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$number"))
+        val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$number")).apply {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                chosenSubInfo?.let {
+                    val phoneAccountHandle = PhoneAccountHandle(
+                        ComponentName(
+                            "com.android.phone",
+                            "com.android.services.telephony.TelephonyConnectionService"
+                        ),
+                        it.subscriptionId.toString()
+                    )
+                    putExtra(TelecomManager.EXTRA_PHONE_ACCOUNT_HANDLE, phoneAccountHandle)
+                }
+            }
+        }
         context.startActivity(intent)
     }
 
@@ -155,13 +184,21 @@ fun CallLogsScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 PhoneNumberDisplay(displayText = numberToCall)
-                NumberInput(onNumberInput = {
-                    numberToCall += it
-                }, onDelete = {
-                    numberToCall = numberToCall.removeLastChar()
-                }, onDial = {
-                    callNumber(numberToCall)
-                })
+                NumberInput(
+                    onNumberInput = {
+                        numberToCall += it
+                    },
+                    onDelete = {
+                        numberToCall = numberToCall.removeLastChar()
+                    },
+                    onDial = {
+                        callNumber(numberToCall)
+                    },
+                    subscriptions = subscriptions,
+                    onSubscriptionIndexChange = {
+                        chosenSubInfo = subscriptions?.get(it)
+                    }
+                )
             }
         }
     }
