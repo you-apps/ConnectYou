@@ -1,24 +1,22 @@
 package com.bnyro.contacts.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MicOff
-import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material.icons.rounded.Mic
+import androidx.compose.material.icons.rounded.MicOff
+import androidx.compose.material3.FilledIconToggleButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.contentColorFor
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.bnyro.contacts.R
 
 @Composable
 fun DialerButton(
@@ -27,24 +25,29 @@ fun DialerButton(
     hint: String,
     onClick: () -> Unit
 ) {
-    val tonalColor = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp)
-
-    FilledTonalIconButton(
-        onClick = onClick,
-        colors = IconButtonDefaults.filledTonalIconButtonColors(
-            containerColor = if (isEnabled) tonalColor else MaterialTheme.colorScheme.background,
-            contentColor = if (isEnabled) MaterialTheme.colorScheme.contentColorFor(tonalColor) else MaterialTheme.colorScheme.onBackground
-        )
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
-            horizontalArrangement = Arrangement.Center
+        FilledIconToggleButton(
+            checked = isEnabled,
+            onCheckedChange = { onClick.invoke() },
+            shape = CircleShape,
+            modifier = Modifier.size(48.dp)
         ) {
-            Icon(
-                imageVector = Icons.Default.MicOff,
-                contentDescription = null
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(text = stringResource(R.string.mute))
+            Icon(imageVector = icon, contentDescription = hint)
+        }
+        Text(text = hint)
+    }
+}
+
+@Preview
+@Composable
+private fun DialerButtonPreview() {
+    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        DialerButton(isEnabled = true, icon = Icons.Rounded.MicOff, hint = "Mute") {
+        }
+        DialerButton(isEnabled = false, icon = Icons.Rounded.Mic, hint = "Mute") {
         }
     }
 }
