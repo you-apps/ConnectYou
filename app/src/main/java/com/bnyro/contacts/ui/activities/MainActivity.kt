@@ -8,13 +8,10 @@ import android.provider.ContactsContract.Intents
 import android.provider.ContactsContract.QuickContact
 import android.util.Log
 import androidx.activity.compose.setContent
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.dialogs.AddToContactDialog
 import com.bnyro.contacts.ui.models.ContactsModel
-import com.bnyro.contacts.ui.models.SmsModel
 import com.bnyro.contacts.ui.screens.MainAppContent
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
 import com.bnyro.contacts.util.BackupHelper
@@ -34,12 +31,11 @@ class MainActivity : BaseActivity() {
         contactsModel.initialContactData = getInsertContactData()
         handleVcfShareAction(contactsModel)
 
-        smsModel = ViewModelProvider(this).get()
-        smsModel?.initialAddressAndBody = getInitialSmsAddressAndBody()
+        smsModel.initialAddressAndBody = getInitialSmsAddressAndBody()
 
         setContent {
             ConnectYouTheme(themeModel.themeMode) {
-                MainAppContent(smsModel!!)
+                MainAppContent(smsModel)
                 getInsertOrEditNumber()?.let {
                     AddToContactDialog(it)
                 }
@@ -79,6 +75,7 @@ class MainActivity : BaseActivity() {
                     )
                 )
             }
+
             intent?.getStringExtra("action") == "create" -> ContactData()
             else -> null
         }
@@ -124,14 +121,5 @@ class MainActivity : BaseActivity() {
             Log.d("VCF Intent", "Received a valid intent with uri : $it")
             contactsModel.importVcf(this, it)
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        smsModel = null
-    }
-
-    companion object {
-        var smsModel: SmsModel? = null
     }
 }

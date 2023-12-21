@@ -28,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -61,9 +62,8 @@ fun SmsThreadScreen(
 ) {
     val context = LocalContext.current
 
-    val threadId = smsModel.smsList.firstOrNull { it.address == address }?.threadId
-    val smsList =
-        threadId?.let { smsModel.smsGroups[threadId]?.sortedBy { it.timestamp } } ?: listOf()
+    val allSmsList by smsModel.smsList.collectAsState()
+    val smsList = allSmsList.filter { it.address == address }
     val subscriptions = remember {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             SmsUtil.getSubscriptions(context)
@@ -209,7 +209,7 @@ fun SmsThreadScreen(
             showContactScreen = false
         }
     }
-    
+
     if (showAddToContactDialog) {
         AddToContactDialog(newNumber = address)
     }
