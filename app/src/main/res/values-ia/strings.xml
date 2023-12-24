@@ -100,4 +100,12 @@
     <string name="note">Nota</string>
     <string name="homepage">Pagina personal</string>
     <string name="export_success">Exportate.</string>
+    <string name="misc">Miscellanea</string>
+    <string name="fax_home">Fax de casa</string>
+    <string name="collapse_bottom_bar">Collaber le barra inferior al rolar</string>
+    <string name="encrypt_backups">Cryptar copias de securitate como formato zip</string>
+    <string name="home">Casa</string>
+    <string name="colorful_contact_icons">Icones de contacto colorate</string>
+    <string name="send_message_as_multiple">Desira tu inviar le message como plure messages plus minor?</string>
+    <string name="dial">Telephonar</string>
 </resources>
