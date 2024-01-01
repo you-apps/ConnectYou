@@ -1,5 +1,6 @@
 package com.bnyro.contacts.ui.components
 
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.Crossfade
@@ -132,8 +133,14 @@ fun ContactsPage(
         Column(
             modifier = Modifier.padding(pv).fillMaxSize()
         ) {
-            Crossfade(targetState = selectedContacts.isEmpty(), label = "main layout") { state ->
-                when (state) {
+            Crossfade(
+                targetState = selectedContacts.isEmpty(),
+                label = "main layout"
+            ) { selectionEmpty ->
+                BackHandler(enabled = !selectionEmpty) {
+                    selectedContacts.clear()
+                }
+                when (selectionEmpty) {
                     true -> {
                         TopAppBar(
                             title = {
@@ -240,6 +247,7 @@ fun ContactsPage(
                             }
                         )
                     }
+
                     false -> {
                         TopAppBar(
                             title = {
