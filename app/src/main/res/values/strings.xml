@@ -120,4 +120,11 @@
     <string name="author">Author</string>
     <string name="version">Version</string>
     <string name="translation">Translation</string>
+    <string name="add_website">Add Website</string>
+    <string name="add_phone_number">Add Phone number</string>
+    <string name="add_e_mail">Add E-mail</string>
+    <string name="add_address">Add Address</string>
+    <string name="add_note">Add Note</string>
+    <string name="add_event">Add Event</string>
+    <string name="date">Date</string>
 </resources>
