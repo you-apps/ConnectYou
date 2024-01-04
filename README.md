@@ -2,7 +2,7 @@
 <div align="center">
   <img width="200" height="200"src="fastlane/metadata/android/en-US/images/icon.png">
   <h1>Connect You</h1>
-<p>Privacy focused contacts and SMS messenger app built with MD3.</p>
+  <p>Privacy focused contacts and SMS messenger app built with MD3.</p>
 
 <!-- ---------- Badges ---------- -->
   <div align="center">
@@ -12,7 +12,7 @@
     <img alt="Repo size" src="https://img.shields.io/github/repo-size/you-apps/ConnectYou?color=c3e7ff&style=flat-square">
     <img alt="Stars" src="https://img.shields.io/github/stars/you-apps/ConnectYou?color=c3e7ff&style=flat-square">
     <br>
-</div>
+  </div>
 </div>
 
 <!-- ---------- Description ---------- -->
