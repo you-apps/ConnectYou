@@ -130,20 +130,19 @@ fun DatePickerEditor(
                     imageVector = Icons.Default.ArrowDropDown,
                     contentDescription = null
                 )
-            }
-
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
-            ) {
-                types.forEach {
-                    DropdownMenuItem(
-                        text = { Text(stringResource(id = it.title)) },
-                        onClick = {
-                            state.value = state.value.also { v -> v.type = it.id }
-                            expanded = false
-                        }
-                    )
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    types.forEach {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(id = it.title)) },
+                            onClick = {
+                                state.value = state.value.also { v -> v.type = it.id }
+                                expanded = false
+                            }
+                        )
+                    }
                 }
             }
         }
