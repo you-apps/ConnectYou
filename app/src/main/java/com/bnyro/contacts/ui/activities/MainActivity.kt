@@ -14,6 +14,7 @@ import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.dialogs.AddToContactDialog
 import com.bnyro.contacts.ui.models.ContactsModel
+import com.bnyro.contacts.ui.models.DialerModel
 import com.bnyro.contacts.ui.models.SmsModel
 import com.bnyro.contacts.ui.screens.MainAppContent
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
@@ -37,9 +38,12 @@ class MainActivity : BaseActivity() {
         smsModel = ViewModelProvider(this).get()
         smsModel?.initialAddressAndBody = getInitialSmsAddressAndBody()
 
+        dialerModel = ViewModelProvider(this).get()
+        dialerModel?.initialPhoneNumber = getInitialNumberToDial()
+
         setContent {
             ConnectYouTheme(themeModel.themeMode) {
-                MainAppContent(smsModel!!)
+                MainAppContent(smsModel!!, dialerModel!!)
                 getInsertOrEditNumber()?.let {
                     AddToContactDialog(it)
                 }
@@ -79,6 +83,7 @@ class MainActivity : BaseActivity() {
                     )
                 )
             }
+
             intent?.getStringExtra("action") == "create" -> ContactData()
             else -> null
         }
@@ -112,6 +117,13 @@ class MainActivity : BaseActivity() {
         return address.replace(ContactsModel.normalizeNumberRegex, "") to body
     }
 
+    private fun getInitialNumberToDial(): String? {
+        if (intent?.action != Intent.ACTION_DIAL) return null
+
+        return intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER)
+            .takeIf { !it.isNullOrBlank() }
+    }
+
     private fun handleVcfShareAction(contactsModel: ContactsModel) {
         if (intent?.type !in BackupHelper.vCardMimeTypes) return
         val uri = when (intent.action) {
@@ -133,5 +145,6 @@ class MainActivity : BaseActivity() {
 
     companion object {
         var smsModel: SmsModel? = null
+        var dialerModel: DialerModel? = null
     }
 }

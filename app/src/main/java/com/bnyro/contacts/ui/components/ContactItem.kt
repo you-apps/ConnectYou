@@ -28,19 +28,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.enums.SortOrder
-import com.bnyro.contacts.ext.contentColor
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.ThemeModel
 import com.bnyro.contacts.ui.screens.SingleContactScreen
-import com.bnyro.contacts.util.ColorUtils
 import kotlinx.coroutines.runBlocking
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -84,49 +80,39 @@ fun ContactItem(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val backgroundColor = if (themeModel.colorfulIcons) {
-                remember { Color(ColorUtils.getRandomColor()) }
-            } else {
-                MaterialTheme.colorScheme.primary
-            }
-            val contentColor = when {
-                !themeModel.colorfulIcons -> MaterialTheme.colorScheme.onPrimary
-                else -> backgroundColor.contentColor()
-            }
-
-            Box(
-                modifier = Modifier
-                    .size(42.dp)
-                    .background(
-                        shape = CircleShape,
-                        color = backgroundColor
-                    )
-            ) {
-                val thumbnail = contact.thumbnail ?: contact.photo
-                if (selected) {
-                    Icon(
-                        modifier = Modifier.align(Alignment.Center),
-                        imageVector = Icons.Default.Check,
-                        contentDescription = null,
-                        tint = contentColor
-                    )
-                } else if (thumbnail == null) {
-                    Text(
-                        modifier = Modifier.align(Alignment.Center),
-                        text = (contactName.firstOrNull() ?: "").toString(),
-                        color = contentColor,
-                        fontWeight = FontWeight.Bold
-                    )
-                } else {
-                    Image(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .clip(CircleShape),
-                        bitmap = thumbnail.asImageBitmap(),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop
-                    )
+            val thumbnail = contact.thumbnail ?: contact.photo
+            if (selected || thumbnail != null) {
+                Box(
+                    modifier = Modifier
+                        .size(42.dp)
+                        .background(
+                            shape = CircleShape,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                ) {
+                    if (selected) {
+                        Icon(
+                            modifier = Modifier.align(Alignment.Center),
+                            imageVector = Icons.Default.Check,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                    } else if (thumbnail != null) {
+                        Image(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .clip(CircleShape),
+                            bitmap = thumbnail.asImageBitmap(),
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop
+                        )
+                    }
                 }
+            } else {
+                ContactIconPlaceholder(
+                    themeModel = themeModel,
+                    firstChar = contactName.firstOrNull(),
+                )
             }
             Spacer(modifier = Modifier.width(20.dp))
             Text(contactName)

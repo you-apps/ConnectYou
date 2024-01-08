@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Message
 import androidx.compose.material.icons.rounded.People
+import androidx.compose.material.icons.rounded.Phone
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -34,13 +35,14 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.NavBarItem
 import com.bnyro.contacts.ui.components.ContactsPage
 import com.bnyro.contacts.ui.models.ContactsModel
+import com.bnyro.contacts.ui.models.DialerModel
 import com.bnyro.contacts.ui.models.SmsModel
 import com.bnyro.contacts.ui.models.ThemeModel
 import com.bnyro.contacts.util.Preferences
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainAppContent(smsModel: SmsModel) {
+fun MainAppContent(smsModel: SmsModel, dialerModel: DialerModel) {
     val themeModel: ThemeModel = viewModel()
     val contactsModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
 
@@ -60,6 +62,10 @@ fun MainAppContent(smsModel: SmsModel) {
 
     val navItems = listOf(
         NavBarItem(
+            stringResource(R.string.dial),
+            Icons.Rounded.Phone
+        ),
+        NavBarItem(
             stringResource(R.string.contacts),
             Icons.Rounded.People
         ),
@@ -71,10 +77,9 @@ fun MainAppContent(smsModel: SmsModel) {
 
     var currentPage by remember {
         mutableIntStateOf(
-            smsModel.initialAddressAndBody?.let { 1 } ?: Preferences.getInt(
-                Preferences.homeTabKey,
-                0
-            )
+            dialerModel.initialPhoneNumber?.let { 0 }
+                ?: smsModel.initialAddressAndBody?.let { 2 }
+                ?: Preferences.getInt(Preferences.homeTabKey, 1)
         )
     }
 
@@ -119,11 +124,13 @@ fun MainAppContent(smsModel: SmsModel) {
         ) {
             Crossfade(targetState = currentPage, label = "crossfade pager") { index ->
                 when (index) {
-                    0 -> ContactsPage(
+                    0 -> CallLogsScreen(contactsModel, dialerModel, themeModel)
+
+                    1 -> ContactsPage(
                         nestedScrollConnection.takeIf { themeModel.collapsableBottomBar }
                     )
 
-                    1 -> SmsListScreen(smsModel, contactsModel)
+                    2 -> SmsListScreen(smsModel, contactsModel)
                 }
             }
         }

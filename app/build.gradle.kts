@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.bnyro.contacts"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 33
         versionCode = 27
         versionName = "8.1"
