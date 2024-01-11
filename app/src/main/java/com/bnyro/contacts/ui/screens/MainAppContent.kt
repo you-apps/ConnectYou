@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.NavBarItem
-import com.bnyro.contacts.ui.components.ContactsPage
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.SmsModel
 import com.bnyro.contacts.ui.models.ThemeModel

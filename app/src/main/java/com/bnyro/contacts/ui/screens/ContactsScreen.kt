@@ -1,4 +1,4 @@
-package com.bnyro.contacts.ui.components
+package com.bnyro.contacts.ui.screens
 
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -50,6 +50,9 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.ContactsSource
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.FilterOptions
+import com.bnyro.contacts.ui.components.ContactSearchScreen
+import com.bnyro.contacts.ui.components.ContactsList
+import com.bnyro.contacts.ui.components.NothingHere
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.OptionMenu
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
@@ -57,10 +60,6 @@ import com.bnyro.contacts.ui.components.dialogs.FilterDialog
 import com.bnyro.contacts.ui.components.dialogs.SimImportDialog
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.state.ContactListState
-import com.bnyro.contacts.ui.screens.AboutScreen
-import com.bnyro.contacts.ui.screens.EditorScreen
-import com.bnyro.contacts.ui.screens.SettingsScreen
-import com.bnyro.contacts.ui.screens.SingleContactScreen
 import com.bnyro.contacts.util.BackupHelper
 import com.bnyro.contacts.util.Preferences
 
