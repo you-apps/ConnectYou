@@ -100,7 +100,7 @@ fun SettingsScreen(onDismissRequest: () -> Unit) {
                     title = stringResource(R.string.private_sms_database),
                     summary = stringResource(R.string.private_sms_database_desc)
                 ) {
-                    smsModel.refreshLocalSmsPreference(context)
+                    smsModel.refreshLocalSmsPreference()
                 }
                 Divider(
                     modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),

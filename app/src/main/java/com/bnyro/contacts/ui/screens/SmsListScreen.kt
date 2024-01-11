@@ -33,7 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDismissState
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -67,10 +67,6 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
         mutableStateOf<String?>(null)
     }
 
-    LaunchedEffect(Unit) {
-        smsModel.fetchSmsList(context)
-    }
-
     Scaffold(floatingActionButton = {
         FloatingActionButton(
             onClick = {
@@ -80,13 +76,14 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
             Icon(Icons.Default.Edit, null)
         }
     }) { pv ->
-        if (smsModel.smsList.isNotEmpty()) {
+        val smsList by smsModel.smsList.collectAsState()
+        if (smsList.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(pv)
             ) {
-                val smsGroups = smsModel.smsGroups.entries.toList()
+                val smsGroups = smsList.groupBy { it.threadId }.toList()
                     .sortedBy { (_, smsList) -> smsList.maxOf { it.timestamp } }
                     .reversed()
 
@@ -180,7 +177,7 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                                         Spacer(modifier = Modifier.height(3.dp))
                                         Text(
                                             // safe call to avoid crashes when re-rendering
-                                            text = smsList.firstOrNull()?.body.orEmpty(),
+                                            text = smsList.lastOrNull()?.body.orEmpty(),
                                             maxLines = 2,
                                             fontSize = 14.sp,
                                             lineHeight = 18.sp

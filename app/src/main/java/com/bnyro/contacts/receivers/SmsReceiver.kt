@@ -10,15 +10,14 @@ import android.provider.Telephony
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
+import com.bnyro.contacts.App
 import com.bnyro.contacts.R
 import com.bnyro.contacts.db.obj.SmsData
 import com.bnyro.contacts.enums.IntentActionType
-import com.bnyro.contacts.ui.activities.MainActivity
 import com.bnyro.contacts.util.IntentHelper
 import com.bnyro.contacts.util.NotificationHelper
 import com.bnyro.contacts.util.NotificationHelper.MESSAGES_CHANNEL_ID
 import com.bnyro.contacts.util.PermissionHelper
-import com.bnyro.contacts.util.SmsUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 
@@ -33,16 +32,19 @@ class SmsReceiver : BroadcastReceiver() {
             val body = message.displayMessageBody
             val timestamp = message.timestampMillis
             val threadId =
-                runBlocking(Dispatchers.IO) { SmsUtil.getOrCreateThreadId(context, address) }
+                runBlocking(Dispatchers.IO) {
+                    (context.applicationContext as App).smsRepo.getOrCreateThreadId(
+                        context,
+                        address
+                    )
+                }
             val bareSmsData =
-                SmsData(-1, address, body, timestamp, threadId, Telephony.Sms.MESSAGE_TYPE_INBOX)
+                SmsData(0, address, body, timestamp, threadId, Telephony.Sms.MESSAGE_TYPE_INBOX)
 
             createNotification(context, notificationId, bareSmsData)
-            val smsData = runBlocking(Dispatchers.IO) {
-                SmsUtil.persistMessage(context, bareSmsData)
+            runBlocking(Dispatchers.IO) {
+                (context.applicationContext as App).smsRepo.persistSms(context, bareSmsData)
             }
-
-            MainActivity.smsModel?.addSmsToList(smsData)
         }
     }
 

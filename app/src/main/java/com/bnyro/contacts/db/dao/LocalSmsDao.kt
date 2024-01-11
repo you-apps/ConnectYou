@@ -4,11 +4,12 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.bnyro.contacts.db.obj.SmsData
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface LocalSmsDao {
     @Query("SELECT * from localSms")
-    suspend fun getAll(): List<SmsData>
+    fun getStream(): Flow<List<SmsData>>
 
     @Query("DELETE FROM localSms WHERE id = :id")
     suspend fun deleteSms(id: Long)
