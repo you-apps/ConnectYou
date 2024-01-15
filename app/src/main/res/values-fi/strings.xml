@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="copied">Kopioitu leikepöydälle</string>
-    <string name="irreversible">Oletko varma\? Tätä ei voi perua.</string>
+    <string name="irreversible">Oletko varma? Tätä ei voi perua!</string>
     <string name="cancel">Peru</string>
     <string name="okay">OK</string>
     <string name="reset">Nollaa</string>
@@ -107,4 +107,5 @@
     <string name="private_sms_database">Yksityinen SMS-tietokanta</string>
     <string name="encrypt_backups">Salaa varmuuskopiot Zip-tiedostossa</string>
     <string name="private_sms_database_desc">SMS tallennetaan vain tässä sovelluksessa, eikä muut sovellukset pääse siihen käsiksi.</string>
+    <string name="send_message_as_multiple">Haluatko lähettää viestin useampana pienempänä viestinä?</string>
 </resources>
