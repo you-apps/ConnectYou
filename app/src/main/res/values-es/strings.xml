@@ -108,4 +108,11 @@
     <string name="private_sms_database_desc">Los SMS sólo se almacenarán dentro de la aplicación y no serán accesibles en otras aplicaciones.</string>
     <string name="phone_number">Número de teléfono</string>
     <string name="send_message_as_multiple">¿Quieres enviar el mensaje en varios más pequeños?</string>
+    <string name="add_phone_number">Añadir un número de teléfono</string>
+    <string name="add_website">Añadir página web</string>
+    <string name="add_e_mail">Añadir correo electrónico</string>
+    <string name="add_address">Añadir dirección</string>
+    <string name="add_event">Añadir evento</string>
+    <string name="add_note">Añadir nota</string>
+    <string name="date">Fecha</string>
 </resources>
