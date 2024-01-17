@@ -17,7 +17,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Message
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Shortcut
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -227,7 +233,9 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
 
                 ContactEntryGroup(
                     label = stringResource(R.string.phone),
-                    entries = contact.numbers,
+                    entries = contact.numbers.map {
+                        ValueWithType(ContactsHelper.normalizePhoneNumber(it.value), it.type)
+                    },
                     types = ContactsHelper.phoneNumberTypes
                 ) {
                     IntentHelper.launchAction(context, IntentActionType.DIAL, it.value)

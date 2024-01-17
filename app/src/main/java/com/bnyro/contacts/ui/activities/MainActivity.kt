@@ -15,6 +15,7 @@ import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.MainAppContent
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
 import com.bnyro.contacts.util.BackupHelper
+import com.bnyro.contacts.util.ContactsHelper
 import java.net.URLDecoder
 
 class MainActivity : BaseActivity() {
@@ -106,7 +107,7 @@ class MainActivity : BaseActivity() {
             ?: return null
         val body = intent?.getStringExtra(Intent.EXTRA_TEXT)
 
-        return address.replace(ContactsModel.normalizeNumberRegex, "") to body
+        return ContactsHelper.normalizePhoneNumber(address) to body
     }
 
     private fun handleVcfShareAction(contactsModel: ContactsModel) {

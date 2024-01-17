@@ -3,6 +3,7 @@ package com.bnyro.contacts.util
 import android.provider.ContactsContract
 import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.TranslatedType
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import ezvcard.parameter.AddressType
 import ezvcard.parameter.EmailType
 import ezvcard.parameter.TelephoneType
@@ -92,5 +93,12 @@ object ContactsHelper {
                 "" to ""
             }
         }
+    }
+
+    fun normalizePhoneNumber(number: String): String {
+        val phoneUtil = PhoneNumberUtil.getInstance()
+        val phoneNumber = runCatching { phoneUtil.parse(number, null) }
+            .getOrElse { return number }
+        return phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
     }
 }
