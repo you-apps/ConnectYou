@@ -21,6 +21,7 @@ import com.bnyro.contacts.repo.ContactsRepository
 import com.bnyro.contacts.repo.DeviceContactsRepository
 import com.bnyro.contacts.repo.LocalContactsRepository
 import com.bnyro.contacts.ui.models.state.ContactListState
+import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.ExportHelper
 import com.bnyro.contacts.util.IntentHelper
 import com.bnyro.contacts.util.PermissionHelper
@@ -217,17 +218,15 @@ class ContactsModel(
     fun getAvailableGroups() = contacts.map { it.groups }.flatten().distinct()
 
     fun getContactByNumber(number: String): ContactData? {
-        val normalizedNumber = number.replace(normalizeNumberRegex, "")
+        val normalizedNumber = ContactsHelper.normalizePhoneNumber(number)
         return contacts.firstOrNull {
             it.numbers.any { (value, _) ->
-                value.replace(normalizeNumberRegex, "") == normalizedNumber
+                ContactsHelper.normalizePhoneNumber(value) == normalizedNumber
             }
         }
     }
 
     companion object {
-        val normalizeNumberRegex = Regex("[-_ ]")
-
         val Factory = viewModelFactory {
             initializer {
                 val application = this[APPLICATION_KEY] as App

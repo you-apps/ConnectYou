@@ -85,6 +85,9 @@ dependencies {
     // Image parsing
     implementation("androidx.exifinterface:exifinterface:1.3.6")
 
+    // Phone number formatting
+    implementation("com.googlecode.libphonenumber:libphonenumber:8.2.0")
+
     // Markdown support for notes
     implementation("com.halilibo.compose-richtext:richtext-ui-material3:0.17.0")
     implementation("com.halilibo.compose-richtext:richtext-commonmark:0.17.0")
