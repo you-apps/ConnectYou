@@ -108,4 +108,10 @@
     <string name="colorful_contact_icons">Icones de contacto colorate</string>
     <string name="send_message_as_multiple">Desira tu inviar le message como plure messages plus minor?</string>
     <string name="dial">Telephonar</string>
+    <string name="add_website">Adder sito web</string>
+    <string name="add_phone_number">Adder numero de telephono</string>
+    <string name="add_e_mail">Adder E-mail</string>
+    <string name="add_address">Adder adresse</string>
+    <string name="add_note">Adder nota</string>
+    <string name="date">Data</string>
 </resources>
