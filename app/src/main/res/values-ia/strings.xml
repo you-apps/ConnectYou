@@ -114,4 +114,5 @@
     <string name="add_address">Adder adresse</string>
     <string name="add_note">Adder nota</string>
     <string name="date">Data</string>
+    <string name="add_event">Adder evento</string>
 </resources>
