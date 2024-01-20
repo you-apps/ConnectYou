@@ -109,4 +109,11 @@
     <string name="private_sms_database_desc">SMS зберігатимуться лише у застосунку і не будуть доступні в інших застосунках.</string>
     <string name="phone_number">Номер телефону</string>
     <string name="send_message_as_multiple">Ви хочете надіслати повідомлення кількома меншими?</string>
+    <string name="add_website">Додати вебсайт</string>
+    <string name="add_phone_number">Додати номер телефону</string>
+    <string name="add_e_mail">Додати пошту</string>
+    <string name="add_address">Додати адресу</string>
+    <string name="date">Дата</string>
+    <string name="add_note">Додати примітку</string>
+    <string name="add_event">Додати подію</string>
 </resources>
