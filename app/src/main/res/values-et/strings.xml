@@ -1,2 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="search" tools:ignore="PrivateResource">Otsi</string>
+    <string name="copied">Kopeeritud lõikelauale</string>
+</resources>
