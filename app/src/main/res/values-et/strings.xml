@@ -2,4 +2,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="search" tools:ignore="PrivateResource">Otsi</string>
     <string name="copied">Kopeeritud lõikelauale</string>
+    <string name="delete_contact">Kustuta kontakt</string>
+    <string name="irreversible">Kas sa oled kindel? Seda tegevust ei saa tagasi pöörata!</string>
+    <string name="reset">Lähtesta</string>
+    <string name="create_contact">Lisa kontakt</string>
+    <string name="retry">Proovi uuesti</string>
+    <string name="share">Jaga</string>
+    <string name="add_to_contact">Lisa kontaktile</string>
+    <string name="new_contact">Uus kontakt</string>
+    <string name="dial">Helista</string>
+    <string name="message">Sõnum</string>
+    <string name="contact">Kontakt</string>
+    <string name="cancel">Katkesta</string>
+    <string name="okay">Sobib</string>
+    <string name="create_shortcut">Loo otsetee</string>
 </resources>
