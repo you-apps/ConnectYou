@@ -85,7 +85,8 @@ fun ContactSearchScreen(
                 leadingIcon = Icons.Default.Search,
                 placeholder = stringResource(id = R.string.search),
                 imeAction = ImeAction.Done,
-                focusRequester = focusRequester
+                focusRequester = focusRequester,
+                singleLine = true
             )
             ContactsList(
                 contacts = visibleContacts,

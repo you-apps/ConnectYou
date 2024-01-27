@@ -29,6 +29,7 @@ fun ElevatedTextInputField(
     placeholder: String? = null,
     leadingIcon: ImageVector? = null,
     imeAction: ImeAction = ImeAction.Default,
+    singleLine: Boolean = false,
     focusRequester: FocusRequester = remember { FocusRequester() }
 ) {
     TextField(
@@ -52,6 +53,7 @@ fun ElevatedTextInputField(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         ),
-        keyboardOptions = KeyboardOptions(imeAction = imeAction)
+        keyboardOptions = KeyboardOptions(imeAction = imeAction),
+        singleLine = singleLine,
     )
 }
