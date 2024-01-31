@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="save">儲存</string>
+    <string name="filter">篩選</string>
+    <string name="reset">重設</string>
+    <string name="message">訊息</string>
+    <string name="add_to_contact">新增至聯絡人</string>
+    <string name="new_contact">新的聯絡人</string>
+    <string name="edit">編輯</string>
+    <string name="delete_contact">移除聯絡人</string>
+    <string name="create_contact">建立聯絡人</string>
+    <string name="contacts">聯絡人</string>
+    <string name="copied">已複製到剪貼簿</string>
+    <string name="retry">重試</string>
+    <string name="contact">聯絡人</string>
+    <string name="more">更多</string>
+    <string name="cancel">取消</string>
+    <string name="irreversible">您確定嗎？這個動作無法復原！</string>
+    <string name="okay">確認</string>
+    <string name="search" tools:ignore="PrivateResource">搜尋</string>
+    <string name="show_less">顯示較少</string>
+    <string name="create_shortcut">建立捷徑</string>
+    <string name="share">分享</string>
+    <string name="dial">撥號</string>
+    <string name="website">網站</string>
+    <string name="nothing_here">這裡什麼都沒有。</string>
+    <string name="email">電子郵件</string>
+    <string name="phone">電話</string>
+    <string name="event">事件</string>
+    <string name="photo">圖片</string>
+    <string name="show_more_fields">顯示更多欄位</string>
+    <string name="empty_name">名稱不能是空的</string>
+    <string name="address">地址</string>
+    <string name="pick_contact">選擇聯絡人</string>
+    <string name="phone_number">電話號碼</string>
+    <string name="import_success">已匯入。</string>
+    <string name="export_success">已匯出。</string>
+</resources>

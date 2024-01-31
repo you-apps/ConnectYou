@@ -107,4 +107,12 @@
     <string name="delete_message">Odstranit zprávu</string>
     <string name="private_sms_database_desc">Zprávy SMS budou ukládány pouze do této aplikace a nebudou k nim mít přístup ostatní aplikace.</string>
     <string name="phone_number">Číslo mobilu</string>
+    <string name="send_message_as_multiple">Chcete odeslat zprávu jako několik menších?</string>
+    <string name="add_note">Přidat poznámku</string>
+    <string name="add_event">Přidat událost</string>
+    <string name="add_e_mail">Přidat e-mail</string>
+    <string name="add_address">Přidat adresu</string>
+    <string name="add_website">Přidat webové stránky</string>
+    <string name="add_phone_number">Přidat telefonní číslo</string>
+    <string name="date">Datum</string>
 </resources>

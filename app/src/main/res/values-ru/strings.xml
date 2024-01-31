@@ -107,4 +107,12 @@
     <string name="delete_message">Удалить сообщение</string>
     <string name="private_sms_database_desc">SMS будут сохранены внутри приложения и не будут доступны другим приложениям.</string>
     <string name="phone_number">Номер телефона</string>
+    <string name="send_message_as_multiple">Разбить сообщение на несколько маленьких перед отправкой?</string>
+    <string name="add_event">Добавить событие</string>
+    <string name="add_website">Добавить веб-сайт</string>
+    <string name="add_phone_number">Добавить номер телефона</string>
+    <string name="add_e_mail">Добавить эл. почту</string>
+    <string name="add_note">Добавить примечание</string>
+    <string name="add_address">Добавить адрес</string>
+    <string name="date">Дата</string>
 </resources>

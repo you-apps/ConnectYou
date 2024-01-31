@@ -6,7 +6,7 @@
     <string name="address">Adresse</string>
     <string name="event">Évènement</string>
     <string name="first_name">Prénom</string>
-    <string name="last_name">Nom de famille</string>
+    <string name="last_name">Nom de Famille</string>
     <string name="author">Auteur·e</string>
     <string name="version">Version</string>
     <string name="translation">Traduction</string>
@@ -47,7 +47,7 @@
     <string name="settings">Réglages</string>
     <string name="start_tab">Onglet de démarrage</string>
     <string name="delete">Supprimer</string>
-    <string name="choose_dir">Choisir un répertoire</string>
+    <string name="choose_dir">Choisir un Répertoire</string>
     <string name="sort_order">Ordre de tri</string>
     <string name="account_type">Type de compte</string>
     <string name="note">Note</string>
@@ -55,7 +55,7 @@
     <string name="system">Système</string>
     <string name="light">Clair</string>
     <string name="dark">Sombre</string>
-    <string name="auto_backup">Sauvegarde automatique</string>
+    <string name="auto_backup">Sauvegarde Automatique</string>
     <string name="both">Les deux</string>
     <string name="none">Aucun</string>
     <string name="edit">Modifier</string>
@@ -71,7 +71,7 @@
     <string name="blog">Blog</string>
     <string name="new_group">Nouveau</string>
     <string name="selected">%1$s sélectionné</string>
-    <string name="backup_interval">Intervalle de sauvegarde</string>
+    <string name="backup_interval">Intervalle de Sauvegarde</string>
     <string name="max_backup_amount">Nombre maximal de sauvegardes</string>
     <string name="message">Message</string>
     <string name="new_contact">Nouveau contact</string>
@@ -91,4 +91,22 @@
     <string name="name">Nom</string>
     <string name="import_sim">Importer depuis une SIM</string>
     <string name="behavior">Comportement</string>
+    <string name="reply">Répondre</string>
+    <string name="save">Sauvegarder</string>
+    <string name="delete_thread">Supprimer la discussion</string>
+    <string name="private_sms_database">Base de données SMS privée</string>
+    <string name="delete_message">Effacer le message</string>
+    <string name="appearance">Apparence</string>
+    <string name="encrypt_backups">Chiffrer les sauvegardes sous format zip</string>
+    <string name="message_too_long">Le message est trop long !</string>
+    <string name="contacts">Contacts</string>
+    <string name="send">Send message</string>
+    <string name="backup">Sauvegarde</string>
+    <string name="private_sms_database_desc">Les SMS ne seront stockés que dans l\'application et ne seront pas accessibles dans d\'autres applications.</string>
+    <string name="pick_contact">Choisir le contact</string>
+    <string name="messages">Messages</string>
+    <string name="phone_number">N° de téléphone</string>
+    <string name="backup_password">Mot de passe</string>
+    <string name="connection_error">Impossible de se connecter. Veuillez vous assurer que le mode avion est désactivé.</string>
+    <string name="send_message_as_multiple">Souhaitez-vous envoyer le message sous la forme de plusieurs petits messages ?</string>
 </resources>
