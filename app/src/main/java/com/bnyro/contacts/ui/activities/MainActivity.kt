@@ -97,7 +97,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun getInitialSmsAddressAndBody(): Pair<String, String?>? {
-        if (intent?.action !in smsSendIntents) return null
+        if (intent?.action !in smsSendIntents || intent?.type in BackupHelper.vCardMimeTypes) return null
 
         val address = intent?.dataString
             ?.split(":")
@@ -112,6 +112,7 @@ class MainActivity : BaseActivity() {
 
     private fun handleVcfShareAction(contactsModel: ContactsModel) {
         if (intent?.type !in BackupHelper.vCardMimeTypes) return
+
         val uri = when (intent.action) {
             Intent.ACTION_VIEW -> intent?.data
             Intent.ACTION_SEND -> intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri
