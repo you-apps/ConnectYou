@@ -3,6 +3,7 @@ package com.bnyro.contacts.repo
 import android.content.Context
 import com.bnyro.contacts.db.DatabaseHolder
 import com.bnyro.contacts.db.obj.SmsData
+import com.bnyro.contacts.util.ContactsHelper
 import kotlinx.coroutines.flow.Flow
 import kotlin.random.Random
 
@@ -15,11 +16,11 @@ class LocalSmsRepo : SmsRepository {
     }
 
     override suspend fun getOrCreateThreadId(context: Context, address: String): Long {
-        DatabaseHolder.Db.localSmsDao().getSmsByAddress(address).firstOrNull()?.let {
-            return it.threadId
-        }
-
-        return Random.nextLong()
+        return DatabaseHolder.Db.localSmsDao()
+            .getSmsByAddress(ContactsHelper.normalizePhoneNumber(address))
+            .firstOrNull()
+            ?.threadId
+            ?: Random.nextLong()
     }
 
     override suspend fun deleteSms(context: Context, id: Long) {

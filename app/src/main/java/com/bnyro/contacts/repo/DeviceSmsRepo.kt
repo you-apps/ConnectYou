@@ -14,6 +14,7 @@ import com.bnyro.contacts.db.obj.SmsData
 import com.bnyro.contacts.ext.intValue
 import com.bnyro.contacts.ext.longValue
 import com.bnyro.contacts.ext.stringValue
+import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.SmsUtil
 import kotlinx.coroutines.Dispatchers
@@ -115,7 +116,7 @@ class DeviceSmsRepo : SmsRepository {
                 contentUri,
                 arrayOf(Telephony.Sms.THREAD_ID),
                 "${Telephony.Sms.ADDRESS} = ?",
-                arrayOf(address),
+                arrayOf(ContactsHelper.normalizePhoneNumber(address)),
                 null
             )
             ?.use {

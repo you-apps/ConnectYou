@@ -87,18 +87,16 @@ fun ContactEditor(
     val contactsModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
 
     fun List<ValueWithType>?.fillIfEmpty(): List<ValueWithType> {
-        return if (this.isNullOrEmpty()) {
-            listOf(ValueWithType("", 0))
-        } else {
-            this
+        if (this.isNullOrEmpty()) {
+            return listOf(ValueWithType("", 0))
         }
+
+        return this
     }
 
     fun List<MutableState<ValueWithType>>.clean(): List<ValueWithType> {
-        return this.filter { it.value.value.isNotBlank() }.map { it.value }
+        return this.filter { it.value.value.isNotBlank() }.map { it.value }.distinct()
     }
-
-    fun emptyMutable() = mutableStateOf(ValueWithType("", 0))
 
     var showAdvanced by remember {
         mutableStateOf(false)
@@ -192,7 +190,9 @@ fun ContactEditor(
                         it.accountType = selectedAccount.first
                         it.accountName = selectedAccount.second
                         it.websites = websites.clean()
-                        it.numbers = phoneNumber.clean()
+                        it.numbers = phoneNumber.clean().map { number ->
+                            ValueWithType(ContactsHelper.normalizePhoneNumber(number.value), number.type)
+                        }
                         it.emails = emails.clean()
                         it.addresses = addresses.clean()
                         it.events = events.clean()
