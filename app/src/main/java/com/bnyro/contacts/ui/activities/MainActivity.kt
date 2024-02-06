@@ -7,6 +7,7 @@ import android.os.Parcelable
 import android.provider.ContactsContract.Intents
 import android.provider.ContactsContract.QuickContact
 import androidx.activity.compose.setContent
+import com.bnyro.contacts.ext.parcelable
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.ConfirmImportContactsDialog
@@ -115,8 +116,8 @@ class MainActivity : BaseActivity() {
         if (intent?.type !in BackupHelper.vCardMimeTypes) return null
 
         val uri = when (intent.action) {
-            Intent.ACTION_VIEW -> intent?.data
-            Intent.ACTION_SEND -> intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri
+            Intent.ACTION_VIEW -> intent.data
+            Intent.ACTION_SEND -> intent.parcelable<Uri>(Intent.EXTRA_STREAM)
             else -> null
         }
 
