@@ -6,12 +6,11 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.provider.ContactsContract.Intents
 import android.provider.ContactsContract.QuickContact
-import android.util.Log
 import androidx.activity.compose.setContent
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ValueWithType
+import com.bnyro.contacts.ui.components.ConfirmImportContactsDialog
 import com.bnyro.contacts.ui.components.dialogs.AddToContactDialog
-import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.screens.MainAppContent
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
 import com.bnyro.contacts.util.BackupHelper
@@ -30,7 +29,6 @@ class MainActivity : BaseActivity() {
 
         contactsModel.initialContactId = getInitialContactId()
         contactsModel.initialContactData = getInsertContactData()
-        handleVcfShareAction(contactsModel)
 
         smsModel.initialAddressAndBody = getInitialSmsAddressAndBody()
 
@@ -39,6 +37,9 @@ class MainActivity : BaseActivity() {
                 MainAppContent(smsModel)
                 getInsertOrEditNumber()?.let {
                     AddToContactDialog(it)
+                }
+                getSharedVcfUri()?.let {
+                    ConfirmImportContactsDialog(contactsModel, it)
                 }
             }
         }
@@ -110,8 +111,8 @@ class MainActivity : BaseActivity() {
         return ContactsHelper.normalizePhoneNumber(address) to body
     }
 
-    private fun handleVcfShareAction(contactsModel: ContactsModel) {
-        if (intent?.type !in BackupHelper.vCardMimeTypes) return
+    private fun getSharedVcfUri(): Uri? {
+        if (intent?.type !in BackupHelper.vCardMimeTypes) return null
 
         val uri = when (intent.action) {
             Intent.ACTION_VIEW -> intent?.data
@@ -119,9 +120,6 @@ class MainActivity : BaseActivity() {
             else -> null
         }
 
-        uri?.let {
-            Log.d("VCF Intent", "Received a valid intent with uri : $it")
-            contactsModel.importVcf(this, it)
-        }
+        return uri
     }
 }
