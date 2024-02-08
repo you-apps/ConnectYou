@@ -115,4 +115,5 @@
     <string name="system">Süsteemi kujundus</string>
     <string name="light">Hele kujundus</string>
     <string name="about">Rakenduse teave</string>
+    <string name="import_confirm">Kas sa soovid importida valitud VCF-faili?</string>
 </resources>
