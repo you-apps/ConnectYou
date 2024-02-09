@@ -116,4 +116,5 @@
     <string name="add_note">Not Ekle</string>
     <string name="add_event">Etkinlik Ekle</string>
     <string name="date">Tarih</string>
+    <string name="import_confirm">Seçilen vCard\'ı içe aktarmak istiyor musunuz?</string>
 </resources>
