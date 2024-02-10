@@ -115,4 +115,5 @@
     <string name="add_note">اضف ملاحظة</string>
     <string name="add_event">أضف حدثًا</string>
     <string name="date">‪التاريخ</string>
+    <string name="import_confirm">هل ترغب في استيراد ملف VCF المحدد؟</string>
 </resources>
