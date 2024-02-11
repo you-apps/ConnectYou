@@ -115,4 +115,5 @@
     <string name="private_sms_database">Database SMS privato</string>
     <string name="private_sms_database_desc">Gli SMS saranno memorizzati solo all\'interno di quest\'app e non saranno accessibili in altre app.</string>
     <string name="delete_thread">Elimina thread</string>
+    <string name="import_confirm">Vuoi importare il file VCF selezionato?</string>
 </resources>
