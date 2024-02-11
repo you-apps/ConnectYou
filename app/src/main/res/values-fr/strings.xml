@@ -109,4 +109,12 @@
     <string name="backup_password">Mot de passe</string>
     <string name="connection_error">Impossible de se connecter. Veuillez vous assurer que le mode avion est désactivé.</string>
     <string name="send_message_as_multiple">Souhaitez-vous envoyer le message sous la forme de plusieurs petits messages ?</string>
+    <string name="import_confirm">Voulez-vous importer le fichier VCF sélectionné ?</string>
+    <string name="add_website">Ajouter un site Web</string>
+    <string name="add_event">Ajouter un évènement</string>
+    <string name="date">Date</string>
+    <string name="add_phone_number">Ajouter un numéro de téléphone</string>
+    <string name="add_e_mail">Ajouter une adresse mail</string>
+    <string name="add_address">Ajouter une adresse</string>
+    <string name="add_note">Ajouter une note</string>
 </resources>
