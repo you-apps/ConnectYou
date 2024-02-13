@@ -126,4 +126,5 @@
     <string name="add_event">Додај догађај</string>
     <string name="add_website">Додај веб-сајт</string>
     <string name="add_note">Додај белешку</string>
+    <string name="import_confirm">Желите ли да увезете изабрани VCF фајл?</string>
 </resources>
