@@ -44,6 +44,7 @@ import com.bnyro.contacts.obj.TranslatedType
 import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.dialogs.DialogButton
 import com.bnyro.contacts.util.CalendarUtils
+import java.util.TimeZone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,20 +56,22 @@ fun DatePickerEditor(
     onDelete: () -> Unit,
     shape: Shape,
 ) {
-    val datePickerOffset = 1000 * 3600 * 23
+    val datePickerOffset = remember {
+        TimeZone.getDefault().rawOffset
+    }
 
     var showPicker by remember {
         mutableStateOf(false)
     }
     val datePickerState = rememberDatePickerState(
         runCatching {
-            CalendarUtils.dateToMillis(state.value.value)
-        }.getOrDefault(null)?.plus(datePickerOffset)
+            CalendarUtils.dateToMillis(state.value.value)?.plus(datePickerOffset)
+        }.getOrDefault(null)
     )
 
     LaunchedEffect(datePickerState.selectedDateMillis) {
         state.value.value = datePickerState.selectedDateMillis?.let {
-            CalendarUtils.millisToDate(it, CalendarUtils.isoDateFormat)
+            CalendarUtils.millisToDate(it.minus(datePickerOffset), CalendarUtils.isoDateFormat)
         }.orEmpty()
     }
 
@@ -104,7 +107,7 @@ fun DatePickerEditor(
                 colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.onSurfaceVariant)
             ) {
                 Text(text = datePickerState.selectedDateMillis
-                    ?.let { CalendarUtils.millisToDate(it) }
+                    ?.let { CalendarUtils.millisToDate(it.minus(datePickerOffset)) }
                     ?.takeIf { state.value.value.isNotEmpty() }
                     ?: stringResource(R.string.date))
             }
