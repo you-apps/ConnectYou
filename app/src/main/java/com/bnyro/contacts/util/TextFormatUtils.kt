@@ -79,12 +79,12 @@ fun generateAnnotations(text: String): AnnotatedString {
     }
 }
 
-private val linkRegex = Regex(
+val linkRegex = Regex(
     "(?<!@)(?<!\\S)((https?://)?[a-zA-Z0-9\\-]{2,}(\\.[a-zA-Z0-9]{2,})+(/[^\\s/]+)*)"
 )
-private val emailRegex = Regex(
-    "([A-Za-z0-9+_.-]+@(.+))"
+val emailRegex = Regex(
+    "([A-Za-z0-9+_.-]+@([\\w-]+\\.)+[\\w-]{2,4})"
 )
-private val phoneRegex = Regex(
+val phoneRegex = Regex(
     "((\\+\\d{1,3}(\\s)?)?((\\(\\d{3}\\))|(\\d{3}))[-\\s]?\\d{3}[-\\s]?\\d{4})"
 )
