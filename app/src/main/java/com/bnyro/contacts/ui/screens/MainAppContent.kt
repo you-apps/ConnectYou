@@ -117,12 +117,12 @@ fun MainAppContent(smsModel: SmsModel) {
             color = MaterialTheme.colorScheme.background
         ) {
             Crossfade(targetState = currentPage, label = "crossfade pager") { index ->
-                when (index) {
-                    0 -> ContactsPage(
-                        nestedScrollConnection.takeIf { themeModel.collapsableBottomBar }
-                    )
+                val scrollConnectionIfEnabled = nestedScrollConnection.takeIf { themeModel.collapsableBottomBar }
 
-                    1 -> SmsListScreen(smsModel, contactsModel)
+                when (index) {
+                    0 -> ContactsPage(scrollConnectionIfEnabled)
+
+                    1 -> SmsListScreen(smsModel, contactsModel, scrollConnectionIfEnabled)
                 }
             }
         }

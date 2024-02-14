@@ -43,6 +43,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -57,7 +59,11 @@ import com.bnyro.contacts.ui.models.SmsModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
+fun SmsListScreen(
+    smsModel: SmsModel,
+    contactsModel: ContactsModel,
+    scrollConnection: NestedScrollConnection?
+) {
     val context = LocalContext.current
     var showNumberPicker by remember {
         mutableStateOf(false)
@@ -82,6 +88,9 @@ fun SmsListScreen(smsModel: SmsModel, contactsModel: ContactsModel) {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(pv)
+                    .let { modifier ->
+                        scrollConnection?.let { modifier.nestedScroll(it) } ?: modifier
+                    }
             ) {
                 val smsGroups = smsList.groupBy { it.threadId }.toList()
                     .sortedBy { (_, smsList) -> smsList.maxOf { it.timestamp } }
