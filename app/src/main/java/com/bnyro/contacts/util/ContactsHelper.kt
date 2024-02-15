@@ -2,6 +2,7 @@ package com.bnyro.contacts.util
 
 import android.provider.ContactsContract
 import com.bnyro.contacts.R
+import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.TranslatedType
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import ezvcard.parameter.AddressType
@@ -100,5 +101,21 @@ object ContactsHelper {
         val phoneNumber = runCatching { phoneUtil.parse(number, null) }
             .getOrElse { return number }
         return phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
+    }
+
+    fun matches(contactData: ContactData, query: String): Boolean {
+        val contactInfoStrings = listOf(contactData.numbers, contactData.emails, contactData.addresses, contactData.notes, contactData.websites, contactData.events)
+            .flatten()
+            .map { (value, _) -> value } + listOf(contactData.organization, contactData.nickName, contactData.displayName)
+
+        return contactInfoStrings.filterNotNull().any { str ->
+            str.lowercase().contains(query)
+        }
+    }
+
+    fun filter(contacts: List<ContactData>, searchQuery: String): List<ContactData> {
+        val query = searchQuery.lowercase()
+
+        return contacts.filter { matches(it, query) }
     }
 }
