@@ -43,6 +43,7 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.db.obj.SmsData
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.models.SmsModel
+import com.bnyro.contacts.util.generateAnnotations
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -225,15 +226,18 @@ fun ClickableMessage(
 ) {
     SelectionContainer {
         val uriHandler = LocalUriHandler.current
+        val primary = MaterialTheme.colorScheme.primary
+
+        val formatted = remember {
+            generateAnnotations(smsData.body, primary)
+        }
+
         ClickableText(
-            text = smsData.formatted,
+            text = formatted,
             style = MaterialTheme.typography.bodyLarge.copy(color = LocalContentColor.current),
             onClick = { offset ->
                 val annotation =
-                    smsData.formatted.getStringAnnotations(
-                        offset,
-                        offset
-                    ).firstOrNull()
+                    formatted.getStringAnnotations(offset, offset).firstOrNull()
                 annotation?.let {
                     uriHandler.openUri(it.item)
                 }

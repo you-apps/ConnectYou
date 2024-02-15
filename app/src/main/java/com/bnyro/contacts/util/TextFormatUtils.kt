@@ -22,7 +22,7 @@ fun MutableList<Pair<Format, String>>.addKeywords(
     }
 }
 
-fun generateAnnotations(text: String): AnnotatedString {
+fun generateAnnotations(text: String, color: Color): AnnotatedString {
     val keywords = mutableListOf<Pair<Format, String>>().apply {
         addKeywords(
             text,
@@ -48,7 +48,7 @@ fun generateAnnotations(text: String): AnnotatedString {
             val indexOf = text.indexOf(keyword)
             addStyle(
                 style = SpanStyle(
-                    color = Color.Blue,
+                    color = color,
                     textDecoration = when (format) {
                         Format.LINK -> TextDecoration.Underline
                         else -> TextDecoration.None
