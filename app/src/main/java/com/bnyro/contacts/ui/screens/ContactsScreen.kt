@@ -17,7 +17,6 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.CopyAll
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.MoveToInbox
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Share
@@ -50,11 +49,10 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.ContactsSource
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.FilterOptions
-import com.bnyro.contacts.ui.components.ContactSearchScreen
 import com.bnyro.contacts.ui.components.ContactsList
 import com.bnyro.contacts.ui.components.NothingHere
+import com.bnyro.contacts.ui.components.TopBarMoreMenu
 import com.bnyro.contacts.ui.components.base.ClickableIcon
-import com.bnyro.contacts.ui.components.base.OptionMenu
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.components.dialogs.FilterDialog
 import com.bnyro.contacts.ui.components.dialogs.SimImportDialog
@@ -87,15 +85,7 @@ fun ContactsPage(
         mutableStateOf(FilterOptions.default())
     }
 
-    var showSettings by remember {
-        mutableStateOf(false)
-    }
-
     var showSearch by remember {
-        mutableStateOf(false)
-    }
-
-    var showAbout by remember {
         mutableStateOf(false)
     }
 
@@ -130,7 +120,9 @@ fun ContactsPage(
         }
     ) { pv ->
         Column(
-            modifier = Modifier.padding(pv).fillMaxSize()
+            modifier = Modifier
+                .padding(pv)
+                .fillMaxSize()
         ) {
             Crossfade(
                 targetState = selectedContacts.isEmpty(),
@@ -185,9 +177,6 @@ fun ContactsPage(
                                 }
                             },
                             actions = {
-                                var expandedOptions by remember {
-                                    mutableStateOf(false)
-                                }
                                 ClickableIcon(
                                     icon = Icons.Default.Search,
                                     contentDescription = R.string.search
@@ -200,49 +189,6 @@ fun ContactsPage(
                                 ) {
                                     showFilterDialog = true
                                 }
-                                ClickableIcon(
-                                    icon = Icons.Default.MoreVert,
-                                    contentDescription = R.string.more
-                                ) {
-                                    expandedOptions = !expandedOptions
-                                }
-                                OptionMenu(
-                                    expanded = expandedOptions,
-                                    options = listOf(
-                                        stringResource(R.string.import_vcf),
-                                        stringResource(R.string.export_vcf),
-                                        stringResource(R.string.import_sim),
-                                        stringResource(R.string.settings),
-                                        stringResource(R.string.about)
-                                    ),
-                                    onDismissRequest = {
-                                        expandedOptions = false
-                                    },
-                                    onSelect = {
-                                        when (it) {
-                                            0 -> {
-                                                importVcard.launch(BackupHelper.openMimeTypes)
-                                            }
-
-                                            1 -> {
-                                                exportVcard.launch(BackupHelper.backupFileName)
-                                            }
-
-                                            2 -> {
-                                                showImportSimDialog = true
-                                            }
-
-                                            3 -> {
-                                                showSettings = true
-                                            }
-
-                                            4 -> {
-                                                showAbout = true
-                                            }
-                                        }
-                                        expandedOptions = false
-                                    }
-                                )
                             }
                         )
                     }
@@ -302,6 +248,28 @@ fun ContactsPage(
                                 ) {
                                     showDelete = true
                                 }
+                                TopBarMoreMenu(
+                                    extraOptions = listOf(
+                                        stringResource(R.string.import_vcf),
+                                        stringResource(R.string.export_vcf),
+                                        stringResource(R.string.import_sim)
+                                    ),
+                                    onExtraOptionClick = { index ->
+                                        when (index) {
+                                            0 -> {
+                                                importVcard.launch(BackupHelper.openMimeTypes)
+                                            }
+
+                                            1 -> {
+                                                exportVcard.launch(BackupHelper.backupFileName)
+                                            }
+
+                                            2 -> {
+                                                showImportSimDialog = true
+                                            }
+                                        }
+                                    }
+                                )
                             }
                         )
                     }
@@ -358,18 +326,6 @@ fun ContactsPage(
                 viewModel.createContact(context, it)
             }
         )
-    }
-
-    if (showSettings) {
-        SettingsScreen {
-            showSettings = false
-        }
-    }
-
-    if (showAbout) {
-        AboutScreen {
-            showAbout = false
-        }
     }
 
     if (showDelete) {

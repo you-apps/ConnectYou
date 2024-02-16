@@ -1,19 +1,13 @@
-package com.bnyro.contacts.ui.components
+package com.bnyro.contacts.ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,25 +16,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
-import com.bnyro.contacts.obj.ContactData
-import com.bnyro.contacts.obj.FilterOptions
-import com.bnyro.contacts.ui.components.base.ClickableIcon
+import com.bnyro.contacts.obj.SmsThread
+import com.bnyro.contacts.ui.components.SmsThreadItem
 import com.bnyro.contacts.ui.components.base.ElevatedTextInputField
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
+import com.bnyro.contacts.ui.models.SmsModel
+import com.bnyro.contacts.util.ContactsHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 @Composable
-fun ContactSearchScreen(
-    contacts: List<ContactData>,
-    filterOptions: FilterOptions,
+fun SmsSearchScreen(
+    smsModel: SmsModel,
+    threadList: List<SmsThread>,
     onDismissRequest: () -> Unit
 ) {
     FullScreenDialog(onDismissRequest) {
@@ -56,20 +49,18 @@ fun ContactSearchScreen(
         var searchQuery by remember {
             mutableStateOf("")
         }
-        var visibleContacts by remember {
-            mutableStateOf(contacts)
+        var visibleThreads by remember {
+            mutableStateOf(threadList)
         }
+
         LaunchedEffect(searchQuery) {
             withContext(Dispatchers.IO) {
                 val query = searchQuery.lowercase()
-                visibleContacts = contacts.filter {
-                    val contactInfoStrings = listOf(it.numbers, it.emails, it.addresses, it.notes, it.websites, it.events)
-                        .flatten()
-                        .map { (value, _) -> value } + listOf(it.organization, it.nickName, it.displayName)
 
-                    contactInfoStrings.filterNotNull().any { str ->
-                        str.lowercase().contains(query)
-                    }
+                visibleThreads = threadList.filter {
+                    it.address.lowercase().contains(query) || it.contactData?.let { contact ->
+                        ContactsHelper.matches(contact, query)
+                    } ?: false || it.smsList.any { sms -> sms.body.lowercase().contains(query) }
                 }
             }
         }
@@ -88,12 +79,14 @@ fun ContactSearchScreen(
                 focusRequester = focusRequester,
                 singleLine = true
             )
-            ContactsList(
-                contacts = visibleContacts,
-                filterOptions = filterOptions,
-                scrollConnection = null,
-                selectedContacts = emptyList<ContactData>().toMutableList()
-            )
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                items(visibleThreads) { thread ->
+                    SmsThreadItem(smsModel, thread)
+                }
+            }
         }
     }
 }
