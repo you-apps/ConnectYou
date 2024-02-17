@@ -1,6 +1,8 @@
 package com.bnyro.contacts.ui.activities
 
 import android.os.Bundle
+import android.view.Window
+import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +18,9 @@ import com.bnyro.contacts.ui.theme.ConnectYouTheme
 class CallActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+        window.addFlags(windowFlags)
 
         val dialerModel: DialerModel = ViewModelProvider(this).get()
 
@@ -34,5 +39,10 @@ class CallActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    companion object {
+        private const val windowFlags =
+            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
     }
 }

@@ -127,4 +127,7 @@
     <string name="author">Author</string>
     <string name="version">Version</string>
     <string name="translation">Translation</string>
+    <string name="calls">Calls</string>
+    <string name="decline">Decline</string>
+    <string name="accept">Accept</string>
 </resources>
