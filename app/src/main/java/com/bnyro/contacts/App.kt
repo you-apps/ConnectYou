@@ -1,7 +1,6 @@
 package com.bnyro.contacts
 
 import android.app.Application
-import android.util.Log
 import com.bnyro.contacts.db.DatabaseHolder
 import com.bnyro.contacts.repo.DeviceContactsRepository
 import com.bnyro.contacts.repo.DeviceSmsRepo
@@ -45,7 +44,5 @@ class App : Application() {
         NotificationHelper.createChannels(this)
 
         initSmsRepo()
-
-        Log.e("types", DeviceContactsRepository(this).getAccountTypes().toString())
     }
 }

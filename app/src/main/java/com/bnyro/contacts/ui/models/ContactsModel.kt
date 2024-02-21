@@ -206,7 +206,7 @@ class ContactsModel(
      * Returns a list of account type to account name
      */
     fun getAvailableAccounts(context: Context): List<AccountType> {
-        if (!PermissionHelper.hasPermission(context, Manifest.permission.GET_ACCOUNTS))
+        if (!PermissionHelper.hasPermission(context, Manifest.permission.READ_SYNC_SETTINGS))
             return listOf(AccountType.androidDefault)
 
         return deviceContactsRepository.getAccountTypes()
