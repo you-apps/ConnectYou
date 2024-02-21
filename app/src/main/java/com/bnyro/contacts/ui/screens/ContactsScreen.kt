@@ -354,7 +354,7 @@ fun ContactsPage(
                 filterOptions = it
             },
             initialFilters = filterOptions,
-            availableAccountTypes = viewModel.getAvailableAccounts(),
+            availableAccountTypes = viewModel.getAvailableAccounts(context),
             availableGroups = viewModel.getAvailableGroups()
         )
     }

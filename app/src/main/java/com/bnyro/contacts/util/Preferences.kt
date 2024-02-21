@@ -8,7 +8,7 @@ import androidx.compose.runtime.SnapshotMutationPolicy
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.bnyro.contacts.enums.BackupType
-import com.bnyro.contacts.repo.DeviceContactsRepository
+import com.bnyro.contacts.obj.AccountType
 
 object Preferences {
     private const val prefFile = "preferences"
@@ -47,15 +47,15 @@ object Preferences {
         return BackupType.fromInt(getInt(backupTypeKey, BackupType.NONE.ordinal))
     }
 
-    fun getLastChosenAccount(): Pair<String, String> {
+    fun getLastChosenAccount(): AccountType {
         getString(lastChosenAccount, "")
             .takeIf { !it.isNullOrBlank() }
             ?.let {
                 val split = it.split("|")
-                return split.first() to split.last()
+                return AccountType(split.last(), split.first())
             }
 
-        return DeviceContactsRepository.ANDROID_ACCOUNT_TYPE to DeviceContactsRepository.ANDROID_CONTACTS_NAME
+        return AccountType.androidDefault
     }
 }
 

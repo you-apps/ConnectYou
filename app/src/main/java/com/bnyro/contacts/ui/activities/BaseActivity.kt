@@ -73,7 +73,9 @@ abstract class BaseActivity : ComponentActivity() {
         )
         private val contactPermissions = arrayOf(
             Manifest.permission.WRITE_CONTACTS,
-            Manifest.permission.READ_CONTACTS
+            Manifest.permission.READ_CONTACTS,
+            Manifest.permission.GET_ACCOUNTS,
+            Manifest.permission.READ_SYNC_SETTINGS
         )
     }
 }

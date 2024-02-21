@@ -16,6 +16,7 @@ import com.bnyro.contacts.App
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.ContactsSource
 import com.bnyro.contacts.ext.toast
+import com.bnyro.contacts.obj.AccountType
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.repo.ContactsRepository
 import com.bnyro.contacts.repo.DeviceContactsRepository
@@ -204,15 +205,11 @@ class ContactsModel(
     /**
      * Returns a list of account type to account name
      */
-    fun getAvailableAccounts(): List<Pair<String, String>> {
-        if (contacts.isEmpty()) {
-            return listOf(
-                DeviceContactsRepository.ANDROID_ACCOUNT_TYPE to DeviceContactsRepository.ANDROID_CONTACTS_NAME
-            )
-        }
-        return contacts.mapNotNull {
-            it.accountType?.let { type -> type to it.accountName.orEmpty() }
-        }.distinct().toMutableList()
+    fun getAvailableAccounts(context: Context): List<AccountType> {
+        if (!PermissionHelper.hasPermission(context, Manifest.permission.GET_ACCOUNTS))
+            return listOf(AccountType.androidDefault)
+
+        return deviceContactsRepository.getAccountTypes()
     }
 
     fun getAvailableGroups() = contacts.map { it.groups }.flatten().distinct()

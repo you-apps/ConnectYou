@@ -1,8 +1,10 @@
 package com.bnyro.contacts.repo
 
 import android.Manifest
+import android.accounts.AccountManager
 import android.annotation.SuppressLint
 import android.content.ContentProviderOperation
+import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.graphics.Bitmap
@@ -32,6 +34,7 @@ import com.bnyro.contacts.ext.intValue
 import com.bnyro.contacts.ext.longValue
 import com.bnyro.contacts.ext.notAName
 import com.bnyro.contacts.ext.stringValue
+import com.bnyro.contacts.obj.AccountType
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ContactsGroup
 import com.bnyro.contacts.obj.ValueWithType
@@ -45,7 +48,9 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
     override val label: String = context.getString(R.string.device)
 
     private val contentResolver = context.contentResolver
-    private val contactsUri = Data.CONTENT_URI
+    private val contentUri = Data.CONTENT_URI
+
+    private val authority = ContactsContract.AUTHORITY
 
     private val projection = arrayOf(
         Data.RAW_CONTACT_ID,
@@ -69,7 +74,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
 
         @Suppress("SameParameterValue")
         val cursor = contentResolver.query(
-            contactsUri,
+            contentUri,
             projection,
             null,
             null,
@@ -187,8 +192,8 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
             ContentProviderOperation.newInsert(ContactsContract.Groups.CONTENT_URI).apply {
                 withValue(ContactsContract.Groups.TITLE, groupName)
                 withValue(ContactsContract.Groups.GROUP_VISIBLE, 1)
-                withValue(ContactsContract.Groups.ACCOUNT_NAME, ANDROID_CONTACTS_NAME)
-                withValue(ContactsContract.Groups.ACCOUNT_TYPE, ANDROID_ACCOUNT_TYPE)
+                withValue(ContactsContract.Groups.ACCOUNT_NAME, AccountType.androidDefault.name)
+                withValue(ContactsContract.Groups.ACCOUNT_TYPE, AccountType.androidDefault.type)
                 operations.add(build())
             }
 
@@ -272,7 +277,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
         val projection = arrayOf(Data.CONTACT_ID, valueIndex, typeIndex ?: "data2")
 
         contentResolver.query(
-            contactsUri,
+            contentUri,
             projection,
             "${Data.MIMETYPE} = ? AND ${Data.CONTACT_ID} = ?",
             arrayOf(itemType, contactId.toString()),
@@ -314,8 +319,8 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
             val lastChosenAccount = Preferences.getLastChosenAccount()
             val ops = listOfNotNull(
                 getCreateAction(
-                    contact.accountType ?: lastChosenAccount.first,
-                    contact.accountName ?: lastChosenAccount.second
+                    contact.accountType ?: lastChosenAccount.type,
+                    contact.accountName ?: lastChosenAccount.name
                 ),
                 getInsertAction(
                     StructuredName.CONTENT_ITEM_TYPE,
@@ -421,7 +426,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
             val rawContactId = contact.rawContactId.toString()
 
             val selection = "${Data.RAW_CONTACT_ID} = ? AND ${Data.MIMETYPE} = ?"
-            ContentProviderOperation.newUpdate(contactsUri).apply {
+            ContentProviderOperation.newUpdate(contentUri).apply {
                 val selectionArgs = arrayOf(rawContactId, StructuredName.CONTENT_ITEM_TYPE)
                 withSelection(selection, selectionArgs)
                 withValue(StructuredName.GIVEN_NAME, contact.firstName)
@@ -528,6 +533,14 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
         }
     }
 
+    fun getAccountTypes(): List<AccountType> {
+        val accounts = AccountManager.get(context).accounts.filter {
+            ContentResolver.getIsSyncable(it, authority) > 0 && ContentResolver.getSyncAutomatically(it, authority)
+        }
+
+        return listOf(AccountType.androidDefault) + accounts.map { AccountType(it.name, it.type) }
+    }
+
     private fun getCreateAction(accountType: String, accountName: String): ContentProviderOperation {
         return ContentProviderOperation.newInsert(RawContacts.CONTENT_URI)
             .withValue(RawContacts.ACCOUNT_TYPE, accountType)
@@ -543,7 +556,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
         type: Int? = null,
         rawContactId: Int? = null
     ): ContentProviderOperation {
-        return ContentProviderOperation.newInsert(contactsUri)
+        return ContentProviderOperation.newInsert(contentUri)
             .let { builder ->
                 // if creating a new contact, the previous contact id is going to be taken
                 // if updating an already existing contact, don't worry about the previous batch id
@@ -587,14 +600,14 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
         val selection = "${Data.RAW_CONTACT_ID} = ? AND ${Data.MIMETYPE} = ?"
         val selectionArgs = arrayOf(contactId, mimeType)
 
-        ContentProviderOperation.newDelete(contactsUri).apply {
+        ContentProviderOperation.newDelete(contentUri).apply {
             withSelection(selection, selectionArgs)
             operations.add(build())
         }
 
         // add new entries
         entries.forEach {
-            ContentProviderOperation.newInsert(contactsUri).apply {
+            ContentProviderOperation.newInsert(contentUri).apply {
                 withValue(Data.RAW_CONTACT_ID, contactId)
                 withValue(Data.MIMETYPE, mimeType)
                 withValue(valueIndex, it.value)
@@ -647,7 +660,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
     }
 
     private fun deletePhoto(rawContactId: Int): ContentProviderOperation {
-        return ContentProviderOperation.newDelete(contactsUri).apply {
+        return ContentProviderOperation.newDelete(contentUri).apply {
             val selection = "${Data.RAW_CONTACT_ID} = ? AND ${Data.MIMETYPE} = ?"
             val selectionArgs = arrayOf(rawContactId.toString(), Photo.CONTENT_ITEM_TYPE)
             withSelection(selection, selectionArgs)
@@ -656,7 +669,5 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
 
     companion object {
         const val MAX_PHOTO_SIZE = 700f
-        const val ANDROID_ACCOUNT_TYPE = "com.android.contacts"
-        const val ANDROID_CONTACTS_NAME = "DEVICE"
     }
 }

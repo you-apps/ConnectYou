@@ -64,6 +64,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
+import com.bnyro.contacts.obj.AccountType
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.base.LabeledTextField
@@ -156,14 +157,14 @@ fun ContactEditor(
 
     var selectedAccount by remember {
         val lastChosenAccount = Preferences.getLastChosenAccount()
-        mutableStateOf(
-            (contact?.accountType ?: lastChosenAccount.first) to
-                    (contact?.accountName ?: lastChosenAccount.second)
-        )
+        val account = contact?.let {
+            AccountType(it.accountName.orEmpty(), it.accountType.orEmpty())
+        } ?: lastChosenAccount
+        mutableStateOf(account)
     }
 
     val availableAccounts = remember {
-        contactsModel.getAvailableAccounts()
+        contactsModel.getAvailableAccounts(context)
     }
 
     val uploadImage = rememberLauncherForActivityResult(
@@ -187,8 +188,8 @@ fun ContactEditor(
                         it.organization = organization.value.takeIf { o -> o.isNotBlank() }?.trim()
                         it.displayName = "${firstName.value.trim()} ${surName.value.trim()}"
                         it.photo = profilePicture
-                        it.accountType = selectedAccount.first
-                        it.accountName = selectedAccount.second
+                        it.accountType = selectedAccount.type
+                        it.accountName = selectedAccount.name
                         it.websites = websites.clean()
                         it.numbers = phoneNumber.clean().map { number ->
                             ValueWithType(ContactsHelper.normalizePhoneNumber(number.value), number.type)
@@ -220,7 +221,7 @@ fun ContactEditor(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = selectedAccount.second.ifBlank { selectedAccount.first }
+                            text = selectedAccount.name.ifBlank { selectedAccount.type }
                         )
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
@@ -234,14 +235,11 @@ fun ContactEditor(
                     ) {
                         availableAccounts.forEach {
                             DropdownMenuItem(
-                                text = { Text(it.second) },
+                                text = { Text(it.name) },
                                 onClick = {
                                     selectedAccount = it
                                     Preferences.edit {
-                                        putString(
-                                            Preferences.lastChosenAccount,
-                                            "${it.first}|${it.second}"
-                                        )
+                                        putString(Preferences.lastChosenAccount, it.identifier)
                                     }
                                     expanded = false
                                 }
