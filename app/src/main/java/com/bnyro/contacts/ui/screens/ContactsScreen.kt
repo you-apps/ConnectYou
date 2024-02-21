@@ -77,6 +77,10 @@ fun ContactsPage(
         mutableStateOf(viewModel.initialContactData)
     }
 
+    var showEditorScreen by remember {
+        mutableStateOf(false)
+    }
+
     var showDelete by remember {
         mutableStateOf(false)
     }
@@ -112,7 +116,7 @@ fun ContactsPage(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    newContactToInsert = ContactData()
+                    showEditorScreen = true
                 }
             ) {
                 Icon(Icons.Default.Create, null)
@@ -315,11 +319,12 @@ fun ContactsPage(
         }
     }
 
-    if (newContactToInsert != null) {
+    if (showEditorScreen || newContactToInsert != null) {
         EditorScreen(
             contact = newContactToInsert,
             onClose = {
                 newContactToInsert = null
+                showEditorScreen = false
             },
             isCreatingNewDeviceContact = (viewModel.contactsSource == ContactsSource.DEVICE),
             onSave = {

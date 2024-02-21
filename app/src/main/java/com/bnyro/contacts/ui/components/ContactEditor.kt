@@ -209,7 +209,7 @@ fun ContactEditor(
                 )
             }
         }, topBar = {
-            if (isCreatingNewDeviceContact && availableAccounts.size > 1) {
+            if (isCreatingNewDeviceContact) {
                 TopAppBar(title = {
                     var expanded by remember { mutableStateOf(false) }
                     Row(
