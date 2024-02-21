@@ -189,6 +189,28 @@ fun ContactsPage(
                                 ) {
                                     showFilterDialog = true
                                 }
+                                TopBarMoreMenu(
+                                    extraOptions = listOf(
+                                        stringResource(R.string.import_vcf),
+                                        stringResource(R.string.export_vcf),
+                                        stringResource(R.string.import_sim)
+                                    ),
+                                    onExtraOptionClick = { index ->
+                                        when (index) {
+                                            0 -> {
+                                                importVcard.launch(BackupHelper.openMimeTypes)
+                                            }
+
+                                            1 -> {
+                                                exportVcard.launch(BackupHelper.backupFileName)
+                                            }
+
+                                            2 -> {
+                                                showImportSimDialog = true
+                                            }
+                                        }
+                                    }
+                                )
                             }
                         )
                     }
@@ -248,28 +270,6 @@ fun ContactsPage(
                                 ) {
                                     showDelete = true
                                 }
-                                TopBarMoreMenu(
-                                    extraOptions = listOf(
-                                        stringResource(R.string.import_vcf),
-                                        stringResource(R.string.export_vcf),
-                                        stringResource(R.string.import_sim)
-                                    ),
-                                    onExtraOptionClick = { index ->
-                                        when (index) {
-                                            0 -> {
-                                                importVcard.launch(BackupHelper.openMimeTypes)
-                                            }
-
-                                            1 -> {
-                                                exportVcard.launch(BackupHelper.backupFileName)
-                                            }
-
-                                            2 -> {
-                                                showImportSimDialog = true
-                                            }
-                                        }
-                                    }
-                                )
                             }
                         )
                     }
