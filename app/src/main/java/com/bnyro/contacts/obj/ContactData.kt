@@ -31,6 +31,8 @@ data class ContactData(
             SortOrder.FIRSTNAME -> displayName
             SortOrder.LASTNAME -> alternativeName
             SortOrder.NICKNAME -> nickName ?: displayName
+        }?.ifBlank {
+            organization ?: numbers.firstOrNull()?.value
         }
     }
 }

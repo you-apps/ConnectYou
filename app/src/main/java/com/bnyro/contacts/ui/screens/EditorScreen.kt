@@ -20,6 +20,7 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.ContactEditor
 import com.bnyro.contacts.ui.components.base.FullScreenDialog
+import com.bnyro.contacts.util.ContactsHelper
 
 @Composable
 fun EditorScreen(
@@ -60,7 +61,7 @@ fun EditorScreen(
             contact = contact?.copy(),
             isCreatingNewDeviceContact = isCreatingNewDeviceContact,
             onSave = {
-                if (it.displayName.orEmpty().isBlank()) {
+                if (ContactsHelper.isContactEmpty(it)) {
                     Toast.makeText(context, R.string.empty_name, Toast.LENGTH_SHORT).show()
                     return@ContactEditor
                 }

@@ -118,4 +118,11 @@ object ContactsHelper {
 
         return contacts.filter { matches(it, query) }
     }
+
+    fun isContactEmpty(contactData: ContactData): Boolean {
+        val stringProperties = listOf(contactData.firstName, contactData.surName, contactData.nickName, contactData.organization)
+        val listProperties = listOf(contactData.numbers, contactData.emails, contactData.events, contactData.addresses, contactData.notes)
+
+        return stringProperties.none { !it.isNullOrBlank() } && listProperties.flatten().isEmpty()
+    }
 }
