@@ -27,10 +27,10 @@ class SmsReceiver : BroadcastReceiver() {
         if (intent.action != SMS_DELIVER) return
 
         Telephony.Sms.Intents.getMessagesFromIntent(intent).forEach { message ->
-            val notificationId = message.timestampMillis.hashCode()
             val address = message.displayOriginatingAddress
             val body = message.displayMessageBody
             val timestamp = message.timestampMillis
+
             val threadId =
                 runBlocking(Dispatchers.IO) {
                     (context.applicationContext as App).smsRepo.getOrCreateThreadId(
@@ -41,7 +41,7 @@ class SmsReceiver : BroadcastReceiver() {
             val bareSmsData =
                 SmsData(0, address, body, timestamp, threadId, Telephony.Sms.MESSAGE_TYPE_INBOX)
 
-            createNotification(context, notificationId, bareSmsData)
+            createNotification(context, bareSmsData.hashCode(), bareSmsData)
             runBlocking(Dispatchers.IO) {
                 (context.applicationContext as App).smsRepo.persistSms(context, bareSmsData)
             }
@@ -62,7 +62,7 @@ class SmsReceiver : BroadcastReceiver() {
 
         val replyPendingIntent = PendingIntent.getBroadcast(
             context,
-            0,
+            notificationId + 1,
             replyIntent,
             PendingIntent.FLAG_MUTABLE
         )
@@ -82,7 +82,7 @@ class SmsReceiver : BroadcastReceiver() {
 
         val deletePendingIntent = PendingIntent.getBroadcast(
             context,
-            1,
+            notificationId + 2,
             deleteIntent,
             PendingIntent.FLAG_MUTABLE
         )
@@ -97,7 +97,7 @@ class SmsReceiver : BroadcastReceiver() {
 
         val smsThreadPendingIntent = PendingIntent.getActivity(
             context,
-            2,
+            notificationId + 3,
             smsThreadIntent,
             PendingIntent.FLAG_IMMUTABLE
         )

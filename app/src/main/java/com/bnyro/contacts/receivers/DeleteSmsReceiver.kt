@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 class DeleteSmsReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val smsId = intent.getLongExtra(SmsReceiver.KEY_EXTRA_SMS_ID, -1)
-        val threadId = intent.getLongExtra(SmsReceiver.KEY_EXTRA_THREAD_ID, -1)
         val notificationId = intent.getIntExtra(SmsReceiver.KEY_EXTRA_NOTIFICATION_ID, -1)
 
         NotificationManagerCompat.from(context).cancel(notificationId)
