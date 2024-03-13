@@ -1,5 +1,6 @@
 package com.bnyro.contacts
 
+import com.bnyro.contacts.receivers.SmsReceiver
 import com.bnyro.contacts.util.CalendarUtils
 import com.bnyro.contacts.util.SmsUtil
 import org.junit.Assert.assertEquals
@@ -36,5 +37,16 @@ class ExampleUnitTest {
         SmsUtil.splitSmsText(text).forEach {
             assert(it.length <= SmsUtil.MAX_CHAR_LIMIT)
         }
+    }
+
+    @Test
+    fun matchVerificationCodeRegex() {
+        val test1 = "Hello World,123456. That's it."
+        val test2 = "Hello World, 123456 . That's it."
+        val test3 = "Hello World, 23456 . That's it."
+
+        assertEquals("123456", SmsReceiver.verificationCodeRegex.find(test1)?.value)
+        assertEquals("123456", SmsReceiver.verificationCodeRegex.find(test2)?.value)
+        assertEquals(null, SmsReceiver.verificationCodeRegex.find(test3)?.value)
     }
 }

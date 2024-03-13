@@ -84,7 +84,7 @@ class SmsReceiver : BroadcastReceiver() {
             context,
             notificationId + 2,
             deleteIntent,
-            PendingIntent.FLAG_MUTABLE
+            PendingIntent.FLAG_IMMUTABLE
         )
 
         val deleteMessageAction = NotificationCompat.Action.Builder(
@@ -102,7 +102,7 @@ class SmsReceiver : BroadcastReceiver() {
             PendingIntent.FLAG_IMMUTABLE
         )
 
-        val notification = NotificationCompat.Builder(context, MESSAGES_CHANNEL_ID)
+        val builder = NotificationCompat.Builder(context, MESSAGES_CHANNEL_ID)
             .setDefaults(Notification.DEFAULT_ALL)
             .setSmallIcon(R.drawable.ic_message_notification)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -119,7 +119,26 @@ class SmsReceiver : BroadcastReceiver() {
             .setOnlyAlertOnce(true)
             .addAction(replyAction)
             .addAction(deleteMessageAction)
-            .build()
+
+        verificationCodeRegex.find(smsData.body)?.let { code ->
+            val copyIntent = Intent(context, CopyTextReceiver::class.java)
+                .putExtra(KEY_EXTRA_TEXT, code.value)
+
+            val copyPendingIntent = PendingIntent.getBroadcast(
+                context,
+                notificationId + 4,
+                copyIntent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
+
+            val copyMessageAction = NotificationCompat.Action.Builder(
+                R.drawable.ic_delete,
+                "${context.getString(R.string.copy)} ${code.value}",
+                copyPendingIntent
+            ).build()
+
+            builder.addAction(copyMessageAction)
+        }
 
         if (!PermissionHelper.checkPermissions(
                 context,
@@ -128,7 +147,7 @@ class SmsReceiver : BroadcastReceiver() {
         ) {
             return
         }
-        NotificationManagerCompat.from(context).notify(notificationId, notification)
+        NotificationManagerCompat.from(context).notify(notificationId, builder.build())
     }
 
     companion object {
@@ -138,5 +157,8 @@ class SmsReceiver : BroadcastReceiver() {
         const val KEY_EXTRA_SMS_ID = "key_extra_sms_id"
         const val KEY_EXTRA_THREAD_ID = "key_extra_thread_id"
         const val KEY_EXTRA_NOTIFICATION_ID = "notification_id"
+        const val KEY_EXTRA_TEXT = "key_extra_text"
+
+        val verificationCodeRegex = Regex("(?<!\\d)\\d{6}(?!\\d)")
     }
 }
