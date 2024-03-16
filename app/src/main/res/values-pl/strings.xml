@@ -115,4 +115,5 @@
     <string name="add_note">Dodaj notatkę</string>
     <string name="add_event">Dodaj wydarzenie</string>
     <string name="date">Data</string>
+    <string name="import_confirm">Czy chcesz zaimportować wybrany plik VCF?</string>
 </resources>
