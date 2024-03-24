@@ -67,7 +67,7 @@ fun ConnectYouTheme(
                 WindowCompat.getInsetsController(
                     activity.window,
                     view
-                ).isAppearanceLightStatusBars = !darkTheme
+                ).isAppearanceLightStatusBars = !darkTheme && !amoledDark
                 WindowCompat.getInsetsController(
                     activity.window,
                     view
