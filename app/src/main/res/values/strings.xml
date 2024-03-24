@@ -128,4 +128,5 @@
     <string name="add_note">Add Note</string>
     <string name="add_event">Add Event</string>
     <string name="date">Date</string>
+    <string name="amoled">Amoled</string>
 </resources>
