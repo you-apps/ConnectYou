@@ -115,4 +115,5 @@
     <string name="add_event">Lisää tapahtuma</string>
     <string name="date">Päiväys</string>
     <string name="add_note">Lisää muistiinpano</string>
+    <string name="import_confirm">Haluatko tuoda valitun VCF-tiedoston?</string>
 </resources>

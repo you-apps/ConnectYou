@@ -9,7 +9,7 @@
     <string name="search" tools:ignore="PrivateResource">Pesquisa</string>
     <string name="copied">Copiado para a área de transferência</string>
     <string name="delete_contact">Excluir contato</string>
-    <string name="irreversible">Você tem certeza\? Isso não pode ser desfeito.</string>
+    <string name="irreversible">Você tem certeza? Isso não pode ser desfeito!</string>
     <string name="cancel">Cancelar</string>
     <string name="okay">Ok</string>
     <string name="reset">Redefinir</string>
@@ -107,4 +107,13 @@
     <string name="phone_number">Número de telefone</string>
     <string name="backup_password">Senha</string>
     <string name="connection_error">Não foi possível conectar. Por favor, verifique se o modo avião está desligado.</string>
+    <string name="import_confirm">Você quer importar o arquivo VCF selecionado?</string>
+    <string name="add_website">Adicionar Website</string>
+    <string name="add_phone_number">Adicionar número de telefone</string>
+    <string name="add_e_mail">Adicionar Email</string>
+    <string name="add_address">Adicionar Endereço</string>
+    <string name="add_note">Adicionar Observação</string>
+    <string name="add_event">Adicionar Evento</string>
+    <string name="date">Data</string>
+    <string name="send_message_as_multiple">Você quer enviar a mensagem como múltiplas mensagens pequenas?</string>
 </resources>

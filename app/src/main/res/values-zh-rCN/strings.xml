@@ -115,4 +115,5 @@
     <string name="add_e_mail">添加电子邮件</string>
     <string name="add_address">添加地址</string>
     <string name="add_event">添加事件</string>
+    <string name="import_confirm">您是否要导入选定的 VCF 文件？</string>
 </resources>

@@ -35,4 +35,11 @@
     <string name="phone_number">電話號碼</string>
     <string name="import_success">已匯入。</string>
     <string name="export_success">已匯出。</string>
+    <string name="account_type">帳戶類型</string>
+    <string name="name">名稱</string>
+    <string name="first_name">名字</string>
+    <string name="last_name">姓氏</string>
+    <string name="organization">組織</string>
+    <string name="type">類型</string>
+    <string name="other">其他</string>
 </resources>

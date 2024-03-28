@@ -34,7 +34,7 @@
     <string name="phone">Telefon</string>
     <string name="app_name">Connect You</string>
     <string name="copied">Panoya kopyalandı</string>
-    <string name="irreversible">Emin misin\? Bu geri alınamaz.</string>
+    <string name="irreversible">Emin misiniz? Bu geri alınamaz!</string>
     <string name="cancel">İptal</string>
     <string name="search" tools:ignore="PrivateResource">Arama</string>
     <string name="okay">Tamam</string>
@@ -108,4 +108,13 @@
     <string name="delete_message">Mesajı sil</string>
     <string name="private_sms_database_desc">SMS\'ler yalnızca uygulama içinde saklanacak ve diğer uygulamalardan erişilemeyecektir.</string>
     <string name="phone_number">Telefon numarası</string>
+    <string name="send_message_as_multiple">Mesajı birden fazla küçük mesaj olarak göndermek istiyor musunuz?</string>
+    <string name="add_website">Web Sitesi Ekle</string>
+    <string name="add_e_mail">E-posta Adresi Ekle</string>
+    <string name="add_address">Adres Ekle</string>
+    <string name="add_phone_number">Telefon Numarası Ekle</string>
+    <string name="add_note">Not Ekle</string>
+    <string name="add_event">Etkinlik Ekle</string>
+    <string name="date">Tarih</string>
+    <string name="import_confirm">Seçilen vCard\'ı içe aktarmak istiyor musunuz?</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="behavior">Comportamento</string>
-    <string name="save">Salvar</string>
+    <string name="save">Salveguardar</string>
     <string name="filter">Filtrar</string>
     <string name="reset">Reinitialisar</string>
     <string name="message">Message</string>
@@ -115,4 +115,5 @@
     <string name="add_note">Adder nota</string>
     <string name="date">Data</string>
     <string name="add_event">Adder evento</string>
+    <string name="import_confirm">Desira tu importar le file VCF seligite?</string>
 </resources>

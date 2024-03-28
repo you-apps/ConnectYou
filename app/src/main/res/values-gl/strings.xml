@@ -115,4 +115,5 @@
     <string name="add_address">Engadir enderezo</string>
     <string name="add_event">Engadir evento</string>
     <string name="date">Data</string>
+    <string name="import_confirm">Queres importar o ficheiro VCF seleccionado?</string>
 </resources>

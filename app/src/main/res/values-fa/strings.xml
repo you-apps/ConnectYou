@@ -114,4 +114,6 @@
     <string name="messages">پیام ها</string>
     <string name="send">فرستادن پیامک</string>
     <string name="private_sms_database">دیتابیس پیامک خصوصی</string>
+    <string name="collapse_bottom_bar">فروریختن کادر پایینی هنگام پیمایش</string>
+    <string name="import_confirm">آیا میخواهید فایل VCF انتخاب شده را درون بری کنید؟</string>
 </resources>

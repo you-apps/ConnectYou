@@ -4,7 +4,7 @@
     <string name="search" tools:ignore="PrivateResource">Cerca</string>
     <string name="share">Condividi</string>
     <string name="phone">Telefono</string>
-    <string name="irreversible">Sei sicuro\? Quest\'azione non può essere annullata.</string>
+    <string name="irreversible">Sei sicuro? Quest\'azione non può essere annullata!</string>
     <string name="export_success">Esportato.</string>
     <string name="cancel">Annulla</string>
     <string name="create_contact">Crea un contatto</string>
@@ -103,4 +103,17 @@
     <string name="backup_password">Password</string>
     <string name="connection_error">Impossibile connettersi. Assicurati che la modalità aereo sia disattivata.</string>
     <string name="send_message_as_multiple">Vuoi inviare il messaggio come messaggi più piccoli?</string>
+    <string name="delete_message">Elimina messaggio</string>
+    <string name="encrypt_backups">Crittografa i backup come zip</string>
+    <string name="add_address">Aggiungi indirizzo</string>
+    <string name="add_event">Aggiungi evento</string>
+    <string name="add_website">Aggiungi sito web</string>
+    <string name="add_phone_number">Aggiungi numero di telefono</string>
+    <string name="add_e_mail">Aggiungi email</string>
+    <string name="add_note">Aggiungi nota</string>
+    <string name="date">Data</string>
+    <string name="private_sms_database">Database SMS privato</string>
+    <string name="private_sms_database_desc">Gli SMS saranno memorizzati solo all\'interno di quest\'app e non saranno accessibili in altre app.</string>
+    <string name="delete_thread">Elimina thread</string>
+    <string name="import_confirm">Vuoi importare il file VCF selezionato?</string>
 </resources>
