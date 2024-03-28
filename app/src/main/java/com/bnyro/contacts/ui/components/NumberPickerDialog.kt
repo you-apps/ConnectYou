@@ -21,22 +21,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.SortOrder
+import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.dialogs.DialogButton
 import com.bnyro.contacts.ui.models.ContactsModel
 
 @Composable
 fun NumberPickerDialog(
+    contactsModel: ContactsModel,
     onDismissRequest: () -> Unit,
-    onNumberSelect: (number: String) -> Unit
+    onNumberSelect: (number: String, contactData: ContactData?) -> Unit,
 ) {
-    val contactsModel: ContactsModel = viewModel()
 
-    var numbersToSelectFrom by remember {
-        mutableStateOf(listOf<String>())
+    var numbersToSelectFrom: Pair<ContactData?, List<String>> by remember {
+        mutableStateOf(null to listOf())
     }
 
     AlertDialog(
@@ -71,7 +71,7 @@ fun NumberPickerDialog(
                             modifier = Modifier.padding(top = 3.dp),
                             icon = Icons.Default.Send
                         ) {
-                            onNumberSelect.invoke(numberInput)
+                            onNumberSelect.invoke(numberInput, null)
                         }
                     }
                     Spacer(modifier = Modifier.height(10.dp))
@@ -83,11 +83,11 @@ fun NumberPickerDialog(
                         selected = false,
                         onSinglePress = {
                             if (it.numbers.size > 1) {
-                                numbersToSelectFrom = it.numbers.map { num -> num.value }
+                                numbersToSelectFrom = it to it.numbers.map { num -> num.value }
                                 return@ContactItem true
                             }
 
-                            onNumberSelect.invoke(it.numbers.first().value)
+                            onNumberSelect.invoke(it.numbers.first().value, it)
                             onDismissRequest.invoke()
                             true
                         },
@@ -98,15 +98,15 @@ fun NumberPickerDialog(
         }
     )
 
-    if (numbersToSelectFrom.isNotEmpty()) {
+    if (numbersToSelectFrom.second.isNotEmpty()) {
         AlertDialog(
-            onDismissRequest = { numbersToSelectFrom = emptyList() },
+            onDismissRequest = { numbersToSelectFrom = null to emptyList() },
             text = {
                 LazyColumn {
-                    items(numbersToSelectFrom) {
+                    items(numbersToSelectFrom.second) {
                         ClickableText(text = it) {
-                            onNumberSelect.invoke(it)
-                            numbersToSelectFrom = emptyList()
+                            onNumberSelect.invoke(it, numbersToSelectFrom.first)
+                            numbersToSelectFrom = null to emptyList()
                             onDismissRequest.invoke()
                         }
                     }
@@ -114,7 +114,7 @@ fun NumberPickerDialog(
             },
             confirmButton = {
                 DialogButton(stringResource(R.string.cancel)) {
-                    numbersToSelectFrom = emptyList()
+                    numbersToSelectFrom = null to emptyList()
                 }
             }
         )

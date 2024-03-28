@@ -42,22 +42,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bnyro.contacts.R
+import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.SmsThread
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.models.SmsModel
-import com.bnyro.contacts.ui.screens.SmsThreadScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SmsThreadItem(
     smsModel: SmsModel,
-    thread: SmsThread
+    thread: SmsThread,
+    onClick: (address: String, contactData: ContactData?) -> Unit
 ) {
     val context = LocalContext.current
 
-    var showThreadScreen by remember {
-        mutableStateOf(false)
-    }
     var showDeleteThreadDialog by remember {
         mutableStateOf(false)
     }
@@ -83,7 +81,7 @@ fun SmsThreadItem(
                     .fillMaxWidth()
                     .clip(shape)
                     .clickable {
-                        showThreadScreen = true
+                        onClick.invoke(thread.address, thread.contactData)
                     },
                 shape = shape
             ) {
@@ -151,12 +149,6 @@ fun SmsThreadItem(
         },
         directions = setOf(DismissDirection.StartToEnd)
     )
-
-    if (showThreadScreen) {
-        SmsThreadScreen(smsModel, thread.contactData, thread.address) {
-            showThreadScreen = false
-        }
-    }
 
     if (showDeleteThreadDialog) {
         ConfirmationDialog(

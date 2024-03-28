@@ -23,69 +23,68 @@ import com.bnyro.contacts.BuildConfig
 import com.bnyro.contacts.R
 import com.bnyro.contacts.ui.components.about.AboutRow
 import com.bnyro.contacts.ui.components.base.ClickableIcon
-import com.bnyro.contacts.ui.components.base.FullScreenDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutScreen(onDismissRequest: () -> Unit) {
-    FullScreenDialog(onClose = onDismissRequest) {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(stringResource(R.string.about))
-                    },
-                    navigationIcon = {
-                        ClickableIcon(
-                            icon = Icons.Default.ArrowBack,
-                            contentDescription = R.string.okay
-                        ) {
-                            onDismissRequest.invoke()
-                        }
+fun AboutScreen(onBackPress: () -> Unit) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(stringResource(R.string.about))
+                },
+                navigationIcon = {
+                    ClickableIcon(
+                        icon = Icons.Default.ArrowBack,
+                        contentDescription = R.string.okay
+                    ) {
+                        onBackPress.invoke()
                     }
-                )
-            }
-        ) { pV ->
-            Column(
-                modifier = Modifier.padding(pV),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Image(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(210.dp),
-                    painter = painterResource(R.drawable.ic_launcher_foreground),
-                    contentDescription = null
-                )
-                Divider(
-                    modifier = Modifier.fillMaxWidth()
-                        .height(2.dp)
-                )
-                Spacer(Modifier.height(10.dp))
-                AboutRow(
-                    title = stringResource(R.string.version),
-                    summary = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
-                )
-                AboutRow(
-                    title = "GitHub",
-                    url = "https://github.com/you-apps/ConnectYou/"
-                )
-                AboutRow(
-                    title = stringResource(R.string.author),
-                    summary = "You Apps",
-                    url = "https://github.com/you-apps/"
-                )
-                AboutRow(
-                    title = stringResource(R.string.translation),
-                    summary = "Weblate",
-                    url = "https://hosted.weblate.org/projects/you-apps/connect-you/"
-                )
-                AboutRow(
-                    title = stringResource(R.string.license),
-                    summary = "GPL-3.0",
-                    url = "https://www.gnu.org/licenses/gpl-3.0.html"
-                )
-            }
+                }
+            )
+        }
+    ) { pV ->
+        Column(
+            modifier = Modifier.padding(pV),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(210.dp),
+                painter = painterResource(R.drawable.ic_launcher_foreground),
+                contentDescription = null
+            )
+            Divider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(2.dp)
+            )
+            Spacer(Modifier.height(10.dp))
+            AboutRow(
+                title = stringResource(R.string.version),
+                summary = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+            )
+            AboutRow(
+                title = "GitHub",
+                url = "https://github.com/you-apps/ConnectYou/"
+            )
+            AboutRow(
+                title = stringResource(R.string.author),
+                summary = "You Apps",
+                url = "https://github.com/you-apps/"
+            )
+            AboutRow(
+                title = stringResource(R.string.translation),
+                summary = "Weblate",
+                url = "https://hosted.weblate.org/projects/you-apps/connect-you/"
+            )
+            AboutRow(
+                title = stringResource(R.string.license),
+                summary = "GPL-3.0",
+                url = "https://www.gnu.org/licenses/gpl-3.0.html"
+            )
         }
     }
+
 }

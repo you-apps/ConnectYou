@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.ContactsSource
+import com.bnyro.contacts.nav.NavRoutes
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.FilterOptions
 import com.bnyro.contacts.ui.components.ContactsList
@@ -64,7 +65,8 @@ import com.bnyro.contacts.util.Preferences
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactsPage(
-    scrollConnection: NestedScrollConnection?
+    scrollConnection: NestedScrollConnection?,
+    onNavigate: (NavRoutes) -> Unit
 ) {
     val viewModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
     val context = LocalContext.current
@@ -194,12 +196,14 @@ fun ContactsPage(
                                     showFilterDialog = true
                                 }
                                 TopBarMoreMenu(
-                                    extraOptions = listOf(
+                                    options = listOf(
                                         stringResource(R.string.import_vcf),
                                         stringResource(R.string.export_vcf),
-                                        stringResource(R.string.import_sim)
+                                        stringResource(R.string.import_sim),
+                                        stringResource(R.string.settings),
+                                        stringResource(R.string.about)
                                     ),
-                                    onExtraOptionClick = { index ->
+                                    onOptionClick = { index ->
                                         when (index) {
                                             0 -> {
                                                 importVcard.launch(BackupHelper.openMimeTypes)
@@ -211,6 +215,14 @@ fun ContactsPage(
 
                                             2 -> {
                                                 showImportSimDialog = true
+                                            }
+
+                                            3 -> {
+                                                onNavigate.invoke(NavRoutes.Settings)
+                                            }
+
+                                            4 -> {
+                                                onNavigate.invoke(NavRoutes.About)
                                             }
                                         }
                                     }

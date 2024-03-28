@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +26,8 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import com.bnyro.contacts.R
+import com.bnyro.contacts.nav.NavRoutes
+import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.SmsThread
 import com.bnyro.contacts.ui.components.NothingHere
 import com.bnyro.contacts.ui.components.NumberPickerDialog
@@ -39,20 +42,22 @@ import com.bnyro.contacts.ui.models.SmsModel
 fun SmsListScreen(
     smsModel: SmsModel,
     contactsModel: ContactsModel,
-    scrollConnection: NestedScrollConnection?
+    scrollConnection: NestedScrollConnection?,
+    onNavigate: (NavRoutes) -> Unit,
+    onClickMessage: (address: String, contactData: ContactData?) -> Unit
 ) {
     var showNumberPicker by remember {
         mutableStateOf(false)
     }
-
-    var smsAddress by remember {
-        mutableStateOf<String?>(null)
-    }
-
     var showSearch by remember {
         mutableStateOf(false)
     }
 
+    LaunchedEffect(Unit) {
+        smsModel.initialAddressAndBody?.let {
+            onClickMessage(it.first, null)
+        }
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -66,7 +71,21 @@ fun SmsListScreen(
                     ) {
                         showSearch = true
                     }
-                    TopBarMoreMenu()
+                    TopBarMoreMenu(options = listOf(
+                        stringResource(R.string.settings),
+                        stringResource(R.string.about)
+                    ),
+                        onOptionClick = { index ->
+                            when (index) {
+                                0 -> {
+                                    onNavigate.invoke(NavRoutes.Settings)
+                                }
+
+                                1 -> {
+                                    onNavigate.invoke(NavRoutes.About)
+                                }
+                            }
+                        })
                 }
             )
         },
@@ -103,13 +122,11 @@ fun SmsListScreen(
                     }
             ) {
                 items(threadList) { thread ->
-                    SmsThreadItem(smsModel, thread)
+                    SmsThreadItem(smsModel, thread, onClick = onClickMessage)
                 }
             }
             if (showSearch) {
-                SmsSearchScreen(smsModel, threadList) {
-                    showSearch = false
-                }
+                SmsSearchScreen(smsModel, threadList, { showSearch = false }, onClickMessage)
             }
         } else {
             Column(Modifier.padding(pv)) {
@@ -119,25 +136,10 @@ fun SmsListScreen(
 
         if (showNumberPicker) {
             NumberPickerDialog(
+                contactsModel,
                 onDismissRequest = { showNumberPicker = false },
-                onNumberSelect = {
-                    smsAddress = it
-                }
+                onNumberSelect = onClickMessage
             )
-        }
-
-        smsAddress?.let {
-            val contactData = contactsModel.getContactByNumber(it)
-            SmsThreadScreen(smsModel, contactData, it) {
-                smsAddress = null
-            }
-        }
-
-        smsModel.initialAddressAndBody?.let {
-            val contactData = contactsModel.getContactByNumber(it.first)
-            SmsThreadScreen(smsModel, contactData, it.first) {
-                smsModel.initialAddressAndBody = null
-            }
         }
     }
 }
