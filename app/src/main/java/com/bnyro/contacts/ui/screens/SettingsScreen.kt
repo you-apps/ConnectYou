@@ -17,7 +17,6 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -39,8 +38,6 @@ import com.bnyro.contacts.util.Preferences
 fun SettingsScreen(onDismissRequest: () -> Unit) {
     val themeModel: ThemeModel = viewModel()
     val smsModel: SmsModel = viewModel()
-
-    val context = LocalContext.current
 
     FullScreenDialog(onClose = onDismissRequest) {
         val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
@@ -78,7 +75,7 @@ fun SettingsScreen(onDismissRequest: () -> Unit) {
                 Text(stringResource(R.string.theme))
                 BlockPreference(
                     preferenceKey = Preferences.themeKey,
-                    entries = listOf(R.string.system, R.string.light, R.string.dark).map {
+                    entries = listOf(R.string.system, R.string.light, R.string.dark, R.string.amoled).map {
                         stringResource(it)
                     }
                 ) {
