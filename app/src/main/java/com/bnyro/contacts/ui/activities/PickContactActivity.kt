@@ -2,9 +2,14 @@ package com.bnyro.contacts.ui.activities
 
 import android.app.Activity
 import android.content.ContentUris
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.provider.ContactsContract.CommonDataKinds.Email
+import android.provider.ContactsContract.CommonDataKinds.Phone
+import android.provider.ContactsContract.Data
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,9 +38,17 @@ import com.bnyro.contacts.ui.theme.ConnectYouTheme
 
 class PickContactActivity : BaseActivity() {
 
+    private var specialMimeType: String? = null
+
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        specialMimeType = when (intent.data) {
+            Email.CONTENT_URI -> Email.CONTENT_ITEM_TYPE
+            Phone.CONTENT_URI -> Phone.CONTENT_ITEM_TYPE
+            else -> null
+        }
 
         setContent {
             ConnectYouTheme(themeModel.themeMode) {
@@ -94,14 +107,48 @@ class PickContactActivity : BaseActivity() {
         if (contact == null) {
             setResult(Activity.RESULT_CANCELED, Intent())
         } else {
-            val intent = Intent().apply {
-                data = ContentUris.withAppendedId(
+            val uri = when {
+                specialMimeType != null -> {
+                    val contactId = getContactMimeTypeId(
+                        this,
+                        contact.contactId.toString(),
+                        specialMimeType!!
+                    )
+                    Uri.withAppendedPath(Data.CONTENT_URI, contactId)
+                }
+
+                else -> ContentUris.withAppendedId(
                     ContactsContract.Contacts.CONTENT_URI,
                     contact.contactId
                 )
+            }
+            val intent = Intent().apply {
+                data = uri
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
             setResult(Activity.RESULT_OK, intent)
         }
         finish()
     }
+
+    private fun getContactMimeTypeId(
+        context: Context,
+        contactId: String,
+        mimeType: String
+    ): String {
+        val uri = Data.CONTENT_URI
+        val projection = arrayOf(Data._ID, Data.RAW_CONTACT_ID, Data.MIMETYPE)
+        val selection = "${Data.MIMETYPE} = ? AND ${Data.RAW_CONTACT_ID} = ?"
+        val selectionArgs = arrayOf(mimeType, contactId)
+
+        val cursor = context.contentResolver.query(uri, projection, selection, selectionArgs, null)
+        cursor?.use {
+            if (it.moveToFirst()) {
+                val index = it.getColumnIndex(Data._ID)
+                return it.getString(index)
+            }
+        }
+        return ""
+    }
+
 }
