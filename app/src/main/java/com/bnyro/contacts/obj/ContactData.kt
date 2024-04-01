@@ -14,6 +14,7 @@ data class ContactData(
     var firstName: String? = null,
     var surName: String? = null,
     var nickName: String? = null,
+    var title: String? = null,
     var organization: String? = null,
     var photo: Bitmap? = null,
     var thumbnail: Bitmap? = null,

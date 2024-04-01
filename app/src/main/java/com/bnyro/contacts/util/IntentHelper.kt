@@ -80,6 +80,7 @@ object IntentHelper {
             firstName = name?.split(" ")?.firstOrNull(),
             surName = name?.split(" ", limit = 2)?.lastOrNull(),
             organization = intent.getStringExtra(ContactsContract.Intents.Insert.COMPANY),
+            title = intent.getStringExtra(ContactsContract.Intents.Insert.JOB_TITLE),
             numbers = extractIntentValue(intent, ContactsContract.Intents.Insert.PHONE, ContactsContract.Intents.Insert.PHONE_TYPE) +
                     extractIntentValue(intent, ContactsContract.Intents.Insert.SECONDARY_PHONE, ContactsContract.Intents.Insert.SECONDARY_PHONE_TYPE) +
                     extractIntentValue(intent, ContactsContract.Intents.Insert.TERTIARY_PHONE, ContactsContract.Intents.Insert.TERTIARY_PHONE_TYPE),

@@ -220,6 +220,11 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                 )
 
                 ContactEntryTextGroup(
+                    label = stringResource(R.string.title),
+                    entries = listOfNotNull(contact.title)
+                )
+
+                ContactEntryTextGroup(
                     label = stringResource(R.string.organization),
                     entries = listOfNotNull(contact.organization)
                 )

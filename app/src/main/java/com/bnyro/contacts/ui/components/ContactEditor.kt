@@ -119,6 +119,10 @@ fun ContactEditor(
         mutableStateOf(contact?.nickName.orEmpty())
     }
 
+    val title = remember {
+        mutableStateOf(contact?.title.orEmpty())
+    }
+
     val organization = remember {
         mutableStateOf(contact?.organization.orEmpty())
     }
@@ -186,6 +190,7 @@ fun ContactEditor(
                         it.surName = surName.value.trim()
                         it.nickName = nickName.value.takeIf { n -> n.isNotBlank() }?.trim()
                         it.organization = organization.value.takeIf { o -> o.isNotBlank() }?.trim()
+                        it.title = title.value.takeIf { o -> o.isNotBlank() }?.trim()
                         it.displayName = "${firstName.value.trim()} ${surName.value.trim()}"
                         it.photo = profilePicture
                         it.accountType = selectedAccount.type
@@ -334,6 +339,16 @@ fun ContactEditor(
                     LabeledTextField(
                         label = R.string.organization,
                         state = organization,
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Cases,
+                                contentDescription = null
+                            )
+                        }
+                    )
+                    LabeledTextField(
+                        label = R.string.title,
+                        state = title,
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Outlined.Cases,
