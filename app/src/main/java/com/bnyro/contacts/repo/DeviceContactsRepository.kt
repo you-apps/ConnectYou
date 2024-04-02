@@ -50,7 +50,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
     private val contentResolver = context.contentResolver
     private val contentUri = Data.CONTENT_URI
 
-    private val authority = ContactsContract.AUTHORITY
+    private val authority = AUTHORITY
 
     private val projection = arrayOf(
         Data.RAW_CONTACT_ID,
@@ -60,6 +60,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
         StructuredName.GIVEN_NAME,
         StructuredName.FAMILY_NAME,
         Nickname.NAME,
+        Organization.TITLE,
         Organization.COMPANY,
         RawContacts.ACCOUNT_TYPE,
         RawContacts.ACCOUNT_NAME
@@ -131,6 +132,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
             photo = getContactPhoto(contactId) ?: thumbnail
             groups = getGroups(contactId, storedContactGroups)
             nickName = getEntry(contactId, Nickname.CONTENT_ITEM_TYPE, Nickname.NAME)
+            title = getEntry(contactId, Organization.CONTENT_ITEM_TYPE, Organization.TITLE)
             organization = getEntry(contactId, Organization.CONTENT_ITEM_TYPE, Organization.COMPANY)
             events = getExtras(
                 contactId,
@@ -344,6 +346,13 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
                         it
                     )
                 },
+                contact.title?.let {
+                    getInsertAction(
+                        Organization.CONTENT_ITEM_TYPE,
+                        Organization.TITLE,
+                        it
+                    )
+                },
                 contact.organization?.let {
                     getInsertAction(
                         Organization.CONTENT_ITEM_TYPE,
@@ -441,6 +450,14 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
                     Nickname.CONTENT_ITEM_TYPE,
                     Nickname.NAME,
                     contact.nickName
+                )
+            )
+            operations.addAll(
+                getUpdateSingleAction(
+                    rawContactId,
+                    Organization.CONTENT_ITEM_TYPE,
+                    Organization.TITLE,
+                    contact.title
                 )
             )
             operations.addAll(
