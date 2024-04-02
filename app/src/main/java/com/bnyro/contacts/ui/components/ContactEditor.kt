@@ -359,6 +359,7 @@ fun ContactEditor(
                     TextFieldGroup(
                         items = websites,
                         label = R.string.website,
+                        types = ContactsHelper.websiteTypes,
                         addActionText = R.string.add_website,
                         keyboardType = KeyboardType.Uri,
                         leadingIcon = Icons.Outlined.Web

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -17,13 +16,14 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ShareOption(
     @StringRes title: Int,
-    isChecked: MutableState<Boolean>
+    isChecked: Boolean,
+    onCheckedChange: (Boolean) -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Checkbox(checked = isChecked.value, onCheckedChange = { isChecked.value = it })
+        Checkbox(checked = isChecked, onCheckedChange = onCheckedChange)
         Spacer(modifier = Modifier.width(10.dp))
         Text(text = stringResource(title))
     }

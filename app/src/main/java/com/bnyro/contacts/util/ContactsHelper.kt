@@ -2,6 +2,15 @@ package com.bnyro.contacts.util
 
 import android.provider.ContactsContract
 import com.bnyro.contacts.R
+import com.bnyro.contacts.enums.Addresses
+import com.bnyro.contacts.enums.Emails
+import com.bnyro.contacts.enums.Events
+import com.bnyro.contacts.enums.Nickname
+import com.bnyro.contacts.enums.Notes
+import com.bnyro.contacts.enums.Numbers
+import com.bnyro.contacts.enums.Organization
+import com.bnyro.contacts.enums.Title
+import com.bnyro.contacts.enums.Websites
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.TranslatedType
 import com.google.i18n.phonenumbers.PhoneNumberUtil
@@ -75,6 +84,11 @@ object ContactsHelper {
         TranslatedType(ContactsContract.CommonDataKinds.Website.TYPE_FTP, R.string.ftp),
         TranslatedType(ContactsContract.CommonDataKinds.Website.TYPE_CUSTOM, R.string.custom),
         TranslatedType(ContactsContract.CommonDataKinds.Website.TYPE_OTHER, R.string.other)
+    )
+
+    val contactAttributesTypes = listOf(
+        Nickname(), Title(), Organization(),
+        Numbers(), Addresses(), Emails(), Events(), Websites(), Notes()
     )
 
     fun splitFullName(displayName: String?): Pair<String, String> {

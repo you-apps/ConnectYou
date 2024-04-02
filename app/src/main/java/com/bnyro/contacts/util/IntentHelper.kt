@@ -8,6 +8,8 @@ import android.provider.ContactsContract
 import androidx.core.net.toUri
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.IntentActionType
+import com.bnyro.contacts.enums.ListAttribute
+import com.bnyro.contacts.enums.StringAttribute
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.TranslatedType
 import com.bnyro.contacts.obj.ValueWithType
@@ -75,21 +77,24 @@ object IntentHelper {
         val name = intent.getStringExtra(ContactsContract.Intents.Insert.NAME)
             ?: intent.getStringExtra(ContactsContract.Intents.Insert.PHONETIC_NAME)
 
-        return ContactData(
+        val data = ContactData(
             displayName = name,
             firstName = name?.split(" ")?.firstOrNull(),
             surName = name?.split(" ", limit = 2)?.lastOrNull(),
-            organization = intent.getStringExtra(ContactsContract.Intents.Insert.COMPANY),
-            title = intent.getStringExtra(ContactsContract.Intents.Insert.JOB_TITLE),
-            numbers = extractIntentValue(intent, ContactsContract.Intents.Insert.PHONE, ContactsContract.Intents.Insert.PHONE_TYPE) +
-                    extractIntentValue(intent, ContactsContract.Intents.Insert.SECONDARY_PHONE, ContactsContract.Intents.Insert.SECONDARY_PHONE_TYPE) +
-                    extractIntentValue(intent, ContactsContract.Intents.Insert.TERTIARY_PHONE, ContactsContract.Intents.Insert.TERTIARY_PHONE_TYPE),
-            emails = extractIntentValue(intent, ContactsContract.Intents.Insert.EMAIL, ContactsContract.Intents.Insert.EMAIL_TYPE) +
-                    extractIntentValue(intent, ContactsContract.Intents.Insert.SECONDARY_EMAIL, ContactsContract.Intents.Insert.SECONDARY_EMAIL_TYPE) +
-                    extractIntentValue(intent, ContactsContract.Intents.Insert.TERTIARY_EMAIL, ContactsContract.Intents.Insert.TERTIARY_EMAIL_TYPE),
-            notes = extractIntentValue(intent, ContactsContract.Intents.Insert.NOTES),
-            addresses = extractIntentValue(intent, ContactsContract.Intents.Insert.POSTAL)
         )
+
+        ContactsHelper.contactAttributesTypes.forEach { attribute ->
+                if (attribute is StringAttribute) {
+                    attribute.set(data, intent.getStringExtra(attribute.insertKey))
+                } else if (attribute is ListAttribute) {
+                    val values = attribute.insertKeys.mapNotNull { insertKey ->
+                        extractIntentValue(intent, insertKey.first, insertKey.second)
+                    }
+                    attribute.set(data, values)
+                }
+            }
+
+        return data
     }
 
     private fun extractIntentValue(
@@ -97,8 +102,8 @@ object IntentHelper {
         key: String,
         typeKey: String? = null,
         types: List<TranslatedType> = emptyList()
-    ): List<ValueWithType> {
-        val entry = intent.getStringExtra(key) ?: return emptyList()
+    ): ValueWithType? {
+        val entry = intent.getStringExtra(key) ?: return null
 
         val type = if (typeKey != null) {
             val typeIdentifier = intent.getStringExtra(typeKey)
@@ -108,6 +113,6 @@ object IntentHelper {
             }?.id
         } else null
 
-        return listOf(ValueWithType(entry, type ?: 0))
+        return ValueWithType(entry, type ?: 0)
     }
 }
