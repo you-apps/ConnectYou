@@ -43,10 +43,10 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.base.ClickableIcon
 import com.bnyro.contacts.ui.components.base.ElevatedTextInputField
-import com.bnyro.contacts.ui.components.base.FullScreenDialog
 import com.bnyro.contacts.ui.components.conversation.Messages
 import com.bnyro.contacts.ui.components.dialogs.AddToContactDialog
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
+import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.SmsModel
 import com.bnyro.contacts.util.SmsUtil
 
@@ -55,9 +55,10 @@ import com.bnyro.contacts.util.SmsUtil
 @Composable
 fun SmsThreadScreen(
     smsModel: SmsModel,
-    contactData: ContactData?,
+    contactsModel: ContactsModel,
     address: String,
     initialText: String = "",
+    contactsData: ContactData? = null,
     onClose: () -> Unit
 ) {
     val context = LocalContext.current
@@ -72,6 +73,10 @@ fun SmsThreadScreen(
         }
     }
 
+    val contactData = remember {
+        contactsData ?: contactsModel.getContactByNumber(address)
+    }
+
     var showContactScreen by remember {
         mutableStateOf(false)
     }
@@ -79,125 +84,123 @@ fun SmsThreadScreen(
         mutableStateOf(false)
     }
 
-    FullScreenDialog(onClose = onClose) {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        val interactionSource = remember {
-                            MutableInteractionSource()
-                        }
-                        PlainTooltipBox(
-                            tooltip = { Text(address) }
-                        ) {
-                            Text(
-                                modifier = Modifier
-                                    .tooltipTrigger()
-                                    .clickable(interactionSource, null) {
-                                        if (contactData != null) showContactScreen = true
-                                    },
-                                text = contactData?.displayName ?: address
-                            )
-                        }
-                    },
-                    navigationIcon = {
-                        ClickableIcon(
-                            icon = Icons.Default.ArrowBack,
-                            contentDescription = R.string.okay
-                        ) {
-                            onClose.invoke()
-                        }
-                    },
-                    actions = {
-                        if (contactData == null) {
-                            ClickableIcon(icon = Icons.Default.PersonAddAlt1) {
-                                showAddToContactDialog = true
-                            }
-                        }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    val interactionSource = remember {
+                        MutableInteractionSource()
                     }
-                )
-            }
-        ) { pV ->
-            Column(
-                modifier = Modifier
-                    .padding(pV)
-            ) {
-                val state = rememberLazyListState()
-                Messages(messages = smsList, scrollState = state, smsModel = smsModel)
-
-                Spacer(modifier = Modifier.height(10.dp))
-                if (subscriptions != null && subscriptions.size >= 2) {
-                    var currentSub by remember { mutableIntStateOf(0) }
-                    LaunchedEffect(Unit) {
-                        currentSub = 0
-                        smsModel.currentSubscription = subscriptions[currentSub]
+                    PlainTooltipBox(
+                        tooltip = { Text(address) }
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .tooltipTrigger()
+                                .clickable(interactionSource, null) {
+                                    if (contactData != null) showContactScreen = true
+                                },
+                            text = contactData?.displayName ?: address
+                        )
                     }
-                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                        OutlinedButton(onClick = {
-                            currentSub = if (currentSub == 0) 1 else 0
-                            smsModel.currentSubscription = subscriptions[currentSub]
-                        }) {
-                            Text(
-                                text = "SIM ${subscriptions[currentSub].simSlotIndex + 1} - ${subscriptions[currentSub].displayName}"
-                            )
+                },
+                navigationIcon = {
+                    ClickableIcon(
+                        icon = Icons.Default.ArrowBack,
+                        contentDescription = R.string.okay
+                    ) {
+                        onClose.invoke()
+                    }
+                },
+                actions = {
+                    if (contactData == null) {
+                        ClickableIcon(icon = Icons.Default.PersonAddAlt1) {
+                            showAddToContactDialog = true
                         }
                     }
                 }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 10.dp, end = 5.dp, bottom = 20.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    var showConfirmSendMultipleSmsDialog by remember {
-                        mutableStateOf(false)
-                    }
+            )
+        }
+    ) { pV ->
+        Column(
+            modifier = Modifier
+                .padding(pV)
+        ) {
+            val state = rememberLazyListState()
+            Messages(messages = smsList, scrollState = state, smsModel = smsModel)
 
-                    var text by remember {
-                        mutableStateOf(initialText)
-                    }
-
-                    ElevatedTextInputField(
-                        modifier = Modifier.weight(1f),
-                        query = text,
-                        onQueryChange = { text = it },
-                        placeholder = stringResource(R.string.send)
-                    )
-
-                    Spacer(modifier = Modifier.width(8.dp))
-
-                    FilledIconButton(
-                        modifier = Modifier.size(48.dp),
-                        onClick = {
-                            if (text.isBlank()) return@FilledIconButton
-                            if (!SmsUtil.isShortEnoughForSms(text)) {
-                                showConfirmSendMultipleSmsDialog = true
-                                return@FilledIconButton
-                            }
-
-                            smsModel.sendSms(context, address, text)
-
-                            text = ""
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Send,
-                            contentDescription = stringResource(R.string.send)
+            Spacer(modifier = Modifier.height(10.dp))
+            if (subscriptions != null && subscriptions.size >= 2) {
+                var currentSub by remember { mutableIntStateOf(0) }
+                LaunchedEffect(Unit) {
+                    currentSub = 0
+                    smsModel.currentSubscription = subscriptions[currentSub]
+                }
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    OutlinedButton(onClick = {
+                        currentSub = if (currentSub == 0) 1 else 0
+                        smsModel.currentSubscription = subscriptions[currentSub]
+                    }) {
+                        Text(
+                            text = "SIM ${subscriptions[currentSub].simSlotIndex + 1} - ${subscriptions[currentSub].displayName}"
                         )
                     }
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, end = 5.dp, bottom = 20.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                var showConfirmSendMultipleSmsDialog by remember {
+                    mutableStateOf(false)
+                }
 
-                    if (showConfirmSendMultipleSmsDialog) {
-                        ConfirmationDialog(
-                            onDismissRequest = { showConfirmSendMultipleSmsDialog = false },
-                            title = stringResource(R.string.message_too_long),
-                            text = stringResource(R.string.send_message_as_multiple)
-                        ) {
-                            SmsUtil.splitSmsText(text).forEach {
-                                smsModel.sendSms(context, address, it)
-                            }
+                var text by remember {
+                    mutableStateOf(initialText)
+                }
 
-                            text = ""
+                ElevatedTextInputField(
+                    modifier = Modifier.weight(1f),
+                    query = text,
+                    onQueryChange = { text = it },
+                    placeholder = stringResource(R.string.send)
+                )
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                FilledIconButton(
+                    modifier = Modifier.size(48.dp),
+                    onClick = {
+                        if (text.isBlank()) return@FilledIconButton
+                        if (!SmsUtil.isShortEnoughForSms(text)) {
+                            showConfirmSendMultipleSmsDialog = true
+                            return@FilledIconButton
                         }
+
+                        smsModel.sendSms(context, address, text)
+
+                        text = ""
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Send,
+                        contentDescription = stringResource(R.string.send)
+                    )
+                }
+
+                if (showConfirmSendMultipleSmsDialog) {
+                    ConfirmationDialog(
+                        onDismissRequest = { showConfirmSendMultipleSmsDialog = false },
+                        title = stringResource(R.string.message_too_long),
+                        text = stringResource(R.string.send_message_as_multiple)
+                    ) {
+                        SmsUtil.splitSmsText(text).forEach {
+                            smsModel.sendSms(context, address, it)
+                        }
+
+                        text = ""
                     }
                 }
             }

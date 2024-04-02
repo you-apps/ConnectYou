@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
+import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.SmsThread
 import com.bnyro.contacts.ui.components.SmsThreadItem
 import com.bnyro.contacts.ui.components.base.ElevatedTextInputField
@@ -34,7 +35,8 @@ import kotlinx.coroutines.withContext
 fun SmsSearchScreen(
     smsModel: SmsModel,
     threadList: List<SmsThread>,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    onClickMessage: (address: String, contactData: ContactData?) -> Unit
 ) {
     FullScreenDialog(onDismissRequest) {
         val focusRequester = remember {
@@ -84,7 +86,7 @@ fun SmsSearchScreen(
                     .fillMaxSize()
             ) {
                 items(visibleThreads) { thread ->
-                    SmsThreadItem(smsModel, thread)
+                    SmsThreadItem(smsModel, thread, onClickMessage)
                 }
             }
         }

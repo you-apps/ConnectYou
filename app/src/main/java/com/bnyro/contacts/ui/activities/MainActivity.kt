@@ -3,19 +3,19 @@ package com.bnyro.contacts.ui.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Parcelable
 import android.provider.ContactsContract.Intents
 import android.provider.ContactsContract.QuickContact
 import androidx.activity.compose.setContent
 import com.bnyro.contacts.ext.parcelable
+import com.bnyro.contacts.nav.NavContainer
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.ConfirmImportContactsDialog
 import com.bnyro.contacts.ui.components.dialogs.AddToContactDialog
-import com.bnyro.contacts.ui.screens.MainAppContent
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
 import com.bnyro.contacts.util.BackupHelper
 import com.bnyro.contacts.util.ContactsHelper
+import com.bnyro.contacts.util.Preferences
 import com.bnyro.contacts.util.IntentHelper
 import java.net.URLDecoder
 
@@ -34,9 +34,11 @@ class MainActivity : BaseActivity() {
 
         smsModel.initialAddressAndBody = getInitialSmsAddressAndBody()
 
+        val initialTabIndex = smsModel.initialAddressAndBody?.let { 1 }
+            ?: Preferences.getInt(Preferences.homeTabKey, 0)
         setContent {
             ConnectYouTheme(themeModel.themeMode) {
-                MainAppContent(smsModel)
+                NavContainer(initialTabIndex)
                 getInsertOrEditNumber()?.let {
                     AddToContactDialog(it)
                 }

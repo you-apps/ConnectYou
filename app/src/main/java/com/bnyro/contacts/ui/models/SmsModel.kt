@@ -12,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.bnyro.contacts.App
+import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.util.SmsUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
@@ -24,6 +25,8 @@ class SmsModel(val app: App) : ViewModel() {
         started = SharingStarted.WhileSubscribed(5000L),
         initialValue = listOf()
     )
+
+    var currentContactData: ContactData? = null
 
     var initialAddressAndBody by mutableStateOf<Pair<String, String?>?>(null)
 
