@@ -13,23 +13,20 @@ import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.ContactsContract.AUTHORITY
 import android.provider.ContactsContract.CALLER_IS_SYNCADAPTER
-import android.provider.ContactsContract.CommonDataKinds.Email
-import android.provider.ContactsContract.CommonDataKinds.Event
 import android.provider.ContactsContract.CommonDataKinds.GroupMembership
 import android.provider.ContactsContract.CommonDataKinds.Nickname
-import android.provider.ContactsContract.CommonDataKinds.Note
 import android.provider.ContactsContract.CommonDataKinds.Organization
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.ContactsContract.CommonDataKinds.Photo
 import android.provider.ContactsContract.CommonDataKinds.StructuredName
-import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
-import android.provider.ContactsContract.CommonDataKinds.Website
 import android.provider.ContactsContract.Contacts
 import android.provider.ContactsContract.Data
 import android.provider.ContactsContract.RawContacts
 import androidx.annotation.RequiresPermission
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.BackupType
+import com.bnyro.contacts.enums.ListAttribute
+import com.bnyro.contacts.enums.StringAttribute
 import com.bnyro.contacts.ext.intValue
 import com.bnyro.contacts.ext.longValue
 import com.bnyro.contacts.ext.notAName
@@ -59,9 +56,6 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
         Contacts.DISPLAY_NAME_ALTERNATIVE,
         StructuredName.GIVEN_NAME,
         StructuredName.FAMILY_NAME,
-        Nickname.NAME,
-        Organization.TITLE,
-        Organization.COMPANY,
         RawContacts.ACCOUNT_TYPE,
         RawContacts.ACCOUNT_NAME
     )
@@ -131,45 +125,21 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
             thumbnail = getContactPhotoThumbnail(contactId)
             photo = getContactPhoto(contactId) ?: thumbnail
             groups = getGroups(contactId, storedContactGroups)
-            nickName = getEntry(contactId, Nickname.CONTENT_ITEM_TYPE, Nickname.NAME)
-            title = getEntry(contactId, Organization.CONTENT_ITEM_TYPE, Organization.TITLE)
-            organization = getEntry(contactId, Organization.CONTENT_ITEM_TYPE, Organization.COMPANY)
-            events = getExtras(
-                contactId,
-                Event.START_DATE,
-                Event.TYPE,
-                Event.CONTENT_ITEM_TYPE
-            )
-            numbers = getExtras(
-                contactId,
-                Phone.NUMBER,
-                Phone.TYPE,
-                Phone.CONTENT_ITEM_TYPE
-            )
-            emails = getExtras(
-                contactId,
-                Email.ADDRESS,
-                Email.TYPE,
-                Email.CONTENT_ITEM_TYPE
-            )
-            addresses = getExtras(
-                contactId,
-                StructuredPostal.FORMATTED_ADDRESS,
-                StructuredPostal.TYPE,
-                StructuredPostal.CONTENT_ITEM_TYPE
-            )
-            notes = getExtras(
-                contactId,
-                Note.NOTE,
-                Note.DATA2,
-                Note.CONTENT_ITEM_TYPE
-            )
-            websites = getExtras(
-                contactId,
-                Website.URL,
-                Website.TYPE,
-                Website.CONTENT_ITEM_TYPE
-            )
+
+            ContactsHelper.contactAttributesTypes.forEach { attribute ->
+                if (attribute is StringAttribute) {
+                    val dataStr = getEntry(contactId, attribute.androidContentType, attribute.androidValueColumn)
+                    attribute.set(this, dataStr)
+                } else if (attribute is ListAttribute) {
+                    val dataEntries = getExtras(
+                        contactId,
+                        attribute.androidValueColumn,
+                        attribute.androidTypeColumn,
+                        attribute.androidContentType
+                    )
+                    attribute.set(this, dataEntries)
+                }
+            }
         }
     }
 
@@ -339,89 +309,32 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
                     StructuredName.FAMILY_NAME,
                     contact.surName.orEmpty()
                 ),
-                contact.nickName?.let {
-                    getInsertAction(
-                        Nickname.CONTENT_ITEM_TYPE,
-                        Nickname.NAME,
-                        it
-                    )
-                },
-                contact.title?.let {
-                    getInsertAction(
-                        Organization.CONTENT_ITEM_TYPE,
-                        Organization.TITLE,
-                        it
-                    )
-                },
-                contact.organization?.let {
-                    getInsertAction(
-                        Organization.CONTENT_ITEM_TYPE,
-                        Organization.COMPANY,
-                        it
-                    )
-                },
                 contact.photo?.let {
                     getInsertAction(Photo.CONTENT_ITEM_TYPE, Photo.PHOTO, getBitmapBytes(it))
                 },
-                *contact.websites.map {
-                    getInsertAction(
-                        Website.CONTENT_ITEM_TYPE,
-                        Website.URL,
-                        it.value,
-                        Website.TYPE,
-                        it.type
-                    )
-                }.toTypedArray(),
-                *contact.numbers.map {
-                    getInsertAction(
-                        Phone.CONTENT_ITEM_TYPE,
-                        Phone.NUMBER,
-                        it.value,
-                        Phone.TYPE,
-                        it.type
-                    )
-                }.toTypedArray(),
-                *contact.emails.map {
-                    getInsertAction(
-                        Email.CONTENT_ITEM_TYPE,
-                        Email.ADDRESS,
-                        it.value,
-                        Email.TYPE,
-                        it.type
-                    )
-                }.toTypedArray(),
-                *contact.addresses.map {
-                    getInsertAction(
-                        StructuredPostal.CONTENT_ITEM_TYPE,
-                        StructuredPostal.FORMATTED_ADDRESS,
-                        it.value,
-                        StructuredPostal.TYPE,
-                        it.type
-                    )
-                }.toTypedArray(),
-                *contact.events.map {
-                    getInsertAction(
-                        Event.CONTENT_ITEM_TYPE,
-                        Event.START_DATE,
-                        it.value,
-                        Event.TYPE,
-                        it.type
-                    )
-                }.toTypedArray(),
-                *contact.notes.map {
-                    getInsertAction(
-                        Note.CONTENT_ITEM_TYPE,
-                        Note.NOTE,
-                        it.value
-                    )
-                }.toTypedArray(),
                 *contact.groups.map {
                     getInsertAction(
                         GroupMembership.CONTENT_ITEM_TYPE,
                         GroupMembership.GROUP_ROW_ID,
                         it.rowId.toString()
                     )
-                }.toTypedArray()
+                }.toTypedArray(),
+                *ContactsHelper.contactAttributesTypes.filterIsInstance<StringAttribute>().map { attribute ->
+                    attribute.get(contact)?.let {
+                        getInsertAction(attribute.androidContentType, attribute.androidValueColumn, it)
+                    }
+                }.toTypedArray(),
+                *ContactsHelper.contactAttributesTypes.filterIsInstance<ListAttribute>().map { attribute ->
+                    attribute.get(contact).map {
+                        getInsertAction(
+                            attribute.androidContentType,
+                            attribute.androidValueColumn,
+                            it.value,
+                            attribute.androidTypeColumn,
+                            it.type
+                        )
+                    }
+                }.flatten().toTypedArray()
             ).let { ArrayList(it) }
 
             contentResolver.applyBatch(AUTHORITY, ops)
@@ -444,85 +357,20 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
                 operations.add(build())
             }
 
-            operations.addAll(
-                getUpdateSingleAction(
-                    rawContactId,
-                    Nickname.CONTENT_ITEM_TYPE,
-                    Nickname.NAME,
-                    contact.nickName
-                )
-            )
-            operations.addAll(
-                getUpdateSingleAction(
-                    rawContactId,
-                    Organization.CONTENT_ITEM_TYPE,
-                    Organization.TITLE,
-                    contact.title
-                )
-            )
-            operations.addAll(
-                getUpdateSingleAction(
-                    rawContactId,
-                    Organization.CONTENT_ITEM_TYPE,
-                    Organization.COMPANY,
-                    contact.organization
-                )
-            )
+            for (attribute in ContactsHelper.contactAttributesTypes) {
+                if (attribute is StringAttribute) {
+                    operations.addAll(getUpdateSingleAction(
+                        rawContactId, attribute.androidContentType,
+                        attribute.androidValueColumn, attribute.get(contact)
+                    ))
+                } else if (attribute is ListAttribute) {
+                    operations.addAll(getUpdateMultipleAction(
+                        rawContactId, attribute.androidContentType, attribute.get(contact),
+                        attribute.androidValueColumn, attribute.androidTypeColumn
+                    ))
+                }
+            }
 
-            operations.addAll(
-                getUpdateMultipleAction(
-                    rawContactId,
-                    Website.CONTENT_ITEM_TYPE,
-                    contact.websites,
-                    Website.URL,
-                    Website.TYPE
-                )
-            )
-            operations.addAll(
-                getUpdateMultipleAction(
-                    rawContactId,
-                    Phone.CONTENT_ITEM_TYPE,
-                    contact.numbers,
-                    Phone.NUMBER,
-                    Phone.TYPE
-                )
-            )
-            operations.addAll(
-                getUpdateMultipleAction(
-                    rawContactId,
-                    Email.CONTENT_ITEM_TYPE,
-                    contact.emails,
-                    Email.ADDRESS,
-                    Email.TYPE
-                )
-            )
-            operations.addAll(
-                getUpdateMultipleAction(
-                    rawContactId,
-                    StructuredPostal.CONTENT_ITEM_TYPE,
-                    contact.addresses,
-                    StructuredPostal.FORMATTED_ADDRESS,
-                    StructuredPostal.TYPE
-                )
-            )
-            operations.addAll(
-                getUpdateMultipleAction(
-                    rawContactId,
-                    Event.CONTENT_ITEM_TYPE,
-                    contact.events,
-                    Event.START_DATE,
-                    Event.TYPE
-                )
-            )
-            operations.addAll(
-                getUpdateMultipleAction(
-                    rawContactId,
-                    Note.CONTENT_ITEM_TYPE,
-                    contact.notes,
-                    Note.NOTE,
-                    null
-                )
-            )
             operations.addAll(
                 getUpdateMultipleAction(
                     rawContactId,
