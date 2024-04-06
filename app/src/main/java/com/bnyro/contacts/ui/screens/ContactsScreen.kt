@@ -381,9 +381,4 @@ fun ContactsPage(
             showImportSimDialog = false
         }
     }
-    viewModel.initialContactData?.let {
-        SingleContactScreen(it) {
-            viewModel.initialContactData = null
-        }
-    }
 }
