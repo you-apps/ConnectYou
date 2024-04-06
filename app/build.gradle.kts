@@ -8,6 +8,10 @@ android {
     namespace = "com.bnyro.contacts"
     compileSdk = 33
 
+    androidResources {
+        generateLocaleConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.bnyro.contacts"
         minSdk = 21
