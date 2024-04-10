@@ -48,13 +48,13 @@ fun ContactEntryTextGroup(
     label: String,
     entries: List<String>,
     types: List<TranslatedType> = listOf(),
-    onClick: (ValueWithType) -> Unit = {}
+    onClick: (String) -> Unit = {}
 ) {
     ContactEntryGroup(
         label,
         entries.map { ValueWithType(it, null) },
         types,
         false,
-        onClick
+        onClick = { onClick.invoke(it.value) }
     )
 }

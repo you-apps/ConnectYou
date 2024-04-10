@@ -6,14 +6,16 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.TranslatedType
 import com.bnyro.contacts.obj.ValueWithType
+import com.bnyro.contacts.util.CalendarUtils
 import com.bnyro.contacts.util.ContactsHelper
 
-abstract class ContactAttribute<T>(){
+abstract class ContactAttribute<T> {
     abstract val stringRes: Int
     abstract val androidValueColumn: String
     abstract val androidContentType: String
     abstract fun set(contact: ContactData, value: T)
     abstract fun get(contact: ContactData): T
+    open fun display(contact: ContactData): T = get(contact)
 }
 
 abstract class StringAttribute : ContactAttribute<String?>() {
@@ -24,6 +26,7 @@ abstract class ListAttribute: ContactAttribute<List<ValueWithType>>() {
     abstract val androidTypeColumn: String
     abstract val types: List<TranslatedType>
     abstract val insertKeys: List<Pair<String, String?>>
+    open val intentActionType: IntentActionType? = null
 }
 
 class Organization : StringAttribute() {
@@ -71,11 +74,16 @@ class Events : ListAttribute() {
     override val androidValueColumn: String = ContactsContract.CommonDataKinds.Event.START_DATE
     override val androidTypeColumn: String = ContactsContract.CommonDataKinds.Event.TYPE
     override val androidContentType: String = ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE
+
     override fun set(contact: ContactData, value: List<ValueWithType>) {
         contact.events = value
     }
 
     override fun get(contact: ContactData) = contact.events
+
+    override fun display(contact: ContactData) = super.display(contact).map {
+        it.copy(value = CalendarUtils.localizeIsoDate(it.value))
+    }
 
     override val types: List<TranslatedType> = ContactsHelper.eventTypes
 }
@@ -90,11 +98,16 @@ class Numbers : ListAttribute() {
     override val androidValueColumn: String = ContactsContract.CommonDataKinds.Phone.NUMBER
     override val androidTypeColumn: String = ContactsContract.CommonDataKinds.Phone.TYPE
     override val androidContentType: String = ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
+    override val intentActionType = IntentActionType.DIAL
+
     override fun set(contact: ContactData, value: List<ValueWithType>) {
         contact.numbers = value
     }
 
     override fun get(contact: ContactData) = contact.numbers
+    override fun display(contact: ContactData) = super.display(contact).map {
+        ValueWithType(ContactsHelper.normalizePhoneNumber(it.value), it.type)
+    }
 
     override val types: List<TranslatedType> = ContactsHelper.phoneNumberTypes
 }
@@ -109,6 +122,8 @@ class Emails : ListAttribute() {
     override val androidValueColumn: String = ContactsContract.CommonDataKinds.Email.ADDRESS
     override val androidTypeColumn: String = ContactsContract.CommonDataKinds.Email.TYPE
     override val androidContentType: String = ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE
+    override val intentActionType = IntentActionType.EMAIL
+
     override fun set(contact: ContactData, value: List<ValueWithType>) {
         contact.emails = value
     }
@@ -124,6 +139,8 @@ class Addresses : ListAttribute() {
     override val androidValueColumn: String = ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS
     override val androidTypeColumn: String = ContactsContract.CommonDataKinds.StructuredPostal.TYPE
     override val androidContentType: String = ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE
+    override val intentActionType = IntentActionType.ADDRESS
+
     override fun set(contact: ContactData, value: List<ValueWithType>) {
         contact.addresses = value
     }
@@ -154,6 +171,8 @@ class Websites : ListAttribute() {
     override val androidValueColumn: String = ContactsContract.CommonDataKinds.Website.URL
     override val androidTypeColumn: String = ContactsContract.CommonDataKinds.Website.TYPE
     override val androidContentType: String = ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE
+    override val intentActionType = IntentActionType.WEBSITE
+
     override fun set(contact: ContactData, value: List<ValueWithType>) {
         contact.websites = value
     }

@@ -47,8 +47,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.IntentActionType
+import com.bnyro.contacts.enums.ListAttribute
+import com.bnyro.contacts.enums.Notes
+import com.bnyro.contacts.enums.StringAttribute
 import com.bnyro.contacts.obj.ContactData
-import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.ContactEntryGroup
 import com.bnyro.contacts.ui.components.ContactEntryTextGroup
 import com.bnyro.contacts.ui.components.ContactProfilePicture
@@ -61,7 +63,6 @@ import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.components.dialogs.ShortcutDialog
 import com.bnyro.contacts.ui.components.shapes.curlyCornerShape
 import com.bnyro.contacts.ui.models.ContactsModel
-import com.bnyro.contacts.util.CalendarUtils
 import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.IntentHelper
 
@@ -213,67 +214,25 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     }
                 }
 
-                ContactEntryTextGroup(
-                    label = stringResource(R.string.nick_name),
-                    entries = listOfNotNull(contact.nickName)
-                )
-
-                ContactEntryTextGroup(
-                    label = stringResource(R.string.title),
-                    entries = listOfNotNull(contact.title)
-                )
-
-                ContactEntryTextGroup(
-                    label = stringResource(R.string.organization),
-                    entries = listOfNotNull(contact.organization)
-                )
-
-                ContactEntryGroup(
-                    label = stringResource(R.string.website),
-                    entries = contact.websites
-                ) {
-                    IntentHelper.launchAction(context, IntentActionType.WEBSITE, it.value)
+                for (attributesType in ContactsHelper.contactAttributesTypes) {
+                    if (attributesType is StringAttribute) {
+                        ContactEntryTextGroup(
+                            label = stringResource(attributesType.stringRes),
+                            entries = listOfNotNull(attributesType.display(contact))
+                        )
+                    } else if (attributesType is ListAttribute) {
+                        ContactEntryGroup(
+                            label = stringResource(attributesType.stringRes),
+                            entries = attributesType.display(contact),
+                            types = attributesType.types,
+                            useMarkdown = attributesType is Notes
+                        ) {
+                            attributesType.intentActionType?.let { intentActionType ->
+                                IntentHelper.launchAction(context, intentActionType, it.value)
+                            }
+                        }
+                    }
                 }
-
-                ContactEntryGroup(
-                    label = stringResource(R.string.phone),
-                    entries = contact.numbers.map {
-                        ValueWithType(ContactsHelper.normalizePhoneNumber(it.value), it.type)
-                    },
-                    types = ContactsHelper.phoneNumberTypes
-                ) {
-                    IntentHelper.launchAction(context, IntentActionType.DIAL, it.value)
-                }
-
-                ContactEntryGroup(
-                    label = stringResource(R.string.email),
-                    entries = contact.emails,
-                    types = ContactsHelper.emailTypes
-                ) {
-                    IntentHelper.launchAction(context, IntentActionType.EMAIL, it.value)
-                }
-
-                ContactEntryGroup(
-                    label = stringResource(R.string.address),
-                    entries = contact.addresses,
-                    types = ContactsHelper.addressTypes
-                ) {
-                    IntentHelper.launchAction(context, IntentActionType.ADDRESS, it.value)
-                }
-
-                ContactEntryGroup(
-                    label = stringResource(R.string.event),
-                    entries = contact.events.map {
-                        ValueWithType(CalendarUtils.localizeIsoDate(it.value), it.type)
-                    },
-                    types = ContactsHelper.eventTypes
-                )
-
-                ContactEntryGroup(
-                    label = stringResource(R.string.note),
-                    entries = contact.notes,
-                    useMarkdown = true
-                )
 
                 ContactEntryTextGroup(
                     label = stringResource(R.string.groups),
