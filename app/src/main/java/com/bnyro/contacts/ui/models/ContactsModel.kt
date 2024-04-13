@@ -16,11 +16,13 @@ import com.bnyro.contacts.App
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.ContactsSource
 import com.bnyro.contacts.ext.toast
+import com.bnyro.contacts.obj.AccountType
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.repo.ContactsRepository
 import com.bnyro.contacts.repo.DeviceContactsRepository
 import com.bnyro.contacts.repo.LocalContactsRepository
 import com.bnyro.contacts.ui.models.state.ContactListState
+import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.ExportHelper
 import com.bnyro.contacts.util.IntentHelper
 import com.bnyro.contacts.util.PermissionHelper
@@ -203,31 +205,25 @@ class ContactsModel(
     /**
      * Returns a list of account type to account name
      */
-    fun getAvailableAccounts(): List<Pair<String, String>> {
-        if (contacts.isEmpty()) {
-            return listOf(
-                DeviceContactsRepository.ANDROID_ACCOUNT_TYPE to DeviceContactsRepository.ANDROID_CONTACTS_NAME
-            )
-        }
-        return contacts.mapNotNull {
-            it.accountType?.let { type -> type to it.accountName.orEmpty() }
-        }.distinct().toMutableList()
+    fun getAvailableAccounts(context: Context): List<AccountType> {
+        if (!PermissionHelper.hasPermission(context, Manifest.permission.READ_SYNC_SETTINGS))
+            return listOf(AccountType.androidDefault)
+
+        return deviceContactsRepository.getAccountTypes()
     }
 
     fun getAvailableGroups() = contacts.map { it.groups }.flatten().distinct()
 
     fun getContactByNumber(number: String): ContactData? {
-        val normalizedNumber = number.replace(normalizeNumberRegex, "")
+        val normalizedNumber = ContactsHelper.normalizePhoneNumber(number)
         return contacts.firstOrNull {
             it.numbers.any { (value, _) ->
-                value.replace(normalizeNumberRegex, "") == normalizedNumber
+                ContactsHelper.normalizePhoneNumber(value) == normalizedNumber
             }
         }
     }
 
     companion object {
-        val normalizeNumberRegex = Regex("[-_ ]")
-
         val Factory = viewModelFactory {
             initializer {
                 val application = this[APPLICATION_KEY] as App

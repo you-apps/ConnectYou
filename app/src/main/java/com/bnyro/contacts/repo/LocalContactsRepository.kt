@@ -32,6 +32,7 @@ class LocalContactsRepository(context: Context) : ContactsRepository {
             firstName = contact.firstName,
             surName = contact.surName,
             nickName = contact.nickName,
+            title = contact.title,
             organization = contact.organization
         )
         val contactId = DatabaseHolder.Db.localContactsDao().insertContact(localContact)
@@ -86,6 +87,7 @@ class LocalContactsRepository(context: Context) : ContactsRepository {
                 firstName = it.contact.firstName,
                 surName = it.contact.surName,
                 nickName = it.contact.nickName,
+                title = it.contact.title,
                 organization = it.contact.organization,
                 photo = profileImage,
                 thumbnail = profileImage,

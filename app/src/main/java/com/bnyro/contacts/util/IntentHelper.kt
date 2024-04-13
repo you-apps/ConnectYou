@@ -8,6 +8,11 @@ import android.provider.ContactsContract
 import androidx.core.net.toUri
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.IntentActionType
+import com.bnyro.contacts.enums.ListAttribute
+import com.bnyro.contacts.enums.StringAttribute
+import com.bnyro.contacts.obj.ContactData
+import com.bnyro.contacts.obj.TranslatedType
+import com.bnyro.contacts.obj.ValueWithType
 
 object IntentHelper {
     fun launchAction(context: Context, type: IntentActionType, argument: String) {
@@ -66,5 +71,48 @@ object IntentHelper {
     fun openUrl(context: Context, url: String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         context.startActivity(intent)
+    }
+
+    fun extractContactFromIntent(intent: Intent): ContactData {
+        val name = intent.getStringExtra(ContactsContract.Intents.Insert.NAME)
+            ?: intent.getStringExtra(ContactsContract.Intents.Insert.PHONETIC_NAME)
+
+        val data = ContactData(
+            displayName = name,
+            firstName = name?.split(" ")?.firstOrNull(),
+            surName = name?.split(" ", limit = 2)?.lastOrNull(),
+        )
+
+        ContactsHelper.contactAttributesTypes.forEach { attribute ->
+                if (attribute is StringAttribute) {
+                    attribute.set(data, intent.getStringExtra(attribute.insertKey))
+                } else if (attribute is ListAttribute) {
+                    val values = attribute.insertKeys.mapNotNull { insertKey ->
+                        extractIntentValue(intent, insertKey.first, insertKey.second)
+                    }
+                    attribute.set(data, values)
+                }
+            }
+
+        return data
+    }
+
+    private fun extractIntentValue(
+        intent: Intent,
+        key: String,
+        typeKey: String? = null,
+        types: List<TranslatedType> = emptyList()
+    ): ValueWithType? {
+        val entry = intent.getStringExtra(key) ?: return null
+
+        val type = if (typeKey != null) {
+            val typeIdentifier = intent.getStringExtra(typeKey)
+
+            types.firstOrNull {
+                it.vcardType?.value?.uppercase() == typeIdentifier
+            }?.id
+        } else null
+
+        return ValueWithType(entry, type ?: 0)
     }
 }

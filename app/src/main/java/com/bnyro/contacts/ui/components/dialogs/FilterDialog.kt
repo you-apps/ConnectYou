@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.SortOrder
+import com.bnyro.contacts.obj.AccountType
 import com.bnyro.contacts.obj.ContactsGroup
 import com.bnyro.contacts.obj.FilterOptions
 import com.bnyro.contacts.ui.components.base.ChipSelector
@@ -21,7 +22,7 @@ import com.bnyro.contacts.ui.components.base.ChipSelector
 @Composable
 fun FilterDialog(
     initialFilters: FilterOptions,
-    availableAccountTypes: List<Pair<String, String>>,
+    availableAccountTypes: List<AccountType>,
     availableGroups: List<ContactsGroup>,
     onDismissRequest: () -> Unit,
     onFilterChanged: (FilterOptions) -> Unit
@@ -73,17 +74,16 @@ fun FilterDialog(
                     Spacer(modifier = Modifier.height(10.dp))
                     ChipSelector(
                         title = stringResource(R.string.account_type),
-                        entries = availableAccountTypes.map { it.second },
+                        entries = availableAccountTypes.map { it.type },
                         selections = availableAccountTypes.filter {
-                            !hiddenAccountNames.contains(it.first + "|" + it.second)
-                        }.map { it.second },
+                            !hiddenAccountNames.contains(it.identifier)
+                        }.map { it.type },
                         onSelectionChanged = { index, newValue ->
                             val selection = availableAccountTypes[index]
-                            val selectedAccountName = selection.first + "|" + selection.second
                             hiddenAccountNames = if (newValue) {
-                                hiddenAccountNames - selectedAccountName
+                                hiddenAccountNames - selection.identifier
                             } else {
-                                hiddenAccountNames + selectedAccountName
+                                hiddenAccountNames + selection.identifier
                             }
                         }
                     )

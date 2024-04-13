@@ -102,4 +102,9 @@
     <string name="send">Nachricht senden</string>
     <string name="messages">Nachrichten</string>
     <string name="connection_error">Verbindungsfehler! Stellen sie sicher, dass der Flugmodus ausgeschaltet ist!</string>
+    <string name="phone_number">Telefonnummer</string>
+    <string name="delete_thread">Unterhaltung löschen</string>
+    <string name="delete_message">Nachricht löschen</string>
+    <string name="private_sms_database">Private SMS Datenbank</string>
+    <string name="save">Speichern</string>
 </resources>

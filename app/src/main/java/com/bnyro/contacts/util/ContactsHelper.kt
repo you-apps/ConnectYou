@@ -2,7 +2,18 @@ package com.bnyro.contacts.util
 
 import android.provider.ContactsContract
 import com.bnyro.contacts.R
+import com.bnyro.contacts.enums.Addresses
+import com.bnyro.contacts.enums.Emails
+import com.bnyro.contacts.enums.Events
+import com.bnyro.contacts.enums.Nickname
+import com.bnyro.contacts.enums.Notes
+import com.bnyro.contacts.enums.Numbers
+import com.bnyro.contacts.enums.Organization
+import com.bnyro.contacts.enums.Title
+import com.bnyro.contacts.enums.Websites
+import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.TranslatedType
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import ezvcard.parameter.AddressType
 import ezvcard.parameter.EmailType
 import ezvcard.parameter.TelephoneType
@@ -75,6 +86,11 @@ object ContactsHelper {
         TranslatedType(ContactsContract.CommonDataKinds.Website.TYPE_OTHER, R.string.other)
     )
 
+    val contactAttributesTypes = listOf(
+        Nickname(), Title(), Organization(),
+        Numbers(), Addresses(), Emails(), Events(), Websites(), Notes()
+    )
+
     fun splitFullName(displayName: String?): Pair<String, String> {
         val displayNameParts = displayName.orEmpty().split(" ")
         return when {
@@ -92,5 +108,35 @@ object ContactsHelper {
                 "" to ""
             }
         }
+    }
+
+    fun normalizePhoneNumber(number: String): String {
+        val phoneUtil = PhoneNumberUtil.getInstance()
+        val phoneNumber = runCatching { phoneUtil.parse(number, null) }
+            .getOrElse { return number }
+        return phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
+    }
+
+    fun matches(contactData: ContactData, query: String): Boolean {
+        val contactInfoStrings = listOf(contactData.numbers, contactData.emails, contactData.addresses, contactData.notes, contactData.websites, contactData.events)
+            .flatten()
+            .map { (value, _) -> value } + listOf(contactData.organization, contactData.nickName, contactData.displayName)
+
+        return contactInfoStrings.filterNotNull().any { str ->
+            str.lowercase().contains(query)
+        }
+    }
+
+    fun filter(contacts: List<ContactData>, searchQuery: String): List<ContactData> {
+        val query = searchQuery.lowercase()
+
+        return contacts.filter { matches(it, query) }
+    }
+
+    fun isContactEmpty(contactData: ContactData): Boolean {
+        val stringProperties = listOf(contactData.firstName, contactData.surName, contactData.nickName, contactData.organization)
+        val listProperties = listOf(contactData.numbers, contactData.emails, contactData.events, contactData.addresses, contactData.notes)
+
+        return stringProperties.none { !it.isNullOrBlank() } && listProperties.flatten().isEmpty()
     }
 }

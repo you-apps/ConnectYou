@@ -10,15 +10,14 @@ import android.provider.Telephony
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
+import com.bnyro.contacts.App
 import com.bnyro.contacts.R
 import com.bnyro.contacts.db.obj.SmsData
 import com.bnyro.contacts.enums.IntentActionType
-import com.bnyro.contacts.ui.activities.MainActivity
 import com.bnyro.contacts.util.IntentHelper
 import com.bnyro.contacts.util.NotificationHelper
 import com.bnyro.contacts.util.NotificationHelper.MESSAGES_CHANNEL_ID
 import com.bnyro.contacts.util.PermissionHelper
-import com.bnyro.contacts.util.SmsUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 
@@ -28,21 +27,24 @@ class SmsReceiver : BroadcastReceiver() {
         if (intent.action != SMS_DELIVER) return
 
         Telephony.Sms.Intents.getMessagesFromIntent(intent).forEach { message ->
-            val notificationId = message.timestampMillis.hashCode()
             val address = message.displayOriginatingAddress
             val body = message.displayMessageBody
             val timestamp = message.timestampMillis
+
             val threadId =
-                runBlocking(Dispatchers.IO) { SmsUtil.getOrCreateThreadId(context, address) }
+                runBlocking(Dispatchers.IO) {
+                    (context.applicationContext as App).smsRepo.getOrCreateThreadId(
+                        context,
+                        address
+                    )
+                }
             val bareSmsData =
-                SmsData(-1, address, body, timestamp, threadId, Telephony.Sms.MESSAGE_TYPE_INBOX)
+                SmsData(0, address, body, timestamp, threadId, Telephony.Sms.MESSAGE_TYPE_INBOX)
 
-            createNotification(context, notificationId, bareSmsData)
-            val smsData = runBlocking(Dispatchers.IO) {
-                SmsUtil.persistMessage(context, bareSmsData)
+            createNotification(context, bareSmsData.hashCode(), bareSmsData)
+            runBlocking(Dispatchers.IO) {
+                (context.applicationContext as App).smsRepo.persistSms(context, bareSmsData)
             }
-
-            MainActivity.smsModel?.addSmsToList(smsData)
         }
     }
 
@@ -60,7 +62,7 @@ class SmsReceiver : BroadcastReceiver() {
 
         val replyPendingIntent = PendingIntent.getBroadcast(
             context,
-            0,
+            notificationId + 1,
             replyIntent,
             PendingIntent.FLAG_MUTABLE
         )
@@ -80,9 +82,9 @@ class SmsReceiver : BroadcastReceiver() {
 
         val deletePendingIntent = PendingIntent.getBroadcast(
             context,
-            1,
+            notificationId + 2,
             deleteIntent,
-            PendingIntent.FLAG_MUTABLE
+            PendingIntent.FLAG_IMMUTABLE
         )
 
         val deleteMessageAction = NotificationCompat.Action.Builder(
@@ -95,12 +97,12 @@ class SmsReceiver : BroadcastReceiver() {
 
         val smsThreadPendingIntent = PendingIntent.getActivity(
             context,
-            1,
+            notificationId + 3,
             smsThreadIntent,
             PendingIntent.FLAG_IMMUTABLE
         )
 
-        val notification = NotificationCompat.Builder(context, MESSAGES_CHANNEL_ID)
+        val builder = NotificationCompat.Builder(context, MESSAGES_CHANNEL_ID)
             .setDefaults(Notification.DEFAULT_ALL)
             .setSmallIcon(R.drawable.ic_message_notification)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -117,7 +119,26 @@ class SmsReceiver : BroadcastReceiver() {
             .setOnlyAlertOnce(true)
             .addAction(replyAction)
             .addAction(deleteMessageAction)
-            .build()
+
+        verificationCodeRegex.find(smsData.body)?.let { code ->
+            val copyIntent = Intent(context, CopyTextReceiver::class.java)
+                .putExtra(KEY_EXTRA_TEXT, code.value)
+
+            val copyPendingIntent = PendingIntent.getBroadcast(
+                context,
+                notificationId + 4,
+                copyIntent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
+
+            val copyMessageAction = NotificationCompat.Action.Builder(
+                R.drawable.ic_delete,
+                "${context.getString(R.string.copy)} ${code.value}",
+                copyPendingIntent
+            ).build()
+
+            builder.addAction(copyMessageAction)
+        }
 
         if (!PermissionHelper.checkPermissions(
                 context,
@@ -126,7 +147,7 @@ class SmsReceiver : BroadcastReceiver() {
         ) {
             return
         }
-        NotificationManagerCompat.from(context).notify(notificationId, notification)
+        NotificationManagerCompat.from(context).notify(notificationId, builder.build())
     }
 
     companion object {
@@ -136,5 +157,8 @@ class SmsReceiver : BroadcastReceiver() {
         const val KEY_EXTRA_SMS_ID = "key_extra_sms_id"
         const val KEY_EXTRA_THREAD_ID = "key_extra_thread_id"
         const val KEY_EXTRA_NOTIFICATION_ID = "notification_id"
+        const val KEY_EXTRA_TEXT = "key_extra_text"
+
+        val verificationCodeRegex = Regex("(?<!\\d)\\d{6}(?!\\d)")
     }
 }

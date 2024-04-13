@@ -4,20 +4,23 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
+import com.bnyro.contacts.enums.ListAttribute
+import com.bnyro.contacts.enums.StringAttribute
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.ui.components.dialogs.DialogButton
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.util.BackupHelper
+import com.bnyro.contacts.util.ContactsHelper
 
 @Composable
 fun ShareDialog(
@@ -27,45 +30,46 @@ fun ShareDialog(
     val contactsModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
     val context = LocalContext.current
 
-    val shareName = remember { mutableStateOf(true) }
-    val sharePhoto = remember { mutableStateOf(true) }
-    val shareNickName = remember { mutableStateOf(true) }
-    val shareOrganization = remember { mutableStateOf(true) }
-    val shareWebsite = remember { mutableStateOf(true) }
-    val sharePhone = remember { mutableStateOf(true) }
-    val shareEmail = remember { mutableStateOf(true) }
-    val shareAddress = remember { mutableStateOf(true) }
-    val shareNote = remember { mutableStateOf(true) }
+    val baseOptions = remember {
+        listOf(R.string.name, R.string.photo)
+    }
 
-    val options = listOf(
-        R.string.name to shareName,
-        R.string.photo to sharePhoto,
-        R.string.nick_name to shareNickName,
-        R.string.organization to shareOrganization,
-        R.string.website to shareWebsite,
-        R.string.phone to sharePhone,
-        R.string.email to shareEmail,
-        R.string.address to shareAddress,
-        R.string.note to shareNote
-    )
+    val options = remember {
+         baseOptions + ContactsHelper.contactAttributesTypes.map { it.stringRes }
+    }
+
+    val selected = remember {
+        SnapshotStateList<Boolean>().apply {
+            for (i in options.indices) add(true)
+        }
+    }
 
     fun getContactData(): ContactData {
-        return contact.copy().apply {
-            if (!shareName.value) {
-                displayName = null
-                alternativeName = null
-                firstName = null
-                surName = null
-            }
-            if (!sharePhoto.value) photo = null
-            if (!shareNickName.value) nickName = null
-            if (!shareOrganization.value) organization = null
-            if (!shareAddress.value) addresses = emptyList()
-            if (!shareEmail.value) emails = emptyList()
-            if (!shareNote.value) notes = emptyList()
-            if (!sharePhone.value) numbers = emptyList()
-            if (!shareWebsite.value) websites = emptyList()
+        val data = ContactData()
+
+        if (selected[0]) {
+            data.displayName = contact.displayName
+            data.alternativeName = contact.alternativeName
+            data.firstName = contact.firstName
+            data.surName = contact.surName
         }
+        if (selected[1]) {
+            data.photo = contact.photo
+        }
+
+        ContactsHelper.contactAttributesTypes.forEachIndexed { index, contactAttribute ->
+            if (selected[index + baseOptions.size]) {
+                if (contactAttribute is StringAttribute) {
+                    val value = contactAttribute.get(contact)
+                    contactAttribute.set(data, value)
+                } else if (contactAttribute is ListAttribute) {
+                    val value = contactAttribute.get(contact)
+                    contactAttribute.set(data, value)
+                }
+            }
+        }
+
+        return data
     }
 
     val openFilePicker = rememberLauncherForActivityResult(
@@ -83,8 +87,10 @@ fun ShareDialog(
         title = { Text(stringResource(R.string.share)) },
         text = {
             LazyColumn {
-                items(options) {
-                    ShareOption(title = it.first, isChecked = it.second)
+                itemsIndexed(options) { index, it ->
+                    ShareOption(title = it, isChecked = selected[index]) {
+                        selected[index] = it
+                    }
                 }
             }
         },

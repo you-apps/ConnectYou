@@ -14,6 +14,7 @@ data class ContactData(
     var firstName: String? = null,
     var surName: String? = null,
     var nickName: String? = null,
+    var title: String? = null,
     var organization: String? = null,
     var photo: Bitmap? = null,
     var thumbnail: Bitmap? = null,
@@ -31,6 +32,8 @@ data class ContactData(
             SortOrder.FIRSTNAME -> displayName
             SortOrder.LASTNAME -> alternativeName
             SortOrder.NICKNAME -> nickName ?: displayName
+        }?.ifBlank {
+            organization ?: numbers.firstOrNull()?.value
         }
     }
 }

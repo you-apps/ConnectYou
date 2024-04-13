@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -15,7 +16,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.FilterOptions
-import com.bnyro.contacts.ui.components.modifier.scrollbar
+import my.nanihadesuka.compose.LazyColumnScrollbar
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -43,46 +44,52 @@ fun ContactsList(
             it.getNameBySortOrder(filterOptions.sortOder)?.firstOrNull()?.uppercase()
         }
     }
-    LazyColumn(
-        state = state,
-        modifier = Modifier
-            .padding(end = 5.dp)
-            .scrollbar(state, false)
-            .let { modifier ->
-                scrollConnection?.let { modifier.nestedScroll(it) } ?: modifier
-            }
+    LazyColumnScrollbar(
+        listState = state,
+        thumbColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+        thumbSelectedColor = MaterialTheme.colorScheme.primary,
+        thickness = 8.dp
     ) {
-        contactGroups.forEach { (firstLetter, groupedContacts) ->
-            stickyHeader {
-                CharacterHeader(firstLetter.orEmpty())
-            }
-            items(groupedContacts) {
-                ContactItem(
-                    modifier = Modifier.padding(horizontal = 10.dp),
-                    contact = it,
-                    sortOrder = filterOptions.sortOder,
-                    selected = selectedContacts.contains(it),
-                    onSinglePress = {
-                        if (selectedContacts.isEmpty()) {
-                            false
-                        } else {
-                            if (selectedContacts.contains(it)) {
-                                selectedContacts.remove(it)
+        LazyColumn(
+            state = state,
+            modifier = Modifier
+                .padding(end = 5.dp)
+                .let { modifier ->
+                    scrollConnection?.let { modifier.nestedScroll(it) } ?: modifier
+                }
+        ) {
+            contactGroups.forEach { (firstLetter, groupedContacts) ->
+                stickyHeader {
+                    CharacterHeader(firstLetter.orEmpty())
+                }
+                items(groupedContacts) {
+                    ContactItem(
+                        modifier = Modifier.padding(horizontal = 10.dp),
+                        contact = it,
+                        sortOrder = filterOptions.sortOder,
+                        selected = selectedContacts.contains(it),
+                        onSinglePress = {
+                            if (selectedContacts.isEmpty()) {
+                                false
                             } else {
-                                selectedContacts.add(it)
+                                if (selectedContacts.contains(it)) {
+                                    selectedContacts.remove(it)
+                                } else {
+                                    selectedContacts.add(it)
+                                }
+                                true
                             }
-                            true
+                        },
+                        onLongPress = {
+                            if (!selectedContacts.contains(it)) selectedContacts.add(it)
                         }
-                    },
-                    onLongPress = {
-                        if (!selectedContacts.contains(it)) selectedContacts.add(it)
-                    }
-                )
+                    )
+                }
             }
-        }
 
-        item {
-            Spacer(modifier = Modifier.height(10.dp))
+            item {
+                Spacer(modifier = Modifier.height(10.dp))
+            }
         }
     }
 }

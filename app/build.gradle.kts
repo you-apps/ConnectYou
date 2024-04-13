@@ -8,12 +8,16 @@ android {
     namespace = "com.bnyro.contacts"
     compileSdk = 33
 
+    androidResources {
+        generateLocaleConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.bnyro.contacts"
         minSdk = 23
         targetSdk = 33
-        versionCode = 27
-        versionName = "8.1"
+        versionCode = 28
+        versionName = "9.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -76,6 +80,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:$compose_version")
     implementation("androidx.compose.material3:material3:1.2.0-alpha02")
     implementation("androidx.compose.material:material-icons-extended:1.4.3")
+    implementation("com.github.nanihadesuka:LazyColumnScrollbar:1.9.0")
 
     // VCard
     implementation("com.googlecode.ez-vcard:ez-vcard:0.11.3")
@@ -84,12 +89,16 @@ dependencies {
     // Image parsing
     implementation("androidx.exifinterface:exifinterface:1.3.6")
 
+    // Phone number formatting
+    implementation("com.googlecode.libphonenumber:libphonenumber:8.2.0")
+
     // Markdown support for notes
     implementation("com.halilibo.compose-richtext:richtext-ui-material3:0.17.0")
     implementation("com.halilibo.compose-richtext:richtext-commonmark:0.17.0")
 
     // Room database
     implementation("androidx.room:room-ktx:2.5.1")
+    implementation("androidx.navigation:navigation-compose:2.5.2")
     kapt("androidx.room:room-compiler:2.5.1")
 
     // Testing

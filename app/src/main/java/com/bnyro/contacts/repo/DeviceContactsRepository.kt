@@ -1,8 +1,10 @@
 package com.bnyro.contacts.repo
 
 import android.Manifest
+import android.accounts.AccountManager
 import android.annotation.SuppressLint
 import android.content.ContentProviderOperation
+import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.graphics.Bitmap
@@ -11,27 +13,25 @@ import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.ContactsContract.AUTHORITY
 import android.provider.ContactsContract.CALLER_IS_SYNCADAPTER
-import android.provider.ContactsContract.CommonDataKinds.Email
-import android.provider.ContactsContract.CommonDataKinds.Event
 import android.provider.ContactsContract.CommonDataKinds.GroupMembership
 import android.provider.ContactsContract.CommonDataKinds.Nickname
-import android.provider.ContactsContract.CommonDataKinds.Note
 import android.provider.ContactsContract.CommonDataKinds.Organization
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.ContactsContract.CommonDataKinds.Photo
 import android.provider.ContactsContract.CommonDataKinds.StructuredName
-import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
-import android.provider.ContactsContract.CommonDataKinds.Website
 import android.provider.ContactsContract.Contacts
 import android.provider.ContactsContract.Data
 import android.provider.ContactsContract.RawContacts
 import androidx.annotation.RequiresPermission
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.BackupType
+import com.bnyro.contacts.enums.ListAttribute
+import com.bnyro.contacts.enums.StringAttribute
 import com.bnyro.contacts.ext.intValue
 import com.bnyro.contacts.ext.longValue
 import com.bnyro.contacts.ext.notAName
 import com.bnyro.contacts.ext.stringValue
+import com.bnyro.contacts.obj.AccountType
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.ContactsGroup
 import com.bnyro.contacts.obj.ValueWithType
@@ -45,7 +45,9 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
     override val label: String = context.getString(R.string.device)
 
     private val contentResolver = context.contentResolver
-    private val contactsUri = Data.CONTENT_URI
+    private val contentUri = Data.CONTENT_URI
+
+    private val authority = AUTHORITY
 
     private val projection = arrayOf(
         Data.RAW_CONTACT_ID,
@@ -54,8 +56,6 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
         Contacts.DISPLAY_NAME_ALTERNATIVE,
         StructuredName.GIVEN_NAME,
         StructuredName.FAMILY_NAME,
-        Nickname.NAME,
-        Organization.COMPANY,
         RawContacts.ACCOUNT_TYPE,
         RawContacts.ACCOUNT_NAME
     )
@@ -69,7 +69,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
 
         @Suppress("SameParameterValue")
         val cursor = contentResolver.query(
-            contactsUri,
+            contentUri,
             projection,
             null,
             null,
@@ -125,44 +125,21 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
             thumbnail = getContactPhotoThumbnail(contactId)
             photo = getContactPhoto(contactId) ?: thumbnail
             groups = getGroups(contactId, storedContactGroups)
-            nickName = getEntry(contactId, Nickname.CONTENT_ITEM_TYPE, Nickname.NAME)
-            organization = getEntry(contactId, Organization.CONTENT_ITEM_TYPE, Organization.COMPANY)
-            events = getExtras(
-                contactId,
-                Event.START_DATE,
-                Event.TYPE,
-                Event.CONTENT_ITEM_TYPE
-            )
-            numbers = getExtras(
-                contactId,
-                Phone.NUMBER,
-                Phone.TYPE,
-                Phone.CONTENT_ITEM_TYPE
-            )
-            emails = getExtras(
-                contactId,
-                Email.ADDRESS,
-                Email.TYPE,
-                Email.CONTENT_ITEM_TYPE
-            )
-            addresses = getExtras(
-                contactId,
-                StructuredPostal.FORMATTED_ADDRESS,
-                StructuredPostal.TYPE,
-                StructuredPostal.CONTENT_ITEM_TYPE
-            )
-            notes = getExtras(
-                contactId,
-                Note.NOTE,
-                Note.DATA2,
-                Note.CONTENT_ITEM_TYPE
-            )
-            websites = getExtras(
-                contactId,
-                Website.URL,
-                Website.TYPE,
-                Website.CONTENT_ITEM_TYPE
-            )
+
+            ContactsHelper.contactAttributesTypes.forEach { attribute ->
+                if (attribute is StringAttribute) {
+                    val dataStr = getEntry(contactId, attribute.androidContentType, attribute.androidValueColumn)
+                    attribute.set(this, dataStr)
+                } else if (attribute is ListAttribute) {
+                    val dataEntries = getExtras(
+                        contactId,
+                        attribute.androidValueColumn,
+                        attribute.androidTypeColumn,
+                        attribute.androidContentType
+                    )
+                    attribute.set(this, dataEntries)
+                }
+            }
         }
     }
 
@@ -187,8 +164,8 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
             ContentProviderOperation.newInsert(ContactsContract.Groups.CONTENT_URI).apply {
                 withValue(ContactsContract.Groups.TITLE, groupName)
                 withValue(ContactsContract.Groups.GROUP_VISIBLE, 1)
-                withValue(ContactsContract.Groups.ACCOUNT_NAME, ANDROID_CONTACTS_NAME)
-                withValue(ContactsContract.Groups.ACCOUNT_TYPE, ANDROID_ACCOUNT_TYPE)
+                withValue(ContactsContract.Groups.ACCOUNT_NAME, AccountType.androidDefault.name)
+                withValue(ContactsContract.Groups.ACCOUNT_TYPE, AccountType.androidDefault.type)
                 operations.add(build())
             }
 
@@ -272,7 +249,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
         val projection = arrayOf(Data.CONTACT_ID, valueIndex, typeIndex ?: "data2")
 
         contentResolver.query(
-            contactsUri,
+            contentUri,
             projection,
             "${Data.MIMETYPE} = ? AND ${Data.CONTACT_ID} = ?",
             arrayOf(itemType, contactId.toString()),
@@ -314,8 +291,8 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
             val lastChosenAccount = Preferences.getLastChosenAccount()
             val ops = listOfNotNull(
                 getCreateAction(
-                    contact.accountType ?: lastChosenAccount.first,
-                    contact.accountName ?: lastChosenAccount.second
+                    contact.accountType ?: lastChosenAccount.type,
+                    contact.accountName ?: lastChosenAccount.name
                 ),
                 getInsertAction(
                     StructuredName.CONTENT_ITEM_TYPE,
@@ -332,82 +309,32 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
                     StructuredName.FAMILY_NAME,
                     contact.surName.orEmpty()
                 ),
-                contact.nickName?.let {
-                    getInsertAction(
-                        Nickname.CONTENT_ITEM_TYPE,
-                        Nickname.NAME,
-                        it
-                    )
-                },
-                contact.organization?.let {
-                    getInsertAction(
-                        Organization.CONTENT_ITEM_TYPE,
-                        Organization.COMPANY,
-                        it
-                    )
-                },
                 contact.photo?.let {
                     getInsertAction(Photo.CONTENT_ITEM_TYPE, Photo.PHOTO, getBitmapBytes(it))
                 },
-                *contact.websites.map {
-                    getInsertAction(
-                        Website.CONTENT_ITEM_TYPE,
-                        Website.URL,
-                        it.value,
-                        Website.TYPE,
-                        it.type
-                    )
-                }.toTypedArray(),
-                *contact.numbers.map {
-                    getInsertAction(
-                        Phone.CONTENT_ITEM_TYPE,
-                        Phone.NUMBER,
-                        it.value,
-                        Phone.TYPE,
-                        it.type
-                    )
-                }.toTypedArray(),
-                *contact.emails.map {
-                    getInsertAction(
-                        Email.CONTENT_ITEM_TYPE,
-                        Email.ADDRESS,
-                        it.value,
-                        Email.TYPE,
-                        it.type
-                    )
-                }.toTypedArray(),
-                *contact.addresses.map {
-                    getInsertAction(
-                        StructuredPostal.CONTENT_ITEM_TYPE,
-                        StructuredPostal.FORMATTED_ADDRESS,
-                        it.value,
-                        StructuredPostal.TYPE,
-                        it.type
-                    )
-                }.toTypedArray(),
-                *contact.events.map {
-                    getInsertAction(
-                        Event.CONTENT_ITEM_TYPE,
-                        Event.START_DATE,
-                        it.value,
-                        Event.TYPE,
-                        it.type
-                    )
-                }.toTypedArray(),
-                *contact.notes.map {
-                    getInsertAction(
-                        Note.CONTENT_ITEM_TYPE,
-                        Note.NOTE,
-                        it.value
-                    )
-                }.toTypedArray(),
                 *contact.groups.map {
                     getInsertAction(
                         GroupMembership.CONTENT_ITEM_TYPE,
                         GroupMembership.GROUP_ROW_ID,
                         it.rowId.toString()
                     )
-                }.toTypedArray()
+                }.toTypedArray(),
+                *ContactsHelper.contactAttributesTypes.filterIsInstance<StringAttribute>().map { attribute ->
+                    attribute.get(contact)?.let {
+                        getInsertAction(attribute.androidContentType, attribute.androidValueColumn, it)
+                    }
+                }.toTypedArray(),
+                *ContactsHelper.contactAttributesTypes.filterIsInstance<ListAttribute>().map { attribute ->
+                    attribute.get(contact).map {
+                        getInsertAction(
+                            attribute.androidContentType,
+                            attribute.androidValueColumn,
+                            it.value,
+                            attribute.androidTypeColumn,
+                            it.type
+                        )
+                    }
+                }.flatten().toTypedArray()
             ).let { ArrayList(it) }
 
             contentResolver.applyBatch(AUTHORITY, ops)
@@ -421,7 +348,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
             val rawContactId = contact.rawContactId.toString()
 
             val selection = "${Data.RAW_CONTACT_ID} = ? AND ${Data.MIMETYPE} = ?"
-            ContentProviderOperation.newUpdate(contactsUri).apply {
+            ContentProviderOperation.newUpdate(contentUri).apply {
                 val selectionArgs = arrayOf(rawContactId, StructuredName.CONTENT_ITEM_TYPE)
                 withSelection(selection, selectionArgs)
                 withValue(StructuredName.GIVEN_NAME, contact.firstName)
@@ -430,77 +357,20 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
                 operations.add(build())
             }
 
-            operations.addAll(
-                getUpdateSingleAction(
-                    rawContactId,
-                    Nickname.CONTENT_ITEM_TYPE,
-                    Nickname.NAME,
-                    contact.nickName
-                )
-            )
-            operations.addAll(
-                getUpdateSingleAction(
-                    rawContactId,
-                    Organization.CONTENT_ITEM_TYPE,
-                    Organization.COMPANY,
-                    contact.organization
-                )
-            )
+            for (attribute in ContactsHelper.contactAttributesTypes) {
+                if (attribute is StringAttribute) {
+                    operations.addAll(getUpdateSingleAction(
+                        rawContactId, attribute.androidContentType,
+                        attribute.androidValueColumn, attribute.get(contact)
+                    ))
+                } else if (attribute is ListAttribute) {
+                    operations.addAll(getUpdateMultipleAction(
+                        rawContactId, attribute.androidContentType, attribute.get(contact),
+                        attribute.androidValueColumn, attribute.androidTypeColumn
+                    ))
+                }
+            }
 
-            operations.addAll(
-                getUpdateMultipleAction(
-                    rawContactId,
-                    Website.CONTENT_ITEM_TYPE,
-                    contact.websites,
-                    Website.URL,
-                    Website.TYPE
-                )
-            )
-            operations.addAll(
-                getUpdateMultipleAction(
-                    rawContactId,
-                    Phone.CONTENT_ITEM_TYPE,
-                    contact.numbers,
-                    Phone.NUMBER,
-                    Phone.TYPE
-                )
-            )
-            operations.addAll(
-                getUpdateMultipleAction(
-                    rawContactId,
-                    Email.CONTENT_ITEM_TYPE,
-                    contact.emails,
-                    Email.ADDRESS,
-                    Email.TYPE
-                )
-            )
-            operations.addAll(
-                getUpdateMultipleAction(
-                    rawContactId,
-                    StructuredPostal.CONTENT_ITEM_TYPE,
-                    contact.addresses,
-                    StructuredPostal.FORMATTED_ADDRESS,
-                    StructuredPostal.TYPE
-                )
-            )
-            operations.addAll(
-                getUpdateMultipleAction(
-                    rawContactId,
-                    Event.CONTENT_ITEM_TYPE,
-                    contact.events,
-                    Event.START_DATE,
-                    Event.TYPE
-                )
-            )
-            operations.addAll(
-                getUpdateMultipleAction(
-                    rawContactId,
-                    Note.CONTENT_ITEM_TYPE,
-                    contact.notes,
-                    Note.NOTE,
-                    null
-                )
-            )
             operations.addAll(
                 getUpdateMultipleAction(
                     rawContactId,
@@ -528,6 +398,14 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
         }
     }
 
+    fun getAccountTypes(): List<AccountType> {
+        val accounts = AccountManager.get(context).accounts.filter {
+            ContentResolver.getIsSyncable(it, authority) > 0 && ContentResolver.getSyncAutomatically(it, authority)
+        }
+
+        return listOf(AccountType.androidDefault) + accounts.map { AccountType(it.name, it.type) }
+    }
+
     private fun getCreateAction(accountType: String, accountName: String): ContentProviderOperation {
         return ContentProviderOperation.newInsert(RawContacts.CONTENT_URI)
             .withValue(RawContacts.ACCOUNT_TYPE, accountType)
@@ -543,7 +421,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
         type: Int? = null,
         rawContactId: Int? = null
     ): ContentProviderOperation {
-        return ContentProviderOperation.newInsert(contactsUri)
+        return ContentProviderOperation.newInsert(contentUri)
             .let { builder ->
                 // if creating a new contact, the previous contact id is going to be taken
                 // if updating an already existing contact, don't worry about the previous batch id
@@ -587,14 +465,14 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
         val selection = "${Data.RAW_CONTACT_ID} = ? AND ${Data.MIMETYPE} = ?"
         val selectionArgs = arrayOf(contactId, mimeType)
 
-        ContentProviderOperation.newDelete(contactsUri).apply {
+        ContentProviderOperation.newDelete(contentUri).apply {
             withSelection(selection, selectionArgs)
             operations.add(build())
         }
 
         // add new entries
         entries.forEach {
-            ContentProviderOperation.newInsert(contactsUri).apply {
+            ContentProviderOperation.newInsert(contentUri).apply {
                 withValue(Data.RAW_CONTACT_ID, contactId)
                 withValue(Data.MIMETYPE, mimeType)
                 withValue(valueIndex, it.value)
@@ -647,7 +525,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
     }
 
     private fun deletePhoto(rawContactId: Int): ContentProviderOperation {
-        return ContentProviderOperation.newDelete(contactsUri).apply {
+        return ContentProviderOperation.newDelete(contentUri).apply {
             val selection = "${Data.RAW_CONTACT_ID} = ? AND ${Data.MIMETYPE} = ?"
             val selectionArgs = arrayOf(rawContactId.toString(), Photo.CONTENT_ITEM_TYPE)
             withSelection(selection, selectionArgs)
@@ -656,7 +534,5 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
 
     companion object {
         const val MAX_PHOTO_SIZE = 700f
-        const val ANDROID_ACCOUNT_TYPE = "com.android.contacts"
-        const val ANDROID_CONTACTS_NAME = "DEVICE"
     }
 }

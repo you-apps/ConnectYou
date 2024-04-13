@@ -11,7 +11,7 @@
     <string name="search" tools:ignore="PrivateResource">搜索</string>
     <string name="copied">已复制到剪贴板</string>
     <string name="delete_contact">删除联系人</string>
-    <string name="irreversible">你确定吗？此操作无法撤销。</string>
+    <string name="irreversible">你确定吗？此操作无法撤销！</string>
     <string name="cancel">取消</string>
     <string name="okay">确定</string>
     <string name="reset">重设</string>
@@ -107,4 +107,13 @@
     <string name="delete_message">删除消息</string>
     <string name="private_sms_database_desc">短信将仅保存在此应用内并阻止其他应用访问。</string>
     <string name="phone_number">电话号码</string>
+    <string name="send_message_as_multiple">你想将消息分为多个更小的消息发送吗？</string>
+    <string name="add_website">添加网站</string>
+    <string name="add_phone_number">添加电话号码</string>
+    <string name="add_note">添加备注</string>
+    <string name="date">日期</string>
+    <string name="add_e_mail">添加电子邮件</string>
+    <string name="add_address">添加地址</string>
+    <string name="add_event">添加事件</string>
+    <string name="import_confirm">您是否要导入选定的 VCF 文件？</string>
 </resources>

@@ -1,5 +1,6 @@
-package com.bnyro.contacts.ui.components
+package com.bnyro.contacts.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.Crossfade
@@ -16,7 +17,6 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.CopyAll
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.MoveToInbox
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Share
@@ -47,26 +47,26 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.ContactsSource
+import com.bnyro.contacts.nav.NavRoutes
 import com.bnyro.contacts.obj.ContactData
 import com.bnyro.contacts.obj.FilterOptions
+import com.bnyro.contacts.ui.components.ContactsList
+import com.bnyro.contacts.ui.components.NothingHere
+import com.bnyro.contacts.ui.components.TopBarMoreMenu
 import com.bnyro.contacts.ui.components.base.ClickableIcon
-import com.bnyro.contacts.ui.components.base.OptionMenu
 import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.components.dialogs.FilterDialog
 import com.bnyro.contacts.ui.components.dialogs.SimImportDialog
 import com.bnyro.contacts.ui.models.ContactsModel
 import com.bnyro.contacts.ui.models.state.ContactListState
-import com.bnyro.contacts.ui.screens.AboutScreen
-import com.bnyro.contacts.ui.screens.EditorScreen
-import com.bnyro.contacts.ui.screens.SettingsScreen
-import com.bnyro.contacts.ui.screens.SingleContactScreen
 import com.bnyro.contacts.util.BackupHelper
 import com.bnyro.contacts.util.Preferences
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactsPage(
-    scrollConnection: NestedScrollConnection?
+    scrollConnection: NestedScrollConnection?,
+    onNavigate: (NavRoutes) -> Unit
 ) {
     val viewModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
     val context = LocalContext.current
@@ -79,6 +79,10 @@ fun ContactsPage(
         mutableStateOf(viewModel.initialContactData)
     }
 
+    var showEditorScreen by remember {
+        mutableStateOf(false)
+    }
+
     var showDelete by remember {
         mutableStateOf(false)
     }
@@ -87,15 +91,7 @@ fun ContactsPage(
         mutableStateOf(FilterOptions.default())
     }
 
-    var showSettings by remember {
-        mutableStateOf(false)
-    }
-
     var showSearch by remember {
-        mutableStateOf(false)
-    }
-
-    var showAbout by remember {
         mutableStateOf(false)
     }
 
@@ -122,7 +118,7 @@ fun ContactsPage(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    newContactToInsert = ContactData()
+                    showEditorScreen = true
                 }
             ) {
                 Icon(Icons.Default.Create, null)
@@ -130,10 +126,18 @@ fun ContactsPage(
         }
     ) { pv ->
         Column(
-            modifier = Modifier.padding(pv).fillMaxSize()
+            modifier = Modifier
+                .padding(pv)
+                .fillMaxSize()
         ) {
-            Crossfade(targetState = selectedContacts.isEmpty(), label = "main layout") { state ->
-                when (state) {
+            Crossfade(
+                targetState = selectedContacts.isEmpty(),
+                label = "main layout"
+            ) { selectionEmpty ->
+                BackHandler(enabled = !selectionEmpty) {
+                    selectedContacts.clear()
+                }
+                when (selectionEmpty) {
                     true -> {
                         TopAppBar(
                             title = {
@@ -179,9 +183,6 @@ fun ContactsPage(
                                 }
                             },
                             actions = {
-                                var expandedOptions by remember {
-                                    mutableStateOf(false)
-                                }
                                 ClickableIcon(
                                     icon = Icons.Default.Search,
                                     contentDescription = R.string.search
@@ -194,14 +195,7 @@ fun ContactsPage(
                                 ) {
                                     showFilterDialog = true
                                 }
-                                ClickableIcon(
-                                    icon = Icons.Default.MoreVert,
-                                    contentDescription = R.string.more
-                                ) {
-                                    expandedOptions = !expandedOptions
-                                }
-                                OptionMenu(
-                                    expanded = expandedOptions,
+                                TopBarMoreMenu(
                                     options = listOf(
                                         stringResource(R.string.import_vcf),
                                         stringResource(R.string.export_vcf),
@@ -209,11 +203,8 @@ fun ContactsPage(
                                         stringResource(R.string.settings),
                                         stringResource(R.string.about)
                                     ),
-                                    onDismissRequest = {
-                                        expandedOptions = false
-                                    },
-                                    onSelect = {
-                                        when (it) {
+                                    onOptionClick = { index ->
+                                        when (index) {
                                             0 -> {
                                                 importVcard.launch(BackupHelper.openMimeTypes)
                                             }
@@ -227,19 +218,19 @@ fun ContactsPage(
                                             }
 
                                             3 -> {
-                                                showSettings = true
+                                                onNavigate.invoke(NavRoutes.Settings)
                                             }
 
                                             4 -> {
-                                                showAbout = true
+                                                onNavigate.invoke(NavRoutes.About)
                                             }
                                         }
-                                        expandedOptions = false
                                     }
                                 )
                             }
                         )
                     }
+
                     false -> {
                         TopAppBar(
                             title = {
@@ -340,29 +331,18 @@ fun ContactsPage(
         }
     }
 
-    if (newContactToInsert != null) {
+    if (showEditorScreen || newContactToInsert != null) {
         EditorScreen(
             contact = newContactToInsert,
             onClose = {
                 newContactToInsert = null
+                showEditorScreen = false
             },
             isCreatingNewDeviceContact = (viewModel.contactsSource == ContactsSource.DEVICE),
             onSave = {
                 viewModel.createContact(context, it)
             }
         )
-    }
-
-    if (showSettings) {
-        SettingsScreen {
-            showSettings = false
-        }
-    }
-
-    if (showAbout) {
-        AboutScreen {
-            showAbout = false
-        }
     }
 
     if (showDelete) {
@@ -391,7 +371,7 @@ fun ContactsPage(
                 filterOptions = it
             },
             initialFilters = filterOptions,
-            availableAccountTypes = viewModel.getAvailableAccounts(),
+            availableAccountTypes = viewModel.getAvailableAccounts(context),
             availableGroups = viewModel.getAvailableGroups()
         )
     }
@@ -399,11 +379,6 @@ fun ContactsPage(
     if (showImportSimDialog) {
         SimImportDialog {
             showImportSimDialog = false
-        }
-    }
-    viewModel.initialContactData?.let {
-        SingleContactScreen(it) {
-            viewModel.initialContactData = null
         }
     }
 }

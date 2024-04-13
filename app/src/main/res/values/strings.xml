@@ -5,7 +5,7 @@
     <string name="search" tools:ignore="PrivateResource">Search</string>
     <string name="copied">Copied to clipboard</string>
     <string name="delete_contact">Delete contact</string>
-    <string name="irreversible">Are you sure\? This can\'t be undone.</string>
+    <string name="irreversible">Are you sure? This can\'t be undone!</string>
     <string name="cancel">Cancel</string>
     <string name="okay">Okay</string>
     <string name="reset">Reset</string>
@@ -84,6 +84,7 @@
     <string name="reply">Reply</string>
     <string name="connection_error">Could not connect. Please ensure airplane mode is off.</string>
     <string name="message_too_long">Message is too long!</string>
+    <string name="send_message_as_multiple">Do you want to send the message as multiple smaller ones?</string>
     <string name="private_sms_database">Private SMS Database</string>
     <string name="private_sms_database_desc">The SMS will only be stored within the app and not be accessible in other apps.</string>
     <string name="delete_thread">Delete thread</string>
@@ -100,6 +101,7 @@
     <string name="import_vcf">Import vCard</string>
     <string name="export_vcf">Export vCard</string>
     <string name="import_sim">Import from SIM</string>
+    <string name="import_confirm">Do you want to import the selected VCF file?</string>
     <!-- Settings -->
     <string name="settings">Settings</string>
     <string name="start_tab">Start tab</string>
@@ -127,6 +129,14 @@
     <string name="author">Author</string>
     <string name="version">Version</string>
     <string name="translation">Translation</string>
+    <string name="add_website">Add Website</string>
+    <string name="add_phone_number">Add Phone number</string>
+    <string name="add_e_mail">Add E-mail</string>
+    <string name="add_address">Add Address</string>
+    <string name="add_note">Add Note</string>
+    <string name="add_event">Add Event</string>
+    <string name="date">Date</string>
+    <string name="amoled">Amoled</string>
     <string name="calls">Calls</string>
     <string name="decline">Decline</string>
     <string name="accept">Accept</string>

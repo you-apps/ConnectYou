@@ -9,7 +9,7 @@
     <string name="okay">Si</string>
     <string name="copied">Copiado ao portapapeis</string>
     <string name="delete_contact">Eliminar contacto</string>
-    <string name="irreversible">Continuar\? A decisión non ten volta.</string>
+    <string name="irreversible">Continuar? A decisión non ten volta!</string>
     <string name="share">Compartir</string>
     <string name="create_shortcut">Crear atallo</string>
     <string name="dial">Marcar</string>
@@ -107,4 +107,13 @@
     <string name="delete_message">Eliminar mensaxe</string>
     <string name="private_sms_database_desc">Os SMS vanse gardar dentro da app e as outras apps non poden acceder a eles.</string>
     <string name="phone_number">Número de teléfono</string>
+    <string name="send_message_as_multiple">Queres enviar a mensaxe en forma de varios máis pequenos?</string>
+    <string name="add_website">Engadir Sitio web</string>
+    <string name="add_phone_number">Engadir número telf</string>
+    <string name="add_note">Engadir nota</string>
+    <string name="add_e_mail">Engadir correo</string>
+    <string name="add_address">Engadir enderezo</string>
+    <string name="add_event">Engadir evento</string>
+    <string name="date">Data</string>
+    <string name="import_confirm">Queres importar o ficheiro VCF seleccionado?</string>
 </resources>

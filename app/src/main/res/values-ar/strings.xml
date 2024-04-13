@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="irreversible">هل أنت متأكد؟ هذا لا يمكن التراجع عنه.</string>
+    <string name="irreversible">هل أنت متأكد؟ هذا لا يمكن التراجع عنه!</string>
     <string name="email">البريد الإلكترونيُّ</string>
     <string name="other">أخرى</string>
     <string name="car">سيَّارة</string>
@@ -55,7 +55,7 @@
     <string name="dark">داكن</string>
     <string name="auto_backup">نسخ احتياطيٌّ تلقائيٌّ</string>
     <string name="choose_dir">المسار</string>
-    <string name="none">لا شيء</string>
+    <string name="none">لاشيء</string>
     <string name="both">كلاهما</string>
     <string name="manage_groups">أدر المجموعات</string>
     <string name="delete_group">حذف المجموعة للجميع</string>
@@ -107,4 +107,13 @@
     <string name="delete_message">حذف الرسالة</string>
     <string name="private_sms_database_desc">سيتم تخزين الرسائل النصية داخل التطبيق فقط ولن يكون من الممكن الوصول إليها في التطبيقات الأخرى.</string>
     <string name="phone_number">رقم الهاتف</string>
+    <string name="send_message_as_multiple">هل تريد إرسال الرسالة كرسائل أصغر متعددة؟</string>
+    <string name="add_website">أضف موقعًا إلكترونيًا</string>
+    <string name="add_phone_number">إضافة رقم الهاتف</string>
+    <string name="add_e_mail">إضافة البريد الإلكتروني</string>
+    <string name="add_address">اضف عنوان</string>
+    <string name="add_note">اضف ملاحظة</string>
+    <string name="add_event">أضف حدثًا</string>
+    <string name="date">‪التاريخ</string>
+    <string name="import_confirm">هل ترغب في استيراد ملف VCF المحدد؟</string>
 </resources>

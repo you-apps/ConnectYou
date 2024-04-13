@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,7 +16,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Message
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Shortcut
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -42,8 +47,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.IntentActionType
+import com.bnyro.contacts.enums.ListAttribute
+import com.bnyro.contacts.enums.Notes
+import com.bnyro.contacts.enums.StringAttribute
 import com.bnyro.contacts.obj.ContactData
-import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.ContactEntryGroup
 import com.bnyro.contacts.ui.components.ContactEntryTextGroup
 import com.bnyro.contacts.ui.components.ContactProfilePicture
@@ -56,11 +63,10 @@ import com.bnyro.contacts.ui.components.dialogs.ConfirmationDialog
 import com.bnyro.contacts.ui.components.dialogs.ShortcutDialog
 import com.bnyro.contacts.ui.components.shapes.curlyCornerShape
 import com.bnyro.contacts.ui.models.ContactsModel
-import com.bnyro.contacts.util.CalendarUtils
 import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.IntentHelper
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
     val viewModel: ContactsModel = viewModel()
@@ -208,60 +214,25 @@ fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
                     }
                 }
 
-                ContactEntryTextGroup(
-                    label = stringResource(R.string.nick_name),
-                    entries = listOfNotNull(contact.nickName)
-                )
-
-                ContactEntryTextGroup(
-                    label = stringResource(R.string.organization),
-                    entries = listOfNotNull(contact.organization)
-                )
-
-                ContactEntryGroup(
-                    label = stringResource(R.string.website),
-                    entries = contact.websites
-                ) {
-                    IntentHelper.launchAction(context, IntentActionType.WEBSITE, it.value)
+                for (attributesType in ContactsHelper.contactAttributesTypes) {
+                    if (attributesType is StringAttribute) {
+                        ContactEntryTextGroup(
+                            label = stringResource(attributesType.stringRes),
+                            entries = listOfNotNull(attributesType.display(contact))
+                        )
+                    } else if (attributesType is ListAttribute) {
+                        ContactEntryGroup(
+                            label = stringResource(attributesType.stringRes),
+                            entries = attributesType.display(contact),
+                            types = attributesType.types,
+                            useMarkdown = attributesType is Notes
+                        ) {
+                            attributesType.intentActionType?.let { intentActionType ->
+                                IntentHelper.launchAction(context, intentActionType, it.value)
+                            }
+                        }
+                    }
                 }
-
-                ContactEntryGroup(
-                    label = stringResource(R.string.phone),
-                    entries = contact.numbers,
-                    types = ContactsHelper.phoneNumberTypes
-                ) {
-                    IntentHelper.launchAction(context, IntentActionType.DIAL, it.value)
-                }
-
-                ContactEntryGroup(
-                    label = stringResource(R.string.email),
-                    entries = contact.emails,
-                    types = ContactsHelper.emailTypes
-                ) {
-                    IntentHelper.launchAction(context, IntentActionType.EMAIL, it.value)
-                }
-
-                ContactEntryGroup(
-                    label = stringResource(R.string.address),
-                    entries = contact.addresses,
-                    types = ContactsHelper.addressTypes
-                ) {
-                    IntentHelper.launchAction(context, IntentActionType.ADDRESS, it.value)
-                }
-
-                ContactEntryGroup(
-                    label = stringResource(R.string.event),
-                    entries = contact.events.map {
-                        ValueWithType(CalendarUtils.localizeIsoDate(it.value), it.type)
-                    },
-                    types = ContactsHelper.eventTypes
-                )
-
-                ContactEntryGroup(
-                    label = stringResource(R.string.note),
-                    entries = contact.notes,
-                    useMarkdown = true
-                )
 
                 ContactEntryTextGroup(
                     label = stringResource(R.string.groups),

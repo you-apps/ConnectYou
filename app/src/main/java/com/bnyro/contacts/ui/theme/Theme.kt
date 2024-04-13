@@ -3,14 +3,10 @@ package com.bnyro.contacts.ui.theme
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
-import androidx.compose.material3.surfaceColorAtElevation
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -40,15 +36,24 @@ fun ConnectYouTheme(
     val darkTheme = when (themeMode) {
         ThemeMode.LIGHT -> false
         ThemeMode.DARK -> true
+        ThemeMode.AMOLED -> false
         else -> isSystemInDarkTheme()
     }
+
+    val amoledDark = themeMode == ThemeMode.AMOLED
 
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            if (darkTheme) dynamicDarkColorScheme(context)
+            else if (amoledDark) dynamicDarkColorScheme(context).copy(
+                background = Color.Black,
+                surface = Color.Black
+            ) else dynamicLightColorScheme(context)
         }
+
         darkTheme -> DarkColorScheme
+        amoledDark -> DarkColorScheme.copy(background = Color.Black, surface = Color.Black)
         else -> LightColorScheme
     }
 
@@ -62,7 +67,7 @@ fun ConnectYouTheme(
                 WindowCompat.getInsetsController(
                     activity.window,
                     view
-                ).isAppearanceLightStatusBars = !darkTheme
+                ).isAppearanceLightStatusBars = !darkTheme && !amoledDark
                 WindowCompat.getInsetsController(
                     activity.window,
                     view

@@ -8,7 +8,7 @@ import android.widget.Toast
 import com.bnyro.contacts.R
 
 class ClipboardHelper(private val context: Context) {
-    val clipboard: ClipboardManager =
+    private val clipboard: ClipboardManager =
         context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
     fun save(text: String) {
