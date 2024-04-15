@@ -66,18 +66,18 @@ fun ColumnScope.Messages(
                     mutableStateOf(false)
                 }
 
-                val state = rememberDismissState(
+                val state = rememberSwipeToDismissBoxState(
                     confirmValueChange = {
-                        if (it == DismissValue.DismissedToEnd) {
+                        if (it == SwipeToDismissBoxValue.StartToEnd) {
                             showDeleteSmsDialog = true
                         }
-                        return@rememberDismissState false
+                        return@rememberSwipeToDismissBoxState false
                     }
                 )
-                SwipeToDismiss(
+                SwipeToDismissBox(
                     state = state,
-                    background = {},
-                    dismissContent = {
+                    backgroundContent = {},
+                    content = {
                         Message(
                             msg = smsData,
                             isUserMe = isUserMe

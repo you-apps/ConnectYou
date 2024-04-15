@@ -18,13 +18,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.DismissDirection
-import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SwipeToDismiss
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDismissState
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -60,20 +60,20 @@ fun SmsThreadItem(
         mutableStateOf(false)
     }
 
-    val dismissState = rememberDismissState(
+    val dismissState = rememberSwipeToDismissBoxState(
         confirmValueChange = {
-            if (it == DismissValue.DismissedToEnd) {
+            if (it == SwipeToDismissBoxValue.StartToEnd) {
                 showDeleteThreadDialog = true
             }
-            return@rememberDismissState false
+            return@rememberSwipeToDismissBoxState false
         }
     )
 
-    SwipeToDismiss(
+    SwipeToDismissBox(
         modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
         state = dismissState,
-        background = {},
-        dismissContent = {
+        backgroundContent = {},
+        content = {
             val shape = RoundedCornerShape(20.dp)
 
             ElevatedCard(
@@ -147,7 +147,7 @@ fun SmsThreadItem(
                 }
             }
         },
-        directions = setOf(DismissDirection.StartToEnd)
+        enableDismissFromStartToEnd = true
     )
 
     if (showDeleteThreadDialog) {

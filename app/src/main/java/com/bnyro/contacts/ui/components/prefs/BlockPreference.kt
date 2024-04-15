@@ -1,80 +1,46 @@
 package com.bnyro.contacts.ui.components.prefs
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import com.bnyro.contacts.util.rememberPreference
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BlockPreference(
     preferenceKey: String,
     entries: List<String>,
     onSelectionChange: (Int) -> Unit = {}
 ) {
-    val state = rememberScrollState()
+    val scrollState = rememberScrollState()
 
-    Row(
+    SingleChoiceSegmentedButtonRow(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
-            .horizontalScroll(state)
+            .horizontalScroll(scrollState)
     ) {
-        val cornerRadius = 20.dp
-
         var selectedItem by rememberPreference(key = preferenceKey, defaultValue = 0)
 
         entries.forEachIndexed { index, entry ->
-            val startRadius = if (index != 0) 0.dp else cornerRadius
-            val endRadius = if (index == entries.size - 1) cornerRadius else 0.dp
-
-            OutlinedButton(
+            SegmentedButton(
+                selected = selectedItem == index,
                 onClick = {
                     selectedItem = index
-                    onSelectionChange.invoke(index)
+                    onSelectionChange(index)
                 },
-                modifier = Modifier
-                    .offset(if (index == 0) 0.dp else (-1 * index).dp, 0.dp)
-                    .zIndex(if (selectedItem == index) 1f else 0f),
-                shape = RoundedCornerShape(
-                    topStart = startRadius,
-                    topEnd = endRadius,
-                    bottomStart = startRadius,
-                    bottomEnd = endRadius
-                ),
-                border = BorderStroke(
-                    1.dp,
-                    if (selectedItem == index) {
-                        MaterialTheme.colorScheme.primary
-                    } else {
-                        MaterialTheme.colorScheme.primary.copy(alpha = 0.75f)
-                    }
-                ),
-                colors = if (selectedItem == index) {
-                    ButtonDefaults.outlinedButtonColors(
-                        containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
-                        contentColor = MaterialTheme.colorScheme.primary
-                    )
-                } else {
-                    ButtonDefaults.outlinedButtonColors(
-                        containerColor = MaterialTheme.colorScheme.surface,
-                        contentColor = MaterialTheme.colorScheme.onSurface
-                    )
-                }
+                shape = SegmentedButtonDefaults.itemShape(index = index, count = entries.size)
             ) {
                 Text(entry)
             }

@@ -18,9 +18,17 @@ fun ClickableIcon(
     onClick: () -> Unit
 ) {
     if (contentDescription != null) {
-        PlainTooltipBox(tooltip = { Text(stringResource(contentDescription)) }) {
+        TooltipBox(
+            tooltip = {
+                PlainTooltip {
+                    Text(stringResource(contentDescription))
+                }
+            },
+            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+            state = rememberTooltipState(),
+        ) {
             IconButton(
-                modifier = modifier.tooltipTrigger(),
+                modifier = modifier,
                 onClick = onClick
             ) {
                 Icon(

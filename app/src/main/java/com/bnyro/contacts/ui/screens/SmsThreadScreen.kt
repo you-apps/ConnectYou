@@ -22,10 +22,13 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.PlainTooltipBox
+import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -91,12 +94,17 @@ fun SmsThreadScreen(
                     val interactionSource = remember {
                         MutableInteractionSource()
                     }
-                    PlainTooltipBox(
-                        tooltip = { Text(address) }
+                    TooltipBox(
+                        tooltip = {
+                            PlainTooltip {
+                                Text(address)
+                            }
+                        },
+                        state = rememberTooltipState(),
+                        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider()
                     ) {
                         Text(
                             modifier = Modifier
-                                .tooltipTrigger()
                                 .clickable(interactionSource, null) {
                                     if (contactData != null) showContactScreen = true
                                 },
