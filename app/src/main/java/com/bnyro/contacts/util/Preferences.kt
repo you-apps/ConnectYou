@@ -29,6 +29,7 @@ object Preferences {
     const val encryptBackupPasswordKey = "encryptBackupsPassword"
     const val storeSmsLocallyKey = "storeSmsLocally"
     const val lastChosenAccount = "lastChosenAccount"
+    const val biometricAuthKey = "biometricAuth"
 
     fun init(context: Context) {
         preferences = context.getSharedPreferences(prefFile, Context.MODE_PRIVATE)
