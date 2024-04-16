@@ -2,18 +2,25 @@ package com.bnyro.contacts.ui.activities
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract.Intents
 import android.provider.ContactsContract.QuickContact
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import com.bnyro.contacts.ext.parcelable
 import com.bnyro.contacts.nav.NavContainer
 import com.bnyro.contacts.obj.ContactData
-import com.bnyro.contacts.obj.ValueWithType
 import com.bnyro.contacts.ui.components.ConfirmImportContactsDialog
 import com.bnyro.contacts.ui.components.dialogs.AddToContactDialog
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
 import com.bnyro.contacts.util.BackupHelper
+import com.bnyro.contacts.util.BiometricAuthUtil
 import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.Preferences
 import com.bnyro.contacts.util.IntentHelper
@@ -38,12 +45,31 @@ class MainActivity : BaseActivity() {
             ?: Preferences.getInt(Preferences.homeTabKey, 0)
         setContent {
             ConnectYouTheme(themeModel.themeMode) {
-                NavContainer(initialTabIndex)
-                getInsertOrEditNumber()?.let {
-                    AddToContactDialog(it)
+                val context = LocalContext.current
+
+                var authSuccess by rememberSaveable {
+                    mutableStateOf(!Preferences.getBoolean(Preferences.biometricAuthKey, false))
                 }
-                getSharedVcfUri()?.let {
-                    ConfirmImportContactsDialog(contactsModel, it)
+
+                if (authSuccess) {
+                    NavContainer(initialTabIndex)
+                    getInsertOrEditNumber()?.let {
+                        AddToContactDialog(it)
+                    }
+                    getSharedVcfUri()?.let {
+                        ConfirmImportContactsDialog(contactsModel, it)
+                    }
+                }
+
+                LaunchedEffect(Unit) {
+                    if (authSuccess) return@LaunchedEffect
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        BiometricAuthUtil.requestAuth(context) { success ->
+                            if (success) authSuccess = true
+                            else finish()
+                        }
+                    }
                 }
             }
         }

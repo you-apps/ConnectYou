@@ -7,8 +7,8 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Telephony
-import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import com.bnyro.contacts.ui.models.ContactsModel
@@ -17,7 +17,7 @@ import com.bnyro.contacts.ui.models.ThemeModel
 import com.bnyro.contacts.util.NotificationHelper
 import com.bnyro.contacts.util.PermissionHelper
 
-abstract class BaseActivity : ComponentActivity() {
+abstract class BaseActivity : FragmentActivity() {
     lateinit var themeModel: ThemeModel
     val contactsModel by viewModels<ContactsModel> {
         ContactsModel.Factory

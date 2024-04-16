@@ -1,5 +1,6 @@
 package com.bnyro.contacts.ui.screens
 
+import android.os.Build
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -15,8 +16,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
@@ -27,13 +33,16 @@ import com.bnyro.contacts.ui.components.prefs.BlockPreference
 import com.bnyro.contacts.ui.components.prefs.EncryptBackupsPref
 import com.bnyro.contacts.ui.components.prefs.SettingsCategory
 import com.bnyro.contacts.ui.components.prefs.SwitchPref
+import com.bnyro.contacts.ui.components.prefs.SwitchPrefBase
 import com.bnyro.contacts.ui.models.SmsModel
 import com.bnyro.contacts.ui.models.ThemeModel
+import com.bnyro.contacts.util.BiometricAuthUtil
 import com.bnyro.contacts.util.Preferences
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(themeModel: ThemeModel, smsModel: SmsModel, onBackPress: () -> Unit) {
+    val context = LocalContext.current
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState()
@@ -121,6 +130,26 @@ fun SettingsScreen(themeModel: ThemeModel, smsModel: SmsModel, onBackPress: () -
                 modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
                 color = MaterialTheme.colorScheme.surfaceVariant
             )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                SettingsCategory(title = stringResource(R.string.security))
+
+                var biometricAuthEnabled by remember {
+                    mutableStateOf(Preferences.getBoolean(Preferences.biometricAuthKey, false))
+                }
+
+                SwitchPrefBase(
+                    title = stringResource(R.string.biometric_authentication),
+                    summary = stringResource(R.string.biometric_authentication_summary),
+                    checked = biometricAuthEnabled
+                ) { newValue ->
+                    BiometricAuthUtil.requestAuth(context) { authSuccess ->
+                        if (authSuccess) {
+                            Preferences.edit { putBoolean(Preferences.biometricAuthKey, newValue) }
+                            biometricAuthEnabled = newValue
+                        }
+                    }
+                }
+            }
             AutoBackupPref()
             EncryptBackupsPref()
         }

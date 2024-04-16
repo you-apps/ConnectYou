@@ -92,6 +92,9 @@ dependencies {
     // Phone number formatting
     implementation("com.googlecode.libphonenumber:libphonenumber:8.2.0")
 
+    // Biometrics
+    implementation("androidx.biometric:biometric-ktx:1.2.0-alpha05")
+
     // Markdown support for notes
     implementation("com.halilibo.compose-richtext:richtext-ui-material3:0.17.0")
     implementation("com.halilibo.compose-richtext:richtext-commonmark:0.17.0")

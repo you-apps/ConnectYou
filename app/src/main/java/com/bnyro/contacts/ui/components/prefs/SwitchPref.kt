@@ -22,14 +22,12 @@ import androidx.compose.ui.unit.sp
 import com.bnyro.contacts.util.rememberPreference
 
 @Composable
-fun SwitchPref(
-    prefKey: String,
+fun SwitchPrefBase(
     title: String,
     summary: String? = null,
-    defaultValue: Boolean = false,
-    onCheckedChange: (Boolean) -> Unit = {}
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit
 ) {
-    var checked by rememberPreference(key = prefKey, defaultValue = defaultValue)
     val interactionSource = remember { MutableInteractionSource() }
 
     Row(
@@ -39,7 +37,7 @@ fun SwitchPref(
                 interactionSource = interactionSource,
                 indication = null
             ) {
-                checked = !checked
+                onCheckedChange(!checked)
             },
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -62,9 +60,24 @@ fun SwitchPref(
         Switch(
             checked = checked,
             onCheckedChange = {
-                checked = it
                 onCheckedChange.invoke(it)
             }
         )
+    }
+}
+
+@Composable
+fun SwitchPref(
+    prefKey: String,
+    title: String,
+    summary: String? = null,
+    defaultValue: Boolean = false,
+    onCheckedChange: (Boolean) -> Unit = {}
+) {
+    var checked by rememberPreference(key = prefKey, defaultValue = defaultValue)
+
+    SwitchPrefBase(title = title, summary = summary, checked = checked) {
+        checked = it
+        onCheckedChange.invoke(it)
     }
 }
