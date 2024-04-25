@@ -1,6 +1,11 @@
 package com.bnyro.contacts.ui.activities
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import android.view.Window
 import android.view.WindowManager
 import androidx.activity.compose.setContent
@@ -11,11 +16,27 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
+import com.bnyro.contacts.services.CallService
 import com.bnyro.contacts.ui.models.DialerModel
 import com.bnyro.contacts.ui.screens.DialerScreen
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
 
 class CallActivity : BaseActivity() {
+
+    lateinit var callService: CallService
+
+    private val serviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName, service: IBinder) {
+            val binder = (service as CallService.LocalBinder)
+            callService = binder.getService()
+            dialerModel.playDtmfTone = callService::playDtmfTone
+        }
+
+        override fun onServiceDisconnected(p0: ComponentName?) {
+            dialerModel.playDtmfTone = {}
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -39,6 +60,19 @@ class CallActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Intent(this, CallService::class.java).setAction(CallService.CUSTOM_BIND_ACTION)
+            .also { intent ->
+                bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
+            }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unbindService(serviceConnection)
     }
 
     companion object {

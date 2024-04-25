@@ -135,6 +135,36 @@ fun NumberInput(
     }
 }
 
+@SuppressLint("NewApi")
+@Composable
+fun NumberInput(
+    onNumberInput: (String) -> Unit
+) {
+    val buttonSpacing = 8.dp
+    Column(
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(buttonSpacing)
+    ) {
+        keypadNumbers.forEach { col ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
+            ) {
+                col.forEach {
+                    NumpadButton(
+                        text = it,
+                        onClick = {
+                            onNumberInput(it)
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
+
 @Composable
 fun RowScope.NumpadButton(
     text: String,
@@ -206,6 +236,35 @@ fun ColumnScope.PhoneNumberDisplay(displayText: String) {
         ) {
             // TODO: Contact Suggestions
         }
+        val scroll = rememberScrollState()
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .horizontalScroll(scroll)
+                .clip(RoundedCornerShape(24.dp))
+                .background(MaterialTheme.colorScheme.surfaceVariant),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = displayText,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp, horizontal = 16.dp),
+                style = MaterialTheme.typography.displayMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1
+            )
+        }
+    }
+}
+
+@Composable
+fun PhoneNumberOnlyDisplay(displayText: String) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
         val scroll = rememberScrollState()
         Row(
             Modifier

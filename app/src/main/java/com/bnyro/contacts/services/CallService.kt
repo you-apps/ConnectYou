@@ -7,6 +7,8 @@ import android.content.ContentResolver
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Binder
+import android.os.IBinder
 import android.provider.ContactsContract.PhoneLookup
 import android.telecom.Call
 import android.telecom.InCallService
@@ -25,15 +27,19 @@ import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.NotificationHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
 class CallService : InCallService() {
 
+    private val binder = LocalBinder()
+
     private lateinit var acceptPendingIntent: PendingIntent
     private lateinit var declinePendingIntent: PendingIntent
     val scope = CoroutineScope(Dispatchers.Main)
+    var currentCall: Call? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -61,6 +67,7 @@ class CallService : InCallService() {
         super.onCallAdded(call)
         call.registerCallback(callCallback)
         CallManager.setCall(call)
+        currentCall = call
 
         scope.launch {
             val callerNumber = CallManager.callerDisplayNumber
@@ -109,6 +116,7 @@ class CallService : InCallService() {
 
     override fun onCallRemoved(call: Call) {
         super.onCallRemoved(call)
+        currentCall = null
         NotificationManagerCompat.from(this).cancel(CALL_NOTIFICATION_ID)
         call.unregisterCallback(callCallback)
         CallManager.setCall(null)
@@ -159,7 +167,27 @@ class CallService : InCallService() {
             .build()
     }
 
+    fun playDtmfTone(digit: Char) {
+        scope.launch {
+            currentCall?.playDtmfTone(digit)
+            delay(200)
+            currentCall?.stopDtmfTone()
+        }
+    }
+
+    override fun onBind(intent: Intent): IBinder? {
+        if (intent.action == CUSTOM_BIND_ACTION) {
+            return binder;
+        }
+        return super.onBind(intent)
+    }
+
+    inner class LocalBinder : Binder() {
+        fun getService() = this@CallService
+    }
+
     companion object {
         const val CALL_NOTIFICATION_ID = 10
+        const val CUSTOM_BIND_ACTION = "custom_bind"
     }
 }

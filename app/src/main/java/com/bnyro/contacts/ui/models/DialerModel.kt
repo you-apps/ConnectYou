@@ -15,6 +15,11 @@ class DialerModel : ViewModel() {
     var currentMuteState by mutableStateOf(false)
     var currentSpeakerState by mutableStateOf(false)
 
+    var playDtmfTone: (digit: Char) -> Unit = {}
+
+    var dialpadNumber by mutableStateOf("")
+        private set
+
     fun requestDefaultDialerApp(context: Context) {
         val telecomManager = context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager?
         val isAlreadyDefaultDialer =
@@ -27,6 +32,12 @@ class DialerModel : ViewModel() {
                 )
             context.startActivity(intent)
         }
+    }
+
+    fun onDialpadButtonPress(digit: String) {
+        dialpadNumber += digit
+        playDtmfTone(digit.first())
+
     }
 
     fun toggleMute(context: Context) {
