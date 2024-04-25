@@ -29,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import com.bnyro.contacts.ui.activities.MainActivity
 
 val bottomNavItems = listOf(
+    NavRoutes.Phone,
     NavRoutes.Contacts,
     NavRoutes.Messages
 )
@@ -71,7 +72,10 @@ fun NavContainer(
     val orientation = LocalConfiguration.current.orientation
     Scaffold(
         bottomBar = {
-            if (orientation == Configuration.ORIENTATION_PORTRAIT && (selectedRoute == NavRoutes.Contacts || selectedRoute == NavRoutes.Messages)) {
+            if (orientation == Configuration.ORIENTATION_PORTRAIT && bottomNavItems.contains(
+                    selectedRoute
+                )
+            ) {
                 NavigationBar(
                     tonalElevation = 5.dp
                 ) {

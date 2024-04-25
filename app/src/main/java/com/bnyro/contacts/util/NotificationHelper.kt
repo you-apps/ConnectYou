@@ -10,6 +10,7 @@ import com.bnyro.contacts.R
 
 object NotificationHelper {
     const val MESSAGES_CHANNEL_ID = "messages_channel"
+    const val CALL_CHANNEL_ID = "call_channel"
     val notificationPermissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         arrayOf(Manifest.permission.POST_NOTIFICATIONS)
     } else {
@@ -26,8 +27,22 @@ object NotificationHelper {
             .setVibrationEnabled(true)
             .setLightColor(Color.WHITE)
             .build()
+        val callChannel = NotificationChannelCompat.Builder(
+            CALL_CHANNEL_ID,
+            NotificationManagerCompat.IMPORTANCE_HIGH
+        )
+            .setName(context.getString(R.string.calls))
+            .setLightsEnabled(true)
+            .setVibrationEnabled(true)
+            .setLightColor(Color.WHITE)
+            .build()
 
         val notificationManagerCompat = NotificationManagerCompat.from(context)
-        notificationManagerCompat.createNotificationChannelsCompat(listOf(messagesChannel))
+        notificationManagerCompat.createNotificationChannelsCompat(
+            listOf(
+                messagesChannel,
+                callChannel
+            )
+        )
     }
 }

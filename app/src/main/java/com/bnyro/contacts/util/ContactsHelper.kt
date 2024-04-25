@@ -1,5 +1,9 @@
 package com.bnyro.contacts.util
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.provider.ContactsContract
 import com.bnyro.contacts.R
 import com.bnyro.contacts.enums.Addresses
@@ -138,5 +142,16 @@ object ContactsHelper {
         val listProperties = listOf(contactData.numbers, contactData.emails, contactData.events, contactData.addresses, contactData.notes)
 
         return stringProperties.none { !it.isNullOrBlank() } && listProperties.flatten().isEmpty()
+    }
+
+    fun getContactPhotoThumbnail(context: Context, uri: String): Bitmap? {
+        val contentResolver = context.contentResolver
+        val photoThumbnailUri = Uri.parse(uri)
+        val assetFileDescriptor =
+            contentResolver.openAssetFileDescriptor(photoThumbnailUri, "r") ?: return null
+        val fileDescriptor = assetFileDescriptor.fileDescriptor
+        val bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+        assetFileDescriptor.close()
+        return bitmap
     }
 }

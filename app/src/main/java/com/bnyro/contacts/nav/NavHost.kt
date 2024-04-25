@@ -13,9 +13,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.bnyro.contacts.ui.models.ContactsModel
+import com.bnyro.contacts.ui.models.DialerModel
 import com.bnyro.contacts.ui.models.SmsModel
 import com.bnyro.contacts.ui.models.ThemeModel
 import com.bnyro.contacts.ui.screens.AboutScreen
+import com.bnyro.contacts.ui.screens.CallLogsScreen
 import com.bnyro.contacts.ui.screens.ContactsPage
 import com.bnyro.contacts.ui.screens.SettingsScreen
 import com.bnyro.contacts.ui.screens.SmsListScreen
@@ -29,6 +31,7 @@ fun AppNavHost(
 ) {
     val smsModel: SmsModel = viewModel(factory = SmsModel.Factory)
     val contactsModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
+    val dialerModel: DialerModel = viewModel()
     val themeModel: ThemeModel = viewModel()
 
     val viewModelStoreOwner: ViewModelStoreOwner = LocalViewModelStoreOwner.current!!
@@ -50,6 +53,11 @@ fun AppNavHost(
                     onNavigate = {
                         navController.navigate(it.route)
                     })
+            }
+        }
+        composable(NavRoutes.Phone.route) {
+            CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {
+                CallLogsScreen(contactsModel, dialerModel, themeModel)
             }
         }
         composable(NavRoutes.Messages.route) {

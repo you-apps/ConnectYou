@@ -22,8 +22,8 @@ import com.bnyro.contacts.ui.theme.ConnectYouTheme
 import com.bnyro.contacts.util.BackupHelper
 import com.bnyro.contacts.util.BiometricAuthUtil
 import com.bnyro.contacts.util.ContactsHelper
-import com.bnyro.contacts.util.Preferences
 import com.bnyro.contacts.util.IntentHelper
+import com.bnyro.contacts.util.Preferences
 import java.net.URLDecoder
 
 class MainActivity : BaseActivity() {
@@ -41,7 +41,10 @@ class MainActivity : BaseActivity() {
 
         smsModel.initialAddressAndBody = getInitialSmsAddressAndBody()
 
-        val initialTabIndex = smsModel.initialAddressAndBody?.let { 1 }
+        dialerModel.initialPhoneNumber = getInitialNumberToDial()
+
+        val initialTabIndex = dialerModel.initialPhoneNumber?.let { 0 }
+            ?: smsModel.initialAddressAndBody?.let { 1 }
             ?: Preferences.getInt(Preferences.homeTabKey, 0)
         setContent {
             ConnectYouTheme(themeModel.themeMode) {
@@ -112,6 +115,13 @@ class MainActivity : BaseActivity() {
         val body = intent?.getStringExtra(Intent.EXTRA_TEXT)
 
         return ContactsHelper.normalizePhoneNumber(address) to body
+    }
+
+    private fun getInitialNumberToDial(): String? {
+        if (intent?.action != Intent.ACTION_DIAL) return null
+
+        return intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER)
+            .takeIf { !it.isNullOrBlank() }
     }
 
     private fun getSharedVcfUri(): Uri? {
