@@ -1,8 +1,8 @@
 package com.bnyro.contacts
 
-import com.bnyro.contacts.receivers.SmsReceiver
 import com.bnyro.contacts.util.CalendarUtils
 import com.bnyro.contacts.util.SmsUtil
+import com.bnyro.contacts.util.receivers.SmsReceiver
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

@@ -11,10 +11,10 @@ import androidx.activity.viewModels
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
-import com.bnyro.contacts.ui.models.ContactsModel
-import com.bnyro.contacts.ui.models.DialerModel
-import com.bnyro.contacts.ui.models.SmsModel
-import com.bnyro.contacts.ui.models.ThemeModel
+import com.bnyro.contacts.presentation.screens.contacts.model.ContactsModel
+import com.bnyro.contacts.presentation.screens.dialer.model.DialerModel
+import com.bnyro.contacts.presentation.screens.settings.model.ThemeModel
+import com.bnyro.contacts.presentation.screens.sms.model.SmsModel
 import com.bnyro.contacts.util.NotificationHelper
 import com.bnyro.contacts.util.PermissionHelper
 

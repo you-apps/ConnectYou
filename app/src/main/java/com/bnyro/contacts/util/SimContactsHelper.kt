@@ -2,9 +2,9 @@ package com.bnyro.contacts.util
 
 import android.content.Context
 import android.net.Uri
-import com.bnyro.contacts.ext.stringValue
-import com.bnyro.contacts.obj.ContactData
-import com.bnyro.contacts.obj.ValueWithType
+import com.bnyro.contacts.domain.model.ContactData
+import com.bnyro.contacts.domain.model.ValueWithType
+import com.bnyro.contacts.util.extension.stringValue
 
 object SimContactsHelper {
     fun getSimContacts(context: Context): List<ContactData> {

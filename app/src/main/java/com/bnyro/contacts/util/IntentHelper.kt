@@ -7,12 +7,12 @@ import android.net.Uri
 import android.provider.ContactsContract
 import androidx.core.net.toUri
 import com.bnyro.contacts.R
-import com.bnyro.contacts.enums.IntentActionType
-import com.bnyro.contacts.enums.ListAttribute
-import com.bnyro.contacts.enums.StringAttribute
-import com.bnyro.contacts.obj.ContactData
-import com.bnyro.contacts.obj.TranslatedType
-import com.bnyro.contacts.obj.ValueWithType
+import com.bnyro.contacts.domain.enums.IntentActionType
+import com.bnyro.contacts.domain.enums.ListAttribute
+import com.bnyro.contacts.domain.enums.StringAttribute
+import com.bnyro.contacts.domain.model.ContactData
+import com.bnyro.contacts.domain.model.TranslatedType
+import com.bnyro.contacts.domain.model.ValueWithType
 
 object IntentHelper {
     fun launchAction(context: Context, type: IntentActionType, argument: String) {

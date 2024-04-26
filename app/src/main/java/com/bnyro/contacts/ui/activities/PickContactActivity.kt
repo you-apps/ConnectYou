@@ -31,9 +31,9 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
-import com.bnyro.contacts.enums.SortOrder
-import com.bnyro.contacts.obj.ContactData
-import com.bnyro.contacts.ui.components.ContactItem
+import com.bnyro.contacts.domain.enums.SortOrder
+import com.bnyro.contacts.domain.model.ContactData
+import com.bnyro.contacts.presentation.screens.contacts.components.ContactItem
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
 
 class PickContactActivity : BaseActivity() {

@@ -12,7 +12,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.bnyro.contacts.App
 import com.bnyro.contacts.R
-import com.bnyro.contacts.db.obj.SmsData
+import com.bnyro.contacts.data.database.obj.SmsData
 import java.lang.Character.UnicodeBlock
 import java.util.Calendar
 

@@ -13,17 +13,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
-import com.bnyro.contacts.ext.parcelable
-import com.bnyro.contacts.nav.NavContainer
-import com.bnyro.contacts.obj.ContactData
-import com.bnyro.contacts.ui.components.ConfirmImportContactsDialog
-import com.bnyro.contacts.ui.components.dialogs.AddToContactDialog
+import com.bnyro.contacts.domain.model.ContactData
+import com.bnyro.contacts.navigation.NavContainer
+import com.bnyro.contacts.presentation.features.AddToContactDialog
+import com.bnyro.contacts.presentation.features.ConfirmImportContactsDialog
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
 import com.bnyro.contacts.util.BackupHelper
 import com.bnyro.contacts.util.BiometricAuthUtil
 import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.IntentHelper
 import com.bnyro.contacts.util.Preferences
+import com.bnyro.contacts.util.extension.parcelable
 import java.net.URLDecoder
 
 class MainActivity : BaseActivity() {

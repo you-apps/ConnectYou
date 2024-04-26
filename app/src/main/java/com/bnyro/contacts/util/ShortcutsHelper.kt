@@ -8,8 +8,8 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import com.bnyro.contacts.R
-import com.bnyro.contacts.enums.IntentActionType
-import com.bnyro.contacts.obj.ContactData
+import com.bnyro.contacts.domain.enums.IntentActionType
+import com.bnyro.contacts.domain.model.ContactData
 import com.bnyro.contacts.ui.activities.MainActivity
 
 object ShortcutHelper {

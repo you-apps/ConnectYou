@@ -1,16 +1,16 @@
 package com.bnyro.contacts
 
 import android.app.Application
-import com.bnyro.contacts.db.DatabaseHolder
-import com.bnyro.contacts.repo.DeviceContactsRepository
-import com.bnyro.contacts.repo.DeviceSmsRepo
-import com.bnyro.contacts.repo.LocalContactsRepository
-import com.bnyro.contacts.repo.LocalSmsRepo
-import com.bnyro.contacts.repo.SmsRepository
+import com.bnyro.contacts.data.database.DatabaseHolder
+import com.bnyro.contacts.domain.repositories.DeviceContactsRepository
+import com.bnyro.contacts.domain.repositories.DeviceSmsRepo
+import com.bnyro.contacts.domain.repositories.LocalContactsRepository
+import com.bnyro.contacts.domain.repositories.LocalSmsRepo
+import com.bnyro.contacts.domain.repositories.SmsRepository
 import com.bnyro.contacts.util.NotificationHelper
 import com.bnyro.contacts.util.Preferences
 import com.bnyro.contacts.util.ShortcutHelper
-import com.bnyro.contacts.workers.BackupWorker
+import com.bnyro.contacts.util.workers.BackupWorker
 
 class App : Application() {
     val deviceContactsRepository by lazy {

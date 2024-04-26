@@ -7,8 +7,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.SnapshotMutationPolicy
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import com.bnyro.contacts.enums.BackupType
-import com.bnyro.contacts.obj.AccountType
+import com.bnyro.contacts.domain.enums.BackupType
+import com.bnyro.contacts.domain.model.AccountType
 
 object Preferences {
     private const val prefFile = "preferences"

@@ -2,8 +2,8 @@ package com.bnyro.contacts.util
 
 import android.graphics.BitmapFactory
 import android.provider.ContactsContract
-import com.bnyro.contacts.obj.ContactData
-import com.bnyro.contacts.obj.ValueWithType
+import com.bnyro.contacts.domain.model.ContactData
+import com.bnyro.contacts.domain.model.ValueWithType
 import ezvcard.Ezvcard
 import ezvcard.VCard
 import ezvcard.VCardVersion

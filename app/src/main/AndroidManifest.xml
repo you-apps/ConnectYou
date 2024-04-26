@@ -225,7 +225,7 @@
         </provider>
 
         <receiver
-            android:name=".receivers.SmsReceiver"
+            android:name=".util.receivers.SmsReceiver"
             android:exported="true"
             android:permission="android.permission.BROADCAST_SMS">
 
@@ -235,24 +235,24 @@
         </receiver>
 
         <receiver
-            android:name=".receivers.ReplyReceiver"
+            android:name=".util.receivers.ReplyReceiver"
             android:exported="false" />
 
         <receiver
-            android:name=".receivers.DeleteSmsReceiver"
+            android:name=".util.receivers.DeleteSmsReceiver"
             android:exported="false" />
 
         <receiver
-            android:name=".receivers.CopyTextReceiver"
+            android:name=".util.receivers.CopyTextReceiver"
             android:exported="false" />
 
         <receiver
-            android:name=".receivers.CallActionReceiver"
+            android:name=".util.receivers.CallActionReceiver"
             android:exported="false" />
 
         <!-- BroadcastReceiver that listens for incoming MMS messages -->
         <receiver
-            android:name=".receivers.MmsReceiver"
+            android:name=".util.receivers.MmsReceiver"
             android:exported="true"
             android:permission="android.permission.BROADCAST_WAP_PUSH">
 
@@ -264,7 +264,7 @@
 
         <!-- Service that delivers messages from the phone "quick response" -->
         <service
-            android:name=".services.HeadlessSmsSendService"
+            android:name=".util.services.HeadlessSmsSendService"
             android:exported="true"
             android:permission="android.permission.SEND_RESPOND_VIA_MESSAGE">
 
@@ -280,7 +280,7 @@
         </service>
 
         <service
-            android:name=".services.CallService"
+            android:name=".util.services.CallService"
             android:exported="true"
             android:foregroundServiceType="phoneCall"
             android:permission="android.permission.BIND_INCALL_SERVICE">

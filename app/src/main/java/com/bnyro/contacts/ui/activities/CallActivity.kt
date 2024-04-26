@@ -16,10 +16,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
-import com.bnyro.contacts.services.CallService
-import com.bnyro.contacts.ui.models.DialerModel
-import com.bnyro.contacts.ui.screens.DialerScreen
+import com.bnyro.contacts.presentation.screens.dialer.DialerScreen
+import com.bnyro.contacts.presentation.screens.dialer.model.DialerModel
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
+import com.bnyro.contacts.util.services.CallService
 
 class CallActivity : BaseActivity() {
 

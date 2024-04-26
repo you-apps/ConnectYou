@@ -4,12 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import androidx.core.content.FileProvider
-import com.bnyro.contacts.ext.pmap
-import com.bnyro.contacts.obj.ContactData
-import com.bnyro.contacts.repo.ContactsRepository
-import java.io.File
+import com.bnyro.contacts.domain.model.ContactData
+import com.bnyro.contacts.domain.repositories.ContactsRepository
+import com.bnyro.contacts.util.extension.pmap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.File
 
 class ExportHelper(
     private val context: Context,

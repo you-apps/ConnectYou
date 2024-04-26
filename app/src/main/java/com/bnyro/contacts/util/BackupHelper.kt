@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.documentfile.provider.DocumentFile
-import com.bnyro.contacts.repo.ContactsRepository
+import com.bnyro.contacts.domain.repositories.ContactsRepository
 
 object BackupHelper {
     val vCardMimeTypes = arrayOf("text/vcard", "text/x-vcard", "text/directory")

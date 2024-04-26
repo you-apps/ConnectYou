@@ -3,10 +3,10 @@ package com.bnyro.contacts.util
 import android.Manifest
 import android.content.Context
 import android.provider.CallLog
-import com.bnyro.contacts.ext.intValue
-import com.bnyro.contacts.ext.longValue
-import com.bnyro.contacts.ext.stringValue
-import com.bnyro.contacts.obj.CallLogEntry
+import com.bnyro.contacts.domain.model.CallLogEntry
+import com.bnyro.contacts.util.extension.intValue
+import com.bnyro.contacts.util.extension.longValue
+import com.bnyro.contacts.util.extension.stringValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
