@@ -8,6 +8,7 @@ import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
+import android.os.PowerManager
 import android.view.Window
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
@@ -30,6 +31,15 @@ class CallActivity : ComponentActivity() {
 
     lateinit var callService: CallService
     val dialerModel: DialerModel by viewModels()
+
+    val powerManager by lazy { getSystemService(PowerManager::class.java) }
+
+    val wakeLock by lazy {
+        powerManager.newWakeLock(
+            PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK,
+            this::class.simpleName
+        )
+    }
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
@@ -69,6 +79,10 @@ class CallActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
 
+        if (!wakeLock.isHeld) {
+            wakeLock.acquire(10 * 60 * 1000L /*10 minutes*/)
+        }
+
         window.addFlags(windowFlags)
 
         ContextCompat.registerReceiver(
@@ -105,6 +119,18 @@ class CallActivity : ComponentActivity() {
     override fun onDestroy() {
         unregisterReceiver(closeAlertReciever)
         super.onDestroy()
+    }
+
+    override fun onResume() {
+        if (!wakeLock.isHeld) {
+            wakeLock.acquire(10 * 60 * 1000L /*10 minutes*/)
+        }
+        super.onResume()
+    }
+
+    override fun onPause() {
+        wakeLock.release()
+        super.onPause()
     }
 
     override fun onStop() {
