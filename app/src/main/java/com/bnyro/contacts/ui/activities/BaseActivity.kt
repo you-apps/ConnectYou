@@ -23,7 +23,7 @@ abstract class BaseActivity : FragmentActivity() {
     val contactsModel by viewModels<ContactsModel> {
         ContactsModel.Factory
     }
-    val smsModel by viewModels<SmsModel> { SmsModel.Factory }
+    val smsModel by viewModels<SmsModel>()
     val dialerModel by viewModels<DialerModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {

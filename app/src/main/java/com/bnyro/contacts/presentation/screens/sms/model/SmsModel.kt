@@ -1,16 +1,14 @@
 package com.bnyro.contacts.presentation.screens.sms.model
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
 import android.telephony.SubscriptionInfo
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.bnyro.contacts.App
 import com.bnyro.contacts.domain.model.ContactData
 import com.bnyro.contacts.util.SmsUtil
@@ -19,7 +17,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class SmsModel(val app: App) : ViewModel() {
+class SmsModel(application: Application) : AndroidViewModel(application) {
+    val app = application as App
     var smsList = app.smsRepo.getSmsStream(context = app.applicationContext).stateIn(
         viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
@@ -62,14 +61,5 @@ class SmsModel(val app: App) : ViewModel() {
     fun refreshLocalSmsPreference() {
         app.initSmsRepo()
         updateSmsList()
-    }
-
-    companion object {
-        val Factory = viewModelFactory {
-            initializer {
-                val application = this[APPLICATION_KEY] as App
-                SmsModel(application)
-            }
-        }
     }
 }

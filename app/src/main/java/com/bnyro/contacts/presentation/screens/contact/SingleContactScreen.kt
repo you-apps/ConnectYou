@@ -44,7 +44,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.domain.enums.IntentActionType
 import com.bnyro.contacts.domain.enums.ListAttribute
@@ -69,8 +68,7 @@ import com.bnyro.contacts.util.IntentHelper
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SingleContactScreen(contact: ContactData, onClose: () -> Unit) {
-    val viewModel: ContactsModel = viewModel()
+fun SingleContactScreen(contact: ContactData, viewModel: ContactsModel, onClose: () -> Unit) {
     val context = LocalContext.current
     var showDelete by remember {
         mutableStateOf(false)

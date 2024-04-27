@@ -14,6 +14,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import com.bnyro.contacts.domain.model.ContactData
+import com.bnyro.contacts.navigation.HomeRoutes
 import com.bnyro.contacts.navigation.NavContainer
 import com.bnyro.contacts.presentation.features.AddToContactDialog
 import com.bnyro.contacts.presentation.features.ConfirmImportContactsDialog
@@ -44,8 +45,8 @@ class MainActivity : BaseActivity() {
         dialerModel.initialPhoneNumber = getInitialNumberToDial()
 
         val initialTabIndex = dialerModel.initialPhoneNumber?.let { 0 }
-            ?: smsModel.initialAddressAndBody?.let { 1 }
-            ?: Preferences.getInt(Preferences.homeTabKey, 0)
+            ?: smsModel.initialAddressAndBody?.let { 2 }
+            ?: Preferences.getInt(Preferences.homeTabKey, 1)
         setContent {
             ConnectYouTheme(themeModel.themeMode) {
                 val context = LocalContext.current
@@ -55,7 +56,7 @@ class MainActivity : BaseActivity() {
                 }
 
                 if (authSuccess) {
-                    NavContainer(initialTabIndex)
+                    NavContainer(HomeRoutes.all[initialTabIndex.coerceIn(0, 2)])
                     getInsertOrEditNumber()?.let {
                         AddToContactDialog(it)
                     }

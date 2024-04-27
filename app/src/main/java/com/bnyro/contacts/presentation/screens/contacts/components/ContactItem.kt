@@ -124,7 +124,7 @@ fun ContactItem(
         val data = runBlocking {
             viewModel.loadAdvancedContactData(contact)
         }
-        SingleContactScreen(data) {
+        SingleContactScreen(data, viewModel) {
             showContactScreen = false
         }
     }

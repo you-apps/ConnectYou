@@ -217,7 +217,7 @@ fun SmsThreadScreen(
     }
 
     if (showContactScreen && contactData != null) {
-        SingleContactScreen(contact = contactData) {
+        SingleContactScreen(contact = contactData, contactsModel) {
             showContactScreen = false
         }
     }
