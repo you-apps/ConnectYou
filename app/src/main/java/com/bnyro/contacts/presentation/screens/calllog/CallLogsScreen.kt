@@ -1,10 +1,5 @@
 package com.bnyro.contacts.presentation.screens.calllog
 
-import android.content.ComponentName
-import android.content.Intent
-import android.net.Uri
-import android.telecom.PhoneAccountHandle
-import android.telecom.TelecomManager
 import android.text.format.DateUtils
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -47,9 +42,7 @@ import com.bnyro.contacts.presentation.screens.calllog.model.CallModel
 import com.bnyro.contacts.presentation.screens.contacts.model.ContactsModel
 import com.bnyro.contacts.presentation.screens.editor.components.ContactIconPlaceholder
 import com.bnyro.contacts.presentation.screens.settings.model.ThemeModel
-import com.bnyro.contacts.util.PermissionHelper
-import com.bnyro.contacts.util.SmsUtil
-import com.bnyro.contacts.util.extension.removeLastChar
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,35 +55,6 @@ fun CallLogsScreen(
 
     var showNumberPicker by remember {
         mutableStateOf(callModel.initialPhoneNumber != null)
-    }
-    var numberToCall by remember {
-        mutableStateOf(callModel.initialPhoneNumber.orEmpty())
-    }
-
-    val subscriptions = remember {
-        SmsUtil.getSubscriptions(context)
-    }
-
-    var chosenSubInfo = remember {
-        subscriptions.firstOrNull()
-    }
-
-    fun callNumber(number: String) {
-        if (!PermissionHelper.checkPermissions(context, CallModel.phonePerms)) return
-
-        val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$number")).apply {
-            chosenSubInfo?.let {
-                val phoneAccountHandle = PhoneAccountHandle(
-                    ComponentName(
-                        "com.android.phone",
-                        "com.android.services.telephony.TelephonyConnectionService"
-                    ),
-                    it.subscriptionId.toString()
-                )
-                putExtra(TelecomManager.EXTRA_PHONE_ACCOUNT_HANDLE, phoneAccountHandle)
-            }
-        }
-        context.startActivity(intent)
     }
 
     val callLog = callModel.callLogs
@@ -151,7 +115,7 @@ fun CallLogsScreen(
                                 contact?.displayName ?: it.phoneNumber
                             )
                         ) {
-                            callNumber(it.phoneNumber)
+                            callModel.callNumber(it.phoneNumber)
                         }
                     }
                 }
@@ -163,6 +127,7 @@ fun CallLogsScreen(
 
     if (showNumberPicker) {
         val state = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
         ModalBottomSheet(onDismissRequest = { showNumberPicker = false }, sheetState = state) {
             Column(
                 modifier = Modifier
@@ -170,21 +135,15 @@ fun CallLogsScreen(
                     .padding(horizontal = 8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                PhoneNumberDisplay(displayText = numberToCall)
+                PhoneNumberDisplay(displayText = callModel.numberToCall)
                 NumberInput(
-                    onNumberInput = {
-                        numberToCall += it
-                    },
-                    onDelete = {
-                        numberToCall = numberToCall.removeLastChar()
-                    },
+                    onNumberInput = callModel::onNumberInput,
+                    onDelete = callModel::onBackSpace,
                     onDial = {
-                        callNumber(numberToCall)
+                        callModel.callNumber()
                     },
-                    subscriptions = subscriptions,
-                    onSubscriptionIndexChange = {
-                        chosenSubInfo = subscriptions.get(it)
-                    }
+                    subscriptions = callModel.subscriptions,
+                    onSubscriptionIndexChange = callModel::onSubscriptionIndexChange
                 )
             }
         }
