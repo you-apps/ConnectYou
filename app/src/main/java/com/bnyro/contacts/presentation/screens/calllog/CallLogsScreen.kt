@@ -3,7 +3,6 @@ package com.bnyro.contacts.presentation.screens.calllog
 import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
 import android.text.format.DateUtils
@@ -44,8 +43,8 @@ import com.bnyro.contacts.presentation.components.NothingHere
 import com.bnyro.contacts.presentation.components.NumberInput
 import com.bnyro.contacts.presentation.components.PhoneNumberDisplay
 import com.bnyro.contacts.presentation.features.ConfirmationDialog
+import com.bnyro.contacts.presentation.screens.calllog.model.CallModel
 import com.bnyro.contacts.presentation.screens.contacts.model.ContactsModel
-import com.bnyro.contacts.presentation.screens.dialer.model.DialerModel
 import com.bnyro.contacts.presentation.screens.editor.components.ContactIconPlaceholder
 import com.bnyro.contacts.presentation.screens.settings.model.ThemeModel
 import com.bnyro.contacts.util.CallLogHelper
@@ -57,7 +56,7 @@ import com.bnyro.contacts.util.extension.removeLastChar
 @Composable
 fun CallLogsScreen(
     contactsModel: ContactsModel,
-    dialerModel: DialerModel,
+    dialerModel: CallModel,
     themeModel: ThemeModel
 ) {
     val context = LocalContext.current
@@ -72,32 +71,26 @@ fun CallLogsScreen(
         mutableStateOf(emptyList<CallLogEntry>())
     }
     val subscriptions = remember {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            SmsUtil.getSubscriptions(context)
-        } else {
-            null
-        }
+        SmsUtil.getSubscriptions(context)
     }
 
     var chosenSubInfo = remember {
-        subscriptions?.firstOrNull()
+        subscriptions.firstOrNull()
     }
 
     fun callNumber(number: String) {
-        if (!PermissionHelper.checkPermissions(context, DialerModel.phonePerms)) return
+        if (!PermissionHelper.checkPermissions(context, CallModel.phonePerms)) return
 
         val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$number")).apply {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                chosenSubInfo?.let {
-                    val phoneAccountHandle = PhoneAccountHandle(
-                        ComponentName(
-                            "com.android.phone",
-                            "com.android.services.telephony.TelephonyConnectionService"
-                        ),
-                        it.subscriptionId.toString()
-                    )
-                    putExtra(TelecomManager.EXTRA_PHONE_ACCOUNT_HANDLE, phoneAccountHandle)
-                }
+            chosenSubInfo?.let {
+                val phoneAccountHandle = PhoneAccountHandle(
+                    ComponentName(
+                        "com.android.phone",
+                        "com.android.services.telephony.TelephonyConnectionService"
+                    ),
+                    it.subscriptionId.toString()
+                )
+                putExtra(TelecomManager.EXTRA_PHONE_ACCOUNT_HANDLE, phoneAccountHandle)
             }
         }
         context.startActivity(intent)

@@ -88,6 +88,7 @@ dependencies {
 
     // Image parsing
     implementation("androidx.exifinterface:exifinterface:1.3.7")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
     // Phone number formatting
     implementation("com.googlecode.libphonenumber:libphonenumber:8.2.0")

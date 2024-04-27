@@ -246,9 +246,6 @@
             android:name=".util.receivers.CopyTextReceiver"
             android:exported="false" />
 
-        <receiver
-            android:name=".util.receivers.CallActionReceiver"
-            android:exported="false" />
 
         <!-- BroadcastReceiver that listens for incoming MMS messages -->
         <receiver

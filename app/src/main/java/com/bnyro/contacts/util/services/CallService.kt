@@ -3,8 +3,11 @@ package com.bnyro.contacts.util.services
 import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.PendingIntent
+import android.content.BroadcastReceiver
 import android.content.ContentResolver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Binder
@@ -16,15 +19,16 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import com.bnyro.contacts.R
+import com.bnyro.contacts.domain.model.CallerInfo
+import com.bnyro.contacts.presentation.screens.dialer.model.state.CallState
 import com.bnyro.contacts.ui.activities.CallActivity
-import com.bnyro.contacts.util.CallManager
 import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.NotificationHelper
 import com.bnyro.contacts.util.extension.stringValue
-import com.bnyro.contacts.util.receivers.CallActionReceiver
-import com.bnyro.contacts.util.receivers.CallActionReceiver.Companion.ACCEPT_CALL
-import com.bnyro.contacts.util.receivers.CallActionReceiver.Companion.DECLINE_CALL
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -36,41 +40,95 @@ class CallService : InCallService() {
 
     private val binder = LocalBinder()
 
-    private lateinit var acceptPendingIntent: PendingIntent
-    private lateinit var declinePendingIntent: PendingIntent
-    val scope = CoroutineScope(Dispatchers.Main)
-    var currentCall: Call? = null
+    private val scope = CoroutineScope(Dispatchers.Main)
 
-    override fun onCreate() {
-        super.onCreate()
-        acceptPendingIntent = createPendingIntent(ACCEPT_CALL, 0)
-        declinePendingIntent = createPendingIntent(DECLINE_CALL, 1)
+    private var currentCallState = Call.STATE_DISCONNECTED
+    private var callerInfo = CallerInfo()
+
+    var onUpdateState: (CallState) -> Unit = {}
+
+    var onCallerInfoUpdate: (CallerInfo) -> Unit = {}
+
+    private val callActionReciever = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            when (intent?.getStringExtra(ACTION_EXTRA_KEY)) {
+                ACCEPT_CALL ->
+                    acceptCall()
+
+                DECLINE_CALL -> cancelCall()
+            }
+        }
     }
 
-    private fun createPendingIntent(action: String, requestCode: Int): PendingIntent {
-        return PendingIntent.getBroadcast(
+    override fun onCreate() {
+        ContextCompat.registerReceiver(
             this,
-            requestCode,
-            Intent(this, CallActionReceiver::class.java).apply { this.action = action },
-            PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE
+            callActionReciever,
+            IntentFilter(CALL_INTENT_ACTION),
+            ContextCompat.RECEIVER_EXPORTED
         )
+        super.onCreate()
+    }
+
+    override fun onDestroy() {
+        unregisterReceiver(callActionReciever)
+        super.onDestroy()
     }
 
     private val callCallback = object : Call.Callback() {
         override fun onStateChanged(call: Call, state: Int) {
-            CallManager.updateCallState(state)
+            currentCallState = state
+            updateState(state)
+            if (state == Call.STATE_DISCONNECTED) {
+                val closeCallAlertIntent = Intent(CallActivity.CALL_ALERT_CLOSE_ACTION).apply {
+                    putExtra(CallActivity.ACTION_EXTRA_KEY, CallActivity.CLOSE_ACTION)
+                    `package` = packageName
+                }
+                sendBroadcast(closeCallAlertIntent)
+            }
         }
+    }
+
+    fun updateState(state: Int = currentCallState) {
+        when (state) {
+            Call.STATE_RINGING, Call.STATE_PULLING_CALL -> onUpdateState.invoke(CallState.Incoming)
+            Call.STATE_DIALING -> onUpdateState.invoke(CallState.Outgoing)
+            Call.STATE_ACTIVE -> onUpdateState.invoke(CallState.InCall)
+            Call.STATE_DISCONNECTED -> onUpdateState.invoke(CallState.Disconnected)
+            Call.STATE_CONNECTING -> onUpdateState.invoke(CallState.Connecting)
+            Call.STATE_DISCONNECTING -> onUpdateState.invoke(CallState.Disconnecting)
+            else -> {}
+        }
+    }
+
+    fun updateCallerInfo() {
+        onCallerInfoUpdate(callerInfo)
     }
 
     @SuppressLint("MissingPermission")
     override fun onCallAdded(call: Call) {
         super.onCallAdded(call)
+        val intent = Intent(applicationContext, CallActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        }
+        startActivity(intent)
+
         call.registerCallback(callCallback)
-        CallManager.setCall(call)
-        currentCall = call
+
+        val callerNumber = call.details.gatewayInfo?.originalAddress?.schemeSpecificPart
+            ?: call.details.handle.schemeSpecificPart
+
+        currentCallState = call.state
+        updateState(call.state)
+
+        val formattedPhoneNumber = formatPhoneNumber(callerNumber)
+        callerInfo = CallerInfo(
+            rawPhoneNumber = callerNumber,
+            formattedPhoneNumber = formattedPhoneNumber
+        )
+        updateCallerInfo()
 
         scope.launch {
-            val callerNumber = CallManager.callerDisplayNumber
             val (thumbnailUri, contactName) = withContext(Dispatchers.IO) {
                 getContactName(callerNumber)
             }
@@ -86,10 +144,14 @@ class CallService : InCallService() {
             NotificationManagerCompat.from(this@CallService)
                 .notify(CALL_NOTIFICATION_ID, notification)
 
+            callerInfo = CallerInfo(
+                callerName = contactName,
+                rawPhoneNumber = callerNumber,
+                callerPhoto = thumbnailUri?.toUri(),
+                formattedPhoneNumber = formattedPhoneNumber
+            )
+            updateCallerInfo()
         }
-        val intent = Intent(applicationContext, CallActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        startActivity(intent)
     }
 
     private fun getContactName(phoneNumber: String): Pair<String?, String?> {
@@ -114,12 +176,19 @@ class CallService : InCallService() {
         return null to null
     }
 
+    private fun formatPhoneNumber(number: String): String {
+        val phoneUtil = PhoneNumberUtil.getInstance()
+        val phoneNumber = runCatching { phoneUtil.parse(number, null) }
+            .getOrElse { return number }
+        return phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.NATIONAL)
+    }
+
     override fun onCallRemoved(call: Call) {
         super.onCallRemoved(call)
-        currentCall = null
         NotificationManagerCompat.from(this).cancel(CALL_NOTIFICATION_ID)
         call.unregisterCallback(callCallback)
-        CallManager.setCall(null)
+
+        currentCallState = Call.STATE_DISCONNECTED
     }
 
     private fun buildNotification(
@@ -128,6 +197,11 @@ class CallService : InCallService() {
         callerName: String?,
         callersPhoto: Bitmap?
     ): Notification {
+        val acceptPendingIntent =
+            getPendingIntent(Intent(CALL_INTENT_ACTION).putExtra(ACTION_EXTRA_KEY, ACCEPT_CALL), 1)
+        val declinePendingIntent =
+            getPendingIntent(Intent(CALL_INTENT_ACTION).putExtra(ACTION_EXTRA_KEY, DECLINE_CALL), 2)
+
         val collapsedView = RemoteViews(packageName, R.layout.call_notification).apply {
             setTextViewText(
                 R.id.notification_caller_name,
@@ -167,12 +241,37 @@ class CallService : InCallService() {
             .build()
     }
 
+    val currentCall: Call?
+        get() = calls.firstOrNull()
+
     fun playDtmfTone(digit: Char) {
         scope.launch {
             currentCall?.playDtmfTone(digit)
             delay(200)
             currentCall?.stopDtmfTone()
         }
+    }
+
+    fun cancelCall() {
+        if (currentCall == null) return
+
+        if (currentCallState == Call.STATE_RINGING) {
+            rejectCall()
+        } else {
+            disconnectCall()
+        }
+    }
+
+    fun acceptCall() {
+        currentCall?.let { it.answer(it.details.videoState) }
+    }
+
+    private fun rejectCall() {
+        currentCall?.reject(false, "")
+    }
+
+    private fun disconnectCall() {
+        currentCall?.disconnect()
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -186,7 +285,19 @@ class CallService : InCallService() {
         fun getService() = this@CallService
     }
 
+    private fun getPendingIntent(intent: Intent, requestCode: Int): PendingIntent =
+        PendingIntent.getBroadcast(
+            this,
+            requestCode,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
     companion object {
+        const val CALL_INTENT_ACTION = "com.bnyro.contacts.CALL_ACTION"
+        const val ACTION_EXTRA_KEY = "call_action"
+        const val ACCEPT_CALL = "ACCEPT"
+        const val DECLINE_CALL = "DECLINE"
         const val CALL_NOTIFICATION_ID = 10
         const val CUSTOM_BIND_ACTION = "custom_bind"
     }

@@ -1,36 +1,47 @@
 package com.bnyro.contacts.presentation.screens.dialer.model
 
-import android.Manifest
-import android.content.Context
-import android.content.Intent
+import android.app.Application
 import android.media.AudioManager
-import android.telecom.TelecomManager
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
+import com.bnyro.contacts.domain.model.CallerInfo
+import com.bnyro.contacts.presentation.screens.dialer.model.state.CallState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
-class DialerModel : ViewModel() {
-    var initialPhoneNumber: String? = null
+class DialerModel(application: Application) : AndroidViewModel(application) {
+    private val audioManager =
+        application.applicationContext.getSystemService(AudioManager::class.java)
+
     var currentMuteState by mutableStateOf(false)
     var currentSpeakerState by mutableStateOf(false)
 
     var playDtmfTone: (digit: Char) -> Unit = {}
+    var acceptCall: () -> Unit = {}
+    var cancelCall: () -> Unit = {}
+
+    private val _callState = MutableStateFlow<CallState>(CallState.Disconnected)
+    val callState = _callState.asStateFlow()
+
+    private val _callerInfo = MutableStateFlow(CallerInfo())
+    val callerInfo = _callerInfo.asStateFlow()
+
 
     var dialpadNumber by mutableStateOf("")
         private set
 
-    fun requestDefaultDialerApp(context: Context) {
-        val telecomManager = context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager?
-        val isAlreadyDefaultDialer =
-            context.packageName.equals(telecomManager!!.defaultDialerPackage)
-        if (!isAlreadyDefaultDialer) {
-            val intent: Intent = Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER)
-                .putExtra(
-                    TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME,
-                    context.packageName
-                )
-            context.startActivity(intent)
+    fun onState(state: CallState) {
+        _callState.update {
+            state
+        }
+    }
+
+    fun onCallerInfoUpdate(info: CallerInfo) {
+        _callerInfo.update {
+            info
         }
     }
 
@@ -40,22 +51,13 @@ class DialerModel : ViewModel() {
 
     }
 
-    fun toggleMute(context: Context) {
-        val audioManager = context.getSystemService(AudioManager::class.java)!!
+    fun toggleMute() {
         audioManager.isMicrophoneMute = !currentMuteState
         currentMuteState = !currentMuteState
     }
 
-    fun toggleSpeakers(context: Context) {
-        val audioManager = context.getSystemService(AudioManager::class.java)!!
+    fun toggleSpeakers() {
         audioManager.isSpeakerphoneOn = !currentSpeakerState
         currentSpeakerState = !currentSpeakerState
-    }
-
-    companion object {
-        val phonePerms = arrayOf(
-            Manifest.permission.CALL_PHONE,
-            Manifest.permission.READ_PHONE_STATE
-        )
     }
 }

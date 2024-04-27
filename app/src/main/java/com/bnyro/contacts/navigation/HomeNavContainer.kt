@@ -23,8 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.bnyro.contacts.presentation.screens.calllog.model.CallModel
 import com.bnyro.contacts.presentation.screens.contacts.model.ContactsModel
-import com.bnyro.contacts.presentation.screens.dialer.model.DialerModel
 import com.bnyro.contacts.presentation.screens.settings.model.ThemeModel
 import com.bnyro.contacts.presentation.screens.sms.model.SmsModel
 
@@ -34,7 +34,7 @@ fun HomeNavContainer(
     onNavigate: (String) -> Unit,
     smsModel: SmsModel,
     contactsModel: ContactsModel,
-    dialerModel: DialerModel,
+    callModel: CallModel,
     themeModel: ThemeModel
 ) {
     val navController = rememberNavController()
@@ -108,7 +108,7 @@ fun HomeNavContainer(
                 onNavigate = onNavigate,
                 smsModel = smsModel,
                 contactsModel = contactsModel,
-                dialerModel = dialerModel,
+                callModel = callModel,
                 themeModel = themeModel
             )
         }

@@ -9,9 +9,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.bnyro.contacts.presentation.screens.calllog.CallLogsScreen
+import com.bnyro.contacts.presentation.screens.calllog.model.CallModel
 import com.bnyro.contacts.presentation.screens.contacts.ContactsPage
 import com.bnyro.contacts.presentation.screens.contacts.model.ContactsModel
-import com.bnyro.contacts.presentation.screens.dialer.model.DialerModel
 import com.bnyro.contacts.presentation.screens.settings.model.ThemeModel
 import com.bnyro.contacts.presentation.screens.sms.SmsListScreen
 import com.bnyro.contacts.presentation.screens.sms.model.SmsModel
@@ -24,7 +24,7 @@ fun HomeNavHost(
     modifier: Modifier = Modifier,
     smsModel: SmsModel,
     contactsModel: ContactsModel,
-    dialerModel: DialerModel,
+    callModel: CallModel,
     themeModel: ThemeModel
 ) {
     val viewModelStoreOwner: ViewModelStoreOwner = LocalViewModelStoreOwner.current!!
@@ -40,7 +40,7 @@ fun HomeNavHost(
         }
         composable(HomeRoutes.Phone.route) {
             CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {
-                CallLogsScreen(contactsModel, dialerModel, themeModel)
+                CallLogsScreen(contactsModel, callModel, themeModel)
             }
         }
         composable(HomeRoutes.Messages.route) {

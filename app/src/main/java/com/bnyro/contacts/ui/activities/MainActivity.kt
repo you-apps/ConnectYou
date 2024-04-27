@@ -42,9 +42,9 @@ class MainActivity : BaseActivity() {
 
         smsModel.initialAddressAndBody = getInitialSmsAddressAndBody()
 
-        dialerModel.initialPhoneNumber = getInitialNumberToDial()
+        callModel.initialPhoneNumber = getInitialNumberToDial()
 
-        val initialTabIndex = dialerModel.initialPhoneNumber?.let { 0 }
+        val initialTabIndex = callModel.initialPhoneNumber?.let { 0 }
             ?: smsModel.initialAddressAndBody?.let { 2 }
             ?: Preferences.getInt(Preferences.homeTabKey, 1)
         setContent {

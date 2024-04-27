@@ -11,8 +11,8 @@ import androidx.activity.viewModels
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
+import com.bnyro.contacts.presentation.screens.calllog.model.CallModel
 import com.bnyro.contacts.presentation.screens.contacts.model.ContactsModel
-import com.bnyro.contacts.presentation.screens.dialer.model.DialerModel
 import com.bnyro.contacts.presentation.screens.settings.model.ThemeModel
 import com.bnyro.contacts.presentation.screens.sms.model.SmsModel
 import com.bnyro.contacts.util.NotificationHelper
@@ -24,7 +24,7 @@ abstract class BaseActivity : FragmentActivity() {
         ContactsModel.Factory
     }
     val smsModel by viewModels<SmsModel>()
-    val dialerModel by viewModels<DialerModel>()
+    val callModel by viewModels<CallModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

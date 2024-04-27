@@ -145,4 +145,7 @@
     <string name="accept">Accept</string>
     <string name="unknown_number">Unknown Number</string>
     <string name="dial_pad">Dialpad</string>
+    <string name="call_ended">Call Ended</string>
+    <string name="dialing">Dialing...</string>
+    <string name="call_from">Call From</string>
 </resources>

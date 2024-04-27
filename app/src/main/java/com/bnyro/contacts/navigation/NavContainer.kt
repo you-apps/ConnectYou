@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.bnyro.contacts.presentation.screens.calllog.model.CallModel
 import com.bnyro.contacts.presentation.screens.contacts.model.ContactsModel
-import com.bnyro.contacts.presentation.screens.dialer.model.DialerModel
 import com.bnyro.contacts.presentation.screens.settings.model.ThemeModel
 import com.bnyro.contacts.presentation.screens.sms.model.SmsModel
 
@@ -17,7 +17,7 @@ fun NavContainer(
     val navController = rememberNavController()
     val smsModel: SmsModel = viewModel()
     val contactsModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
-    val dialerModel: DialerModel = viewModel()
+    val callModel: CallModel = viewModel()
     val themeModel: ThemeModel = viewModel()
     AppNavHost(
         navController,
@@ -26,7 +26,7 @@ fun NavContainer(
             .fillMaxSize(),
         smsModel = smsModel,
         contactsModel = contactsModel,
-        dialerModel = dialerModel,
+        callModel = callModel,
         themeModel = themeModel
     )
 }
