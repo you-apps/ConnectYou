@@ -1,5 +1,7 @@
 package com.bnyro.contacts.ui.activities
 
+import android.app.PendingIntent
+import android.app.TaskStackBuilder
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -42,10 +44,7 @@ class MainActivity : BaseActivity() {
 
         smsModel.initialAddressAndBody = getInitialSmsAddressAndBody()
 
-        callModel.initialPhoneNumber = getInitialNumberToDial()
-
-        val initialTabIndex = callModel.initialPhoneNumber?.let { 0 }
-            ?: smsModel.initialAddressAndBody?.let { 2 }
+        val initialTabIndex = smsModel.initialAddressAndBody?.let { 2 }
             ?: Preferences.getInt(Preferences.homeTabKey, 1)
         setContent {
             ConnectYouTheme(themeModel.themeMode) {
@@ -77,6 +76,42 @@ class MainActivity : BaseActivity() {
                 }
             }
         }
+        processIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        processIntent(intent)
+        super.onNewIntent(intent)
+    }
+
+    private fun processIntent(intent: Intent?) {
+        var number: String? = null
+        if (intent?.action == Intent.ACTION_INSERT_OR_EDIT) {
+            number = intent.getStringExtra(Intents.Insert.PHONE)
+        } else if (intent?.action == Intent.ACTION_DIAL || intent?.action == Intent.ACTION_VIEW) {
+            if (intent.data?.scheme == "tel") {
+                number = intent.data?.schemeSpecificPart
+            }
+        }
+        if (number != null) openDialPad(number)
+    }
+
+    private fun openDialPad(number: String) {
+        val deepLinkIntent = Intent(
+            HomeRoutes.Phone.navAction,
+            HomeRoutes.Phone.getDeepLink(number),
+            this,
+            MainActivity::class.java
+        )
+
+        val deepLinkPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
+            addNextIntentWithParentStack(deepLinkIntent)
+            getPendingIntent(
+                10,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+        }
+        deepLinkPendingIntent?.send()
     }
 
     private fun getInsertContactData(): ContactData? {
@@ -116,13 +151,6 @@ class MainActivity : BaseActivity() {
         val body = intent?.getStringExtra(Intent.EXTRA_TEXT)
 
         return ContactsHelper.normalizePhoneNumber(address) to body
-    }
-
-    private fun getInitialNumberToDial(): String? {
-        if (intent?.action != Intent.ACTION_DIAL) return null
-
-        return intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER)
-            .takeIf { !it.isNullOrBlank() }
     }
 
     private fun getSharedVcfUri(): Uri? {

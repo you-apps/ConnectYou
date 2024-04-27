@@ -37,8 +37,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
-import com.bnyro.contacts.domain.model.CallLogEntry
 import com.bnyro.contacts.presentation.components.NothingHere
 import com.bnyro.contacts.presentation.components.NumberInput
 import com.bnyro.contacts.presentation.components.PhoneNumberDisplay
@@ -47,7 +47,6 @@ import com.bnyro.contacts.presentation.screens.calllog.model.CallModel
 import com.bnyro.contacts.presentation.screens.contacts.model.ContactsModel
 import com.bnyro.contacts.presentation.screens.editor.components.ContactIconPlaceholder
 import com.bnyro.contacts.presentation.screens.settings.model.ThemeModel
-import com.bnyro.contacts.util.CallLogHelper
 import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.SmsUtil
 import com.bnyro.contacts.util.extension.removeLastChar
@@ -56,20 +55,18 @@ import com.bnyro.contacts.util.extension.removeLastChar
 @Composable
 fun CallLogsScreen(
     contactsModel: ContactsModel,
-    dialerModel: CallModel,
     themeModel: ThemeModel
 ) {
+    val callModel: CallModel = viewModel()
     val context = LocalContext.current
 
     var showNumberPicker by remember {
-        mutableStateOf(false)
+        mutableStateOf(callModel.initialPhoneNumber != null)
     }
     var numberToCall by remember {
-        mutableStateOf(dialerModel.initialPhoneNumber.orEmpty())
+        mutableStateOf(callModel.initialPhoneNumber.orEmpty())
     }
-    var callLog by remember {
-        mutableStateOf(emptyList<CallLogEntry>())
-    }
+
     val subscriptions = remember {
         SmsUtil.getSubscriptions(context)
     }
@@ -96,10 +93,7 @@ fun CallLogsScreen(
         context.startActivity(intent)
     }
 
-    LaunchedEffect(Unit) {
-        callLog = CallLogHelper.getCallLog(context)
-    }
-
+    val callLog = callModel.callLogs
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -189,7 +183,7 @@ fun CallLogsScreen(
                     },
                     subscriptions = subscriptions,
                     onSubscriptionIndexChange = {
-                        chosenSubInfo = subscriptions?.get(it)
+                        chosenSubInfo = subscriptions.get(it)
                     }
                 )
             }
@@ -197,6 +191,6 @@ fun CallLogsScreen(
     }
 
     LaunchedEffect(Unit) {
-        dialerModel.requestDefaultDialerApp(context)
+        callModel.requestDefaultDialerApp(context)
     }
 }

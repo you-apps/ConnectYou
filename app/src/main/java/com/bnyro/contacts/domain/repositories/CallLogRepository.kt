@@ -1,18 +1,23 @@
-package com.bnyro.contacts.util
+package com.bnyro.contacts.domain.repositories
 
 import android.Manifest
 import android.content.Context
 import android.provider.CallLog
 import com.bnyro.contacts.domain.model.CallLogEntry
+import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.extension.intValue
 import com.bnyro.contacts.util.extension.longValue
 import com.bnyro.contacts.util.extension.stringValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-object CallLogHelper {
-    suspend fun getCallLog(context: Context): List<CallLogEntry> = withContext(Dispatchers.IO) {
-        if (!PermissionHelper.checkPermissions(context, arrayOf(Manifest.permission.READ_CALL_LOG))) return@withContext emptyList()
+class CallLogRepository(private val context: Context) {
+    suspend fun getCallLog(): List<CallLogEntry> = withContext(Dispatchers.IO) {
+        if (!PermissionHelper.checkPermissions(
+                context,
+                arrayOf(Manifest.permission.READ_CALL_LOG)
+            )
+        ) return@withContext emptyList()
 
         val callLog = mutableListOf<CallLogEntry>()
 
@@ -34,11 +39,19 @@ object CallLogHelper {
         return@withContext callLog
     }
 
-    suspend fun deleteAll(context: Context, callLog: List<CallLogEntry>) = withContext(Dispatchers.IO) {
-        if (!PermissionHelper.checkPermissions(context, arrayOf(Manifest.permission.WRITE_CALL_LOG))) return@withContext
+    suspend fun deleteAll(callLog: List<CallLogEntry>) = withContext(Dispatchers.IO) {
+        if (!PermissionHelper.checkPermissions(
+                context,
+                arrayOf(Manifest.permission.WRITE_CALL_LOG)
+            )
+        ) return@withContext
 
         callLog.distinctBy { it.phoneNumber }.forEach { entry ->
-            context.contentResolver.delete(CallLog.Calls.CONTENT_URI, "NUMBER=${entry.phoneNumber}", null)
+            context.contentResolver.delete(
+                CallLog.Calls.CONTENT_URI,
+                "NUMBER=${entry.phoneNumber}",
+                null
+            )
         }
     }
 }

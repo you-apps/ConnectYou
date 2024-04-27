@@ -15,7 +15,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.bnyro.contacts.presentation.screens.about.AboutScreen
-import com.bnyro.contacts.presentation.screens.calllog.model.CallModel
 import com.bnyro.contacts.presentation.screens.contacts.model.ContactsModel
 import com.bnyro.contacts.presentation.screens.settings.SettingsScreen
 import com.bnyro.contacts.presentation.screens.settings.model.ThemeModel
@@ -29,7 +28,6 @@ fun AppNavHost(
     initialTab: HomeRoutes,
     smsModel: SmsModel,
     contactsModel: ContactsModel,
-    callModel: CallModel,
     themeModel: ThemeModel
 ) {
     val viewModelStoreOwner: ViewModelStoreOwner = LocalViewModelStoreOwner.current!!
@@ -53,7 +51,6 @@ fun AppNavHost(
                 },
                 smsModel = smsModel,
                 contactsModel = contactsModel,
-                callModel = callModel,
                 themeModel = themeModel
             )
         }

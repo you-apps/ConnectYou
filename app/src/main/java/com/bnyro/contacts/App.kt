@@ -2,6 +2,7 @@ package com.bnyro.contacts
 
 import android.app.Application
 import com.bnyro.contacts.data.database.DatabaseHolder
+import com.bnyro.contacts.domain.repositories.CallLogRepository
 import com.bnyro.contacts.domain.repositories.DeviceContactsRepository
 import com.bnyro.contacts.domain.repositories.DeviceSmsRepo
 import com.bnyro.contacts.domain.repositories.LocalContactsRepository
@@ -18,6 +19,9 @@ class App : Application() {
     }
     val localContactsRepository by lazy {
         LocalContactsRepository(this)
+    }
+    val callLogRepository by lazy {
+        CallLogRepository(this)
     }
 
     lateinit var smsRepo: SmsRepository
