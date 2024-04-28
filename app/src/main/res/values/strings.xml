@@ -148,4 +148,5 @@
     <string name="call_ended">Call Ended</string>
     <string name="dialing">Dialing...</string>
     <string name="call_from">Call From</string>
+    <string name="key_pad">Keypad</string>
 </resources>
