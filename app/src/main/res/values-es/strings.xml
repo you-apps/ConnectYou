@@ -116,4 +116,24 @@
     <string name="add_note">Añadir nota</string>
     <string name="date">Fecha</string>
     <string name="import_confirm">¿Desea importar el archivo VCF seleccionado?</string>
+    <string name="amoled">Amoled</string>
+    <string name="biometric_authentication">Autenticación biométrica</string>
+    <string name="security">Seguridad</string>
+    <string name="biometric_authentication_summary">Requerir autenticación biométrica (por ejemplo, huella digital) antes de poder acceder a la aplicación.</string>
+    <string name="in_progress">En curso</string>
+    <string name="ringing">Sonando…</string>
+    <string name="disconnecting">Desconectando…</string>
+    <string name="connecting">Conectando…</string>
+    <string name="confirm_start_call">¿Quieres llamar a %1$s?</string>
+    <string name="mute">Silenciar</string>
+    <string name="speakers">Altavoces</string>
+    <string name="calls">Llamadas</string>
+    <string name="decline">Rechazar</string>
+    <string name="accept">Aceptar</string>
+    <string name="unknown_number">Número desconocido</string>
+    <string name="dial_pad">Marcador</string>
+    <string name="call_ended">Llamada terminada</string>
+    <string name="call_from">Llamada de</string>
+    <string name="dialing">Llamando...</string>
+    <string name="key_pad">Teclado</string>
 </resources>
