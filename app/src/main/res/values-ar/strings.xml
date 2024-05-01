@@ -116,4 +116,24 @@
     <string name="add_event">أضف حدثًا</string>
     <string name="date">‪التاريخ</string>
     <string name="import_confirm">هل ترغب في استيراد ملف VCF المحدد؟</string>
+    <string name="amoled">‬أموليد</string>
+    <string name="security">الأمان</string>
+    <string name="biometric_authentication">المصادقة البيومترية</string>
+    <string name="biometric_authentication_summary">اطلب المصادقة البيومترية (مثل بصمة الإصبع) قبل أن تتمكن من الوصول إلى التطبيق.</string>
+    <string name="in_progress">قيد التنفيذ</string>
+    <string name="ringing">الرنين…</string>
+    <string name="disconnecting">جارٍ قطع الاتصال…</string>
+    <string name="mute">كتم</string>
+    <string name="calls">المكالمات</string>
+    <string name="decline">رفض</string>
+    <string name="accept">قبول</string>
+    <string name="connecting">جارِ الاتصال…</string>
+    <string name="confirm_start_call">هل تريد الاتصال بـ %1$s؟</string>
+    <string name="speakers">مكبرات الصوت</string>
+    <string name="unknown_number">رقم غير معروف</string>
+    <string name="dial_pad">لوحة الطلب</string>
+    <string name="call_ended">انتهت المكالمة</string>
+    <string name="dialing">الطلب...</string>
+    <string name="call_from">اتصال من</string>
+    <string name="key_pad">لوحة المفاتيح</string>
 </resources>
