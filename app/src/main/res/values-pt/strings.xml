@@ -107,4 +107,13 @@
     <string name="contacts">Contactos</string>
     <string name="private_sms_database_desc">A SMS será gravada apenas nesta aplicação e não no dispositivo.</string>
     <string name="phone_number">Número de telefone</string>
+    <string name="import_confirm">Deseja importar o ficheiro VCF selecionado?</string>
+    <string name="add_note">Adicionar nota</string>
+    <string name="add_event">Adicionar evento</string>
+    <string name="date">Data</string>
+    <string name="add_address">Adicionar endereço</string>
+    <string name="add_website">Adicionar site</string>
+    <string name="add_phone_number">Adicionar número de telefone</string>
+    <string name="add_e_mail">Adicionar E-mail</string>
+    <string name="send_message_as_multiple">Quer enviar a mensagem como múltiplas mensagens pequenas?</string>
 </resources>
