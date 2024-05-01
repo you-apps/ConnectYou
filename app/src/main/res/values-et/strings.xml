@@ -116,4 +116,8 @@
     <string name="light">Hele kujundus</string>
     <string name="about">Rakenduse teave</string>
     <string name="import_confirm">Kas sa soovid importida valitud VCF-faili?</string>
+    <string name="amoled">Amoled</string>
+    <string name="security">Turvalisus</string>
+    <string name="biometric_authentication">Biomeetriline autentimine</string>
+    <string name="biometric_authentication_summary">Muuda biomeetriline autentimine (näiteks sõrmejälje alusel) nõutavaks enne rakenduse avamist.</string>
 </resources>
