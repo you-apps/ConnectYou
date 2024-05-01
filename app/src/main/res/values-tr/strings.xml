@@ -117,4 +117,24 @@
     <string name="add_event">Etkinlik Ekle</string>
     <string name="date">Tarih</string>
     <string name="import_confirm">Seçilen vCard\'ı içe aktarmak istiyor musunuz?</string>
+    <string name="amoled">Amoled</string>
+    <string name="security">Güvenlik</string>
+    <string name="biometric_authentication">Biyometrik Kimlik Doğrulaması</string>
+    <string name="biometric_authentication_summary">Uygulamaya erişilmeden önce biyometrik kimlik doğrulaması (örn. parmak izi) gerektir.</string>
+    <string name="disconnecting">Bağlantı kesiliyor…</string>
+    <string name="connecting">Bağlanıyor…</string>
+    <string name="confirm_start_call">%1$s aramak istiyor musunuz?</string>
+    <string name="mute">Sesini kapat</string>
+    <string name="speakers">Hoparlör</string>
+    <string name="accept">Kabul et</string>
+    <string name="dial_pad">Tuş takımı</string>
+    <string name="calls">Aramalar</string>
+    <string name="decline">Reddet</string>
+    <string name="in_progress">Devam ediyor</string>
+    <string name="unknown_number">Bilinmeyen Numara</string>
+    <string name="ringing">Çalıyor…</string>
+    <string name="call_ended">Arama Sona Erdi</string>
+    <string name="dialing">Aranıyor...</string>
+    <string name="call_from">Arayan</string>
+    <string name="key_pad">Tuş takımı</string>
 </resources>
