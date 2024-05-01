@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="work">Nơi làm việc</string>
     <string name="mobile">Di động</string>
     <string name="other">Khác</string>
@@ -49,4 +49,5 @@
     <string name="last_name">Tên</string>
     <string name="organization">Tổ chức</string>
     <string name="home">Nhà riêng</string>
+    <string name="search" tools:ignore="PrivateResource">Tìm kiếm</string>
 </resources>
