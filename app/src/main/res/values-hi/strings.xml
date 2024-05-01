@@ -116,4 +116,24 @@
     <string name="add_event">कार्यक्रम जोड़ें</string>
     <string name="date">तारीख</string>
     <string name="search" tools:ignore="PrivateResource">खोजें</string>
+    <string name="amoled">Amoled</string>
+    <string name="security">सुरक्षा</string>
+    <string name="biometric_authentication">बॉयोमीट्रिक प्रमाणीकरण</string>
+    <string name="biometric_authentication_summary">ऐप तक पहुंचने से पहले बायोमेट्रिक प्रमाणीकरण (जैसे फ़िंगरप्रिंट) की आवश्यकता है।</string>
+    <string name="in_progress">प्रगति पर है</string>
+    <string name="ringing">बज रहा है…</string>
+    <string name="disconnecting">डिस्कनेक्ट हो रहा है…</string>
+    <string name="confirm_start_call">क्या आप %1$s को कॉल करना चाहते हैं?</string>
+    <string name="mute">मूक</string>
+    <string name="speakers">स्पीकर</string>
+    <string name="calls">कॉल</string>
+    <string name="decline">अस्वीकार</string>
+    <string name="accept">स्वीकारें</string>
+    <string name="unknown_number">अज्ञात नंबर</string>
+    <string name="dial_pad">डायलपैड</string>
+    <string name="connecting">कनेक्ट हो रहा है…</string>
+    <string name="call_ended">कॉल समाप्त</string>
+    <string name="dialing">डायल किया जा रहा है..।</string>
+    <string name="call_from">इनसे कॉल</string>
+    <string name="key_pad">कीपैड</string>
 </resources>
