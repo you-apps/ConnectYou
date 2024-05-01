@@ -116,4 +116,24 @@
     <string name="add_event">Engadir evento</string>
     <string name="date">Data</string>
     <string name="import_confirm">Queres importar o ficheiro VCF seleccionado?</string>
+    <string name="amoled">AMOLED</string>
+    <string name="security">Seguridade</string>
+    <string name="biometric_authentication">Autenticación biométrica</string>
+    <string name="biometric_authentication_summary">Requerir autenticación biométrica (ex. impresión dactilar) para poder acceder á app.</string>
+    <string name="in_progress">En proceso</string>
+    <string name="ringing">A chamar…</string>
+    <string name="speakers">Altofalantes</string>
+    <string name="dial_pad">Teclado</string>
+    <string name="decline">Rexeitar</string>
+    <string name="connecting">A conectar…</string>
+    <string name="disconnecting">A desconectar…</string>
+    <string name="confirm_start_call">Queres chamar a %1$s?</string>
+    <string name="mute">Acalar</string>
+    <string name="calls">Chamadas</string>
+    <string name="accept">Aceptar</string>
+    <string name="unknown_number">Número Descoñecido</string>
+    <string name="call_ended">Rematou a chamada</string>
+    <string name="dialing">Marcando...</string>
+    <string name="call_from">Chamada de</string>
+    <string name="key_pad">Teclado</string>
 </resources>
