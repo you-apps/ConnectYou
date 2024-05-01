@@ -13,7 +13,7 @@
     <string name="mobile">Mobil</string>
     <string name="other">Andere</string>
     <string name="search" tools:ignore="PrivateResource">Suchen</string>
-    <string name="irreversible">Bist du Sicher\? Es kann nicht Rückgängig gemacht werden.</string>
+    <string name="irreversible">Sind Sie Sicher? Dies kann nicht rückgängig gemacht werden.</string>
     <string name="cancel">Abbrechen</string>
     <string name="retry">Erneut versuchen</string>
     <string name="delete_contact">Kontakt löschen</string>
@@ -101,10 +101,36 @@
     <string name="contacts">Kontakte</string>
     <string name="send">Nachricht senden</string>
     <string name="messages">Nachrichten</string>
-    <string name="connection_error">Verbindungsfehler! Stellen sie sicher, dass der Flugmodus ausgeschaltet ist!</string>
+    <string name="connection_error">Verbindungsfehler! Stellen Sie sicher, dass der Flugmodus ausgeschaltet ist.</string>
     <string name="phone_number">Telefonnummer</string>
     <string name="delete_thread">Unterhaltung löschen</string>
     <string name="delete_message">Nachricht löschen</string>
     <string name="private_sms_database">Private SMS Datenbank</string>
     <string name="save">Speichern</string>
+    <string name="amoled">Amoled</string>
+    <string name="private_sms_database_desc">Die SMS wir nur in der App gespeichert und ist für andere Apps nicht zugänglich.</string>
+    <string name="import_confirm">Möchten Sie die ausgewählte VCF-Datei importieren?</string>
+    <string name="add_website">Website hinzufügen</string>
+    <string name="add_phone_number">Telefonnummer hinzufügen</string>
+    <string name="add_address">Adresse hinzufügen</string>
+    <string name="add_note">Notiz hinzufügen</string>
+    <string name="add_event">Ereignis hinzufügen</string>
+    <string name="date">Datum</string>
+    <string name="add_e_mail">E-Mail-Adresse hinzufügen</string>
+    <string name="send_message_as_multiple">Möchten Sie die Nachricht als mehrere kleinere Nachrichten versenden?</string>
+    <string name="biometric_authentication_summary">Biometrische Authentifizierung (z.B. Fingerabdruck) verlangen, wenn die App geöffnet wird.</string>
+    <string name="biometric_authentication">Biometrische Authentifizierung</string>
+    <string name="security">Sicherheit</string>
+    <string name="confirm_start_call">Möchten Sie %1$s anrufen?</string>
+    <string name="ringing">Klingeln…</string>
+    <string name="speakers">Lautsprecher</string>
+    <string name="connecting">Verbinden…</string>
+    <string name="disconnecting">Trennen…</string>
+    <string name="decline">Ablehnen</string>
+    <string name="accept">Annehmen</string>
+    <string name="calls">Anrufe</string>
+    <string name="unknown_number">Unbekannte Nummer</string>
+    <string name="dialing">Wählen…</string>
+    <string name="call_from">Anruf von</string>
+    <string name="call_ended">Anruf beendet</string>
 </resources>
