@@ -72,7 +72,7 @@
     <string name="colorful_contact_icons">Barevné ikony kontaktů</string>
     <string name="message">Zpráva</string>
     <string name="create_shortcut">Vytvořit zástupce</string>
-    <string name="dial">Zavolat</string>
+    <string name="dial">Hovor</string>
     <string name="new_contact">Nový kontakt</string>
     <string name="contact">Kontakt</string>
     <string name="more">Další</string>
@@ -116,4 +116,24 @@
     <string name="add_phone_number">Přidat telefonní číslo</string>
     <string name="date">Datum</string>
     <string name="import_confirm">Chcete importovat vybraný soubor VCF?</string>
+    <string name="amoled">Amoled</string>
+    <string name="security">Zabezpečení</string>
+    <string name="biometric_authentication">Biometrické ověřování</string>
+    <string name="biometric_authentication_summary">Vyžadovat biometrické ověřování (např. otisk prstu) před přístupem do aplikace.</string>
+    <string name="in_progress">Probíhá</string>
+    <string name="ringing">Vyzvánění…</string>
+    <string name="disconnecting">Odpojování…</string>
+    <string name="connecting">Připojování…</string>
+    <string name="confirm_start_call">Chcete zavolat kontaktu %1$s?</string>
+    <string name="mute">Ztlumit</string>
+    <string name="speakers">Reproduktory</string>
+    <string name="calls">Hovory</string>
+    <string name="decline">Odmítnout</string>
+    <string name="accept">Přijmout</string>
+    <string name="unknown_number">Neznámé číslo</string>
+    <string name="dial_pad">Číselník</string>
+    <string name="call_ended">Hovor ukončen</string>
+    <string name="dialing">Vyzvánění...</string>
+    <string name="call_from">Hovor od</string>
+    <string name="key_pad">Číselník</string>
 </resources>
