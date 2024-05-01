@@ -117,4 +117,7 @@
     <string name="add_event">添加事件</string>
     <string name="import_confirm">您是否要导入选定的 VCF 文件？</string>
     <string name="amoled">Amoled</string>
+    <string name="security">安全</string>
+    <string name="biometric_authentication">生物识别认证</string>
+    <string name="biometric_authentication_summary">访问应用前要求生物识别认证（如指纹）。</string>
 </resources>
