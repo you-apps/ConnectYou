@@ -127,4 +127,24 @@
     <string name="add_website">Додај веб-сајт</string>
     <string name="add_note">Додај белешку</string>
     <string name="import_confirm">Желите ли да увезете изабрани VCF фајл?</string>
+    <string name="amoled">Amoled</string>
+    <string name="biometric_authentication">Биометријска аутентификација</string>
+    <string name="security">Безбедност</string>
+    <string name="biometric_authentication_summary">Захтевајте биометријску аутентификацију (нпр. отисак прста) пре него што се апликацији може приступити.</string>
+    <string name="ringing">Звони…</string>
+    <string name="mute">Утишај</string>
+    <string name="speakers">Звучници</string>
+    <string name="accept">Прихвати</string>
+    <string name="unknown_number">Непознати број</string>
+    <string name="dial_pad">Бирач бројева</string>
+    <string name="in_progress">У току</string>
+    <string name="disconnecting">Прекидање везе…</string>
+    <string name="connecting">Повезивање…</string>
+    <string name="confirm_start_call">Желите ли да зовете %1$s?</string>
+    <string name="decline">Одбиј</string>
+    <string name="calls">Позиви</string>
+    <string name="call_ended">Позив је завршен</string>
+    <string name="dialing">Бирање...</string>
+    <string name="call_from">Позив од</string>
+    <string name="key_pad">Тастатура</string>
 </resources>
