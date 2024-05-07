@@ -133,7 +133,7 @@
     <string name="dial_pad">डायलपैड</string>
     <string name="connecting">कनेक्ट हो रहा है…</string>
     <string name="call_ended">कॉल समाप्त</string>
-    <string name="dialing">डायल किया जा रहा है..।</string>
+    <string name="dialing">डायल किया जा रहा है…</string>
     <string name="call_from">इनसे कॉल</string>
     <string name="key_pad">कीपैड</string>
 </resources>
