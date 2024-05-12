@@ -1,8 +1,9 @@
 package com.bnyro.contacts.presentation.screens.sms.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -46,12 +47,13 @@ import com.bnyro.contacts.domain.model.SmsThread
 import com.bnyro.contacts.presentation.features.ConfirmationDialog
 import com.bnyro.contacts.presentation.screens.sms.model.SmsModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun SmsThreadItem(
     smsModel: SmsModel,
     thread: SmsThread,
-    onClick: (address: String, contactData: ContactData?) -> Unit
+    onClick: (address: String, contactData: ContactData?) -> Unit,
+    onLongClick: (thread: SmsThread) -> Unit = {}
 ) {
     val context = LocalContext.current
 
@@ -79,9 +81,11 @@ fun SmsThreadItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(shape)
-                    .clickable {
+                    .combinedClickable(onClick = {
                         onClick.invoke(thread.address, thread.contactData)
-                    },
+                    }, onLongClick = {
+                        onLongClick.invoke(thread)
+                    }),
                 shape = shape
             ) {
                 Row(

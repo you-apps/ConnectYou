@@ -151,4 +151,10 @@
     <string name="key_pad">Keypad</string>
     <string name="select_custom_ringtone">Select custom ringtone</string>
     <string name="change_ringtone">Change ringtone</string>
+    <string name="recent_calls">Recent calls</string>
+    <string name="block_numbers">Block numbers</string>
+    <string name="blocking_number_is_not_supported">Blocking number is not supported, Connect You is not the default SMS/Phone app</string>
+    <string name="number_blocked">Number blocked</string>
+    <string name="block_number">Block number</string>
+    <string name="unblock_number">Unblock number</string>
 </resources>
