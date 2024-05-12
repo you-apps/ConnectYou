@@ -28,8 +28,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Backspace
+import androidx.compose.material.icons.automirrored.rounded.Backspace
 import androidx.compose.material.icons.rounded.Call
+import androidx.compose.material.icons.rounded.Voicemail
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
@@ -46,6 +47,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -58,11 +60,11 @@ import coil.compose.AsyncImage
 import com.bnyro.contacts.R
 import com.bnyro.contacts.domain.model.BasicContactData
 
-val keypadNumbers = arrayOf(
-    arrayOf("1", "2", "3"),
-    arrayOf("4", "5", "6"),
-    arrayOf("7", "8", "9"),
-    arrayOf("*", "0", "#")
+val keypadNumbers: Array<Array<Pair<String, Any>>> = arrayOf(
+    arrayOf("1" to Icons.Rounded.Voicemail, "2" to "ABC", "3" to "DEF"),
+    arrayOf("4" to "GHI", "5" to "JKL", "6" to "MNO"),
+    arrayOf("7" to "PQRS", "8" to "TUV", "9" to "WXYZ"),
+    arrayOf("*" to Unit, "0" to "+", "#" to Unit)
 )
 
 @SuppressLint("NewApi")
@@ -87,12 +89,45 @@ fun NumberInput(
                 horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
             ) {
                 col.forEach {
-                    NumpadButton(
-                        text = it,
-                        onClick = {
-                            onNumberInput(it)
+                    val subcontent = it.second
+                    if (subcontent is String) {
+                        NumpadButtonWithSubcontent(
+                            aspectRatio = 1.5f,
+                            text = it.first,
+                            onClick = {
+                                onNumberInput(it.first)
+                            }
+                        ) {
+                            Text(
+                                text = subcontent,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                style = MaterialTheme.typography.bodyMedium
+                            )
                         }
-                    )
+                    } else if (subcontent is ImageVector) {
+                        NumpadButtonWithSubcontent(
+                            aspectRatio = 1.5f,
+                            text = it.first,
+                            onClick = {
+                                onNumberInput(it.first)
+                            }
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(16.dp),
+                                imageVector = subcontent,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                    } else {
+                        NumpadButton(
+                            aspectRatio = 1.5f,
+                            text = it.first,
+                            onClick = {
+                                onNumberInput(it.first)
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -116,7 +151,7 @@ fun NumberInput(
                 backgroundColor = MaterialTheme.colorScheme.tertiaryContainer
             ) {
                 Icon(
-                    Icons.Rounded.Backspace,
+                    Icons.AutoMirrored.Rounded.Backspace,
                     contentDescription = stringResource(R.string.delete),
                     tint = MaterialTheme.colorScheme.onTertiaryContainer
                 )
@@ -163,9 +198,9 @@ fun NumberInput(
             ) {
                 col.forEach {
                     NumpadButton(
-                        text = it,
+                        text = it.first,
                         onClick = {
-                            onNumberInput(it)
+                            onNumberInput(it.first)
                         }
                     )
                 }
@@ -179,7 +214,7 @@ fun RowScope.NumpadButton(
     text: String,
     textColor: Color = MaterialTheme.colorScheme.onSurface,
     backgroundColor: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp),
-    aspectRatio: Float = 1f,
+    aspectRatio: Float = 2f,
     onClick: () -> Unit,
     onLongClick: () -> Unit = { }
 ) {
@@ -197,11 +232,41 @@ fun RowScope.NumpadButton(
     }
 }
 
+@Composable
+fun RowScope.NumpadButtonWithSubcontent(
+    text: String,
+    textColor: Color = MaterialTheme.colorScheme.onSurface,
+    backgroundColor: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp),
+    aspectRatio: Float = 2f,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit = { },
+    content: @Composable (() -> Unit),
+) {
+    NumpadButton(
+        backgroundColor = backgroundColor,
+        aspectRatio = aspectRatio,
+        onClick = onClick,
+        onLongClick = onLongClick
+    ) {
+        Column(
+            modifier = Modifier.padding(vertical = 4.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = text,
+                color = textColor,
+                style = MaterialTheme.typography.displaySmall
+            )
+            content()
+        }
+    }
+}
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RowScope.NumpadButton(
     backgroundColor: Color = MaterialTheme.colorScheme.surfaceVariant,
-    aspectRatio: Float = 1f,
+    aspectRatio: Float = 2f,
     onClick: () -> Unit,
     onLongClick: () -> Unit = { },
     content: @Composable (BoxScope.() -> Unit)
@@ -223,8 +288,8 @@ fun RowScope.NumpadButton(
                 }
             )
             .background(backgroundColor)
-            .aspectRatio(2f)
-            .weight(aspectRatio),
+            .aspectRatio(aspectRatio)
+            .weight(1f),
         content = content
     )
 }
