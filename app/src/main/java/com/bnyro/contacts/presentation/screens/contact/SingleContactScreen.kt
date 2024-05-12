@@ -1,5 +1,7 @@
 package com.bnyro.contacts.presentation.screens.contact
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.launch
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,6 +25,9 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Message
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Shortcut
+import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -65,6 +70,7 @@ import com.bnyro.contacts.presentation.screens.editor.components.ContactEntryGro
 import com.bnyro.contacts.presentation.screens.editor.components.ContactEntryTextGroup
 import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.IntentHelper
+import com.bnyro.contacts.util.RingtonePickContract
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -85,6 +91,13 @@ fun SingleContactScreen(contact: ContactData, viewModel: ContactsModel, onClose:
     var showShareDialog by remember {
         mutableStateOf(false)
     }
+
+    val ringtonePicker =
+        rememberLauncherForActivityResult(contract = RingtonePickContract()) { uri ->
+            if (uri != null) {
+                viewModel.updateContactRingTone(contact, uri)
+            }
+        }
 
     FullScreenDialog(onClose = onClose) {
         Scaffold(
@@ -117,6 +130,30 @@ fun SingleContactScreen(contact: ContactData, viewModel: ContactsModel, onClose:
                             contentDescription = R.string.delete
                         ) {
                             showDelete = true
+                        }
+                        Box {
+                            var showMore by remember { mutableStateOf(false) }
+                            ClickableIcon(
+                                icon = Icons.Rounded.MoreVert,
+                                contentDescription = R.string.more
+                            ) {
+                                showMore = !showMore
+                            }
+                            DropdownMenu(
+                                expanded = showMore,
+                                onDismissRequest = {
+                                    showMore = false
+                                }
+                            ) {
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(text = stringResource(R.string.change_ringtone))
+                                    },
+                                    onClick = {
+                                        ringtonePicker.launch()
+                                    }
+                                )
+                            }
                         }
                     }
                 )

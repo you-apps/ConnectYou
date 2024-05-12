@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.content.ContentUris
+import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -38,6 +39,7 @@ import com.bnyro.contacts.util.extension.notAName
 import com.bnyro.contacts.util.extension.stringValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+
 
 class DeviceContactsRepository(private val context: Context) : ContactsRepository {
     override val label: String = context.getString(R.string.device)
@@ -126,7 +128,11 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
 
             ContactsHelper.contactAttributesTypes.forEach { attribute ->
                 if (attribute is StringAttribute) {
-                    val dataStr = getEntry(contactId, attribute.androidContentType, attribute.androidValueColumn)
+                    val dataStr = getEntry(
+                        contactId,
+                        attribute.androidContentType,
+                        attribute.androidValueColumn
+                    )
                     attribute.set(this, dataStr)
                 } else if (attribute is ListAttribute) {
                     val dataEntries = getExtras(
@@ -317,22 +323,28 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
                         it.rowId.toString()
                     )
                 }.toTypedArray(),
-                *ContactsHelper.contactAttributesTypes.filterIsInstance<StringAttribute>().map { attribute ->
-                    attribute.get(contact)?.let {
-                        getInsertAction(attribute.androidContentType, attribute.androidValueColumn, it)
-                    }
-                }.toTypedArray(),
-                *ContactsHelper.contactAttributesTypes.filterIsInstance<ListAttribute>().map { attribute ->
-                    attribute.get(contact).map {
-                        getInsertAction(
-                            attribute.androidContentType,
-                            attribute.androidValueColumn,
-                            it.value,
-                            attribute.androidTypeColumn,
-                            it.type
-                        )
-                    }
-                }.flatten().toTypedArray()
+                *ContactsHelper.contactAttributesTypes.filterIsInstance<StringAttribute>()
+                    .map { attribute ->
+                        attribute.get(contact)?.let {
+                            getInsertAction(
+                                attribute.androidContentType,
+                                attribute.androidValueColumn,
+                                it
+                            )
+                        }
+                    }.toTypedArray(),
+                *ContactsHelper.contactAttributesTypes.filterIsInstance<ListAttribute>()
+                    .map { attribute ->
+                        attribute.get(contact).map {
+                            getInsertAction(
+                                attribute.androidContentType,
+                                attribute.androidValueColumn,
+                                it.value,
+                                attribute.androidTypeColumn,
+                                it.type
+                            )
+                        }
+                    }.flatten().toTypedArray()
             ).let { ArrayList(it) }
 
             contentResolver.applyBatch(AUTHORITY, ops)
@@ -357,15 +369,19 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
 
             for (attribute in ContactsHelper.contactAttributesTypes) {
                 if (attribute is StringAttribute) {
-                    operations.addAll(getUpdateSingleAction(
-                        rawContactId, attribute.androidContentType,
-                        attribute.androidValueColumn, attribute.get(contact)
-                    ))
+                    operations.addAll(
+                        getUpdateSingleAction(
+                            rawContactId, attribute.androidContentType,
+                            attribute.androidValueColumn, attribute.get(contact)
+                        )
+                    )
                 } else if (attribute is ListAttribute) {
-                    operations.addAll(getUpdateMultipleAction(
-                        rawContactId, attribute.androidContentType, attribute.get(contact),
-                        attribute.androidValueColumn, attribute.androidTypeColumn
-                    ))
+                    operations.addAll(
+                        getUpdateMultipleAction(
+                            rawContactId, attribute.androidContentType, attribute.get(contact),
+                            attribute.androidValueColumn, attribute.androidTypeColumn
+                        )
+                    )
                 }
             }
 
@@ -398,13 +414,19 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
 
     fun getAccountTypes(): List<AccountType> {
         val accounts = AccountManager.get(context).accounts.filter {
-            ContentResolver.getIsSyncable(it, authority) > 0 && ContentResolver.getSyncAutomatically(it, authority)
+            ContentResolver.getIsSyncable(
+                it,
+                authority
+            ) > 0 && ContentResolver.getSyncAutomatically(it, authority)
         }
 
         return listOf(AccountType.androidDefault) + accounts.map { AccountType(it.name, it.type) }
     }
 
-    private fun getCreateAction(accountType: String, accountName: String): ContentProviderOperation {
+    private fun getCreateAction(
+        accountType: String,
+        accountName: String
+    ): ContentProviderOperation {
         return ContentProviderOperation.newInsert(RawContacts.CONTENT_URI)
             .withValue(RawContacts.ACCOUNT_TYPE, accountType)
             .withValue(RawContacts.ACCOUNT_NAME, accountName)
@@ -529,6 +551,17 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
             withSelection(selection, selectionArgs)
         }.build()
     }
+
+    suspend fun updateContactRingTone(contactId: String, ringtoneUri: Uri) =
+        withContext(Dispatchers.IO) {
+            val contactUri = Uri.withAppendedPath(Contacts.CONTENT_URI, contactId)
+
+            val values = ContentValues().apply {
+                put(Contacts.CUSTOM_RINGTONE, ringtoneUri.toString())
+            }
+
+            contentResolver.update(contactUri, values, null, null)
+        }
 
     companion object {
         const val MAX_PHOTO_SIZE = 700f

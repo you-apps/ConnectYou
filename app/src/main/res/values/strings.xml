@@ -149,4 +149,6 @@
     <string name="dialing">Dialing...</string>
     <string name="call_from">Call From</string>
     <string name="key_pad">Keypad</string>
+    <string name="select_custom_ringtone">Select custom ringtone</string>
+    <string name="change_ringtone">Change ringtone</string>
 </resources>

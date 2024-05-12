@@ -1,6 +1,7 @@
 package com.bnyro.contacts.domain.model
 
 import android.graphics.Bitmap
+import android.net.Uri
 import com.bnyro.contacts.domain.enums.SortOrder
 
 data class ContactData(
@@ -24,7 +25,8 @@ data class ContactData(
     var events: List<ValueWithType> = listOf(),
     var notes: List<ValueWithType> = listOf(),
     var groups: List<ContactsGroup> = listOf(),
-    var websites: List<ValueWithType> = listOf()
+    var websites: List<ValueWithType> = listOf(),
+    var ringTone: Uri? = null
 ) {
     val accountIdentifier get() = "$accountType|$accountName"
     fun getNameBySortOrder(sortOrder: SortOrder): String? {

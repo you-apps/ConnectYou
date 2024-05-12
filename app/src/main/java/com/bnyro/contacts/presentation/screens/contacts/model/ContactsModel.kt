@@ -223,6 +223,12 @@ class ContactsModel(
         }
     }
 
+    fun updateContactRingTone(contact: ContactData, uri: Uri) {
+        viewModelScope.launch {
+            deviceContactsRepository.updateContactRingTone(contact.contactId.toString(), uri)
+        }
+    }
+
     companion object {
         val Factory = viewModelFactory {
             initializer {
