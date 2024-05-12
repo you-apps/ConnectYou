@@ -111,14 +111,13 @@ class PhoneLookupRepository(private val context: Context) {
 
             query?.use { cursor ->
                 if (cursor.moveToFirst()) {
-                    BasicContactData(
+                    return@withContext BasicContactData(
                         number = phoneNumber,
                         name = cursor.stringValue(
                             PhoneLookup.DISPLAY_NAME
                         ),
                         thumbnail = cursor.stringValue(PhoneLookup.PHOTO_THUMBNAIL_URI)?.toUri()
                     )
-
                 }
             }
             BasicContactData(
