@@ -24,20 +24,56 @@ import ezvcard.parameter.TelephoneType
 
 object ContactsHelper {
     val emailTypes = listOf(
-        TranslatedType(ContactsContract.CommonDataKinds.Email.TYPE_HOME, R.string.home, EmailType.HOME),
-        TranslatedType(ContactsContract.CommonDataKinds.Email.TYPE_WORK, R.string.work, EmailType.WORK),
-        TranslatedType(ContactsContract.CommonDataKinds.Email.TYPE_MOBILE, R.string.mobile, EmailType.PREF),
+        TranslatedType(
+            ContactsContract.CommonDataKinds.Email.TYPE_HOME,
+            R.string.home,
+            EmailType.HOME
+        ),
+        TranslatedType(
+            ContactsContract.CommonDataKinds.Email.TYPE_WORK,
+            R.string.work,
+            EmailType.WORK
+        ),
+        TranslatedType(
+            ContactsContract.CommonDataKinds.Email.TYPE_MOBILE,
+            R.string.mobile,
+            EmailType.PREF
+        ),
         TranslatedType(ContactsContract.CommonDataKinds.Email.TYPE_CUSTOM, R.string.custom),
         TranslatedType(ContactsContract.CommonDataKinds.Email.TYPE_OTHER, R.string.other)
     )
 
     val phoneNumberTypes = listOf(
-        TranslatedType(ContactsContract.CommonDataKinds.Phone.TYPE_HOME, R.string.home, TelephoneType.HOME),
-        TranslatedType(ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE, R.string.mobile, TelephoneType.CELL),
-        TranslatedType(ContactsContract.CommonDataKinds.Phone.TYPE_WORK, R.string.work, TelephoneType.WORK),
-        TranslatedType(ContactsContract.CommonDataKinds.Phone.TYPE_CAR, R.string.car, TelephoneType.CAR),
-        TranslatedType(ContactsContract.CommonDataKinds.Phone.TYPE_FAX_HOME, R.string.fax_home, TelephoneType.FAX),
-        TranslatedType(ContactsContract.CommonDataKinds.Phone.TYPE_FAX_WORK, R.string.fax_work, TelephoneType.FAX),
+        TranslatedType(
+            ContactsContract.CommonDataKinds.Phone.TYPE_HOME,
+            R.string.home,
+            TelephoneType.HOME
+        ),
+        TranslatedType(
+            ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE,
+            R.string.mobile,
+            TelephoneType.CELL
+        ),
+        TranslatedType(
+            ContactsContract.CommonDataKinds.Phone.TYPE_WORK,
+            R.string.work,
+            TelephoneType.WORK
+        ),
+        TranslatedType(
+            ContactsContract.CommonDataKinds.Phone.TYPE_CAR,
+            R.string.car,
+            TelephoneType.CAR
+        ),
+        TranslatedType(
+            ContactsContract.CommonDataKinds.Phone.TYPE_FAX_HOME,
+            R.string.fax_home,
+            TelephoneType.FAX
+        ),
+        TranslatedType(
+            ContactsContract.CommonDataKinds.Phone.TYPE_FAX_WORK,
+            R.string.fax_work,
+            TelephoneType.FAX
+        ),
         TranslatedType(
             ContactsContract.CommonDataKinds.Phone.TYPE_ASSISTANT,
             R.string.assistant
@@ -122,9 +158,20 @@ object ContactsHelper {
     }
 
     fun matches(contactData: ContactData, query: String): Boolean {
-        val contactInfoStrings = listOf(contactData.numbers, contactData.emails, contactData.addresses, contactData.notes, contactData.websites, contactData.events)
+        val contactInfoStrings = listOf(
+            contactData.numbers,
+            contactData.emails,
+            contactData.addresses,
+            contactData.notes,
+            contactData.websites,
+            contactData.events
+        )
             .flatten()
-            .map { (value, _) -> value } + listOf(contactData.organization, contactData.nickName, contactData.displayName)
+            .map { (value, _) -> value } + listOf(
+            contactData.organization,
+            contactData.nickName,
+            contactData.displayName
+        )
 
         return contactInfoStrings.filterNotNull().any { str ->
             str.lowercase().contains(query)
@@ -138,15 +185,25 @@ object ContactsHelper {
     }
 
     fun isContactEmpty(contactData: ContactData): Boolean {
-        val stringProperties = listOf(contactData.firstName, contactData.surName, contactData.nickName, contactData.organization)
-        val listProperties = listOf(contactData.numbers, contactData.emails, contactData.events, contactData.addresses, contactData.notes)
+        val stringProperties = listOf(
+            contactData.firstName,
+            contactData.surName,
+            contactData.nickName,
+            contactData.organization
+        )
+        val listProperties = listOf(
+            contactData.numbers,
+            contactData.emails,
+            contactData.events,
+            contactData.addresses,
+            contactData.notes
+        )
 
         return stringProperties.none { !it.isNullOrBlank() } && listProperties.flatten().isEmpty()
     }
 
-    fun getContactPhotoThumbnail(context: Context, uri: String): Bitmap? {
+    fun getContactPhotoThumbnail(context: Context, photoThumbnailUri: Uri): Bitmap? {
         val contentResolver = context.contentResolver
-        val photoThumbnailUri = Uri.parse(uri)
         val assetFileDescriptor =
             contentResolver.openAssetFileDescriptor(photoThumbnailUri, "r") ?: return null
         val fileDescriptor = assetFileDescriptor.fileDescriptor

@@ -4,15 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Binder
 import android.os.IBinder
-import android.provider.ContactsContract.PhoneLookup
 import android.telecom.Call
 import android.telecom.InCallService
 import android.view.View
@@ -20,14 +17,13 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
+import com.bnyro.contacts.App
 import com.bnyro.contacts.R
 import com.bnyro.contacts.domain.model.CallerInfo
 import com.bnyro.contacts.presentation.screens.dialer.model.state.CallState
 import com.bnyro.contacts.ui.activities.CallActivity
 import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.NotificationHelper
-import com.bnyro.contacts.util.extension.stringValue
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -129,51 +125,29 @@ class CallService : InCallService() {
         updateCallerInfo()
 
         scope.launch {
-            val (thumbnailUri, contactName) = withContext(Dispatchers.IO) {
-                getContactName(callerNumber)
-            }
-            val contactPhoto = if (thumbnailUri != null) {
+            val phoneLookupRepository =
+                (this@CallService.applicationContext as App).phoneLookupRepository
+            val contactData = phoneLookupRepository.getContactByNumber(callerNumber)
+            val contactPhoto = if (contactData.thumbnail != null) {
                 withContext(Dispatchers.IO) {
-                    ContactsHelper.getContactPhotoThumbnail(this@CallService, thumbnailUri)
+                    ContactsHelper.getContactPhotoThumbnail(this@CallService, contactData.thumbnail)
                 }
             } else {
                 null
             }
 
-            val notification = buildNotification(call, callerNumber, contactName, contactPhoto)
+            val notification = buildNotification(call, callerNumber, contactData.name, contactPhoto)
             NotificationManagerCompat.from(this@CallService)
                 .notify(CALL_NOTIFICATION_ID, notification)
 
             callerInfo = CallerInfo(
-                callerName = contactName,
+                callerName = contactData.name,
                 rawPhoneNumber = callerNumber,
-                callerPhoto = thumbnailUri?.toUri(),
+                callerPhoto = contactData.thumbnail,
                 formattedPhoneNumber = formattedPhoneNumber
             )
             updateCallerInfo()
         }
-    }
-
-    private fun getContactName(phoneNumber: String): Pair<String?, String?> {
-        val cr: ContentResolver = this.contentResolver
-        val uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber))
-        val query =
-            cr.query(
-                uri,
-                arrayOf(PhoneLookup.DISPLAY_NAME, PhoneLookup.PHOTO_THUMBNAIL_URI),
-                null,
-                null,
-                null
-            )
-
-        query?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                return cursor.stringValue(PhoneLookup.PHOTO_THUMBNAIL_URI) to cursor.stringValue(
-                    PhoneLookup.DISPLAY_NAME
-                )
-            }
-        }
-        return null to null
     }
 
     private fun formatPhoneNumber(number: String): String {

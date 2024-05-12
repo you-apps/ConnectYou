@@ -18,6 +18,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.bnyro.contacts.App
+import com.bnyro.contacts.domain.model.BasicContactData
 import com.bnyro.contacts.domain.model.CallLogEntry
 import com.bnyro.contacts.navigation.HomeRoutes
 import com.bnyro.contacts.util.PermissionHelper
@@ -28,6 +29,7 @@ import kotlinx.coroutines.launch
 class CallModel(private val application: Application, savedStateHandle: SavedStateHandle) :
     AndroidViewModel(application) {
     val callLogRepository = (application as App).callLogRepository
+    val phoneLookupRepository = (application as App).phoneLookupRepository
 
     val initialPhoneNumber = savedStateHandle.get<String>(HomeRoutes.Phone.phoneNumber)
 
@@ -35,6 +37,9 @@ class CallModel(private val application: Application, savedStateHandle: SavedSta
         private set
 
     var callLogs by mutableStateOf<List<CallLogEntry>>(emptyList(), policy = neverEqualPolicy())
+        private set
+
+    var contacts by mutableStateOf<List<BasicContactData>>(emptyList(), policy = neverEqualPolicy())
         private set
 
     private val toneGenerator = ToneGenerator(
@@ -62,10 +67,21 @@ class CallModel(private val application: Application, savedStateHandle: SavedSta
     fun onNumberInput(digit: String) {
         numberToCall += digit
         playToneForDigit(digit)
+        if (numberToCall.length > 3) {
+            searchPhoneNumber(numberToCall)
+        }
+    }
+
+    fun setPhoneNumberContact(contact: BasicContactData) {
+        numberToCall = contact.number
+        contacts = listOf(contact)
     }
 
     fun onBackSpace() {
         numberToCall = numberToCall.removeLastChar()
+        if (numberToCall.length > 3) {
+            searchPhoneNumber(numberToCall)
+        }
     }
 
     fun callNumber(number: String = numberToCall) {
@@ -121,6 +137,12 @@ class CallModel(private val application: Application, savedStateHandle: SavedSta
         val durationMs = 100
         toneGenerator.stopTone()
         toneGenerator.startTone(numericDigit, durationMs)
+    }
+
+    private fun searchPhoneNumber(number: String) {
+        viewModelScope.launch {
+            contacts = phoneLookupRepository.getContactsWithNumber(number)
+        }
     }
 
     companion object {

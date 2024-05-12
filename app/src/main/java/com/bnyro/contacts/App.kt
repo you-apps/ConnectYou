@@ -7,6 +7,7 @@ import com.bnyro.contacts.domain.repositories.DeviceContactsRepository
 import com.bnyro.contacts.domain.repositories.DeviceSmsRepo
 import com.bnyro.contacts.domain.repositories.LocalContactsRepository
 import com.bnyro.contacts.domain.repositories.LocalSmsRepo
+import com.bnyro.contacts.domain.repositories.PhoneLookupRepository
 import com.bnyro.contacts.domain.repositories.SmsRepository
 import com.bnyro.contacts.util.NotificationHelper
 import com.bnyro.contacts.util.Preferences
@@ -23,7 +24,9 @@ class App : Application() {
     val callLogRepository by lazy {
         CallLogRepository(this)
     }
-
+    val phoneLookupRepository by lazy {
+        PhoneLookupRepository(this)
+    }
     lateinit var smsRepo: SmsRepository
 
     fun initSmsRepo() {

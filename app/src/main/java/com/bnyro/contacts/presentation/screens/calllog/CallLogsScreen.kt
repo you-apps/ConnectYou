@@ -35,9 +35,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.presentation.components.NothingHere
-import com.bnyro.contacts.presentation.components.NumberInput
-import com.bnyro.contacts.presentation.components.PhoneNumberDisplay
 import com.bnyro.contacts.presentation.features.ConfirmationDialog
+import com.bnyro.contacts.presentation.screens.calllog.components.NumberInput
+import com.bnyro.contacts.presentation.screens.calllog.components.PhoneNumberDisplay
 import com.bnyro.contacts.presentation.screens.calllog.model.CallModel
 import com.bnyro.contacts.presentation.screens.contacts.model.ContactsModel
 import com.bnyro.contacts.presentation.screens.editor.components.ContactIconPlaceholder
@@ -135,7 +135,11 @@ fun CallLogsScreen(
                     .padding(horizontal = 8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                PhoneNumberDisplay(displayText = callModel.numberToCall)
+                PhoneNumberDisplay(
+                    displayText = callModel.numberToCall,
+                    contacts = callModel.contacts,
+                    onClickContact = callModel::setPhoneNumberContact
+                )
                 NumberInput(
                     onNumberInput = callModel::onNumberInput,
                     onDelete = callModel::onBackSpace,

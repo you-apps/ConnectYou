@@ -1,10 +1,11 @@
-package com.bnyro.contacts.presentation.components
+package com.bnyro.contacts.presentation.screens.calllog.components
 
 import android.annotation.SuppressLint
 import android.telephony.SubscriptionInfo
 import android.view.SoundEffectConstants
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -16,10 +17,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,6 +31,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Backspace
 import androidx.compose.material.icons.rounded.Call
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -42,12 +47,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.bnyro.contacts.R
+import com.bnyro.contacts.domain.model.BasicContactData
 
 val keypadNumbers = arrayOf(
     arrayOf("1", "2", "3"),
@@ -221,7 +229,11 @@ fun RowScope.NumpadButton(
 }
 
 @Composable
-fun ColumnScope.PhoneNumberDisplay(displayText: String) {
+fun ColumnScope.PhoneNumberDisplay(
+    displayText: String,
+    contacts: List<BasicContactData>,
+    onClickContact: (BasicContactData) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -234,7 +246,9 @@ fun ColumnScope.PhoneNumberDisplay(displayText: String) {
                 .weight(1f),
             verticalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.Bottom)
         ) {
-            // TODO: Contact Suggestions
+            items(contacts, key = { it.number }) { contact ->
+                ContactSuggestionItem(onClickContact, contact)
+            }
         }
         val scroll = rememberScrollState()
         Row(
@@ -257,6 +271,45 @@ fun ColumnScope.PhoneNumberDisplay(displayText: String) {
             )
         }
     }
+}
+
+@Composable
+private fun ContactSuggestionItem(
+    onClickContact: (BasicContactData) -> Unit,
+    contact: BasicContactData
+) {
+    ListItem(
+        modifier = Modifier.clickable { onClickContact.invoke(contact) },
+        headlineContent = { Text(text = contact.number) }, leadingContent = {
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.surfaceVariant),
+                contentAlignment = Alignment.Center
+            ) {
+                if (contact.thumbnail != null) {
+                    AsyncImage(
+                        model = contact.thumbnail,
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize(),
+                        alignment = Alignment.Center,
+                        contentScale = ContentScale.Crop
+                    )
+                } else {
+                    Icon(
+                        modifier = Modifier.size(48.dp),
+                        imageVector = Icons.Rounded.Call,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        }, supportingContent = {
+            if (contact.name != null) {
+                Text(text = contact.name)
+            }
+        })
 }
 
 @Composable

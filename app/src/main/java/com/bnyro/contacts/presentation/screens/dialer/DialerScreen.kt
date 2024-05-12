@@ -52,8 +52,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.bnyro.contacts.R
 import com.bnyro.contacts.presentation.components.DialerButton
-import com.bnyro.contacts.presentation.components.NumberInput
-import com.bnyro.contacts.presentation.components.PhoneNumberOnlyDisplay
+import com.bnyro.contacts.presentation.screens.calllog.components.NumberInput
+import com.bnyro.contacts.presentation.screens.calllog.components.PhoneNumberOnlyDisplay
 import com.bnyro.contacts.presentation.screens.dialer.model.DialerModel
 import com.bnyro.contacts.presentation.screens.dialer.model.state.CallState
 
