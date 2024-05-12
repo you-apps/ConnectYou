@@ -50,6 +50,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -298,8 +299,9 @@ private fun ContactSuggestionItem(
                     )
                 } else {
                     Icon(
-                        modifier = Modifier.size(48.dp),
-                        imageVector = Icons.Rounded.Call,
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        painter = painterResource(id = R.drawable.ic_person),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )

@@ -23,8 +23,14 @@ import com.bnyro.contacts.domain.model.CallLogEntry
 import com.bnyro.contacts.navigation.HomeRoutes
 import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.SmsUtil
+import com.bnyro.contacts.util.extension.letterCombinations
 import com.bnyro.contacts.util.extension.removeLastChar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CallModel(private val application: Application, savedStateHandle: SavedStateHandle) :
     AndroidViewModel(application) {
@@ -39,8 +45,10 @@ class CallModel(private val application: Application, savedStateHandle: SavedSta
     var callLogs by mutableStateOf<List<CallLogEntry>>(emptyList(), policy = neverEqualPolicy())
         private set
 
-    var contacts by mutableStateOf<List<BasicContactData>>(emptyList(), policy = neverEqualPolicy())
-        private set
+    private val contactsSet = mutableSetOf<BasicContactData>()
+
+    private val _contacts = MutableStateFlow<List<BasicContactData>>(emptyList())
+    val contacts = _contacts.asStateFlow()
 
     private val toneGenerator = ToneGenerator(
         AudioManager.STREAM_SYSTEM,
@@ -67,20 +75,26 @@ class CallModel(private val application: Application, savedStateHandle: SavedSta
     fun onNumberInput(digit: String) {
         numberToCall += digit
         playToneForDigit(digit)
-        if (numberToCall.length > 3) {
-            searchPhoneNumber(numberToCall)
+        if (numberToCall.length > 2) {
+            searchPhoneNumberOrName(numberToCall)
         }
     }
 
     fun setPhoneNumberContact(contact: BasicContactData) {
         numberToCall = contact.number
-        contacts = listOf(contact)
+        _contacts.update {
+            listOf(contact)
+        }
     }
 
     fun onBackSpace() {
         numberToCall = numberToCall.removeLastChar()
-        if (numberToCall.length > 3) {
-            searchPhoneNumber(numberToCall)
+        if (numberToCall.length > 2) {
+            searchPhoneNumberOrName(numberToCall)
+        } else {
+            _contacts.update {
+                emptyList()
+            }
         }
     }
 
@@ -139,11 +153,35 @@ class CallModel(private val application: Application, savedStateHandle: SavedSta
         toneGenerator.startTone(numericDigit, durationMs)
     }
 
-    private fun searchPhoneNumber(number: String) {
+    private fun searchPhoneNumberOrName(number: String) {
+        contactsSet.clear()
         viewModelScope.launch {
-            contacts = phoneLookupRepository.getContactsWithNumber(number)
+            contactsSet.addAll(phoneLookupRepository.getContactsWithNumber(number))
+            _contacts.update {
+                contactsSet.toList()
+            }
+        }
+        if (number.length < 5) {
+            // search by name only if number is less than 5 digits to avoid performance issues
+            viewModelScope.launch {
+                contactsSet.addAll(getContactsByDigitPattern(number))
+                _contacts.update {
+                    contactsSet.toList()
+                }
+            }
         }
     }
+
+    private suspend fun getContactsByDigitPattern(number: String): List<BasicContactData> =
+        withContext(Dispatchers.IO) {
+            val contacts = mutableListOf<BasicContactData>()
+            val namePatterns = letterCombinations(number)
+            namePatterns.forEach {
+                val contact = phoneLookupRepository.getContactsWithName(it)
+                contacts += contact
+            }
+            contacts
+        }
 
     companion object {
         val phonePerms = arrayOf(
