@@ -120,4 +120,20 @@
     <string name="security">Turvalisus</string>
     <string name="biometric_authentication">Biomeetriline autentimine</string>
     <string name="biometric_authentication_summary">Muuda biomeetriline autentimine (näiteks sõrmejälje alusel) nõutavaks enne rakenduse avamist.</string>
+    <string name="in_progress">Toimetamisel</string>
+    <string name="ringing">Helistame…</string>
+    <string name="disconnecting">Katkestame ühendust…</string>
+    <string name="connecting">Ühendame…</string>
+    <string name="confirm_start_call">Kas sa soovid helistada %1$sle?</string>
+    <string name="mute">Summuta</string>
+    <string name="speakers">Kõlarid</string>
+    <string name="calls">Kõned</string>
+    <string name="decline">Keeldu</string>
+    <string name="accept">Võta vastu</string>
+    <string name="unknown_number">Tundmatu number</string>
+    <string name="dial_pad">Klahvistik</string>
+    <string name="call_ended">Kõne on lõppenud</string>
+    <string name="dialing">Helistame…</string>
+    <string name="call_from">Kõne teine osapool:</string>
+    <string name="key_pad">Klahvistik</string>
 </resources>
