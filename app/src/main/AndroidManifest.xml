@@ -38,7 +38,6 @@
     <uses-permission
         android:name="android.permission.MODIFY_PHONE_STATE"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <!-- Opt out from network permissions declared by whatever dependency -->
     <uses-permission

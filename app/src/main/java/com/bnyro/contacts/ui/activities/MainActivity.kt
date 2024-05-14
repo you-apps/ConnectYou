@@ -79,7 +79,7 @@ class MainActivity : BaseActivity() {
         processIntent(intent)
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         processIntent(intent)
         super.onNewIntent(intent)
     }
