@@ -133,4 +133,10 @@
     <string name="dialing">Wählen…</string>
     <string name="call_from">Anruf von</string>
     <string name="call_ended">Anruf beendet</string>
+    <string name="block_numbers">Nummern blockieren</string>
+    <string name="recent_calls">Letzte Anrufe</string>
+    <string name="select_custom_ringtone">Benutzerdefinierten Klingelton auswählen</string>
+    <string name="number_blocked">Nummer blockiert</string>
+    <string name="change_ringtone">Klingelton ändern</string>
+    <string name="block_number">Nummer blockieren</string>
 </resources>
