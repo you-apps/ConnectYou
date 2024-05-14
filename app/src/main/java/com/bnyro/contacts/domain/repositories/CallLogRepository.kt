@@ -30,8 +30,15 @@ class CallLogRepository(private val context: Context) {
                 val callType = cursor.intValue(CallLog.Calls.TYPE)!!
                 val callDate = cursor.longValue(CallLog.Calls.DATE)!!
                 val callDuration = cursor.longValue(CallLog.Calls.DURATION)!!
+                val subscriptionId = cursor.stringValue(CallLog.Calls.PHONE_ACCOUNT_ID)
                 callLog.add(
-                    CallLogEntry(phoneNumber.orEmpty(), callType, callDate, callDuration)
+                    CallLogEntry(
+                        phoneNumber.orEmpty(),
+                        callType,
+                        callDate,
+                        callDuration,
+                        subscriptionId
+                    )
                 )
             }
         }

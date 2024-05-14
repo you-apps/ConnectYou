@@ -7,7 +7,8 @@ data class CallLogEntry(
     val phoneNumber: String,
     val type: Int,
     val time: Long,
-    val duration: Long
+    val duration: Long,
+    val subscriptionId: String?
 ) {
     val dateString: String
     val timeString: String

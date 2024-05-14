@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.CallMade
@@ -144,13 +145,13 @@ fun CallLogsScreen(
             LazyColumn(
                 modifier = Modifier.padding(pV)
             ) {
-                groupedLogs.entries.forEach { (time, callLog) ->
+                groupedLogs.entries.forEach { (time, callLogs) ->
                     stickyHeader {
                         CharacterHeader(text = time)
                     }
-                    items(callLog) {
+                    items(callLogs) { callLog ->
                         val contact = remember {
-                            contactsModel.getContactByNumber(it.phoneNumber)
+                            contactsModel.getContactByNumber(callLog.phoneNumber)
                         }
                         var showCallDialog by remember {
                             mutableStateOf(false)
@@ -163,9 +164,9 @@ fun CallLogsScreen(
                                 .clip(shape)
                                 .padding(horizontal = 10.dp, vertical = 5.dp)
                                 .combinedClickable(onClick = {
-                                    if (it.phoneNumber.isNotBlank()) showCallDialog = true
+                                    if (callLog.phoneNumber.isNotBlank()) showCallDialog = true
                                 }, onLongClick = {
-                                    selectedCallLog = it
+                                    selectedCallLog = callLog
                                 }),
                             shape = shape
                         ) {
@@ -180,7 +181,7 @@ fun CallLogsScreen(
                                         .background(color = MaterialTheme.colorScheme.surfaceVariant),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    val icon: ImageVector = when (it.type) {
+                                    val icon: ImageVector = when (callLog.type) {
                                         CallLog.Calls.INCOMING_TYPE -> Icons.AutoMirrored.Rounded.CallReceived
                                         CallLog.Calls.OUTGOING_TYPE -> Icons.AutoMirrored.Rounded.CallMade
                                         CallLog.Calls.MISSED_TYPE -> Icons.AutoMirrored.Rounded.CallMissed
@@ -199,13 +200,30 @@ fun CallLogsScreen(
 
                                 Column(Modifier.weight(1f)) {
                                     Text(
-                                        text = contact?.displayName ?: it.phoneNumber,
+                                        text = contact?.displayName ?: callLog.phoneNumber,
                                         maxLines = 1
                                     )
                                 }
-                                Text(
-                                    text = it.timeString
-                                )
+                                Column(horizontalAlignment = Alignment.End) {
+                                    callLog.subscriptionId?.let {
+                                        Box(
+                                            modifier = Modifier
+                                                .clip(CutCornerShape(10, 35, 10, 10))
+                                                .background(MaterialTheme.colorScheme.tertiaryContainer),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(
+                                                modifier = Modifier.padding(horizontal = 4.dp),
+                                                text = it,
+                                                maxLines = 1,
+                                                color = MaterialTheme.colorScheme.onTertiaryContainer
+                                            )
+                                        }
+                                    }
+                                    Text(
+                                        text = callLog.timeString
+                                    )
+                                }
                             }
                         }
 
@@ -215,10 +233,10 @@ fun CallLogsScreen(
                                 title = stringResource(id = R.string.dial),
                                 text = stringResource(
                                     id = R.string.confirm_start_call,
-                                    contact?.displayName ?: it.phoneNumber
+                                    contact?.displayName ?: callLog.phoneNumber
                                 )
                             ) {
-                                callModel.callNumber(it.phoneNumber)
+                                callModel.callNumber(callLog.phoneNumber)
                             }
                         }
                     }
