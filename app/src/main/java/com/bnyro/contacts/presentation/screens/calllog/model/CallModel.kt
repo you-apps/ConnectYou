@@ -42,7 +42,10 @@ class CallModel(private val application: Application, savedStateHandle: SavedSta
     var numberToCall: String by mutableStateOf(initialPhoneNumber.orEmpty())
         private set
 
-    var callLogs by mutableStateOf<List<CallLogEntry>>(emptyList(), policy = neverEqualPolicy())
+    var callLogs by mutableStateOf<Map<String, List<CallLogEntry>>>(
+        mapOf(),
+        policy = neverEqualPolicy()
+    )
         private set
 
     private val contactsSet = mutableSetOf<BasicContactData>()
@@ -64,7 +67,10 @@ class CallModel(private val application: Application, savedStateHandle: SavedSta
 
     init {
         viewModelScope.launch {
-            callLogs = callLogRepository.getCallLog()
+            val logs = callLogRepository.getCallLog()
+            callLogs = logs.groupBy {
+                it.dateString
+            }
         }
     }
 

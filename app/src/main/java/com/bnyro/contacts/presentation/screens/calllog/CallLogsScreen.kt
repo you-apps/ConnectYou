@@ -68,6 +68,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.domain.model.CallLogEntry
+import com.bnyro.contacts.presentation.components.CharacterHeader
 import com.bnyro.contacts.presentation.components.ClickableIcon
 import com.bnyro.contacts.presentation.components.NothingHere
 import com.bnyro.contacts.presentation.features.ConfirmationDialog
@@ -96,7 +97,7 @@ fun CallLogsScreen(
         mutableStateOf<CallLogEntry?>(null)
     }
 
-    val callLog = callModel.callLogs
+    val groupedLogs = callModel.callLogs
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -139,79 +140,86 @@ fun CallLogsScreen(
             })
         }
     ) { pV ->
-        if (callLog.isNotEmpty()) {
+        if (groupedLogs.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier.padding(pV)
             ) {
-                items(callLog) {
-                    val contact = remember {
-                        contactsModel.getContactByNumber(it.phoneNumber)
+                groupedLogs.entries.forEach { (time, callLog) ->
+                    stickyHeader {
+                        CharacterHeader(text = time)
                     }
-                    var showCallDialog by remember {
-                        mutableStateOf(false)
-                    }
-                    val shape = RoundedCornerShape(20.dp)
+                    items(callLog) {
+                        val contact = remember {
+                            contactsModel.getContactByNumber(it.phoneNumber)
+                        }
+                        var showCallDialog by remember {
+                            mutableStateOf(false)
+                        }
+                        val shape = RoundedCornerShape(20.dp)
 
-                    ElevatedCard(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(shape)
-                            .padding(horizontal = 10.dp, vertical = 5.dp)
-                            .combinedClickable(onClick = {
-                                if (it.phoneNumber.isNotBlank()) showCallDialog = true
-                            }, onLongClick = {
-                                selectedCallLog = it
-                            }),
-                        shape = shape
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(vertical = 10.dp, horizontal = 16.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                        ElevatedCard(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(shape)
+                                .padding(horizontal = 10.dp, vertical = 5.dp)
+                                .combinedClickable(onClick = {
+                                    if (it.phoneNumber.isNotBlank()) showCallDialog = true
+                                }, onLongClick = {
+                                    selectedCallLog = it
+                                }),
+                            shape = shape
                         ) {
-                            Box(
-                                modifier = Modifier
-                                    .size(48.dp)
-                                    .clip(CircleShape)
-                                    .background(color = MaterialTheme.colorScheme.surfaceVariant),
-                                contentAlignment = Alignment.Center
+                            Row(
+                                modifier = Modifier.padding(vertical = 10.dp, horizontal = 16.dp),
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
-                                val icon: ImageVector = when (it.type) {
-                                    CallLog.Calls.INCOMING_TYPE -> Icons.AutoMirrored.Rounded.CallReceived
-                                    CallLog.Calls.OUTGOING_TYPE -> Icons.AutoMirrored.Rounded.CallMade
-                                    CallLog.Calls.MISSED_TYPE -> Icons.AutoMirrored.Rounded.CallMissed
-                                    CallLog.Calls.REJECTED_TYPE -> Icons.Rounded.Close
-                                    else -> Icons.Rounded.Block
+                                Box(
+                                    modifier = Modifier
+                                        .size(48.dp)
+                                        .clip(CircleShape)
+                                        .background(color = MaterialTheme.colorScheme.surfaceVariant),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    val icon: ImageVector = when (it.type) {
+                                        CallLog.Calls.INCOMING_TYPE -> Icons.AutoMirrored.Rounded.CallReceived
+                                        CallLog.Calls.OUTGOING_TYPE -> Icons.AutoMirrored.Rounded.CallMade
+                                        CallLog.Calls.MISSED_TYPE -> Icons.AutoMirrored.Rounded.CallMissed
+                                        CallLog.Calls.REJECTED_TYPE -> Icons.Rounded.Close
+                                        else -> Icons.Rounded.Block
+                                    }
+                                    Icon(
+                                        modifier = Modifier.size(24.dp),
+                                        imageVector = icon,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
                                 }
-                                Icon(
-                                    modifier = Modifier.size(24.dp),
-                                    imageVector = icon,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
 
-                            Spacer(modifier = Modifier.width(20.dp))
+                                Spacer(modifier = Modifier.width(20.dp))
 
-                            Column {
-                                Text(text = contact?.displayName ?: it.phoneNumber, maxLines = 1)
+                                Column(Modifier.weight(1f)) {
+                                    Text(
+                                        text = contact?.displayName ?: it.phoneNumber,
+                                        maxLines = 1
+                                    )
+                                }
                                 Text(
-                                    text = DateUtils.getRelativeTimeSpanString(it.time)?.toString()
-                                        .orEmpty()
+                                    text = it.timeString
                                 )
                             }
                         }
-                    }
 
-                    if (showCallDialog) {
-                        ConfirmationDialog(
-                            onDismissRequest = { showCallDialog = false },
-                            title = stringResource(id = R.string.dial),
-                            text = stringResource(
-                                id = R.string.confirm_start_call,
-                                contact?.displayName ?: it.phoneNumber
-                            )
-                        ) {
-                            callModel.callNumber(it.phoneNumber)
+                        if (showCallDialog) {
+                            ConfirmationDialog(
+                                onDismissRequest = { showCallDialog = false },
+                                title = stringResource(id = R.string.dial),
+                                text = stringResource(
+                                    id = R.string.confirm_start_call,
+                                    contact?.displayName ?: it.phoneNumber
+                                )
+                            ) {
+                                callModel.callNumber(it.phoneNumber)
+                            }
                         }
                     }
                 }
