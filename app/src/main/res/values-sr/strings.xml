@@ -147,4 +147,12 @@
     <string name="dialing">Бирање...</string>
     <string name="call_from">Позив од</string>
     <string name="key_pad">Тастатура</string>
+    <string name="recent_calls">Недавни позиви</string>
+    <string name="number_blocked">Број је блокиран</string>
+    <string name="block_number">Блокирај број</string>
+    <string name="select_custom_ringtone">Изабери прилагођену мелодију звона</string>
+    <string name="change_ringtone">Промени мелодију звона</string>
+    <string name="unblock_number">Деблокирај број</string>
+    <string name="block_numbers">Блокирај бројеве</string>
+    <string name="blocking_number_is_not_supported">Блокирање бројева није подржано, Connect You није подразумевана апликација за SMS/телефон</string>
 </resources>
