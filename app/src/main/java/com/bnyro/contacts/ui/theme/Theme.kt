@@ -10,7 +10,9 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -67,7 +69,8 @@ fun ConnectYouTheme(
         SideEffect {
             val activity = view.context as Activity
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                activity.window.navigationBarColor = colorScheme.surfaceColorAtElevation(10.dp).toArgb()
+                activity.window.navigationBarColor =
+                    colorScheme.surfaceColorAtElevation(10.dp).toArgb()
                 activity.window.statusBarColor = colorScheme.background.toArgb()
                 WindowCompat.getInsetsController(
                     activity.window,
@@ -80,10 +83,13 @@ fun ConnectYouTheme(
             }
         }
     }
-
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(LocalDarkTheme provides (darkTheme || amoledDark)) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }
+
+val LocalDarkTheme = compositionLocalOf { false }
