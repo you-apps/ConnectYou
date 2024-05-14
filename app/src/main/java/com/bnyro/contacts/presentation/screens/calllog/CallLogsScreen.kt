@@ -3,6 +3,7 @@ package com.bnyro.contacts.presentation.screens.calllog
 import android.annotation.SuppressLint
 import android.os.Build
 import android.provider.BlockedNumberContract
+import android.provider.CallLog
 import android.text.format.DateUtils
 import android.view.SoundEffectConstants
 import androidx.annotation.StringRes
@@ -26,7 +27,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.CallMade
+import androidx.compose.material.icons.automirrored.rounded.CallMissed
+import androidx.compose.material.icons.automirrored.rounded.CallReceived
 import androidx.compose.material.icons.filled.Dialpad
+import androidx.compose.material.icons.rounded.Block
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.FrontHand
 import androidx.compose.material.icons.rounded.Handshake
 import androidx.compose.material.icons.rounded.MoreVert
@@ -69,7 +75,6 @@ import com.bnyro.contacts.presentation.screens.calllog.components.NumberInput
 import com.bnyro.contacts.presentation.screens.calllog.components.PhoneNumberDisplay
 import com.bnyro.contacts.presentation.screens.calllog.model.CallModel
 import com.bnyro.contacts.presentation.screens.contacts.model.ContactsModel
-import com.bnyro.contacts.presentation.screens.editor.components.ContactIconPlaceholder
 import com.bnyro.contacts.presentation.screens.settings.model.ThemeModel
 import com.bnyro.contacts.util.IntentHelper
 
@@ -163,10 +168,27 @@ fun CallLogsScreen(
                             modifier = Modifier.padding(vertical = 10.dp, horizontal = 16.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            ContactIconPlaceholder(
-                                themeModel = themeModel,
-                                firstChar = contact?.displayName?.firstOrNull()
-                            )
+                            Box(
+                                modifier = Modifier
+                                    .size(48.dp)
+                                    .clip(CircleShape)
+                                    .background(color = MaterialTheme.colorScheme.surfaceVariant),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                val icon: ImageVector = when (it.type) {
+                                    CallLog.Calls.INCOMING_TYPE -> Icons.AutoMirrored.Rounded.CallReceived
+                                    CallLog.Calls.OUTGOING_TYPE -> Icons.AutoMirrored.Rounded.CallMade
+                                    CallLog.Calls.MISSED_TYPE -> Icons.AutoMirrored.Rounded.CallMissed
+                                    CallLog.Calls.REJECTED_TYPE -> Icons.Rounded.Close
+                                    else -> Icons.Rounded.Block
+                                }
+                                Icon(
+                                    modifier = Modifier.size(24.dp),
+                                    imageVector = icon,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
 
                             Spacer(modifier = Modifier.width(20.dp))
 
