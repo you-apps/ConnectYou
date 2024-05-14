@@ -136,4 +136,12 @@
     <string name="dialing">Helistame…</string>
     <string name="call_from">Kõne teine osapool:</string>
     <string name="key_pad">Klahvistik</string>
+    <string name="recent_calls">Hiljutised kõned</string>
+    <string name="block_numbers">Blokeeri telefoninumbreid</string>
+    <string name="number_blocked">Telefoninumber on blokeeritud</string>
+    <string name="block_number">Blokeeri telefoninumber</string>
+    <string name="select_custom_ringtone">Vali sobilik telefonihelin</string>
+    <string name="change_ringtone">Muuda telefonihelinat</string>
+    <string name="blocking_number_is_not_supported">Kuna Connect You pole selles nutiseadmes vaikimisi kasutatav telefoni- ja SMS-sõnumirakendus, siis telefoninumbrite blokeerimine ei ole võimalik</string>
+    <string name="unblock_number">Lõpeta telefoninumbri blokeerimine</string>
 </resources>
