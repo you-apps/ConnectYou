@@ -137,4 +137,12 @@
     <string name="dialing">Aranıyor...</string>
     <string name="call_from">Arayan</string>
     <string name="key_pad">Tuş takımı</string>
+    <string name="change_ringtone">Zil sesini değiştir</string>
+    <string name="recent_calls">Son aramalar</string>
+    <string name="number_blocked">Numara engellendi</string>
+    <string name="block_number">Numarayı engelle</string>
+    <string name="unblock_number">Numaranın engelini kaldır</string>
+    <string name="block_numbers">Numaraları engelle</string>
+    <string name="select_custom_ringtone">Özel zil sesi seç</string>
+    <string name="blocking_number_is_not_supported">Numara engelleme desteklenmiyor, Connect You öntanımlı SMS/Telefon uygulaması değil</string>
 </resources>
