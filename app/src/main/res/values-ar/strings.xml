@@ -28,7 +28,7 @@
     <string name="author">المؤلِّف</string>
     <string name="translation">الترجمة</string>
     <string name="copied">نُسخ للحافظة</string>
-    <string name="search" tools:ignore="PrivateResource">ابحث</string>
+    <string name="search" tools:ignore="PrivateResource">بحث</string>
     <string name="reset">أعِد التعيين</string>
     <string name="create_contact">أنشئ جهة اتِّصال</string>
     <string name="retry">أعد المحاولة</string>
@@ -136,4 +136,12 @@
     <string name="dialing">الطلب...</string>
     <string name="call_from">اتصال من</string>
     <string name="key_pad">لوحة المفاتيح</string>
+    <string name="recent_calls">المكالمات الأخيرة</string>
+    <string name="block_numbers">حظر الأرقام</string>
+    <string name="blocking_number_is_not_supported">حظر الأرقام غير مدعوم، Connect You ليس هو التطبيق الافتراضي للرسائل القصيرة/الهاتف</string>
+    <string name="number_blocked">الرقم محظور</string>
+    <string name="block_number">حظر الرقم</string>
+    <string name="unblock_number">إلغاء حظر الرقم</string>
+    <string name="select_custom_ringtone">حدد نغمة رنين مخصصة</string>
+    <string name="change_ringtone">تغيير نغمة الرنين</string>
 </resources>
