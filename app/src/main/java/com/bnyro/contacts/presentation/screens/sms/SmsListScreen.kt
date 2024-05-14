@@ -54,8 +54,8 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.domain.model.ContactData
 import com.bnyro.contacts.domain.model.SmsThread
 import com.bnyro.contacts.navigation.NavRoutes
+import com.bnyro.contacts.presentation.components.BlobIconBox
 import com.bnyro.contacts.presentation.components.ClickableIcon
-import com.bnyro.contacts.presentation.components.NothingHere
 import com.bnyro.contacts.presentation.components.TopBarMoreMenu
 import com.bnyro.contacts.presentation.features.NumberPickerDialog
 import com.bnyro.contacts.presentation.screens.calllog.SheetSettingItem
@@ -162,9 +162,7 @@ fun SmsListScreen(
                 SmsSearchScreen(smsModel, threadList, { showSearch = false }, onClickMessage)
             }
         } else {
-            Column(Modifier.padding(pv)) {
-                NothingHere()
-            }
+            BlobIconBox(icon = R.drawable.ic_no_sms)
         }
 
         if (showNumberPicker) {
