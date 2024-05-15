@@ -10,26 +10,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.presentation.screens.settings.model.ThemeModel
 import com.bnyro.contacts.util.ColorUtils
-import com.bnyro.contacts.util.extension.contentColor
 
 @Composable
 fun ContactIconPlaceholder(
     themeModel: ThemeModel,
     firstChar: Char?
 ) {
-    val backgroundColor = if (themeModel.colorfulIcons) {
-        remember { Color(ColorUtils.getRandomColor()) }
-    } else {
-        MaterialTheme.colorScheme.primary
-    }
-    val contentColor = when {
-        !themeModel.colorfulIcons -> MaterialTheme.colorScheme.onPrimary
-        else -> backgroundColor.contentColor()
+    val container = MaterialTheme.colorScheme.secondaryContainer
+    val onContainer = MaterialTheme.colorScheme.onSecondaryContainer
+    val color = when (themeModel.colorfulIcons) {
+        true -> remember { ColorUtils.getRandomMaterialColorPair(container, onContainer) }
+        false -> container to onContainer
     }
 
     Box(
@@ -37,13 +32,13 @@ fun ContactIconPlaceholder(
             .size(42.dp)
             .background(
                 shape = CircleShape,
-                color = backgroundColor
+                color = color.first
             )
     ) {
         Text(
             modifier = Modifier.align(Alignment.Center),
             text = firstChar?.toString() ?: "?",
-            color = contentColor,
+            color = color.second,
             fontWeight = FontWeight.Bold
         )
     }
