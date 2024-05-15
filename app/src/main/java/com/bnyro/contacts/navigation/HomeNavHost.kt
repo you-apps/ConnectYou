@@ -18,7 +18,7 @@ import com.bnyro.contacts.presentation.screens.sms.model.SmsModel
 @Composable
 fun HomeNavHost(
     navController: NavHostController,
-    onNavigate: (String) -> Unit,
+    onNavigate: (NavRoutes) -> Unit,
     startTab: HomeRoutes,
     modifier: Modifier = Modifier,
     smsModel: SmsModel,
@@ -27,33 +27,32 @@ fun HomeNavHost(
 ) {
     val viewModelStoreOwner: ViewModelStoreOwner = LocalViewModelStoreOwner.current!!
 
-    NavHost(navController, startDestination = startTab.route, modifier = modifier) {
-        composable(HomeRoutes.Contacts.route) {
+    NavHost(navController, startDestination = startTab, modifier = modifier) {
+        composable<HomeRoutes.Contacts> {
             CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {
                 ContactsPage(null,
                     onNavigate = {
-                        onNavigate.invoke(it.route)
+                        onNavigate.invoke(it)
                     })
             }
         }
-        composable(
-            HomeRoutes.Phone.route,
+        composable<HomeRoutes.Phone>(
             deepLinks = HomeRoutes.Phone.deepLinks
         ) {
             CallLogsScreen(contactsModel, themeModel)
         }
-        composable(HomeRoutes.Messages.route) {
+        composable<HomeRoutes.Messages> {
             CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {
                 SmsListScreen(
                     smsModel = smsModel,
                     contactsModel = contactsModel,
                     scrollConnection = null,
                     onNavigate = {
-                        onNavigate.invoke(it.route)
+                        onNavigate.invoke(it)
                     },
                     onClickMessage = { address, contactData ->
                         smsModel.currentContactData = contactData
-                        onNavigate.invoke("${NavRoutes.MessageThread.route}/$address")
+                        onNavigate.invoke(NavRoutes.MessageThread(address))
                     }
                 )
             }

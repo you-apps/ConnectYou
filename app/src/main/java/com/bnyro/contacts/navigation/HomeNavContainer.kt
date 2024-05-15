@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.rememberNavController
 import com.bnyro.contacts.presentation.screens.contacts.model.ContactsModel
 import com.bnyro.contacts.presentation.screens.settings.model.ThemeModel
@@ -30,7 +31,7 @@ import com.bnyro.contacts.presentation.screens.sms.model.SmsModel
 @Composable
 fun HomeNavContainer(
     initialTab: HomeRoutes,
-    onNavigate: (String) -> Unit,
+    onNavigate: (NavRoutes) -> Unit,
     smsModel: SmsModel,
     contactsModel: ContactsModel,
     themeModel: ThemeModel
@@ -44,8 +45,8 @@ fun HomeNavContainer(
     // listen for destination changes (e.g. back presses)
     DisposableEffect(Unit) {
         val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
-            HomeRoutes.all.firstOrNull { it.route == destination.route }
-                ?.also { selectedRoute = it }
+            HomeRoutes.all.firstOrNull { destination.hasRoute(it.route::class) }
+                ?.also { selectedRoute = it.route }
         }
         navController.addOnDestinationChangedListener(listener)
 
@@ -69,7 +70,7 @@ fun HomeNavContainer(
                             icon = {
                                 Icon(it.icon, null)
                             },
-                            selected = it == selectedRoute,
+                            selected = it.route == selectedRoute,
                             onClick = {
                                 navController.popBackStack()
                                 navController.navigate(it.route)
@@ -88,7 +89,8 @@ fun HomeNavContainer(
             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 NavigationRail {
                     HomeRoutes.all.forEach {
-                        NavigationRailItem(selected = it == selectedRoute,
+                        NavigationRailItem(
+                            selected = it.route == selectedRoute,
                             onClick = {
                                 navController.popBackStack()
                                 navController.navigate(it.route)

@@ -10,10 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.bnyro.contacts.presentation.screens.about.AboutScreen
 import com.bnyro.contacts.presentation.screens.contacts.model.ContactsModel
 import com.bnyro.contacts.presentation.screens.settings.SettingsScreen
@@ -32,8 +31,8 @@ fun AppNavHost(
 ) {
     val viewModelStoreOwner: ViewModelStoreOwner = LocalViewModelStoreOwner.current!!
 
-    NavHost(navController, startDestination = NavRoutes.Home.route, modifier = modifier) {
-        composable(NavRoutes.Home.route,
+    NavHost(navController, startDestination = NavRoutes.Home, modifier = modifier) {
+        composable<NavRoutes.Home>(
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Down,
@@ -54,7 +53,7 @@ fun AppNavHost(
                 themeModel = themeModel
             )
         }
-        composable(NavRoutes.About.route,
+        composable<NavRoutes.About>(
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Up,
@@ -69,7 +68,7 @@ fun AppNavHost(
                 navController.popBackStack()
             }
         }
-        composable(NavRoutes.Settings.route,
+        composable<NavRoutes.Settings>(
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Up,
@@ -84,9 +83,7 @@ fun AppNavHost(
                 navController.popBackStack()
             }
         }
-        composable(
-            "${NavRoutes.MessageThread.route}/{address}",
-            listOf(navArgument("address") { type = NavType.StringType }),
+        composable<NavRoutes.MessageThread>(
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Up,
@@ -98,7 +95,7 @@ fun AppNavHost(
                     targetOffset = { it / 4 }) + fadeOut()
             }
         ) {
-            val address = it.arguments?.getString("address")
+            val address = it.toRoute<NavRoutes.MessageThread>().address
             CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {
                 SmsThreadScreen(
                     smsModel = smsModel,

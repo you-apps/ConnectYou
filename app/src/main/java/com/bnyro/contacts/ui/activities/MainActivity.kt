@@ -55,7 +55,7 @@ class MainActivity : BaseActivity() {
                 }
 
                 if (authSuccess) {
-                    NavContainer(HomeRoutes.all[initialTabIndex.coerceIn(0, 2)])
+                    NavContainer(HomeRoutes.all[initialTabIndex.coerceIn(0, 2)].route)
                     getInsertOrEditNumber()?.let {
                         AddToContactDialog(it)
                     }
