@@ -136,4 +136,12 @@
     <string name="call_ended">通话结束了</string>
     <string name="dialing">拨号中…</string>
     <string name="key_pad">键盘</string>
+    <string name="change_ringtone">更改铃声</string>
+    <string name="recent_calls">最近通话</string>
+    <string name="unblock_number">取消封禁号码</string>
+    <string name="block_numbers">封禁号码</string>
+    <string name="select_custom_ringtone">选择自定义铃声</string>
+    <string name="number_blocked">已封禁号码</string>
+    <string name="blocking_number_is_not_supported">不支持封禁号码。 Connect You 不是默认的短信/通话应用</string>
+    <string name="block_number">封禁号码</string>
 </resources>
