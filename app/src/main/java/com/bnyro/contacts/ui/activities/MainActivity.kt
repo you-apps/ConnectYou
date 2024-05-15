@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import com.bnyro.contacts.domain.model.ContactData
 import com.bnyro.contacts.navigation.HomeRoutes
 import com.bnyro.contacts.navigation.NavContainer
+import com.bnyro.contacts.navigation.NavRoutes
 import com.bnyro.contacts.presentation.features.AddToContactDialog
 import com.bnyro.contacts.presentation.features.ConfirmImportContactsDialog
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
@@ -42,10 +43,7 @@ class MainActivity : BaseActivity() {
         contactsModel.initialContactId = getInitialContactId()
         contactsModel.initialContactData = getInsertContactData()
 
-        smsModel.initialAddressAndBody = getInitialSmsAddressAndBody()
-
-        val initialTabIndex = smsModel.initialAddressAndBody?.let { 2 }
-            ?: Preferences.getInt(Preferences.homeTabKey, 1)
+        val initialTabIndex = Preferences.getInt(Preferences.homeTabKey, 1)
         setContent {
             ConnectYouTheme(themeModel.themeMode) {
                 val context = LocalContext.current
@@ -84,16 +82,31 @@ class MainActivity : BaseActivity() {
         super.onNewIntent(intent)
     }
 
-    private fun processIntent(intent: Intent?) {
+    private fun processIntent(intent: Intent) {
+        val initialSmsAddressAndBody = getInitialSmsAddressAndBody()
+        if (initialSmsAddressAndBody != null) {
+            openSMSThread(initialSmsAddressAndBody.first, initialSmsAddressAndBody.second)
+        }
+
         var number: String? = null
-        if (intent?.action == Intent.ACTION_INSERT_OR_EDIT) {
+        if (intent.action == Intent.ACTION_INSERT_OR_EDIT) {
             number = intent.getStringExtra(Intents.Insert.PHONE)
-        } else if (intent?.action == Intent.ACTION_DIAL || intent?.action == Intent.ACTION_VIEW) {
+        } else if (intent.action == Intent.ACTION_DIAL || intent.action == Intent.ACTION_VIEW) {
             if (intent.data?.scheme == "tel") {
                 number = intent.data?.schemeSpecificPart
             }
         }
         if (number != null) openDialPad(number)
+
+        var address: String? = null
+        if (intent.action == Intent.ACTION_INSERT_OR_EDIT) {
+            address = intent.getStringExtra(Intents.Insert.PHONE)
+        } else if (intent.action == Intent.ACTION_DIAL || intent.action == Intent.ACTION_VIEW) {
+            if (intent.data?.scheme == "sms") {
+                address = intent.data?.schemeSpecificPart
+            }
+        }
+        if (address != null) openSMSThread(address, null)
     }
 
     private fun openDialPad(number: String) {
@@ -108,6 +121,24 @@ class MainActivity : BaseActivity() {
             addNextIntentWithParentStack(deepLinkIntent)
             getPendingIntent(
                 10,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+        }
+        deepLinkPendingIntent?.send()
+    }
+
+    private fun openSMSThread(address: String, body: String?) {
+        val deepLinkIntent = Intent(
+            NavRoutes.MessageThread.navAction,
+            NavRoutes.MessageThread.getDeepLink(address, body),
+            this,
+            MainActivity::class.java
+        )
+
+        val deepLinkPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
+            addNextIntentWithParentStack(deepLinkIntent)
+            getPendingIntent(
+                11,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         }
@@ -142,9 +173,7 @@ class MainActivity : BaseActivity() {
     private fun getInitialSmsAddressAndBody(): Pair<String, String?>? {
         if (intent?.action !in smsSendIntents || intent?.type in BackupHelper.vCardMimeTypes) return null
 
-        val address = intent?.dataString
-            ?.split(":")
-            ?.lastOrNull()
+        val address = intent?.data?.schemeSpecificPart
             // the number is url encoded and hence must be decoded first
             ?.let { URLDecoder.decode(it, "UTF-8") }
             ?: return null

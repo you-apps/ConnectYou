@@ -4,9 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.telephony.SubscriptionInfo
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.bnyro.contacts.App
@@ -26,8 +23,6 @@ class SmsModel(application: Application) : AndroidViewModel(application) {
     )
 
     var currentContactData: ContactData? = null
-
-    var initialAddressAndBody by mutableStateOf<Pair<String, String?>?>(null)
 
     var currentSubscription: SubscriptionInfo? = null
 

@@ -84,6 +84,7 @@ fun AppNavHost(
             }
         }
         composable<NavRoutes.MessageThread>(
+            deepLinks = NavRoutes.MessageThread.deepLinks,
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Up,
@@ -95,13 +96,14 @@ fun AppNavHost(
                     targetOffset = { it / 4 }) + fadeOut()
             }
         ) {
-            val address = it.toRoute<NavRoutes.MessageThread>().address
+            val thread = it.toRoute<NavRoutes.MessageThread>()
             CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {
                 SmsThreadScreen(
                     smsModel = smsModel,
                     contactsModel = contactsModel,
                     contactsData = remember { smsModel.currentContactData },
-                    address = address.orEmpty()
+                    address = thread.address,
+                    initialText = thread.body.orEmpty()
                 ) {
                     navController.popBackStack()
                 }

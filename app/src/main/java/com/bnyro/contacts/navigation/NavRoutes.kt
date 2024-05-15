@@ -1,5 +1,6 @@
 package com.bnyro.contacts.navigation
 
+import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Message
@@ -10,6 +11,7 @@ import androidx.core.net.toUri
 import androidx.navigation.navDeepLink
 import com.bnyro.contacts.R
 import kotlinx.serialization.Serializable
+import java.net.URLEncoder
 
 @Serializable
 sealed class NavRoutes {
@@ -24,8 +26,38 @@ sealed class NavRoutes {
 
     @Serializable
     data class MessageThread(
-        val address: String?
-    ) : NavRoutes()
+        val address: String,
+        val body: String? = null
+    ) : NavRoutes() {
+        companion object {
+            const val address = "address"
+            const val body = "body"
+            private const val basePath = "connectyou://message"
+            const val navAction = "com.bnyro.contacts.SMS"
+            val deepLinks = listOf(navDeepLink<MessageThread>(basePath) {
+                action = navAction
+            })
+
+
+            fun getDeepLink(number: String, bodyText: String? = null): Uri {
+                return if (bodyText == null) {
+                    "connectyou://message/${
+                        URLEncoder.encode(
+                            number,
+                            "UTF-8"
+                        )
+                    }".toUri()
+                } else {
+                    "connectyou://message/${
+                        URLEncoder.encode(
+                            number,
+                            "UTF-8"
+                        )
+                    }?body=${URLEncoder.encode(bodyText, "UTF-8")}".toUri()
+                }
+            }
+        }
+    }
 }
 
 @Serializable
@@ -36,14 +68,13 @@ sealed class HomeRoutes() {
     ) : HomeRoutes() {
         companion object {
             const val phoneNumber = "phoneNumber"
-            const val deepLink = "connectyou://dial/{$phoneNumber}"
+            private const val basePath = "connectyou://dial"
             const val navAction = "com.bnyro.contacts.DIAL"
-            val deepLinks = listOf(navDeepLink {
-                uriPattern = deepLink
+            val deepLinks = listOf(navDeepLink<Phone>(basePath) {
                 action = navAction
             })
 
-            fun getDeepLink(number: String) = "connectyou://dial/$number".toUri()
+            fun getDeepLink(number: String) = "connectyou://dial?phoneNumber=$number".toUri()
         }
     }
 

@@ -84,11 +84,6 @@ fun SmsListScreen(
     var selectedThread by remember {
         mutableStateOf<SmsThread?>(null)
     }
-    LaunchedEffect(Unit) {
-        smsModel.initialAddressAndBody?.let {
-            onClickMessage(it.first, null)
-        }
-    }
     Scaffold(
         topBar = {
             TopAppBar(
