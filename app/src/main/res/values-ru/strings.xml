@@ -136,4 +136,12 @@
     <string name="dialing">Вызов...</string>
     <string name="call_from">Позвонить из</string>
     <string name="key_pad">Клавиатура набора</string>
+    <string name="change_ringtone">Изменить мелодию</string>
+    <string name="number_blocked">Номер заблокирован</string>
+    <string name="recent_calls">Недавние вызовы</string>
+    <string name="blocking_number_is_not_supported">Блокировка номеров недоступна. Установите Connect You в качестве приложения для SMS и вызовов</string>
+    <string name="select_custom_ringtone">Выбрать свою мелодию</string>
+    <string name="block_numbers">Заблокировать номера</string>
+    <string name="block_number">Заблокировать номер</string>
+    <string name="unblock_number">Разблокировать номер</string>
 </resources>
