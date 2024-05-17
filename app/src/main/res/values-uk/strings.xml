@@ -137,4 +137,12 @@
     <string name="dialing">Набір номера...</string>
     <string name="call_from">Виклик з</string>
     <string name="key_pad">Клавіатура</string>
+    <string name="select_custom_ringtone">Виберіть власний рингтон</string>
+    <string name="change_ringtone">Змінити рингтон</string>
+    <string name="block_number">Заблокувати номер</string>
+    <string name="recent_calls">Нещодавні виклики</string>
+    <string name="block_numbers">Заблокувати номери</string>
+    <string name="blocking_number_is_not_supported">Блокування номерів не підтримується. Connect You не типовий застосунок для SMS та викликів</string>
+    <string name="number_blocked">Номер заблоковано</string>
+    <string name="unblock_number">Розблокувати номер</string>
 </resources>
