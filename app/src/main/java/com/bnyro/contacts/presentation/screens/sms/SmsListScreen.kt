@@ -50,6 +50,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.domain.model.ContactData
 import com.bnyro.contacts.domain.model.SmsThread
@@ -60,6 +61,7 @@ import com.bnyro.contacts.presentation.components.TopBarMoreMenu
 import com.bnyro.contacts.presentation.features.NumberPickerDialog
 import com.bnyro.contacts.presentation.screens.calllog.SheetSettingItem
 import com.bnyro.contacts.presentation.screens.contacts.model.ContactsModel
+import com.bnyro.contacts.presentation.screens.settings.model.ThemeModel
 import com.bnyro.contacts.presentation.screens.sms.components.SmsSearchScreen
 import com.bnyro.contacts.presentation.screens.sms.components.SmsThreadItem
 import com.bnyro.contacts.presentation.screens.sms.model.SmsModel
@@ -74,6 +76,7 @@ fun SmsListScreen(
     onNavigate: (NavRoutes) -> Unit,
     onClickMessage: (address: String, contactData: ContactData?) -> Unit
 ) {
+    val themeModel: ThemeModel = viewModel()
     var showNumberPicker by remember {
         mutableStateOf(false)
     }
@@ -163,6 +166,7 @@ fun SmsListScreen(
         if (showNumberPicker) {
             NumberPickerDialog(
                 contactsModel,
+                themeModel,
                 onDismissRequest = { showNumberPicker = false },
                 onNumberSelect = onClickMessage
             )

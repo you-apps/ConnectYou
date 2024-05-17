@@ -157,4 +157,6 @@
     <string name="number_blocked">Number blocked</string>
     <string name="block_number">Block number</string>
     <string name="unblock_number">Unblock number</string>
+    <string name="search_contacts">Search contacts</string>
+    <string name="start_a_new_conversation">Start a new conversation</string>
 </resources>
