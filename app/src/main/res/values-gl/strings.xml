@@ -136,4 +136,12 @@
     <string name="dialing">Marcando...</string>
     <string name="call_from">Chamada de</string>
     <string name="key_pad">Teclado</string>
+    <string name="change_ringtone">Cambiar ton</string>
+    <string name="recent_calls">Chamadas recentes</string>
+    <string name="block_numbers">Bloquear números</string>
+    <string name="select_custom_ringtone">Elixe ton persoal</string>
+    <string name="blocking_number_is_not_supported">Non podemos bloquear números, Connect You non é a app de SMS/Teléfono por defecto</string>
+    <string name="number_blocked">Número bloqueado</string>
+    <string name="block_number">Bloquear número</string>
+    <string name="unblock_number">Desbloquear número</string>
 </resources>
