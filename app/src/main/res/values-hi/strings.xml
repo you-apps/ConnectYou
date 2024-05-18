@@ -144,4 +144,6 @@
     <string name="block_number">नंबर ब्लॉक करें</string>
     <string name="unblock_number">नंबर अनब्लॉक करें</string>
     <string name="change_ringtone">रिंगटोन बदलें</string>
+    <string name="search_contacts">संपर्क खोजें</string>
+    <string name="start_a_new_conversation">एक नई बातचीत शुरू करें</string>
 </resources>
