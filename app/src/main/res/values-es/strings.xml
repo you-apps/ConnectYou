@@ -144,4 +144,6 @@
     <string name="recent_calls">Últimas llamadas</string>
     <string name="number_blocked">Número bloqueado</string>
     <string name="unblock_number">Desbloquear número</string>
+    <string name="start_a_new_conversation">Iniciar una nueva conversión</string>
+    <string name="search_contacts">Buscar contactos</string>
 </resources>
