@@ -145,4 +145,6 @@
     <string name="blocking_number_is_not_supported">Блокування номерів не підтримується. Connect You не типовий застосунок для SMS та викликів</string>
     <string name="number_blocked">Номер заблоковано</string>
     <string name="unblock_number">Розблокувати номер</string>
+    <string name="start_a_new_conversation">Почати нову розмову</string>
+    <string name="search_contacts">Пошук контактів</string>
 </resources>
