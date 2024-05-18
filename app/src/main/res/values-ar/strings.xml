@@ -144,4 +144,6 @@
     <string name="unblock_number">إلغاء حظر الرقم</string>
     <string name="select_custom_ringtone">حدد نغمة رنين مخصصة</string>
     <string name="change_ringtone">تغيير نغمة الرنين</string>
+    <string name="search_contacts">بحث في جهات الاتصال</string>
+    <string name="start_a_new_conversation">بدء محادثة جديدة</string>
 </resources>
