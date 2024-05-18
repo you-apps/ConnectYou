@@ -145,4 +145,6 @@
     <string name="block_numbers">Numaraları engelle</string>
     <string name="select_custom_ringtone">Özel zil sesi seç</string>
     <string name="blocking_number_is_not_supported">Numara engelleme desteklenmiyor, Connect You öntanımlı SMS/Telefon uygulaması değil</string>
+    <string name="search_contacts">Kişileri ara</string>
+    <string name="start_a_new_conversation">Yeni görüşme başlat</string>
 </resources>
