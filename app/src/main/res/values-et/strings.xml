@@ -144,4 +144,6 @@
     <string name="change_ringtone">Muuda telefonihelinat</string>
     <string name="blocking_number_is_not_supported">Kuna Connect You pole selles nutiseadmes vaikimisi kasutatav telefoni- ja SMS-sõnumirakendus, siis telefoninumbrite blokeerimine ei ole võimalik</string>
     <string name="unblock_number">Lõpeta telefoninumbri blokeerimine</string>
+    <string name="search_contacts">Otsi kontaktide hulgast</string>
+    <string name="start_a_new_conversation">Alusta uut vestlust</string>
 </resources>
