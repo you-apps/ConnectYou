@@ -13,8 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -48,13 +48,17 @@ import com.bnyro.contacts.util.generateAnnotations
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ColumnScope.Messages(
-    messages: List<SmsData>,
-    scrollState: LazyListState,
-    smsModel: SmsModel
-) {
-    LaunchedEffect(Unit) {
-        scrollState.scrollToItem(messages.size + 5)
+fun ColumnScope.Messages(messages: List<SmsData>, smsModel: SmsModel) {
+    val scrollState = rememberLazyListState()
+
+    var scrolledToBottom = remember { false }
+
+    LaunchedEffect(messages) {
+        // only scroll to the latest message once and only if not manually scrolled yet
+        if (scrollState.firstVisibleItemIndex == 0 && scrollState.firstVisibleItemScrollOffset == 0 && !scrolledToBottom) {
+            scrollState.scrollToItem(messages.size + 5)
+            scrolledToBottom = true
+        }
     }
 
     val timestamped = messages.groupBy {
@@ -75,9 +79,7 @@ fun ColumnScope.Messages(
     ) {
         timestamped.forEach { timestamp ->
             item {
-                DayHeader(
-                    timestamp.key
-                )
+                DayHeader(timestamp.key)
             }
             items(items = timestamp.value) { smsData ->
                 val isUserMe = smsData.type in listOf(

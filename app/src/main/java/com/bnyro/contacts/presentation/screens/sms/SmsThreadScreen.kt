@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.PersonAddAlt1
@@ -135,8 +134,7 @@ fun SmsThreadScreen(
             modifier = Modifier
                 .padding(pV)
         ) {
-            val state = rememberLazyListState()
-            Messages(messages = smsList, scrollState = state, smsModel = smsModel)
+            Messages(messages = smsList, smsModel = smsModel)
 
             Spacer(modifier = Modifier.height(10.dp))
             if (subscriptions != null && subscriptions.size >= 2) {
