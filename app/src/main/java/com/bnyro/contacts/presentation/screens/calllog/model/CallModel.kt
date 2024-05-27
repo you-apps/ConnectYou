@@ -34,8 +34,8 @@ import kotlinx.coroutines.withContext
 
 class CallModel(private val application: Application, savedStateHandle: SavedStateHandle) :
     AndroidViewModel(application) {
-    val callLogRepository = (application as App).callLogRepository
-    val phoneLookupRepository = (application as App).phoneLookupRepository
+    private val callLogRepository = (application as App).callLogRepository
+    private val phoneLookupRepository = (application as App).phoneLookupRepository
 
     val initialPhoneNumber = savedStateHandle.get<String>(HomeRoutes.Phone.phoneNumber)
 
@@ -61,8 +61,7 @@ class CallModel(private val application: Application, savedStateHandle: SavedSta
     val subscriptions =
         SmsUtil.getSubscriptions(application.applicationContext)
 
-    var chosenSubInfo =
-        subscriptions.firstOrNull()
+    private var chosenSubInfo = subscriptions.firstOrNull()
 
 
     init {
@@ -75,7 +74,7 @@ class CallModel(private val application: Application, savedStateHandle: SavedSta
     }
 
     fun onSubscriptionIndexChange(index: Int) {
-        chosenSubInfo = subscriptions.get(index)
+        chosenSubInfo = subscriptions[index]
     }
 
     fun onNumberInput(digit: String) {
@@ -137,7 +136,7 @@ class CallModel(private val application: Application, savedStateHandle: SavedSta
         }
     }
 
-    fun playToneForDigit(digit: String) {
+    private fun playToneForDigit(digit: String) {
         val numericDigit = when (digit) {
             "0" -> ToneGenerator.TONE_DTMF_0
             "1" -> ToneGenerator.TONE_DTMF_1
