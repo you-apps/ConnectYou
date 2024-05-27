@@ -105,7 +105,7 @@ class CallModel(private val application: Application, savedStateHandle: SavedSta
     }
 
     fun callNumber(number: String = numberToCall) {
-        if (!PermissionHelper.checkPermissions(application.applicationContext, phonePerms)) return
+        if (!PermissionHelper.hasPermission(application.applicationContext, *phonePerms)) return
 
         val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$number")).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK

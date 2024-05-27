@@ -13,11 +13,8 @@ import kotlinx.coroutines.withContext
 
 class CallLogRepository(private val context: Context) {
     suspend fun getCallLog(): List<CallLogEntry> = withContext(Dispatchers.IO) {
-        if (!PermissionHelper.checkPermissions(
-                context,
-                arrayOf(Manifest.permission.READ_CALL_LOG)
-            )
-        ) return@withContext emptyList()
+        if (!PermissionHelper.hasPermission(context, Manifest.permission.READ_CALL_LOG))
+            return@withContext emptyList()
 
         val callLog = mutableListOf<CallLogEntry>()
 
@@ -47,11 +44,8 @@ class CallLogRepository(private val context: Context) {
     }
 
     suspend fun deleteAll(callLog: List<CallLogEntry>) = withContext(Dispatchers.IO) {
-        if (!PermissionHelper.checkPermissions(
-                context,
-                arrayOf(Manifest.permission.WRITE_CALL_LOG)
-            )
-        ) return@withContext
+        if (!PermissionHelper.hasPermission(context, Manifest.permission.WRITE_CALL_LOG))
+            return@withContext
 
         callLog.distinctBy { it.phoneNumber }.forEach { entry ->
             context.contentResolver.delete(

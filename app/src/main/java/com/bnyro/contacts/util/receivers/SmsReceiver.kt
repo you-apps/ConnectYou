@@ -140,13 +140,10 @@ class SmsReceiver : BroadcastReceiver() {
             builder.addAction(copyMessageAction)
         }
 
-        if (!PermissionHelper.checkPermissions(
-                context,
-                NotificationHelper.notificationPermissions
-            )
-        ) {
-            return
+        NotificationHelper.notificationPermissions.firstOrNull()?.let {
+            if (!PermissionHelper.hasPermission(context, it)) return
         }
+
         NotificationManagerCompat.from(context).notify(notificationId, builder.build())
     }
 

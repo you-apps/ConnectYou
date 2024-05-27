@@ -43,7 +43,7 @@ abstract class BaseActivity : FragmentActivity() {
             val roleManager = context.getSystemService(RoleManager::class.java)
             if (roleManager!!.isRoleAvailable(RoleManager.ROLE_SMS)) {
                 if (roleManager.isRoleHeld(RoleManager.ROLE_SMS)) {
-                    getSmsPermissions(context)
+                    getSmsPermissions()
                 } else {
                     val intent = roleManager.createRequestRoleIntent(RoleManager.ROLE_SMS)
                     context.startActivity(intent)
@@ -51,7 +51,7 @@ abstract class BaseActivity : FragmentActivity() {
             }
         } else {
             if (Telephony.Sms.getDefaultSmsPackage(context) == context.packageName) {
-                getSmsPermissions(context)
+                getSmsPermissions()
             } else {
                 val intent = Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT)
                 intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, context.packageName)
@@ -60,8 +60,8 @@ abstract class BaseActivity : FragmentActivity() {
         }
     }
 
-    private fun getSmsPermissions(context: Context) {
-        PermissionHelper.checkPermissions(context, smsPermissions)
+    private fun getSmsPermissions() {
+        PermissionHelper.checkPermissions(this, smsPermissions)
     }
 
     companion object {

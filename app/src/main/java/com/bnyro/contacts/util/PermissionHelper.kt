@@ -6,23 +6,23 @@ import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 
 object PermissionHelper {
-    fun checkPermissions(context: Context, permissions: Array<String>): Boolean {
+    fun checkPermissions(activity: Activity, permissions: Array<String>): Boolean {
         if (permissions.isEmpty()) return true
-        if (!hasPermission(context, permissions.first())) {
-            ActivityCompat.requestPermissions(
-                context as Activity,
-                permissions,
-                1
-            )
+
+        if (!hasPermission(activity, *permissions)) {
+            ActivityCompat.requestPermissions(activity, permissions, 1)
             return false
         }
+
         return true
     }
 
-    fun hasPermission(context: Context, permission: String): Boolean {
-        return ActivityCompat.checkSelfPermission(
-            context,
-            permission
-        ) == PackageManager.PERMISSION_GRANTED
+    fun hasPermission(context: Context, vararg permissions: String): Boolean {
+        return permissions.all { permission ->
+            ActivityCompat.checkSelfPermission(
+                context,
+                permission
+            ) == PackageManager.PERMISSION_GRANTED
+        }
     }
 }
