@@ -20,10 +20,11 @@ object CalendarUtils {
         val calendar = Calendar.getInstance()
         calendar.clear(Calendar.ZONE_OFFSET)
         calendar.timeInMillis = milliSeconds
+
         return formatter.format(calendar.time)
     }
 
-    fun dateToMillis(date: String) = isoDateFormat.parse(date)?.time
+    fun dateToMillis(date: String) = kotlin.runCatching { isoDateFormat.parse(date) }.getOrNull()?.time
 
     fun localizeIsoDate(isoDate: String): String {
         val isDateWithoutYear = isoDate.startsWith('-')

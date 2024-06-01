@@ -74,7 +74,9 @@ object VcardHelper {
                     addNote(note.value)
                 }
             }
-            contact.events.forEach { event ->
+            contact.events
+                .filter { it.value.isNotBlank() }
+                .forEach { event ->
                 when (event.type) {
                     ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY -> {
                         CalendarUtils.dateToMillis(event.value)?.let { time ->
