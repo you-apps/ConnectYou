@@ -78,6 +78,10 @@ class CallService : InCallService() {
             if (state == Call.STATE_DISCONNECTED) {
                 val closeCallAlertIntent = Intent(CallActivity.CALL_ALERT_CLOSE_ACTION).apply {
                     putExtra(CallActivity.ACTION_EXTRA_KEY, CallActivity.CLOSE_ACTION)
+                    putExtra(CallActivity.ACTION_EXTRA_REASON,
+                        call.details?.disconnectCause?.description?.takeIf { it.isNotBlank() }
+                            ?.toString()
+                    )
                     `package` = packageName
                 }
                 sendBroadcast(closeCallAlertIntent)
