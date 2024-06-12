@@ -80,7 +80,7 @@ class DeviceSmsRepo : SmsRepository {
 
     override suspend fun persistSms(context: Context, smsData: SmsData) {
         val values = ContentValues()
-        values.put(Telephony.Sms.ADDRESS, smsData.address)
+        values.put(Telephony.Sms.ADDRESS, ContactsHelper.normalizePhoneNumber(smsData.address))
         values.put(Telephony.Sms.BODY, smsData.body)
         values.put(Telephony.Sms.DATE, smsData.timestamp)
         values.put(Telephony.Sms.READ, 1)
