@@ -81,7 +81,7 @@ fun ColumnScope.Messages(messages: List<SmsData>, smsModel: SmsModel) {
             item {
                 DayHeader(timestamp.key)
             }
-            items(items = timestamp.value) { smsData ->
+            items(items = timestamp.value, key = SmsData::id) { smsData ->
                 val isUserMe = smsData.type in listOf(
                     Telephony.Sms.MESSAGE_TYPE_DRAFT,
                     Telephony.Sms.MESSAGE_TYPE_SENT,

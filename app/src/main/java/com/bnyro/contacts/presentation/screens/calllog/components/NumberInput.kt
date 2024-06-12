@@ -312,7 +312,7 @@ fun ColumnScope.PhoneNumberDisplay(
                 .weight(1f),
             verticalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.Bottom)
         ) {
-            items(contacts, key = { it.number }) { contact ->
+            items(contacts, key = BasicContactData::number) { contact ->
                 ContactSuggestionItem(onClickContact, contact)
             }
         }

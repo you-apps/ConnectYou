@@ -149,7 +149,7 @@ fun CallLogsScreen(
                     stickyHeader {
                         CharacterHeader(text = time)
                     }
-                    items(callLogs) { callLog ->
+                    items(callLogs, key = { callLog -> "${callLog.time} ${callLog.phoneNumber}"}) { callLog ->
                         val contact = remember {
                             contactsModel.getContactByNumber(callLog.phoneNumber)
                         }

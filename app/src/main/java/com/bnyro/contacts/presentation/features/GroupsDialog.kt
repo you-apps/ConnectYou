@@ -72,7 +72,7 @@ fun GroupsDialog(
             LazyColumn(
                 modifier = Modifier.height(300.dp)
             ) {
-                items(contactGroups) { group ->
+                items(contactGroups, key = ContactsGroup::rowId) { group ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {

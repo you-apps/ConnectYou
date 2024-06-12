@@ -88,7 +88,8 @@ fun AddToContactDialog(newNumber: String) {
                                     it.displayName.orEmpty().lowercase().contains(
                                         searchQuery.lowercase()
                                     )
-                                }
+                                },
+                            key = ContactData::contactId
                         ) {
                             ClickableText(text = it.displayName.orEmpty()) {
                                 scope.launch {

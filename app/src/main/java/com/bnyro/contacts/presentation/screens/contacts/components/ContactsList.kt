@@ -63,7 +63,7 @@ fun ContactsList(
                 stickyHeader {
                     CharacterHeader(firstLetter.orEmpty())
                 }
-                items(groupedContacts) {
+                items(groupedContacts, key = ContactData::contactId) {
                     ContactItem(
                         modifier = Modifier.padding(horizontal = 10.dp),
                         contact = it,

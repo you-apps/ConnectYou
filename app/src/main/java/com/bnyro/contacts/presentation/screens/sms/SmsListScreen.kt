@@ -150,7 +150,7 @@ fun SmsListScreen(
                         scrollConnection?.let { modifier.nestedScroll(it) } ?: modifier
                     }
             ) {
-                items(threadList) { thread ->
+                items(threadList, key = SmsThread::threadId) { thread ->
                     SmsThreadItem(smsModel, thread, onClick = onClickMessage, onLongClick = {
                         selectedThread = thread
                     })

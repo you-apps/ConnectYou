@@ -72,7 +72,7 @@ class PickContactActivity : BaseActivity() {
                             LazyColumn(
                                 modifier = Modifier.weight(1f)
                             ) {
-                                items(contactsModel.contacts) {
+                                items(contactsModel.contacts, key = ContactData::contactId) {
                                     ContactItem(
                                         modifier = Modifier.padding(horizontal = 10.dp),
                                         contact = it,
