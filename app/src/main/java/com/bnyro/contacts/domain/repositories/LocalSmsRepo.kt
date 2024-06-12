@@ -17,9 +17,7 @@ class LocalSmsRepo : SmsRepository {
 
     override suspend fun getOrCreateThreadId(context: Context, address: String): Long {
         return DatabaseHolder.Db.localSmsDao()
-            .getSmsByAddress(ContactsHelper.normalizePhoneNumber(address))
-            .firstOrNull()
-            ?.threadId
+            .getThreadId(ContactsHelper.normalizePhoneNumber(address))
             ?: Random.nextLong()
     }
 

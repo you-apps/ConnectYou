@@ -20,6 +20,6 @@ interface LocalSmsDao {
     @Insert
     suspend fun createSms(smsData: SmsData): Long
 
-    @Query("SELECT * FROM localSms WHERE address = :address")
-    suspend fun getSmsByAddress(address: String): List<SmsData>
+    @Query("SELECT threadId FROM localSms WHERE address = :address LIMIT 1")
+    suspend fun getThreadId(address: String): Long?
 }
