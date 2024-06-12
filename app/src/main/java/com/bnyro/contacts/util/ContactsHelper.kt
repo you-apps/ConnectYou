@@ -21,8 +21,11 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil
 import ezvcard.parameter.AddressType
 import ezvcard.parameter.EmailType
 import ezvcard.parameter.TelephoneType
+import java.text.Normalizer
 
 object ContactsHelper {
+    private val REGEX_NORMALIZE = "\\p{InCombiningDiacriticalMarks}+".toRegex()
+
     val emailTypes = listOf(
         TranslatedType(
             ContactsContract.CommonDataKinds.Email.TYPE_HOME,
@@ -150,6 +153,12 @@ object ContactsHelper {
         }
     }
 
+    private fun normalizeText(text: String): String {
+        return Normalizer.normalize(text, Normalizer.Form.NFD)
+            .replace(REGEX_NORMALIZE, "")
+            .lowercase()
+    }
+
     fun normalizePhoneNumber(number: String): String {
         val phoneUtil = PhoneNumberUtil.getInstance()
         val phoneNumber = runCatching { phoneUtil.parse(number, null) }
@@ -158,6 +167,8 @@ object ContactsHelper {
     }
 
     fun matches(contactData: ContactData, query: String): Boolean {
+        val normalizedQuery = normalizeText(query)
+
         val contactInfoStrings = listOf(
             contactData.numbers,
             contactData.emails,
@@ -174,15 +185,12 @@ object ContactsHelper {
         )
 
         return contactInfoStrings.filterNotNull().any { str ->
-            str.lowercase().contains(query)
+            normalizeText(str).contains(normalizedQuery)
         }
     }
 
-    fun filter(contacts: List<ContactData>, searchQuery: String): List<ContactData> {
-        val query = searchQuery.lowercase()
-
-        return contacts.filter { matches(it, query) }
-    }
+    fun filter(contacts: List<ContactData>, searchQuery: String): List<ContactData> =
+        contacts.filter { matches(it, searchQuery) }
 
     fun isContactEmpty(contactData: ContactData): Boolean {
         val stringProperties = listOf(
