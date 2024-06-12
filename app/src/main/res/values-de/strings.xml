@@ -141,4 +141,10 @@
     <string name="block_number">Nummer blockieren</string>
     <string name="start_a_new_conversation">Eine neue Unterhaltung beginnen</string>
     <string name="search_contacts">Kontakte suchen</string>
+    <string name="blocking_number_is_not_supported">"Rufnummerblockade wird nicht unterstützt,  Connect you ist nicht die Standard SMS/Telefon App"</string>
+    <string name="unblock_number">Rufnummer wieder freigeben</string>
+    <string name="in_progress">In Bearbeitung</string>
+    <string name="mute">Stumm, lautlos</string>
+    <string name="dial_pad">Nummerneingabe Telefon</string>
+    <string name="key_pad">Tastatur</string>
 </resources>
