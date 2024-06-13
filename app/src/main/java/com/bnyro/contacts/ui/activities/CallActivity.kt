@@ -1,5 +1,6 @@
 package com.bnyro.contacts.ui.activities
 
+import android.app.AlertDialog
 import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
+import com.bnyro.contacts.R
 import com.bnyro.contacts.presentation.screens.dialer.DialerScreen
 import com.bnyro.contacts.presentation.screens.dialer.model.DialerModel
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
@@ -70,7 +72,12 @@ class CallActivity : ComponentActivity() {
     private val closeAlertReciever = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.getStringExtra(ACTION_EXTRA_KEY) == CLOSE_ACTION) {
-                finish()
+                val reason = intent.getStringExtra(ACTION_EXTRA_REASON)
+                if (reason != null) {
+                    showAlert(getString(R.string.call_ended), reason)
+                } else {
+                    finish()
+                }
             }
         }
     }
@@ -138,10 +145,23 @@ class CallActivity : ComponentActivity() {
         unbindService(serviceConnection)
     }
 
+    fun showAlert(title: String, message: String) {
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+                finish()
+            }
+            .create()
+            .show()
+    }
+
     companion object {
         const val CALL_ALERT_CLOSE_ACTION = "com.bnyro.contacts.ALARM_ALERT_CLOSE_ACTION"
         const val ACTION_EXTRA_KEY = "action"
         const val CLOSE_ACTION = "CLOSE"
+        const val ACTION_EXTRA_REASON = "reason"
         private const val windowFlags =
             WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
     }
