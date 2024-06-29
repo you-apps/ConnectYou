@@ -107,4 +107,14 @@
     <string name="delete_message">מחיקת הודעה</string>
     <string name="private_sms_database_desc">המסרונים יאוחסנו ביישומון בלבד וליישומונים אחרים לא תהיה גישה אליהם.</string>
     <string name="phone_number">מספר טלפון</string>
+    <string name="add_phone_number">הוספת מספר טלפון</string>
+    <string name="add_e_mail">הוספת דוא״ל</string>
+    <string name="add_note">הוספת הערה</string>
+    <string name="add_event">הוספת אירוע</string>
+    <string name="import_confirm">לייבא את קובץ ה־VCF הנבחר?</string>
+    <string name="add_address">הוספת כתובת</string>
+    <string name="add_website">הוספת אתר</string>
+    <string name="date">תאריך</string>
+    <string name="amoled">אמולד</string>
+    <string name="send_message_as_multiple">לשלוח את ההודעה מחולקת לכמה הודעות קטנות?</string>
 </resources>

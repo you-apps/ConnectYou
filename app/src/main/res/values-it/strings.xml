@@ -116,4 +116,8 @@
     <string name="private_sms_database_desc">Gli SMS saranno memorizzati solo all\'interno di quest\'app e non saranno accessibili in altre app.</string>
     <string name="delete_thread">Elimina thread</string>
     <string name="import_confirm">Vuoi importare il file VCF selezionato?</string>
+    <string name="amoled">Amoled</string>
+    <string name="security">Sicurezza</string>
+    <string name="biometric_authentication">Autenticazione biometrica</string>
+    <string name="biometric_authentication_summary">Richiedi l\'autenticazione biometrica (ad esempio l\'impronta digitale) prima di poter accedere all\'app.</string>
 </resources>

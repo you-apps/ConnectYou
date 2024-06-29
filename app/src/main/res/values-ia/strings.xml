@@ -116,4 +116,5 @@
     <string name="date">Data</string>
     <string name="add_event">Adder evento</string>
     <string name="import_confirm">Desira tu importar le file VCF seligite?</string>
+    <string name="amoled">Amoled</string>
 </resources>

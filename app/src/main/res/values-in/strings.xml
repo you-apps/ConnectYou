@@ -116,4 +116,24 @@
     <string name="max_backup_amount">Jumlah maksimal data cadangan yang diizinkan</string>
     <string name="choose_dir">Direktori</string>
     <string name="none">Tidak ada</string>
+    <string name="amoled">AMOLED</string>
+    <string name="security">Keamanan</string>
+    <string name="biometric_authentication">Autentikasi Biometrik</string>
+    <string name="biometric_authentication_summary">Meminta autentikasi biometrik (seperti sidik jari) sebelum aplikasi dapat diakses.</string>
+    <string name="in_progress">Sedang berlangsung</string>
+    <string name="ringing">Berdering…</string>
+    <string name="disconnecting">Memutuskan hubungan…</string>
+    <string name="connecting">Menghubungkan…</string>
+    <string name="confirm_start_call">Apakah Anda ingin memanggil %1$s?</string>
+    <string name="speakers">Speaker</string>
+    <string name="mute">Bisukan</string>
+    <string name="unknown_number">Nomor Tidak Dikenal</string>
+    <string name="calls">Panggilan</string>
+    <string name="decline">Tolak</string>
+    <string name="accept">Terima</string>
+    <string name="dial_pad">Tombol Angka</string>
+    <string name="call_ended">Panggilan Berakhir</string>
+    <string name="dialing">Memanggil...</string>
+    <string name="call_from">Panggilan Dari</string>
+    <string name="key_pad">Papan tombol</string>
 </resources>

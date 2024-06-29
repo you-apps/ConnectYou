@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="copied">Kopieret til udklipsholder</string>
-    <string name="cancel">Annullér</string>
+    <string name="cancel">Annuller</string>
     <string name="reset">Nulstil</string>
     <string name="retry">Prøv igen</string>
     <string name="new_contact">Ny kontakt</string>
@@ -9,10 +9,10 @@
     <string name="dial">Ring</string>
     <string name="contact">Kontakt</string>
     <string name="contacts">Kontakter</string>
-    <string name="filter">Filtrér</string>
+    <string name="filter">Filtrer</string>
     <string name="more">Mere</string>
     <string name="save">Gem</string>
-    <string name="empty_name">Navn kan ikke være tomt!</string>
+    <string name="empty_name">Navn må ikke være tomt!</string>
     <string name="import_success">Importeret.</string>
     <string name="phone">Telefon</string>
     <string name="phone_number">Telefonnummer</string>
@@ -24,7 +24,7 @@
     <string name="anniversary">Årsdag</string>
     <string name="note">Note</string>
     <string name="new_group">Ny</string>
-    <string name="group_already_exists">Gruppe eksisterer allerede</string>
+    <string name="group_already_exists">Gruppe findes allerede</string>
     <string name="groups">Grupper</string>
     <string name="device">Enhed</string>
     <string name="local">Lokal</string>
@@ -48,9 +48,9 @@
     <string name="add_to_contact">Føj til kontakt</string>
     <string name="show_more_fields">Vis flere felter</string>
     <string name="message">Besked</string>
-    <string name="edit">Redigér</string>
+    <string name="edit">Rediger</string>
     <string name="max_backup_amount">Maks. antal backups</string>
-    <string name="author">Autor</string>
+    <string name="author">Udvikler</string>
     <string name="choose_dir">Mappe</string>
     <string name="misc">Diverse</string>
     <string name="both">Begge</string>
@@ -94,7 +94,7 @@
     <string name="custom">Brugerdefineret</string>
     <string name="homepage">Startside</string>
     <string name="ftp">FTP</string>
-    <string name="manage_groups">Administrér grupper</string>
+    <string name="manage_groups">Administrer grupper</string>
     <string name="blog">Blog</string>
     <string name="delete_group">Slet gruppe for alle</string>
     <string name="title">Titel</string>
@@ -114,4 +114,32 @@
     <string name="dark">Mørk</string>
     <string name="auto_backup">Automatisk backup</string>
     <string name="start_tab">Start-fane</string>
+    <string name="select_custom_ringtone">Vælg brugerdefineret ringetone</string>
+    <string name="change_ringtone">Skift ringetone</string>
+    <string name="recent_calls">Seneste opkald</string>
+    <string name="block_numbers">Bloker numre</string>
+    <string name="blocking_number_is_not_supported">Blokering af numre understøttes ikke, da Connect You ikke er standardappen for SMS/Telefon</string>
+    <string name="number_blocked">Nummer blokeret</string>
+    <string name="block_number">Bloker nummer</string>
+    <string name="search_contacts">Søg i kontakter</string>
+    <string name="start_a_new_conversation">Start en ny samtale</string>
+    <string name="fax_home">Fax hjem</string>
+    <string name="fax_work">Fax arbejde</string>
+    <string name="in_progress">Igangværende</string>
+    <string name="ringing">Ringer…</string>
+    <string name="disconnecting">Afbryder…</string>
+    <string name="connecting">Forbinder…</string>
+    <string name="mute">Sæt på lydløs</string>
+    <string name="calls">Opkald</string>
+    <string name="decline">Afvis</string>
+    <string name="accept">Acceptér</string>
+    <string name="unknown_number">Ukendt Nummer</string>
+    <string name="confirm_start_call">Vil du ringe til %1$s?</string>
+    <string name="biometric_authentication_summary">Kræv biometrisk godkendelse (fx fingeraftryk), før appen kan tilgås.</string>
+    <string name="speakers">Højtalere</string>
+    <string name="security">Sikkerhed</string>
+    <string name="biometric_authentication">Biometrisk Godkendelse</string>
+    <string name="amoled">Amoled</string>
+    <string name="call_ended">Opkald Afsluttet</string>
+    <string name="call_from">Opkald fra</string>
 </resources>
