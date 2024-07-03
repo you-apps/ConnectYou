@@ -156,6 +156,13 @@ class ContactsModel(
         }
     }
 
+    fun setFavorite(context: Context, contact: ContactData, favorite: Boolean) {
+        viewModelScope.launch {
+            contactsRepository.setFavorite(contact, favorite)
+            loadContacts(context)
+        }
+    }
+
     fun copyContacts(context: Context, contacts: List<ContactData>) {
         val otherHelper = when (contactsRepository) {
             is DeviceContactsRepository -> localContactsRepository

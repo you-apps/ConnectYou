@@ -9,6 +9,7 @@ interface ContactsRepository {
     suspend fun createContact(contact: ContactData)
     suspend fun updateContact(contact: ContactData)
     suspend fun deleteContacts(contacts: List<ContactData>)
+    suspend fun setFavorite(contact: ContactData, favorite: Boolean)
     suspend fun getContactList(): List<ContactData>
     suspend fun loadAdvancedData(contact: ContactData): ContactData
     fun isAutoBackupEnabled(): Boolean

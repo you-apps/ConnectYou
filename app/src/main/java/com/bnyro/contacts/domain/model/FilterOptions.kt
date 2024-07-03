@@ -6,7 +6,8 @@ import com.bnyro.contacts.util.Preferences
 data class FilterOptions(
     var sortOder: SortOrder,
     var hiddenAccountIdentifiers: List<String>,
-    var visibleGroups: List<ContactsGroup>
+    var visibleGroups: List<ContactsGroup>,
+    var favoritesOnly: Boolean
 ) {
     companion object {
         fun default(): FilterOptions {
@@ -15,7 +16,8 @@ data class FilterOptions(
                 Preferences.hiddenAccountsKey,
                 emptySet()
             )!!.toList()
-            return FilterOptions(sortOrder, hiddenAccounts, listOf())
+            val favoritesOnly = Preferences.getBoolean(Preferences.favoritesOnlyKey, false)
+            return FilterOptions(sortOrder, hiddenAccounts, listOf(), favoritesOnly)
         }
     }
 }

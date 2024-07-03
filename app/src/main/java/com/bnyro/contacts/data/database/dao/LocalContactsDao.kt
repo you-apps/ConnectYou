@@ -20,6 +20,9 @@ interface LocalContactsDao {
     @Insert
     suspend fun insertData(vararg data: DbDataItem)
 
+    @Query("UPDATE localContacts SET favorite = :favorite WHERE id = :id ")
+    suspend fun setFavorite(id: Long, favorite: Boolean)
+
     @Query("DELETE FROM localContacts WHERE id = :id")
     suspend fun deleteContactByID(id: Long)
 

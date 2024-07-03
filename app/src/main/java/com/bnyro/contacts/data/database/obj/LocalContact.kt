@@ -13,5 +13,6 @@ data class LocalContact(
     @ColumnInfo val surName: String? = null,
     @ColumnInfo val nickName: String? = null,
     @ColumnInfo val title: String? = null,
-    @ColumnInfo val organization: String? = null
+    @ColumnInfo val organization: String? = null,
+    @ColumnInfo(defaultValue = "0") val favorite: Boolean = false
 )

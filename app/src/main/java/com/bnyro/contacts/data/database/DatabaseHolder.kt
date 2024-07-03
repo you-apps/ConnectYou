@@ -10,13 +10,19 @@ object DatabaseHolder {
     lateinit var Db: AppDatabase
 
     private val MIGRATION_1_2 = object : Migration(1, 2) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL(
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
                 "ALTER TABLE localContacts ADD COLUMN nickName TEXT DEFAULT NULL"
             )
-            database.execSQL(
+            db.execSQL(
                 "ALTER TABLE localContacts ADD COLUMN organization TEXT DEFAULT NULL"
             )
+        }
+    }
+
+    private val MIGRATION_5_6 = object : Migration(5, 6) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE localContacts ADD COLUMN favorite INTEGER NOT NULL DEFAULT 0")
         }
     }
 
@@ -26,7 +32,7 @@ object DatabaseHolder {
             AppDatabase::class.java,
             DB_NAME
         )
-            .addMigrations(MIGRATION_1_2)
+            .addMigrations(MIGRATION_1_2, MIGRATION_5_6)
             .build()
     }
 }

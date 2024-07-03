@@ -33,7 +33,8 @@ class LocalContactsRepository(context: Context) : ContactsRepository {
             surName = contact.surName,
             nickName = contact.nickName,
             title = contact.title,
-            organization = contact.organization
+            organization = contact.organization,
+            favorite = contact.favorite
         )
         val contactId = DatabaseHolder.Db.localContactsDao().insertContact(localContact)
         val dataItems = listOf(
@@ -75,6 +76,10 @@ class LocalContactsRepository(context: Context) : ContactsRepository {
         }
     }
 
+    override suspend fun setFavorite(contact: ContactData, favorite: Boolean) = withContext(Dispatchers.IO) {
+        DatabaseHolder.Db.localContactsDao().setFavorite(contact.contactId, favorite)
+    }
+
     override suspend fun getContactList(): List<ContactData> = withContext(Dispatchers.IO) {
         DatabaseHolder.Db.localContactsDao().getAll().pmap {
             val profileImage = getProfileImage(it.contact.id)
@@ -89,6 +94,7 @@ class LocalContactsRepository(context: Context) : ContactsRepository {
                 nickName = it.contact.nickName,
                 title = it.contact.title,
                 organization = it.contact.organization,
+                favorite = it.contact.favorite,
                 photo = profileImage,
                 thumbnail = profileImage,
                 numbers = it.dataItems.toValueWithType(DataCategory.NUMBER),

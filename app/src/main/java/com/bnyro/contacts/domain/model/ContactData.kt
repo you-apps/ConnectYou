@@ -26,7 +26,8 @@ data class ContactData(
     var notes: List<ValueWithType> = listOf(),
     var groups: List<ContactsGroup> = listOf(),
     var websites: List<ValueWithType> = listOf(),
-    var ringTone: Uri? = null
+    var ringTone: Uri? = null,
+    var favorite: Boolean = false
 ) {
     val accountIdentifier get() = "$accountType|$accountName"
     fun getNameBySortOrder(sortOrder: SortOrder): String? {

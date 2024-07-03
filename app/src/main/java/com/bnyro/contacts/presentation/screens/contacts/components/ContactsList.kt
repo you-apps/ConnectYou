@@ -32,13 +32,11 @@ fun ContactsList(
         contacts.asSequence().filter {
             !filterOptions.hiddenAccountIdentifiers.contains(it.accountIdentifier)
         }.filter {
-            if (filterOptions.visibleGroups.isEmpty()) {
-                true
-            } else {
-                filterOptions.visibleGroups.any { group ->
-                    it.groups.contains(group)
-                }
+            filterOptions.visibleGroups.isEmpty() || filterOptions.visibleGroups.any { group ->
+                it.groups.contains(group)
             }
+        }.filter {
+            !filterOptions.favoritesOnly || it.favorite
         }.sortedBy {
             it.getNameBySortOrder(filterOptions.sortOder)
         }.groupBy {

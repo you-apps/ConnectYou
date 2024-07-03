@@ -369,6 +369,7 @@ fun ContactsPage(
                 Preferences.edit {
                     putInt(Preferences.sortOrderKey, it.sortOder.ordinal)
                     putStringSet(Preferences.hiddenAccountsKey, it.hiddenAccountIdentifiers.toSet())
+                    putBoolean(Preferences.favoritesOnlyKey, it.favoritesOnly)
                 }
                 filterOptions = it
             },

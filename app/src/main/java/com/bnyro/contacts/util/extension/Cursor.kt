@@ -16,3 +16,7 @@ fun Cursor.intValue(index: String): Int? {
 fun Cursor.longValue(index: String): Long? {
     return getLongOrNull(getColumnIndex(index))
 }
+
+fun Cursor.boolValue(index: String): Boolean? {
+    return intValue(index)?.let { it == 1 }
+}

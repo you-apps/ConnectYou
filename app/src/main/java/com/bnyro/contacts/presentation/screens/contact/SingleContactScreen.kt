@@ -20,11 +20,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Call
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Message
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.filled.Shortcut
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarOutline
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -91,6 +91,9 @@ fun SingleContactScreen(contact: ContactData, viewModel: ContactsModel, onClose:
     var showShareDialog by remember {
         mutableStateOf(false)
     }
+    var isFavorite by remember {
+        mutableStateOf(contact.favorite)
+    }
 
     val ringtonePicker =
         rememberLauncherForActivityResult(contract = RingtonePickContract()) { uri ->
@@ -114,22 +117,18 @@ fun SingleContactScreen(contact: ContactData, viewModel: ContactsModel, onClose:
                     },
                     actions = {
                         ClickableIcon(
-                            icon = Icons.Default.Shortcut,
-                            contentDescription = R.string.create_shortcut
+                            icon = if (isFavorite) Icons.Default.Star else Icons.Default.StarOutline,
+                            contentDescription = R.string.favorite
                         ) {
-                            showShortcutDialog = true
+                            isFavorite = !isFavorite
+                            contact.favorite = isFavorite
+                            viewModel.setFavorite(context, contact, isFavorite)
                         }
                         ClickableIcon(
                             icon = Icons.Default.Edit,
                             contentDescription = R.string.edit
                         ) {
                             showEditor = true
-                        }
-                        ClickableIcon(
-                            icon = Icons.Default.Delete,
-                            contentDescription = R.string.delete
-                        ) {
-                            showDelete = true
                         }
                         Box {
                             var showMore by remember { mutableStateOf(false) }
@@ -151,6 +150,22 @@ fun SingleContactScreen(contact: ContactData, viewModel: ContactsModel, onClose:
                                     },
                                     onClick = {
                                         ringtonePicker.launch()
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(text = stringResource(R.string.create_shortcut))
+                                    },
+                                    onClick = {
+                                        showShortcutDialog = true
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(text = stringResource(R.string.delete_contact))
+                                    },
+                                    onClick = {
+                                        showDelete = true
                                     }
                                 )
                             }

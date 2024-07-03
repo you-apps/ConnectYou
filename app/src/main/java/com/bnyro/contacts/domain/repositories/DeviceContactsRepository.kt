@@ -33,6 +33,7 @@ import com.bnyro.contacts.domain.model.ValueWithType
 import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.ImageHelper
 import com.bnyro.contacts.util.Preferences
+import com.bnyro.contacts.util.extension.boolValue
 import com.bnyro.contacts.util.extension.intValue
 import com.bnyro.contacts.util.extension.longValue
 import com.bnyro.contacts.util.extension.notAName
@@ -57,7 +58,8 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
         StructuredName.GIVEN_NAME,
         StructuredName.FAMILY_NAME,
         RawContacts.ACCOUNT_TYPE,
-        RawContacts.ACCOUNT_NAME
+        RawContacts.ACCOUNT_NAME,
+        Contacts.STARRED
     )
 
     private var storedContactGroups: List<ValueWithType> = emptyList()
@@ -104,7 +106,8 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
                         displayName = displayName,
                         alternativeName = alternativeName,
                         firstName = firstName,
-                        surName = surName
+                        surName = surName,
+                        favorite = it.boolValue(Contacts.STARRED) ?: false
                     )
 
                     contactList.add(contact)
@@ -286,6 +289,17 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
 
             context.contentResolver.applyBatch(AUTHORITY, operations)
         }
+    }
+
+    override suspend fun setFavorite(contact: ContactData, favorite: Boolean) = withContext(Dispatchers.IO) {
+        ContentProviderOperation.newUpdate(RawContacts.CONTENT_URI).apply {
+            val selection = "${RawContacts.CONTACT_ID} = ?"
+            val selectionArgs = arrayOf(contact.rawContactId.toString())
+            withSelection(selection, selectionArgs)
+            withValue(Contacts.STARRED, if (contact.favorite) 1 else 0)
+        }.build()
+            .let { contentResolver.applyBatch(AUTHORITY, arrayListOf(it)) }
+        return@withContext
     }
 
     @SuppressLint("MissingPermission")

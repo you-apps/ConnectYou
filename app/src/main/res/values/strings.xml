@@ -39,6 +39,7 @@
     <string name="website">Website</string>
     <string name="photo">Photo</string>
     <string name="phone_number">Phone number</string>
+    <string name="favorite">Favorite</string>
     <!-- Sorting and filter -->
     <string name="sort_order">Sort order</string>
     <string name="account_type">Account type</string>
@@ -47,6 +48,7 @@
     <string name="last_name">Last name</string>
     <string name="nick_name">Nickname</string>
     <string name="organization">Organization</string>
+    <string name="favorites_only">Favorites only</string>
     <!-- Types -->
     <string name="type">Type</string>
     <string name="home">Home</string>
