@@ -9,10 +9,10 @@
     <string name="translation">Tərcümə</string>
     <string name="app_name">Connect You</string>
     <string name="search" tools:ignore="PrivateResource">Axtarış</string>
-    <string name="copied">Buferə kopyalandı</string>
+    <string name="copied">Buferə köçürüldü</string>
     <string name="delete_contact">Əlaqəni sil</string>
     <string name="retry">Təkrar cəhd et</string>
-    <string name="event">Hadisə</string>
+    <string name="event">Tədbir</string>
     <string name="irreversible">Siz əminsiniz\? Bu geri qaytarıla bilməz!</string>
     <string name="cancel">Ləğv et</string>
     <string name="export_success">İxrac edildi.</string>
@@ -39,10 +39,10 @@
     <string name="fax_work">İş faks</string>
     <string name="okay">Oldu</string>
     <string name="reset">Sıfırla</string>
-    <string name="copy">Kopyala</string>
+    <string name="copy">Köçür</string>
     <string name="move">Köçürt</string>
     <string name="settings">Tənzimləmələr</string>
-    <string name="start_tab">Başlanğıc paneli</string>
+    <string name="start_tab">Başlanğıc səhifəsi</string>
     <string name="nothing_here">Burada heç nə yoxdur.</string>
     <string name="device">Cihaz</string>
     <string name="local">Yerli</string>
@@ -53,8 +53,8 @@
     <string name="theme">Tema</string>
     <string name="system">Sistem</string>
     <string name="light">İşıqlı</string>
-    <string name="dark">Qaranlıq</string>
-    <string name="auto_backup">Avtomatik Nüsxələmə</string>
+    <string name="dark">Qara</string>
+    <string name="auto_backup">Avtomatik nüsxələmə</string>
     <string name="choose_dir">Kataloq seç</string>
     <string name="both">Hər ikisi</string>
     <string name="none">Heç biri</string>
@@ -73,7 +73,7 @@
     <string name="collapse_bottom_bar">Sürüşdürdükdə alt çubuğu yığcamlaşdır</string>
     <string name="create_shortcut">Qısayol Yarat</string>
     <string name="message">Məktub</string>
-    <string name="dial">Zəng et</string>
+    <string name="dial">Nömrə yaz</string>
     <string name="edit">Redaktə et</string>
     <string name="filter">Filtr</string>
     <string name="more">Daha çox</string>
@@ -87,4 +87,10 @@
     <string name="nick_name">Ləqəb</string>
     <string name="new_contact">Yeni əlaqə</string>
     <string name="contact">Əlaqə</string>
+    <string name="photo">Şəkil</string>
+    <string name="name">Ad</string>
+    <string name="contacts">Əlaqələr</string>
+    <string name="pick_contact">Əlaqə seç</string>
+    <string name="save">Saxla</string>
+    <string name="phone_number">Telefon nömrəsi</string>
 </resources>

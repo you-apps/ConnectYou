@@ -116,4 +116,7 @@
     <string name="private_sms_database">دیتابیس پیامک خصوصی</string>
     <string name="collapse_bottom_bar">فروریختن کادر پایینی هنگام پیمایش</string>
     <string name="import_confirm">آیا میخواهید فایل VCF انتخاب شده را درون بری کنید؟</string>
+    <string name="speakers">بلندگوها</string>
+    <string name="security">امنیت</string>
+    <string name="calls">تماس ها</string>
 </resources>
