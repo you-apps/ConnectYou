@@ -6,7 +6,6 @@ import android.annotation.SuppressLint
 import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.content.ContentUris
-import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -47,8 +46,6 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
 
     private val contentResolver = context.contentResolver
     private val contentUri = Data.CONTENT_URI
-
-    private val authority = AUTHORITY
 
     private val projection = arrayOf(
         Data.RAW_CONTACT_ID,
@@ -291,16 +288,17 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
         }
     }
 
-    override suspend fun setFavorite(contact: ContactData, favorite: Boolean) = withContext(Dispatchers.IO) {
-        ContentProviderOperation.newUpdate(RawContacts.CONTENT_URI).apply {
-            val selection = "${RawContacts.CONTACT_ID} = ?"
-            val selectionArgs = arrayOf(contact.rawContactId.toString())
-            withSelection(selection, selectionArgs)
-            withValue(Contacts.STARRED, if (contact.favorite) 1 else 0)
-        }.build()
-            .let { contentResolver.applyBatch(AUTHORITY, arrayListOf(it)) }
-        return@withContext
-    }
+    override suspend fun setFavorite(contact: ContactData, favorite: Boolean): Unit =
+        withContext(Dispatchers.IO) {
+            val op = ContentProviderOperation.newUpdate(RawContacts.CONTENT_URI).apply {
+                val selection = "${RawContacts.CONTACT_ID} = ?"
+                val selectionArgs = arrayOf(contact.rawContactId.toString())
+                withSelection(selection, selectionArgs)
+                withValue(Contacts.STARRED, if (contact.favorite) 1 else 0)
+            }.build()
+
+            contentResolver.applyBatch(AUTHORITY, arrayListOf(op))
+        }
 
     @SuppressLint("MissingPermission")
     @RequiresPermission(Manifest.permission.WRITE_CONTACTS)
@@ -428,10 +426,8 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
 
     fun getAccountTypes(): List<AccountType> {
         val accounts = AccountManager.get(context).accounts.filter {
-            ContentResolver.getIsSyncable(
-                it,
-                authority
-            ) > 0 && ContentResolver.getSyncAutomatically(it, authority)
+            ContentResolver.getIsSyncable(it, AUTHORITY) > 0
+                    && ContentResolver.getSyncAutomatically(it, AUTHORITY)
         }
 
         return listOf(AccountType.androidDefault) + accounts.map { AccountType(it.name, it.type) }
@@ -566,15 +562,15 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
         }.build()
     }
 
-    suspend fun updateContactRingTone(contactId: String, ringtoneUri: Uri) =
+    suspend fun updateContactRingTone(contactId: String, ringtoneUri: Uri): Unit =
         withContext(Dispatchers.IO) {
             val contactUri = Uri.withAppendedPath(Contacts.CONTENT_URI, contactId)
 
-            val values = ContentValues().apply {
-                put(Contacts.CUSTOM_RINGTONE, ringtoneUri.toString())
-            }
+            val op = ContentProviderOperation.newUpdate(contactUri)
+                .withValue(Contacts.CUSTOM_RINGTONE, ringtoneUri.toString())
+                .build()
 
-            contentResolver.update(contactUri, values, null, null)
+            contentResolver.applyBatch(AUTHORITY, arrayListOf(op))
         }
 
     companion object {
