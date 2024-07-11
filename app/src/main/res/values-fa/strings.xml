@@ -144,4 +144,8 @@
     <string name="call_ended">تماس پایان یافت</string>
     <string name="dialing">زنگ زدن...</string>
     <string name="call_from">تماس از</string>
+    <string name="start_a_new_conversation">آغاز گفتگو‌یی نو</string>
+    <string name="favorite">برگزیدن</string>
+    <string name="favorites_only">تنها برگزیدگان</string>
+    <string name="key_pad">برگه کلید</string>
 </resources>
