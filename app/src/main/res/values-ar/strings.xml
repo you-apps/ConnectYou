@@ -146,4 +146,6 @@
     <string name="change_ringtone">تغيير نغمة الرنين</string>
     <string name="search_contacts">بحث في جهات الاتصال</string>
     <string name="start_a_new_conversation">بدء محادثة جديدة</string>
+    <string name="favorite">المفضلة</string>
+    <string name="favorites_only">المفضّلات فقط</string>
 </resources>
