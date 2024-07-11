@@ -146,4 +146,6 @@
     <string name="unblock_number">Lõpeta telefoninumbri blokeerimine</string>
     <string name="search_contacts">Otsi kontaktide hulgast</string>
     <string name="start_a_new_conversation">Alusta uut vestlust</string>
+    <string name="favorites_only">Ainult lemmikud</string>
+    <string name="favorite">Lemmik</string>
 </resources>
