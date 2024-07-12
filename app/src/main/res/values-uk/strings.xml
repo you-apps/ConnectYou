@@ -147,4 +147,6 @@
     <string name="unblock_number">Розблокувати номер</string>
     <string name="start_a_new_conversation">Почати нову розмову</string>
     <string name="search_contacts">Пошук контактів</string>
+    <string name="favorites_only">Тільки улюблене</string>
+    <string name="favorite">Улюблене</string>
 </resources>
