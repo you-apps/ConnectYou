@@ -16,7 +16,7 @@
     <string name="light">روشن</string>
     <string name="delete">پاک‌کردن</string>
     <string name="copied">در بریده‌دان کپی شد</string>
-    <string name="translation">ترجمه</string>
+    <string name="translation">ترزبانی</string>
     <string name="dark">تیره</string>
     <string name="settings">تنظیمات</string>
     <string name="author">نویسنده</string>
@@ -28,7 +28,7 @@
     <string name="name">نام</string>
     <string name="max_backup_amount">بیشینه شمار پشتیبان‌گیری‌ها</string>
     <string name="choose_dir">پوشه</string>
-    <string name="version">نسخه</string>
+    <string name="version">نگارش</string>
     <string name="appearance">ظاهر</string>
     <string name="backup_password">رمز</string>
     <string name="add_to_contact">افزودن به مخاطبین</string>
