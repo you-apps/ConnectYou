@@ -157,4 +157,6 @@
     <string name="blocking_number_is_not_supported">Блокирање бројева није подржано, Connect You није подразумевана апликација за SMS/телефон</string>
     <string name="search_contacts">Претрага контаката</string>
     <string name="start_a_new_conversation">Започни нови разговор</string>
+    <string name="favorite">Омиљено</string>
+    <string name="favorites_only">Само омиљени</string>
 </resources>
