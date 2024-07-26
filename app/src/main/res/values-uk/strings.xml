@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="translation">Переклад</string>
-    <string name="app_name">Connect You</string>
     <string name="delete_contact">Видалити контакт</string>
     <string name="cancel">Скасувати</string>
     <string name="search" tools:ignore="PrivateResource">Пошук</string>
