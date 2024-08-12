@@ -2,4 +2,5 @@
 <resources>
     <string name="copy">Копиране</string>
     <string name="irreversible">Сигурни ли сте\? Действието е необратимо.</string>
+    <string name="save">Запазване</string>
 </resources>
