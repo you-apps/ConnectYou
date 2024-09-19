@@ -89,7 +89,7 @@
     <string name="both">Оба</string>
     <string name="none">Ниједно</string>
     <string name="misc">Остало</string>
-    <string name="collapse_bottom_bar">Скупи доњу траку при скроловању</string>
+    <string name="collapse_bottom_bar">Скупи доњу траку при превлачењу</string>
     <string name="colorful_contact_icons">Шарене иконице контаката</string>
     <!-- About -->
     <string name="about">О апликацији</string>
