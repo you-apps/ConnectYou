@@ -147,4 +147,6 @@
     <string name="mute">Stumm, lautlos</string>
     <string name="dial_pad">Nummerneingabe Telefon</string>
     <string name="key_pad">Tastatur</string>
+    <string name="favorite">Favorit</string>
+    <string name="favorites_only">Nur Favoriten</string>
 </resources>

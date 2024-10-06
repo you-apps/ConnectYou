@@ -142,4 +142,5 @@
     <string name="amoled">Amoled</string>
     <string name="call_ended">Opkald Afsluttet</string>
     <string name="call_from">Opkald fra</string>
+    <string name="favorites_only">Kun favoritter</string>
 </resources>

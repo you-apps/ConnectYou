@@ -146,4 +146,6 @@
     <string name="block_number">封禁号码</string>
     <string name="search_contacts">搜索联系人</string>
     <string name="start_a_new_conversation">开始新对话</string>
+    <string name="favorite">收藏</string>
+    <string name="favorites_only">仅收藏</string>
 </resources>
