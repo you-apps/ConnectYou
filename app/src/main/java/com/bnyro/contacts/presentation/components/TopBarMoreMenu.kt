@@ -5,7 +5,7 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.bnyro.contacts.R
 
@@ -14,7 +14,7 @@ fun TopBarMoreMenu(
     options: List<String> = emptyList(),
     onOptionClick: (Int) -> Unit = {}
 ) {
-    var expandedOptions by remember {
+    var expandedOptions by rememberSaveable {
         mutableStateOf(false)
     }
 

@@ -37,6 +37,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -76,22 +77,22 @@ import com.bnyro.contacts.util.RingtonePickContract
 @Composable
 fun SingleContactScreen(contact: ContactData, viewModel: ContactsModel, onClose: () -> Unit) {
     val context = LocalContext.current
-    var showDelete by remember {
+    var showDelete by rememberSaveable {
         mutableStateOf(false)
     }
-    var showEditor by remember {
+    var showEditor by rememberSaveable {
         mutableStateOf(false)
     }
-    var showZoomablePhoto by remember {
+    var showZoomablePhoto by rememberSaveable {
         mutableStateOf(false)
     }
-    var showShortcutDialog by remember {
+    var showShortcutDialog by rememberSaveable {
         mutableStateOf(false)
     }
-    var showShareDialog by remember {
+    var showShareDialog by rememberSaveable {
         mutableStateOf(false)
     }
-    var isFavorite by remember {
+    var isFavorite by rememberSaveable {
         mutableStateOf(contact.favorite)
     }
 

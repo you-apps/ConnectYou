@@ -13,9 +13,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -28,6 +31,11 @@ import com.bnyro.contacts.presentation.screens.contacts.model.ContactsModel
 import com.bnyro.contacts.presentation.screens.settings.model.ThemeModel
 import com.bnyro.contacts.presentation.screens.sms.model.SmsModel
 
+val RouteSaver = Saver<MutableState<HomeRoutes>, Int>(
+    save = { HomeRoutes.all.indexOfFirst { item -> item.route == it.value } },
+    restore = { mutableStateOf(HomeRoutes.all[it].route) }
+)
+
 @Composable
 fun HomeNavContainer(
     initialTab: HomeRoutes,
@@ -38,7 +46,7 @@ fun HomeNavContainer(
 ) {
     val navController = rememberNavController()
 
-    var selectedRoute by remember {
+    var selectedRoute by rememberSaveable(saver = RouteSaver) {
         mutableStateOf(initialTab)
     }
 

@@ -37,6 +37,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -77,14 +78,14 @@ fun SmsListScreen(
     onClickMessage: (address: String, contactData: ContactData?) -> Unit
 ) {
     val themeModel: ThemeModel = viewModel()
-    var showNumberPicker by remember {
+    var showNumberPicker by rememberSaveable {
         mutableStateOf(false)
     }
-    var showSearch by remember {
+    var showSearch by rememberSaveable {
         mutableStateOf(false)
     }
 
-    var selectedThread by remember {
+    var selectedThread by rememberSaveable {
         mutableStateOf<SmsThread?>(null)
     }
     Scaffold(
@@ -114,7 +115,8 @@ fun SmsListScreen(
                                     onNavigate.invoke(NavRoutes.About)
                                 }
                             }
-                        })
+                        }
+                    )
                 }
             )
         },

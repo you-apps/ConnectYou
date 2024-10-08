@@ -61,7 +61,7 @@ sealed class NavRoutes {
 }
 
 @Serializable
-sealed class HomeRoutes() {
+sealed class HomeRoutes {
     @Serializable
     data class Phone(
         val phoneNumber: String? = null
