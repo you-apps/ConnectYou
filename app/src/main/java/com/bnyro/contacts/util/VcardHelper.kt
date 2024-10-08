@@ -17,7 +17,7 @@ import ezvcard.property.Birthday
 import ezvcard.property.FormattedName
 import ezvcard.property.Photo
 import ezvcard.property.StructuredName
-import java.util.Date
+import ezvcard.util.PartialDate
 
 object VcardHelper {
     fun exportVcard(contacts: List<ContactData>): String {
@@ -77,19 +77,16 @@ object VcardHelper {
             contact.events
                 .filter { it.value.isNotBlank() }
                 .forEach { event ->
-                when (event.type) {
-                    ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY -> {
-                        CalendarUtils.dateToMillis(event.value)?.let { time ->
-                            birthday = Birthday(Date(time))
+                    when (event.type) {
+                        ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY -> {
+                            birthday = Birthday(PartialDate.parse(event.value))
                         }
-                    }
-                    ContactsContract.CommonDataKinds.Event.TYPE_ANNIVERSARY -> {
-                        CalendarUtils.dateToMillis(event.value)?.let { time ->
-                            anniversary = Anniversary(Date(time))
+
+                        ContactsContract.CommonDataKinds.Event.TYPE_ANNIVERSARY -> {
+                            anniversary = Anniversary(PartialDate.parse(event.value))
                         }
                     }
                 }
-            }
             (contact.photo ?: contact.thumbnail)?.let {
                 val photo = Photo(ImageHelper.bitmapToByteArray(it), ImageType.PNG)
                 addPhoto(photo)
@@ -148,12 +145,18 @@ object VcardHelper {
                 },
                 events = it.anniversaries.map { anniversary ->
                     ValueWithType(
-                        CalendarUtils.millisToDate(anniversary.date.time, formatter = CalendarUtils.isoDateFormat),
+                        CalendarUtils.millisToDate(
+                            anniversary.date.time,
+                            formatter = CalendarUtils.isoDateFormat
+                        ),
                         ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY
                     )
                 } + it.birthdays.map { birthday ->
                     ValueWithType(
-                        CalendarUtils.millisToDate(birthday.date.time, formatter = CalendarUtils.isoDateFormat),
+                        CalendarUtils.millisToDate(
+                            birthday.date.time,
+                            formatter = CalendarUtils.isoDateFormat
+                        ),
                         ContactsContract.CommonDataKinds.Event.TYPE_ANNIVERSARY
                     )
                 },
