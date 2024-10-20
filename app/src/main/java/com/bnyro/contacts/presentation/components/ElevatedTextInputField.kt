@@ -52,5 +52,6 @@ fun ElevatedTextInputField(
         ),
         keyboardOptions = KeyboardOptions(imeAction = imeAction),
         singleLine = singleLine,
+        enabled = enabled
     )
 }

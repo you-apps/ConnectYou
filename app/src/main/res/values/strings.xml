@@ -83,6 +83,7 @@
     <!-- Sms -->
     <string name="messages">Messages</string>
     <string name="send">Send message</string>
+    <string name="cant_respond">Can\'t respond</string>
     <string name="reply">Reply</string>
     <string name="connection_error">Could not connect. Please ensure airplane mode is off.</string>
     <string name="message_too_long">Message is too long!</string>

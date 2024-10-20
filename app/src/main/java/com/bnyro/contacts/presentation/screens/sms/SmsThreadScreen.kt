@@ -154,6 +154,12 @@ fun SmsThreadScreen(
                     }
                 }
             }
+
+            // can't respond to address short codes that don't include a number
+            val showSendButton = remember {
+                address.any { !it.isLetter() }
+            }
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -172,13 +178,15 @@ fun SmsThreadScreen(
                     modifier = Modifier.weight(1f),
                     query = text,
                     onQueryChange = { text = it },
-                    placeholder = stringResource(R.string.send)
+                    placeholder = stringResource(if (showSendButton) R.string.send else R.string.cant_respond),
+                    enabled = showSendButton
                 )
 
                 Spacer(modifier = Modifier.width(8.dp))
 
                 FilledIconButton(
                     modifier = Modifier.size(48.dp),
+                    enabled = showSendButton,
                     onClick = {
                         if (text.isBlank()) return@FilledIconButton
                         if (!SmsUtil.isShortEnoughForSms(text)) {
