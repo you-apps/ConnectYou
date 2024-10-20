@@ -116,6 +116,8 @@
     <string name="dark">Dark</string>
     <string name="auto_backup">Automatic backup</string>
     <string name="backup_interval">Backup interval</string>
+    <string name="backup_naming_scheme">Backup naming scheme</string>
+    <string name="backup_naming_scheme_hint">%d: date, %t: time, %s: source (local, device), source is required and either date or time</string>
     <string name="max_backup_amount">Max amount of backups</string>
     <string name="choose_dir">Directory</string>
     <string name="both">Both</string>

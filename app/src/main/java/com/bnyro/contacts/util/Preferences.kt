@@ -19,6 +19,7 @@ object Preferences {
     const val themeKey = "theme"
     const val backupDirKey = "backupDir"
     const val backupTypeKey = "backupType"
+    const val backupNamingSchemeKey = "backupNamingScheme"
     const val sortOrderKey = "sorting"
     const val hiddenAccountsKey = "hiddenAccounts"
     const val backupIntervalKey = "backupInterval"

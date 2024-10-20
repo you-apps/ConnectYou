@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.bnyro.contacts.R
 import com.bnyro.contacts.domain.enums.BackupType
+import com.bnyro.contacts.util.BackupHelper
 import com.bnyro.contacts.util.PickFolderContract
 import com.bnyro.contacts.util.Preferences
 import com.bnyro.contacts.util.workers.BackupWorker
@@ -44,6 +45,14 @@ fun AutoBackupPref() {
     ) {
         backupType = BackupType.fromInt(it)
     }
+
+    EditTextPreference(
+        preferenceKey = Preferences.backupNamingSchemeKey,
+        title = R.string.backup_naming_scheme,
+        supportingHint = stringResource(R.string.backup_naming_scheme_hint),
+        defaultValue = BackupHelper.defaultBackupNamingScheme
+    )
+
     val backupIntervals = listOf(1, 2, 4, 6, 12, 24, 48)
     ListPreference(
         preferenceKey = Preferences.backupIntervalKey,

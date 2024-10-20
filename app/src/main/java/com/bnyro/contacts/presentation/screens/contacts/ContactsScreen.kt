@@ -214,7 +214,7 @@ fun ContactsPage(
                                             }
 
                                             1 -> {
-                                                exportVcard.launch(BackupHelper.backupFileName)
+                                                exportVcard.launch(BackupHelper.defaultBackupFileName)
                                             }
 
                                             2 -> {
