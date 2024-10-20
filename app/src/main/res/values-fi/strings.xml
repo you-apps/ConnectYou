@@ -147,4 +147,5 @@
     <string name="key_pad">Näppäimistö</string>
     <string name="select_custom_ringtone">Valitse mukautettu soittoääni</string>
     <string name="block_numbers">Estä numerot</string>
+    <string name="call_from">Puhelu soittajalta</string>
 </resources>
