@@ -148,4 +148,9 @@
     <string name="start_a_new_conversation">Alusta uut vestlust</string>
     <string name="favorites_only">Ainult lemmikud</string>
     <string name="favorite">Lemmik</string>
+    <string name="cant_respond">Ma ei saa vastata</string>
+    <string name="import_sms">Impordi SMS\'id</string>
+    <string name="export_sms">Ekspordi SMD\'id</string>
+    <string name="backup_naming_scheme">Varukoopiate nimeloogika</string>
+    <string name="backup_naming_scheme_hint">%d: kuupäev, %t: kellaaeg, %s: allikas (kohalik, seade), nõutav on allikas ja kas kuupäev või kellaaeg</string>
 </resources>
