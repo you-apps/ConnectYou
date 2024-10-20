@@ -32,8 +32,7 @@ object BackupHelper {
         ) backupNamingScheme = defaultBackupNamingScheme
 
         val backupType = contactsRepository.label.lowercase()
-        val dateTime = CalendarUtils.getCurrentDateTime()
-        val (date, time) = dateTime.substring(0, 10) to dateTime.substring(10)
+        val (date, time) = CalendarUtils.getCurrentDateAndTime()
         val extension = if (encryptBackups) "zip" else "vcf"
         val fileName = backupNamingScheme.replace("%s", backupType)
             .replace("%d", date)
