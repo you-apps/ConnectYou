@@ -148,4 +148,9 @@
     <string name="start_a_new_conversation">Mulai percakapan baru</string>
     <string name="favorite">Favorit</string>
     <string name="favorites_only">Hanya favorit</string>
+    <string name="import_sms">Impor SMS</string>
+    <string name="export_sms">Ekspor SMS</string>
+    <string name="backup_naming_scheme">Skema nama cadangan</string>
+    <string name="backup_naming_scheme_hint">%d: tanggal, %t: waktu, %s: sumber (lokal, perangkat), sumber diperlukan untuk tanggal atau waktu</string>
+    <string name="cant_respond">Tidak dapat membalas</string>
 </resources>
