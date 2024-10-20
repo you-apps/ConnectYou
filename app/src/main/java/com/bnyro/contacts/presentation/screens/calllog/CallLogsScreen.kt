@@ -389,11 +389,12 @@ fun SheetSettingItem(icon: ImageVector, @StringRes description: Int, onClick: ()
     Row(
         Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .clip(RoundedCornerShape(8.dp))
             .clickable {
                 view.playSoundEffect(SoundEffectConstants.CLICK)
                 onClick()
             }
+            .padding(8.dp)
     ) {
         Icon(imageVector = icon, contentDescription = null)
         Spacer(Modifier.width(16.dp))
