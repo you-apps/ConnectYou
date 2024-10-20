@@ -11,3 +11,9 @@ fun Context.toast(@StringRes text: Int) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
 }
+
+fun Context.toast(text: String) {
+    Handler(Looper.getMainLooper()).post {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+    }
+}

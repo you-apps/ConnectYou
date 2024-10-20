@@ -3,6 +3,9 @@ package com.bnyro.contacts.presentation.screens.sms
 import android.annotation.SuppressLint
 import android.os.Build
 import android.provider.BlockedNumberContract
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -37,6 +40,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -66,7 +70,12 @@ import com.bnyro.contacts.presentation.screens.settings.model.ThemeModel
 import com.bnyro.contacts.presentation.screens.sms.components.SmsSearchScreen
 import com.bnyro.contacts.presentation.screens.sms.components.SmsThreadItem
 import com.bnyro.contacts.presentation.screens.sms.model.SmsModel
+import com.bnyro.contacts.util.CalendarUtils
+import com.bnyro.contacts.util.ExportHelper
 import com.bnyro.contacts.util.IntentHelper
+import com.bnyro.contacts.util.extension.toast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,6 +87,9 @@ fun SmsListScreen(
     onClickMessage: (address: String, contactData: ContactData?) -> Unit
 ) {
     val themeModel: ThemeModel = viewModel()
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
     var showNumberPicker by rememberSaveable {
         mutableStateOf(false)
     }
@@ -88,6 +100,35 @@ fun SmsListScreen(
     var selectedThread by rememberSaveable {
         mutableStateOf<SmsThread?>(null)
     }
+
+    val importSmsLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            scope.launch(Dispatchers.IO) {
+                try {
+                    ExportHelper(context, contactsModel.contactsRepository)
+                        .importSms(uri ?: return@launch, smsModel.app.smsRepo)
+                    context.toast(R.string.import_success)
+                } catch (e: Exception) {
+                    Log.e("Failed to import SMS", e.stackTraceToString())
+                    context.toast(e.message.orEmpty())
+                }
+            }
+        }
+
+    val exportSmsLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
+            scope.launch(Dispatchers.IO) {
+                try {
+                    ExportHelper(context, contactsModel.contactsRepository)
+                        .exportSms(uri ?: return@launch, smsModel.smsList.value)
+                    context.toast(R.string.export_success)
+                } catch (e: Exception) {
+                    Log.e("Failed to export SMS", e.stackTraceToString())
+                    context.toast(e.message.orEmpty())
+                }
+            }
+        }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -102,16 +143,27 @@ fun SmsListScreen(
                         showSearch = true
                     }
                     TopBarMoreMenu(options = listOf(
+                        stringResource(R.string.import_sms),
+                        stringResource(R.string.export_sms),
                         stringResource(R.string.settings),
                         stringResource(R.string.about)
                     ),
                         onOptionClick = { index ->
                             when (index) {
                                 0 -> {
-                                    onNavigate.invoke(NavRoutes.Settings)
+                                    importSmsLauncher.launch(arrayOf("application/json"))
                                 }
 
                                 1 -> {
+                                    val dateTime = CalendarUtils.getCurrentDateTime()
+                                    exportSmsLauncher.launch("sms-backup-${dateTime}.json")
+                                }
+
+                                2 -> {
+                                    onNavigate.invoke(NavRoutes.Settings)
+                                }
+
+                                3 -> {
                                     onNavigate.invoke(NavRoutes.About)
                                 }
                             }

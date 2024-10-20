@@ -4,17 +4,30 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import androidx.core.content.FileProvider
+import com.bnyro.contacts.data.database.obj.SmsData
 import com.bnyro.contacts.domain.model.ContactData
+import com.bnyro.contacts.domain.model.SmsBackup
 import com.bnyro.contacts.domain.repositories.ContactsRepository
+import com.bnyro.contacts.domain.repositories.SmsRepository
 import com.bnyro.contacts.util.extension.pmap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromStream
+import kotlinx.serialization.json.encodeToStream
 import java.io.File
+import java.io.IOException
 
 class ExportHelper(
     private val context: Context,
     private val contactsRepository: ContactsRepository
 ) {
+    private val json = Json {
+        ignoreUnknownKeys = true
+        coerceInputValues = true
+        encodeDefaults = true
+    }
+
     private val contentResolver = context.contentResolver
     private val encryptBackups get() = Preferences.getBoolean(Preferences.encryptBackupsKey, false)
     private val password get() = Preferences.getString(
@@ -79,6 +92,24 @@ class ExportHelper(
             context.applicationContext.packageName + ".provider",
             outFile
         )
+    }
+
+    suspend fun importSms(uri: Uri, smsRepository: SmsRepository) {
+        val smsList = context.contentResolver.openInputStream(uri)?.use { inputStream ->
+            json.decodeFromStream<List<SmsBackup>>(inputStream)
+        } ?: throw IOException()
+
+        for (sms in smsList) {
+            if (sms.backupType != "sms") continue
+
+            smsRepository.persistSms(context, sms.toSmsData())
+        }
+    }
+
+    suspend fun exportSms(uri: Uri, sms: List<SmsData>) {
+        context.contentResolver.openOutputStream(uri)?.use { outputStream ->
+            json.encodeToStream(sms.map(SmsData::toSmsBackup), outputStream)
+        }
     }
 
     companion object {

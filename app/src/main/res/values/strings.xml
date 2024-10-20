@@ -102,6 +102,8 @@
     <!-- Import & Export -->
     <string name="import_vcf">Import vCard</string>
     <string name="export_vcf">Export vCard</string>
+    <string name="import_sms">Import SMS</string>
+    <string name="export_sms">Export SMS</string>
     <string name="import_sim">Import from SIM</string>
     <string name="import_confirm">Do you want to import the selected VCF file?</string>
     <!-- Settings -->
