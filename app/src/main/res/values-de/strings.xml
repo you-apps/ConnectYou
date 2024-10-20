@@ -149,4 +149,7 @@
     <string name="key_pad">Tastatur</string>
     <string name="favorite">Favorit</string>
     <string name="favorites_only">Nur Favoriten</string>
+    <string name="import_sms">SMS importieren</string>
+    <string name="export_sms">SMS exportieren</string>
+    <string name="backup_naming_scheme_hint">%d: Datum, %t: Zeit. %s: Quelle (lokal, Gerät), die Quelle und entweder Datum oder Zeit müssen angegeben werden</string>
 </resources>
