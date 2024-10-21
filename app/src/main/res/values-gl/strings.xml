@@ -148,4 +148,9 @@
     <string name="start_a_new_conversation">Comezar nova conversa</string>
     <string name="favorite">Favorito</string>
     <string name="favorites_only">Só favoritos</string>
+    <string name="backup_naming_scheme">Formato do nome da copia</string>
+    <string name="backup_naming_scheme_hint">%d: data, %t: hora, %s: orixe (local, dispositivo), a orixe é requerida mais a data ou a hora</string>
+    <string name="cant_respond">Non pode responder</string>
+    <string name="export_sms">Exportar SMS</string>
+    <string name="import_sms">Importar SMS</string>
 </resources>
