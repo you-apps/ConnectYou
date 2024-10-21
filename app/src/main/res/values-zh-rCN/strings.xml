@@ -148,4 +148,9 @@
     <string name="start_a_new_conversation">开始新对话</string>
     <string name="favorite">收藏</string>
     <string name="favorites_only">仅收藏</string>
+    <string name="cant_respond">无法响应</string>
+    <string name="import_sms">导入短信</string>
+    <string name="export_sms">导出短信</string>
+    <string name="backup_naming_scheme">备份命名方案</string>
+    <string name="backup_naming_scheme_hint">%d: 日期, %t: 时间, %s: 源 （本地、设备）, 来源以及日期或时间是必需的</string>
 </resources>
