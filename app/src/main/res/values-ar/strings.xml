@@ -146,4 +146,11 @@
     <string name="change_ringtone">تغيير نغمة الرنين</string>
     <string name="search_contacts">بحث في جهات الاتصال</string>
     <string name="start_a_new_conversation">بدء محادثة جديدة</string>
+    <string name="favorite">المفضلة</string>
+    <string name="favorites_only">المفضّلات فقط</string>
+    <string name="import_sms">استيراد رسالة نصية قصيرة</string>
+    <string name="cant_respond">لا يمكن الرد</string>
+    <string name="export_sms">تصدير الرسائل</string>
+    <string name="backup_naming_scheme">نظام التسمية لنسخ الاحتياطية</string>
+    <string name="backup_naming_scheme_hint">%d: التاريخ، %t: الوقت، %s: المصدر (المحلي، الجهاز)، المصدر يتطلب التاريخ أو الوقت</string>
 </resources>

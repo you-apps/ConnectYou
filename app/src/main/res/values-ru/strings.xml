@@ -146,4 +146,6 @@
     <string name="unblock_number">Разблокировать номер</string>
     <string name="search_contacts">Поиск контактов</string>
     <string name="start_a_new_conversation">Начать беседу</string>
+    <string name="favorite">Избранное</string>
+    <string name="favorites_only">Только избранные</string>
 </resources>

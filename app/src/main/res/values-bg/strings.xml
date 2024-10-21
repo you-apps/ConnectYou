@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="copy">Копиране</string>
-    <string name="irreversible">Сигурни ли сте\? Действието е необратимо.</string>
+    <string name="irreversible">Сигурни ли сте? Това не може да бъде отменено!</string>
+    <string name="save">Запазване</string>
 </resources>

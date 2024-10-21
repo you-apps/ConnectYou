@@ -146,4 +146,11 @@
     <string name="unblock_number">Odblokovat číslo</string>
     <string name="search_contacts">Hledat kontakty</string>
     <string name="start_a_new_conversation">Začít novou konverzaci</string>
+    <string name="favorites_only">Pouze oblíbené</string>
+    <string name="favorite">Oblíbené</string>
+    <string name="cant_respond">Nelze odpovědět</string>
+    <string name="import_sms">Importovat SMS</string>
+    <string name="export_sms">Exportovat SMS</string>
+    <string name="backup_naming_scheme">Schéma názvů záloh</string>
+    <string name="backup_naming_scheme_hint">%d: datum, %t: čas, %s: zdroj (local, device), je vyžadován zdroj a buď datum nebo čas</string>
 </resources>
