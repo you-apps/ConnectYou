@@ -149,4 +149,9 @@
     <string name="search_contacts">Пошук контактів</string>
     <string name="favorites_only">Тільки улюблене</string>
     <string name="favorite">Улюблене</string>
+    <string name="cant_respond">Не можу відповісти</string>
+    <string name="import_sms">Імпортувати SMS</string>
+    <string name="backup_naming_scheme">Схема іменування резервних копій</string>
+    <string name="export_sms">Експортувати SMS</string>
+    <string name="backup_naming_scheme_hint">%d: дата, %t: час, %s: джерело (локально, пристрій), потрібно вказати джерело та дату або час</string>
 </resources>
