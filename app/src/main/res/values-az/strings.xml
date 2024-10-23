@@ -149,4 +149,9 @@
     <string name="call_from">Zəng edən</string>
     <string name="number_blocked">Nömrə əngəllənib</string>
     <string name="key_pad">Klaviatura</string>
+    <string name="cant_respond">Cavab verə bilmir</string>
+    <string name="backup_naming_scheme">Nüsxə adlandırma təsviri</string>
+    <string name="backup_naming_scheme_hint">%d: tarix, %t: vaxt, %s: mənbə (yerli, cihaz), mənbə tələb olunur və tarix və ya vaxt</string>
+    <string name="export_sms">SMS İxrac Et</string>
+    <string name="import_sms">SMS İdxal Et</string>
 </resources>
