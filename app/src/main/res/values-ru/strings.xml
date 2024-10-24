@@ -146,4 +146,11 @@
     <string name="unblock_number">Разблокировать номер</string>
     <string name="search_contacts">Поиск контактов</string>
     <string name="start_a_new_conversation">Начать беседу</string>
+    <string name="favorite">Избранное</string>
+    <string name="favorites_only">Только избранные</string>
+    <string name="cant_respond">Невозможно ответить</string>
+    <string name="import_sms">Импорт SMS</string>
+    <string name="export_sms">Экспорт SMS</string>
+    <string name="backup_naming_scheme">Шаблон наименований рез. копий</string>
+    <string name="backup_naming_scheme_hint">%d: дата, %t: время, %s: база (приложения или общая). Требуется база и хотя бы дата или время</string>
 </resources>

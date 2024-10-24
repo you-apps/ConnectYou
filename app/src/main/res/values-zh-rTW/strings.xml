@@ -77,4 +77,5 @@
     <string name="fax_work">工作傳真</string>
     <string name="assistant">助理</string>
     <string name="work">工作</string>
+    <string name="favorite">最愛</string>
 </resources>

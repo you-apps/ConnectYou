@@ -89,7 +89,7 @@
     <string name="both">Оба</string>
     <string name="none">Ниједно</string>
     <string name="misc">Остало</string>
-    <string name="collapse_bottom_bar">Скупи доњу траку при скроловању</string>
+    <string name="collapse_bottom_bar">Скупи доњу траку при превлачењу</string>
     <string name="colorful_contact_icons">Шарене иконице контаката</string>
     <!-- About -->
     <string name="about">О апликацији</string>
@@ -157,4 +157,11 @@
     <string name="blocking_number_is_not_supported">Блокирање бројева није подржано, Connect You није подразумевана апликација за SMS/телефон</string>
     <string name="search_contacts">Претрага контаката</string>
     <string name="start_a_new_conversation">Започни нови разговор</string>
+    <string name="favorite">Омиљено</string>
+    <string name="favorites_only">Само омиљени</string>
+    <string name="cant_respond">Није могуће одговорити</string>
+    <string name="import_sms">Увоз SMS-а</string>
+    <string name="export_sms">Извоз SMS-а</string>
+    <string name="backup_naming_scheme">Шема именовања резервне копије</string>
+    <string name="backup_naming_scheme_hint">%d: датум, %t: време, %s: извор (локални, уређај), извор је обавезан и датум или време</string>
 </resources>
