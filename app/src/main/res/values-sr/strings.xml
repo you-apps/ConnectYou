@@ -159,4 +159,9 @@
     <string name="start_a_new_conversation">Започни нови разговор</string>
     <string name="favorite">Омиљено</string>
     <string name="favorites_only">Само омиљени</string>
+    <string name="cant_respond">Није могуће одговорити</string>
+    <string name="import_sms">Увоз SMS-а</string>
+    <string name="export_sms">Извоз SMS-а</string>
+    <string name="backup_naming_scheme">Шема именовања резервне копије</string>
+    <string name="backup_naming_scheme_hint">%d: датум, %t: време, %s: извор (локални, уређај), извор је обавезан и датум или време</string>
 </resources>
