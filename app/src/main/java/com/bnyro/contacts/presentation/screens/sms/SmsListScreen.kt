@@ -73,6 +73,7 @@ import com.bnyro.contacts.presentation.screens.sms.model.SmsModel
 import com.bnyro.contacts.util.CalendarUtils
 import com.bnyro.contacts.util.ExportHelper
 import com.bnyro.contacts.util.IntentHelper
+import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.extension.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -247,7 +248,7 @@ fun SMSThreadOptionsSheet(
     }
     LaunchedEffect(Unit) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            if (!BlockedNumberContract.canCurrentUserBlockNumbers(context)) return@LaunchedEffect
+            if (!PermissionHelper.canBlockNumbers(context)) return@LaunchedEffect
             isBlocked = BlockedNumberContract.isBlocked(context, thread.address)
         }
     }

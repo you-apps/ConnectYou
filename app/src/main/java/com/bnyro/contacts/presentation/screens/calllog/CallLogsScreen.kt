@@ -79,6 +79,7 @@ import com.bnyro.contacts.presentation.screens.calllog.model.CallModel
 import com.bnyro.contacts.presentation.screens.contacts.model.ContactsModel
 import com.bnyro.contacts.presentation.screens.settings.model.ThemeModel
 import com.bnyro.contacts.util.IntentHelper
+import com.bnyro.contacts.util.PermissionHelper
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -305,7 +306,7 @@ fun CallLogOptionsSheet(
     }
     LaunchedEffect(Unit) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            if (!BlockedNumberContract.canCurrentUserBlockNumbers(context)) return@LaunchedEffect
+            if (!PermissionHelper.canBlockNumbers(context)) return@LaunchedEffect
             isBlocked = BlockedNumberContract.isBlocked(context, log.phoneNumber)
         }
     }
