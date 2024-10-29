@@ -12,6 +12,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
@@ -54,8 +55,17 @@ class MainActivity : BaseActivity() {
 
                 if (authSuccess) {
                     NavContainer(HomeRoutes.all[initialTabIndex.coerceIn(0, 2)].route)
+
                     getInsertOrEditNumber()?.let {
-                        AddToContactDialog(it)
+                        var showAddToContactDialog by remember {
+                            mutableStateOf(true)
+                        }
+
+                       if (showAddToContactDialog) {
+                           AddToContactDialog(it) {
+                               showAddToContactDialog = false
+                           }
+                       }
                     }
                     getSharedVcfUri()?.let {
                         ConfirmImportContactsDialog(contactsModel, it)

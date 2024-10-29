@@ -28,13 +28,9 @@ import com.bnyro.contacts.presentation.screens.editor.EditorScreen
 import kotlinx.coroutines.launch
 
 @Composable
-fun AddToContactDialog(newNumber: String) {
+fun AddToContactDialog(newNumber: String, onDismissRequest: () -> Unit) {
     val context = LocalContext.current
     val contactsModel: ContactsModel = viewModel(factory = ContactsModel.Factory)
-
-    var showDialog by remember {
-        mutableStateOf(true)
-    }
 
     var contactToEdit by remember {
         mutableStateOf<ContactData?>(null)
@@ -46,23 +42,22 @@ fun AddToContactDialog(newNumber: String) {
 
     val scope = rememberCoroutineScope()
 
-    if (showDialog) {
+    if (contactToEdit == null) {
         var searchQuery by remember {
             mutableStateOf("")
         }
 
         AlertDialog(
-            onDismissRequest = { showDialog = false },
+            onDismissRequest = { onDismissRequest() },
             confirmButton = {
                 DialogButton(text = stringResource(R.string.cancel)) {
-                    showDialog = false
+                    onDismissRequest()
                 }
             },
             dismissButton = {
                 DialogButton(text = stringResource(R.string.new_contact)) {
                     isNewContact = true
                     contactToEdit = ContactData()
-                    showDialog = false
                 }
             },
             title = {
@@ -95,7 +90,6 @@ fun AddToContactDialog(newNumber: String) {
                                 scope.launch {
                                     contactToEdit = contactsModel.loadAdvancedContactData(it)
                                 }
-                                showDialog = false
                             }
                         }
                     }
@@ -110,7 +104,9 @@ fun AddToContactDialog(newNumber: String) {
         }
         EditorScreen(
             contact = it,
-            onClose = { contactToEdit = null }
+            onClose = {
+                contactToEdit = null
+            }
         ) { contact ->
             if (isNewContact) {
                 contactsModel.createContact(context, contact)
@@ -118,6 +114,7 @@ fun AddToContactDialog(newNumber: String) {
                 contactsModel.updateContact(context, contact)
             }
             contactToEdit = null
+            onDismissRequest()
         }
     }
 }

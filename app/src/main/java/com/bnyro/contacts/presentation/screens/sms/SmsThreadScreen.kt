@@ -229,6 +229,8 @@ fun SmsThreadScreen(
     }
 
     if (showAddToContactDialog) {
-        AddToContactDialog(newNumber = address)
+        AddToContactDialog(newNumber = address) {
+            showAddToContactDialog = false
+        }
     }
 }
