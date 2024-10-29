@@ -266,6 +266,7 @@ fun CallLogsScreen(
                 NumberInput(
                     onNumberInput = callModel::onNumberInput,
                     onDelete = callModel::onBackSpace,
+                    onClear = callModel::onClearNumberInput,
                     onDial = {
                         callModel.callNumber()
                     },

@@ -72,6 +72,7 @@ val keypadNumbers: Array<Array<Pair<String, Any>>> = arrayOf(
 fun NumberInput(
     onNumberInput: (String) -> Unit,
     onDelete: () -> Unit,
+    onClear: () -> Unit,
     onDial: () -> Unit,
     subscriptions: List<SubscriptionInfo>?,
     onSubscriptionIndexChange: (Int) -> Unit
@@ -89,44 +90,49 @@ fun NumberInput(
                 horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
             ) {
                 col.forEach {
-                    val subcontent = it.second
-                    if (subcontent is String) {
-                        NumpadButtonWithSubcontent(
-                            aspectRatio = 1.5f,
-                            text = it.first,
-                            onClick = {
-                                onNumberInput(it.first)
+                    when (val subContent = it.second) {
+                        is String -> {
+                            NumpadButtonWithSubcontent(
+                                aspectRatio = 1.5f,
+                                text = it.first,
+                                onClick = {
+                                    onNumberInput(it.first)
+                                }
+                            ) {
+                                Text(
+                                    text = subContent,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
                             }
-                        ) {
-                            Text(
-                                text = subcontent,
-                                color = MaterialTheme.colorScheme.onSurface,
-                                style = MaterialTheme.typography.bodyMedium
+                        }
+
+                        is ImageVector -> {
+                            NumpadButtonWithSubcontent(
+                                aspectRatio = 1.5f,
+                                text = it.first,
+                                onClick = {
+                                    onNumberInput(it.first)
+                                }
+                            ) {
+                                Icon(
+                                    modifier = Modifier.size(16.dp),
+                                    imageVector = subContent,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onSurface
+                                )
+                            }
+                        }
+
+                        else -> {
+                            NumpadButton(
+                                aspectRatio = 1.5f,
+                                text = it.first,
+                                onClick = {
+                                    onNumberInput(it.first)
+                                }
                             )
                         }
-                    } else if (subcontent is ImageVector) {
-                        NumpadButtonWithSubcontent(
-                            aspectRatio = 1.5f,
-                            text = it.first,
-                            onClick = {
-                                onNumberInput(it.first)
-                            }
-                        ) {
-                            Icon(
-                                modifier = Modifier.size(16.dp),
-                                imageVector = subcontent,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                    } else {
-                        NumpadButton(
-                            aspectRatio = 1.5f,
-                            text = it.first,
-                            onClick = {
-                                onNumberInput(it.first)
-                            }
-                        )
                     }
                 }
             }
@@ -137,7 +143,7 @@ fun NumberInput(
         ) {
             Spacer(modifier = Modifier.weight(1f))
             NumpadButton(
-                onClick = { onDial.invoke() },
+                onClick = onDial,
                 backgroundColor = MaterialTheme.colorScheme.secondaryContainer
             ) {
                 Icon(
@@ -147,7 +153,8 @@ fun NumberInput(
                 )
             }
             NumpadButton(
-                onClick = { onDelete.invoke() },
+                onClick = onDelete,
+                onLongClick = onClear,
                 backgroundColor = MaterialTheme.colorScheme.tertiaryContainer
             ) {
                 Icon(

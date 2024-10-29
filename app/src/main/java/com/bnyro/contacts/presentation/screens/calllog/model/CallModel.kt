@@ -103,6 +103,13 @@ class CallModel(private val application: Application, savedStateHandle: SavedSta
         }
     }
 
+    fun onClearNumberInput() {
+        numberToCall = ""
+        _contacts.update {
+            emptyList()
+        }
+    }
+
     fun callNumber(number: String = numberToCall) {
         if (!PermissionHelper.hasPermission(application.applicationContext, *phonePerms)) return
 
