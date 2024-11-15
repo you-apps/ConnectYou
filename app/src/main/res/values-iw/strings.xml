@@ -117,4 +117,6 @@
     <string name="date">תאריך</string>
     <string name="amoled">אמולד</string>
     <string name="send_message_as_multiple">לשלוח את ההודעה מחולקת לכמה הודעות קטנות?</string>
+    <string name="favorite">הוספה למועדפים</string>
+    <string name="favorites_only">מועדפים בלבד</string>
 </resources>
