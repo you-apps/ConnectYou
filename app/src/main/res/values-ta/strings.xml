@@ -72,7 +72,7 @@
     <string name="copy">நகலெடு</string>
     <string name="move">நகர்வு</string>
     <string name="delete">அழி</string>
-    <string name="selected">%1 $ கள் தேர்ந்தெடுக்கப்பட்டன</string>
+    <string name="selected">%1$s தேர்ந்தெடுக்கப்பட்டன</string>
     <string name="messages">செய்திகள்</string>
     <string name="send">செய்தி அனுப்ப</string>
     <string name="reply">பதில்</string>
@@ -87,7 +87,7 @@
     <string name="ringing">ரிங்கிங்…</string>
     <string name="disconnecting">துண்டித்தல்…</string>
     <string name="connecting">இணைத்தல்…</string>
-    <string name="confirm_start_call">நீங்கள் %1 $ s ஐ அழைக்க விரும்புகிறீர்களா?</string>
+    <string name="confirm_start_call">நீங்கள் %1$s ஐ அழைக்க விரும்புகிறீர்களா?</string>
     <string name="mute">முடக்கு</string>
     <string name="speakers">பேச்சாளர்கள்</string>
     <string name="import_vcf">VCARD ஐ இறக்குமதி செய்யுங்கள்</string>
@@ -146,4 +146,11 @@
     <string name="unblock_number">தடைசெய்யப்பட்ட எண்ணைத் தடைசெய்க</string>
     <string name="search_contacts">தொடர்புகளைத் தேடுங்கள்</string>
     <string name="start_a_new_conversation">புதிய உரையாடலைத் தொடங்கவும்</string>
+    <string name="backup_naming_scheme_hint">%d: தேதி, %t: நேரம், %s: மூல (உள்ளூர், சாதனம்), மூல தேவை மற்றும் தேதி அல்லது நேரம்</string>
+    <string name="cant_respond">பதிலளிக்க முடியாது</string>
+    <string name="import_sms">எச்எம்எச் இறக்குமதி</string>
+    <string name="export_sms">எச்எம்எச் ஏற்றுமதி</string>
+    <string name="backup_naming_scheme">காப்பு பெயரிடும் திட்டம்</string>
+    <string name="favorite">பிடித்த</string>
+    <string name="favorites_only">பிடித்தவை மட்டுமே</string>
 </resources>
