@@ -266,7 +266,7 @@ fun CallLogsScreen(
                         callModel.callNumber()
                     },
                     subscriptions = callModel.subscriptions,
-                    onSubscriptionIndexChange = callModel::onSubscriptionIndexChange
+                    onSubscriptionChange = callModel::onSubscriptionIndexChange
                 )
             }
         }

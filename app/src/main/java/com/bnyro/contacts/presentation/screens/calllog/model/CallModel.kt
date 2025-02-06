@@ -10,6 +10,7 @@ import android.media.ToneGenerator
 import android.net.Uri
 import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
+import android.telephony.SubscriptionInfo
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
@@ -73,8 +74,8 @@ class CallModel(private val application: Application, savedStateHandle: SavedSta
         }
     }
 
-    fun onSubscriptionIndexChange(index: Int) {
-        chosenSubInfo = subscriptions[index]
+    fun onSubscriptionIndexChange(subscription: SubscriptionInfo) {
+        chosenSubInfo = subscription
     }
 
     fun onNumberInput(digit: String) {

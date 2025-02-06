@@ -1,10 +1,8 @@
 package com.bnyro.contacts.presentation.screens.sms
 
 import android.annotation.SuppressLint
-import android.os.Build
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,7 +18,6 @@ import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,10 +26,8 @@ import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -50,6 +45,7 @@ import com.bnyro.contacts.presentation.features.ConfirmationDialog
 import com.bnyro.contacts.presentation.screens.contact.SingleContactScreen
 import com.bnyro.contacts.presentation.screens.contacts.model.ContactsModel
 import com.bnyro.contacts.presentation.screens.sms.components.Messages
+import com.bnyro.contacts.presentation.screens.sms.components.SimCardSelector
 import com.bnyro.contacts.presentation.screens.sms.model.SmsModel
 import com.bnyro.contacts.util.SmsUtil
 
@@ -69,13 +65,8 @@ fun SmsThreadScreen(
     val allSmsList by smsModel.smsList.collectAsState()
     val smsList = allSmsList.filter { it.address == address }
     val subscriptions = remember {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            SmsUtil.getSubscriptions(context)
-        } else {
-            null
-        }
+        SmsUtil.getSubscriptions(context)
     }
-
     val contactData = remember {
         contactsData ?: contactsModel.getContactByNumber(address)
     }
@@ -137,22 +128,9 @@ fun SmsThreadScreen(
             Messages(messages = smsList, smsModel = smsModel)
 
             Spacer(modifier = Modifier.height(10.dp))
-            if (subscriptions != null && subscriptions.size >= 2) {
-                var currentSub by remember { mutableIntStateOf(0) }
-                LaunchedEffect(Unit) {
-                    currentSub = 0
-                    smsModel.currentSubscription = subscriptions[currentSub]
-                }
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    OutlinedButton(onClick = {
-                        currentSub = (currentSub + 1) % subscriptions.size
-                        smsModel.currentSubscription = subscriptions[currentSub]
-                    }) {
-                        Text(
-                            text = "SIM ${subscriptions[currentSub].simSlotIndex + 1} - ${subscriptions[currentSub].displayName}"
-                        )
-                    }
-                }
+
+            SimCardSelector(subscriptions) { subscription ->
+                smsModel.currentSubscription = subscription
             }
 
             // can't respond to address short codes that don't include a number

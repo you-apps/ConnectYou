@@ -34,15 +34,9 @@ import androidx.compose.material.icons.rounded.Voicemail
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -59,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.bnyro.contacts.R
 import com.bnyro.contacts.domain.model.BasicContactData
+import com.bnyro.contacts.presentation.screens.sms.components.SimCardSelector
 
 val keypadNumbers: Array<Array<Pair<String, Any>>> = arrayOf(
     arrayOf("1" to Icons.Rounded.Voicemail, "2" to "ABC", "3" to "DEF"),
@@ -74,8 +69,8 @@ fun NumberInput(
     onDelete: () -> Unit,
     onClear: () -> Unit,
     onDial: () -> Unit,
-    subscriptions: List<SubscriptionInfo>?,
-    onSubscriptionIndexChange: (Int) -> Unit
+    subscriptions: List<SubscriptionInfo>,
+    onSubscriptionChange: (SubscriptionInfo) -> Unit
 ) {
     val buttonSpacing = 8.dp
     Column(
@@ -164,22 +159,9 @@ fun NumberInput(
                 )
             }
         }
-        if (subscriptions != null && subscriptions.size >= 2) {
-            var currentSub by remember { mutableIntStateOf(0) }
-            LaunchedEffect(Unit) {
-                currentSub = 0
-            }
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                OutlinedButton(onClick = {
-                    val newSub = (currentSub + 1) % subscriptions.size
-                    currentSub = newSub
-                    onSubscriptionIndexChange(newSub)
-                }) {
-                    Text(
-                        text = "SIM ${subscriptions[currentSub].simSlotIndex + 1} - ${subscriptions[currentSub].displayName}"
-                    )
-                }
-            }
+
+        SimCardSelector(subscriptions) { subscription ->
+            onSubscriptionChange(subscription)
         }
 
         Spacer(modifier = Modifier.height(30.dp))

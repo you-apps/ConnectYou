@@ -33,6 +33,7 @@ object Preferences {
     const val lastChosenAccount = "lastChosenAccount"
     const val biometricAuthKey = "biometricAuth"
     const val favoritesOnlyKey = "favoritesOnly"
+    const val selectedSimSubscriptionIdKey = "selectedSimSubscriptionId"
 
     fun init(context: Context) {
         preferences = context.getSharedPreferences(prefFile, Context.MODE_PRIVATE)
