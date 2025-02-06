@@ -11,6 +11,7 @@ import com.bnyro.contacts.presentation.screens.sms.model.SmsModel
 
 @Composable
 fun NavContainer(
+    enabledTabs: List<HomeNavBarItem>,
     initialTab: HomeRoutes,
 ) {
     val navController = rememberNavController()
@@ -19,6 +20,7 @@ fun NavContainer(
     val themeModel: ThemeModel = viewModel()
     AppNavHost(
         navController,
+        enabledTabs = enabledTabs,
         initialTab = initialTab,
         modifier = Modifier
             .fillMaxSize(),

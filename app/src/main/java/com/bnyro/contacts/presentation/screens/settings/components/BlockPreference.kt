@@ -47,3 +47,45 @@ fun BlockPreference(
         }
     }
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MultiBlockPreference(
+    preferenceKey: String,
+    entries: List<String>,
+    defaultSelections: List<Int>,
+    requireAtLeastOne: Boolean = true,
+    onSelectionChange: (List<Int>) -> Unit = {}
+) {
+    val scrollState = rememberScrollState()
+
+    SingleChoiceSegmentedButtonRow(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+            .horizontalScroll(scrollState)
+    ) {
+        var selectedItems by rememberPreference(
+            key = preferenceKey,
+            defaultValue = defaultSelections
+        )
+
+        entries.forEachIndexed { index, entry ->
+            SegmentedButton(
+                selected = selectedItems.contains(index),
+                onClick = {
+                    if (!selectedItems.contains(index)) {
+                        selectedItems = selectedItems + index
+                    } else if (!requireAtLeastOne || selectedItems.size > 1) {
+                        selectedItems = selectedItems.filter { it != index }
+                    }
+
+                    onSelectionChange(selectedItems)
+                },
+                shape = SegmentedButtonDefaults.itemShape(index = index, count = entries.size)
+            ) {
+                Text(entry)
+            }
+        }
+    }
+}

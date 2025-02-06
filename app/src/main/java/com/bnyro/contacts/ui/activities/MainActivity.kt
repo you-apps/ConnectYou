@@ -29,6 +29,7 @@ import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.IntentHelper
 import com.bnyro.contacts.util.Preferences
 import com.bnyro.contacts.util.extension.parcelable
+import com.bnyro.contacts.util.rememberPreference
 import java.net.URLDecoder
 
 class MainActivity : BaseActivity() {
@@ -44,7 +45,6 @@ class MainActivity : BaseActivity() {
         contactsModel.initialContactId = getInitialContactId()
         contactsModel.initialContactData = getInsertContactData()
 
-        val initialTabIndex = Preferences.getInt(Preferences.homeTabKey, 1)
         setContent {
             ConnectYouTheme(themeModel.themeMode) {
                 val context = LocalContext.current
@@ -54,18 +54,33 @@ class MainActivity : BaseActivity() {
                 }
 
                 if (authSuccess) {
-                    NavContainer(HomeRoutes.all[initialTabIndex.coerceIn(0, 2)].route)
+                    val enabledTabs by rememberPreference(
+                        Preferences.enabledTabsKey,
+                        HomeRoutes.all.indices.toList()
+                    )
+                    val initialTabIndex by rememberPreference(
+                        Preferences.homeTabKey,
+                        HomeRoutes.all.indexOfFirst { it.route is HomeRoutes.Contacts })
+
+                    NavContainer(
+                        enabledTabs = HomeRoutes.all.filterIndexed { index, _ ->
+                            enabledTabs.contains(index)
+                        },
+                        initialTab = (HomeRoutes.all.getOrNull(initialTabIndex.takeIf {
+                            enabledTabs.contains(it)
+                        } ?: -1) ?: HomeRoutes.all[enabledTabs.first()]).route
+                    )
 
                     getInsertOrEditNumber()?.let {
                         var showAddToContactDialog by remember {
                             mutableStateOf(true)
                         }
 
-                       if (showAddToContactDialog) {
-                           AddToContactDialog(it) {
-                               showAddToContactDialog = false
-                           }
-                       }
+                        if (showAddToContactDialog) {
+                            AddToContactDialog(it) {
+                                showAddToContactDialog = false
+                            }
+                        }
                     }
                     getSharedVcfUri()?.let {
                         ConfirmImportContactsDialog(contactsModel, it)

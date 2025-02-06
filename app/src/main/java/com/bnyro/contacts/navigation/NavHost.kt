@@ -24,6 +24,7 @@ import com.bnyro.contacts.presentation.screens.sms.model.SmsModel
 fun AppNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
+    enabledTabs: List<HomeNavBarItem>,
     initialTab: HomeRoutes,
     smsModel: SmsModel,
     contactsModel: ContactsModel,
@@ -44,6 +45,7 @@ fun AppNavHost(
                     targetOffset = { it / 4 }) + fadeOut()
             }) {
             HomeNavContainer(
+                enabledTabs = enabledTabs,
                 initialTab = initialTab,
                 onNavigate = {
                     navController.navigate(it)

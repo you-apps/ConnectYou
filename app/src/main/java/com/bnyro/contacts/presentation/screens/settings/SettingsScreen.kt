@@ -27,10 +27,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
 import com.bnyro.contacts.domain.enums.ThemeMode
+import com.bnyro.contacts.navigation.HomeRoutes
 import com.bnyro.contacts.presentation.components.ClickableIcon
 import com.bnyro.contacts.presentation.screens.settings.components.AutoBackupPref
 import com.bnyro.contacts.presentation.screens.settings.components.BlockPreference
 import com.bnyro.contacts.presentation.screens.settings.components.EncryptBackupsPref
+import com.bnyro.contacts.presentation.screens.settings.components.MultiBlockPreference
 import com.bnyro.contacts.presentation.screens.settings.components.SettingsCategory
 import com.bnyro.contacts.presentation.screens.settings.components.SwitchPref
 import com.bnyro.contacts.presentation.screens.settings.components.SwitchPrefBase
@@ -113,12 +115,27 @@ fun SettingsScreen(themeModel: ThemeModel, smsModel: SmsModel, onBackPress: () -
                 color = MaterialTheme.colorScheme.surfaceVariant
             )
             SettingsCategory(title = stringResource(R.string.behavior))
+            Text(stringResource(R.string.enabled_tabs))
+            var enabledTabs by remember {
+                mutableStateOf(
+                    Preferences.getStringSet(
+                        Preferences.enabledTabsKey,
+                        HomeRoutes.all.indices.map { it.toString() }.toSet()
+                    ).orEmpty().map { it.toInt() }.toList()
+                )
+            }
+            MultiBlockPreference(
+                preferenceKey = Preferences.enabledTabsKey,
+                entries = HomeRoutes.all.map { stringResource(it.stringRes) },
+                defaultSelections = enabledTabs
+            ) {
+                enabledTabs = it
+            }
             Text(stringResource(R.string.start_tab))
             BlockPreference(
                 preferenceKey = Preferences.homeTabKey,
-                entries = listOf(R.string.dial, R.string.contacts, R.string.messages).map {
-                    stringResource(it)
-                }
+                entries = HomeRoutes.all.filterIndexed { index, _ -> enabledTabs.contains(index) }
+                    .map { stringResource(it.stringRes) }
             )
             SwitchPref(
                 prefKey = Preferences.collapseBottomBarKey,

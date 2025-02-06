@@ -14,6 +14,7 @@ object Preferences {
     private const val prefFile = "preferences"
     private lateinit var preferences: SharedPreferences
 
+    const val enabledTabsKey = "enabledTabs"
     const val homeTabKey = "homeTab"
     const val selectedContactsRepo = "selectedContactsRepo"
     const val themeKey = "theme"
@@ -85,6 +86,19 @@ fun rememberPreference(key: String, defaultValue: String): MutableState<String> 
     return remember {
         mutableStatePreferenceOf(Preferences.getString(key, defaultValue) ?: defaultValue) {
             Preferences.edit { putString(key, it) }
+        }
+    }
+}
+
+@Composable
+fun rememberPreference(key: String, defaultValue: List<Int>): MutableState<List<Int>> {
+    val defaultSet = defaultValue.map { it.toString() }.toSet()
+
+    return remember {
+        mutableStatePreferenceOf(
+            Preferences.getStringSet(key, defaultSet)?.map { it.toInt() } ?: defaultValue
+        ) {
+            Preferences.edit { putStringSet(key, it.map { value -> value.toString() }.toSet()) }
         }
     }
 }

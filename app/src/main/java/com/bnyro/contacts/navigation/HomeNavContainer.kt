@@ -16,7 +16,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -38,6 +37,7 @@ val RouteSaver = Saver<MutableState<HomeRoutes>, Int>(
 
 @Composable
 fun HomeNavContainer(
+    enabledTabs: List<HomeNavBarItem>,
     initialTab: HomeRoutes,
     onNavigate: (NavRoutes) -> Unit,
     smsModel: SmsModel,
@@ -70,7 +70,7 @@ fun HomeNavContainer(
                 NavigationBar(
                     tonalElevation = 5.dp
                 ) {
-                    HomeRoutes.all.forEach {
+                    enabledTabs.forEach {
                         NavigationBarItem(
                             label = {
                                 Text(stringResource(it.stringRes))
@@ -96,7 +96,7 @@ fun HomeNavContainer(
         ) {
             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 NavigationRail {
-                    HomeRoutes.all.forEach {
+                    enabledTabs.forEach {
                         NavigationRailItem(
                             selected = it.route == selectedRoute,
                             onClick = {
