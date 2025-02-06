@@ -145,7 +145,7 @@ fun SmsThreadScreen(
                 }
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     OutlinedButton(onClick = {
-                        currentSub = if (currentSub == 0) 1 else 0
+                        currentSub = (currentSub + 1) % subscriptions.size
                         smsModel.currentSubscription = subscriptions[currentSub]
                     }) {
                         Text(
