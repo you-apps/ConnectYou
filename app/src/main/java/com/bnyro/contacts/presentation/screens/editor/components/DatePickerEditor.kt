@@ -43,6 +43,7 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.domain.model.TranslatedType
 import com.bnyro.contacts.domain.model.ValueWithType
 import com.bnyro.contacts.presentation.features.DialogButton
+import com.bnyro.contacts.presentation.screens.contacts.components.TypeSelectorDialog
 import com.bnyro.contacts.util.CalendarUtils
 import java.util.TimeZone
 
@@ -123,29 +124,30 @@ fun DatePickerEditor(
                     },
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                val selectedType = types.firstOrNull {
+                    it.id == state.value.type
+                }
+
                 Text(
-                    text = types.firstOrNull {
-                        it.id == state.value.type
-                    }?.title?.let { stringResource(it) }.orEmpty(),
+                    text = state.value.label ?: selectedType?.title?.let { stringResource(it) }
+                        .orEmpty(),
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Icon(
                     imageVector = Icons.Default.ArrowDropDown,
                     contentDescription = null
                 )
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
-                    types.forEach {
-                        DropdownMenuItem(
-                            text = { Text(stringResource(id = it.title)) },
-                            onClick = {
-                                state.value = state.value.also { v -> v.type = it.id }
-                                expanded = false
-                            }
-                        )
-                    }
+
+                if (expanded) {
+                    TypeSelectorDialog(
+                        types = types,
+                        currentValueAndType = state.value,
+                        onTypeChange = { type, label ->
+                            state.value = state.value.copy(type = type.id, label = label)
+                        }, onDismissRequest = {
+                            expanded = false
+                        }
+                    )
                 }
             }
         }

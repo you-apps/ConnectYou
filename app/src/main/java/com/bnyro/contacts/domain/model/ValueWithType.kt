@@ -17,5 +17,6 @@ package com.bnyro.contacts.domain.model
  */
 data class ValueWithType(
     var value: String,
-    var type: Int? = null
+    var type: Int? = null,
+    val label: String? = null
 )

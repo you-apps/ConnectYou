@@ -197,7 +197,7 @@ fun ContactEditor(
                         it.accountName = selectedAccount.name
                         it.websites = websites.clean()
                         it.numbers = phoneNumber.clean().map { number ->
-                            ValueWithType(ContactsHelper.normalizePhoneNumber(number.value), number.type)
+                            number.copy(value = ContactsHelper.normalizePhoneNumber(number.value))
                         }
                         it.emails = emails.clean()
                         it.addresses = addresses.clean()

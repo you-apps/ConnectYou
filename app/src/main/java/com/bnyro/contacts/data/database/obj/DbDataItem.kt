@@ -1,5 +1,6 @@
 package com.bnyro.contacts.data.database.obj
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -10,5 +11,6 @@ data class DbDataItem(
     val contactId: Long,
     val category: Int,
     val value: String,
-    val type: Int?
+    val type: Int?,
+    @ColumnInfo(defaultValue = "NULL") val label: String?
 )

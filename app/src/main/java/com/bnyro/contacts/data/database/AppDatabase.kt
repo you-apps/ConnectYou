@@ -14,9 +14,10 @@ import com.bnyro.contacts.data.database.obj.SmsData
     autoMigrations = [
         AutoMigration(2, 3),
         AutoMigration(3, 4),
-        AutoMigration(4, 5)
+        AutoMigration(4, 5),
+        AutoMigration(6, 7)
     ],
-    version = 6
+    version = 7
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun localContactsDao(): LocalContactsDao

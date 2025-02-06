@@ -116,7 +116,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
 
     @RequiresPermission(Manifest.permission.READ_CONTACTS)
     private fun getEntry(contactId: Long, type: String, column: String): String? {
-        return getExtras(contactId, column, null, type).firstOrNull()?.value
+        return getExtras(contactId, column, null, null, type).firstOrNull()?.value
     }
 
     @RequiresPermission(Manifest.permission.READ_CONTACTS)
@@ -139,6 +139,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
                         contactId,
                         attribute.androidValueColumn,
                         attribute.androidTypeColumn,
+                        attribute.androidCustomLabelColumn,
                         attribute.androidContentType
                     )
                     attribute.set(this, dataEntries)
@@ -153,6 +154,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
             contactId,
             GroupMembership.GROUP_ROW_ID,
             GroupMembership.DATA2,
+            null,
             GroupMembership.CONTENT_ITEM_TYPE
         )
         return groups.mapNotNull { group ->
@@ -247,14 +249,15 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
         contactId: Long,
         valueIndex: String,
         typeIndex: String?,
+        labelIndex: String?,
         itemType: String
     ): List<ValueWithType> {
         val entries = mutableListOf<ValueWithType>()
-        val projection = arrayOf(Data.CONTACT_ID, valueIndex, typeIndex ?: "data2")
+        val projection = listOfNotNull(Data.CONTACT_ID, valueIndex, typeIndex ?: "data2", labelIndex)
 
         contentResolver.query(
             contentUri,
-            projection,
+            projection.toTypedArray(),
             "${Data.MIMETYPE} = ? AND ${Data.CONTACT_ID} = ?",
             arrayOf(itemType, contactId.toString()),
             null
@@ -262,7 +265,8 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
             while (cursor.moveToNext()) {
                 val entry = ValueWithType(
                     cursor.stringValue(valueIndex) ?: return@use,
-                    typeIndex?.let { cursor.intValue(it) }
+                    typeIndex?.let { cursor.intValue(it) },
+                    labelIndex?.let { cursor.stringValue(it) }
                 )
                 if (!entries.contains(entry)) entries.add(entry)
             }
@@ -353,7 +357,9 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
                                 attribute.androidValueColumn,
                                 it.value,
                                 attribute.androidTypeColumn,
-                                it.type
+                                it.type,
+                                attribute.androidCustomLabelColumn,
+                                it.label
                             )
                         }
                     }.flatten().toTypedArray()
@@ -391,7 +397,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
                     operations.addAll(
                         getUpdateMultipleAction(
                             rawContactId, attribute.androidContentType, attribute.get(contact),
-                            attribute.androidValueColumn, attribute.androidTypeColumn
+                            attribute.androidValueColumn, attribute.androidTypeColumn, attribute.androidCustomLabelColumn
                         )
                     )
                 }
@@ -404,6 +410,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
                     // The value to be saved here is only the row id!
                     contact.groups.map { ValueWithType(it.rowId.toString(), null) },
                     GroupMembership.GROUP_ROW_ID,
+                    null,
                     null
                 )
             )
@@ -449,6 +456,8 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
         value: Any,
         typeIndex: String? = null,
         type: Int? = null,
+        labelIndex: String? = null,
+        label: String? = null,
         rawContactId: Int? = null
     ): ContentProviderOperation {
         return ContentProviderOperation.newInsert(contentUri)
@@ -464,6 +473,9 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
                 typeIndex?.let {
                     withValue(it, type)
                 }
+                labelIndex?.let {
+                    withValue(it, label)
+                }
             }
             .build()
     }
@@ -476,8 +488,9 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
     ) = getUpdateMultipleAction(
         contactId,
         mimeType,
-        listOfNotNull(value?.let { ValueWithType(it, null) }),
+        listOfNotNull(value?.let { ValueWithType(it) }),
         valueIndex,
+        null,
         null
     )
 
@@ -487,7 +500,8 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
         mimeType: String,
         entries: List<ValueWithType>,
         valueIndex: String,
-        typeIndex: String?
+        typeIndex: String?,
+        labelIndex: String?
     ): List<ContentProviderOperation> {
         val operations = mutableListOf<ContentProviderOperation>()
 
@@ -507,6 +521,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
                 withValue(Data.MIMETYPE, mimeType)
                 withValue(valueIndex, it.value)
                 typeIndex?.let { t -> withValue(t, it.type) }
+                labelIndex?.let { l -> withValue(l, it.label) }
                 operations.add(build())
             }
         }

@@ -1,6 +1,5 @@
 package com.bnyro.contacts.presentation.screens.editor.components
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
@@ -16,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bnyro.contacts.util.ClipboardHelper
@@ -27,7 +25,7 @@ import com.halilibo.richtext.ui.material3.Material3RichText
 @Composable
 fun ContactEntry(
     content: String,
-    @StringRes type: Int? = null,
+    type: String? = null,
     useMarkdown: Boolean = false,
     onClick: () -> Unit = {}
 ) {
@@ -53,7 +51,7 @@ fun ContactEntry(
         ) {
             if (type != null) {
                 Text(
-                    text = stringResource(type).uppercase(),
+                    text = type.uppercase(),
                     color = MaterialTheme.colorScheme.primary,
                     fontSize = 10.sp
                 )

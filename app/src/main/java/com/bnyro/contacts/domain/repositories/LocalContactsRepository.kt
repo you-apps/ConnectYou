@@ -49,7 +49,8 @@ class LocalContactsRepository(context: Context) : ContactsRepository {
                     contactId = contactId,
                     category = DataCategory.GROUP.ordinal,
                     value = it.title,
-                    type = -1
+                    type = -1,
+                    label = null
                 )
             }
         ).flatten()
@@ -130,7 +131,7 @@ class LocalContactsRepository(context: Context) : ContactsRepository {
     }
 
     private fun List<DbDataItem>.toValueWithType(category: DataCategory): List<ValueWithType> {
-        return filter { it.category == category.ordinal }.map { ValueWithType(it.value, it.type) }
+        return filter { it.category == category.ordinal }.map { ValueWithType(it.value, it.type, it.label) }
     }
 
     private fun List<ValueWithType>.toDataItem(contactId: Long, category: DataCategory): List<DbDataItem> {
@@ -139,7 +140,8 @@ class LocalContactsRepository(context: Context) : ContactsRepository {
                 contactId = contactId,
                 category = category.ordinal,
                 value = it.value,
-                type = it.type
+                type = it.type,
+                label = it.label
             )
         }
     }

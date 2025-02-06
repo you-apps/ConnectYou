@@ -24,6 +24,7 @@ abstract class StringAttribute : ContactAttribute<String?>() {
 
 abstract class ListAttribute: ContactAttribute<List<ValueWithType>>() {
     abstract val androidTypeColumn: String
+    abstract val androidCustomLabelColumn: String?
     abstract val types: List<TranslatedType>
     abstract val insertKeys: List<Pair<String, String?>>
     open val intentActionType: IntentActionType? = null
@@ -73,6 +74,7 @@ class Events : ListAttribute() {
     override val insertKeys: List<Pair<String, String?>> = emptyList()
     override val androidValueColumn: String = ContactsContract.CommonDataKinds.Event.START_DATE
     override val androidTypeColumn: String = ContactsContract.CommonDataKinds.Event.TYPE
+    override val androidCustomLabelColumn: String = ContactsContract.CommonDataKinds.Event.LABEL
     override val androidContentType: String = ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE
 
     override fun set(contact: ContactData, value: List<ValueWithType>) {
@@ -97,6 +99,7 @@ class Numbers : ListAttribute() {
     )
     override val androidValueColumn: String = ContactsContract.CommonDataKinds.Phone.NUMBER
     override val androidTypeColumn: String = ContactsContract.CommonDataKinds.Phone.TYPE
+    override val androidCustomLabelColumn: String = ContactsContract.CommonDataKinds.Phone.LABEL
     override val androidContentType: String = ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
     override val intentActionType = IntentActionType.DIAL
 
@@ -106,7 +109,7 @@ class Numbers : ListAttribute() {
 
     override fun get(contact: ContactData) = contact.numbers
     override fun display(contact: ContactData) = super.display(contact).map {
-        ValueWithType(ContactsHelper.normalizePhoneNumber(it.value), it.type)
+        it.copy(value = ContactsHelper.normalizePhoneNumber(it.value))
     }
 
     override val types: List<TranslatedType> = ContactsHelper.phoneNumberTypes
@@ -121,6 +124,7 @@ class Emails : ListAttribute() {
     )
     override val androidValueColumn: String = ContactsContract.CommonDataKinds.Email.ADDRESS
     override val androidTypeColumn: String = ContactsContract.CommonDataKinds.Email.TYPE
+    override val androidCustomLabelColumn: String = ContactsContract.CommonDataKinds.Email.LABEL
     override val androidContentType: String = ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE
     override val intentActionType = IntentActionType.EMAIL
 
@@ -138,6 +142,7 @@ class Addresses : ListAttribute() {
     override val insertKeys: List<Pair<String, String?>> = listOf(Intents.Insert.POSTAL to null)
     override val androidValueColumn: String = ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS
     override val androidTypeColumn: String = ContactsContract.CommonDataKinds.StructuredPostal.TYPE
+    override val androidCustomLabelColumn: String = ContactsContract.CommonDataKinds.StructuredPostal.LABEL
     override val androidContentType: String = ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE
     override val intentActionType = IntentActionType.ADDRESS
 
@@ -155,6 +160,7 @@ class Notes : ListAttribute() {
     override val insertKeys: List<Pair<String, String?>> = listOf(Intents.Insert.NOTES to null)
     override val androidValueColumn: String = ContactsContract.CommonDataKinds.Note.NOTE
     override val androidTypeColumn: String = ContactsContract.CommonDataKinds.Note.DATA2
+    override val androidCustomLabelColumn: String? = null
     override val androidContentType: String = ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE
     override fun set(contact: ContactData, value: List<ValueWithType>) {
         contact.notes = value
@@ -170,6 +176,7 @@ class Websites : ListAttribute() {
     override val insertKeys: List<Pair<String, String?>> = emptyList()
     override val androidValueColumn: String = ContactsContract.CommonDataKinds.Website.URL
     override val androidTypeColumn: String = ContactsContract.CommonDataKinds.Website.TYPE
+    override val androidCustomLabelColumn: String = ContactsContract.CommonDataKinds.Website.LABEL
     override val androidContentType: String = ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE
     override val intentActionType = IntentActionType.WEBSITE
 
