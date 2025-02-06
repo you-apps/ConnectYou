@@ -25,9 +25,6 @@ import androidx.compose.material.icons.filled.Message
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarOutline
-import androidx.compose.material.icons.rounded.MoreVert
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -36,7 +33,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -60,6 +56,7 @@ import com.bnyro.contacts.presentation.components.ClickableIcon
 import com.bnyro.contacts.presentation.components.FullScreenDialog
 import com.bnyro.contacts.presentation.components.LargeButtonWithIcon
 import com.bnyro.contacts.presentation.components.SmallButtonWithIcon
+import com.bnyro.contacts.presentation.components.TopBarMoreMenu
 import com.bnyro.contacts.presentation.components.shapes.curlyCornerShape
 import com.bnyro.contacts.presentation.features.ConfirmationDialog
 import com.bnyro.contacts.presentation.features.ShareDialog
@@ -131,44 +128,17 @@ fun SingleContactScreen(contact: ContactData, viewModel: ContactsModel, onClose:
                         ) {
                             showEditor = true
                         }
-                        Box {
-                            var showMore by remember { mutableStateOf(false) }
-                            ClickableIcon(
-                                icon = Icons.Rounded.MoreVert,
-                                contentDescription = R.string.more
-                            ) {
-                                showMore = !showMore
-                            }
-                            DropdownMenu(
-                                expanded = showMore,
-                                onDismissRequest = {
-                                    showMore = false
-                                }
-                            ) {
-                                DropdownMenuItem(
-                                    text = {
-                                        Text(text = stringResource(R.string.change_ringtone))
-                                    },
-                                    onClick = {
-                                        ringtonePicker.launch()
-                                    }
-                                )
-                                DropdownMenuItem(
-                                    text = {
-                                        Text(text = stringResource(R.string.create_shortcut))
-                                    },
-                                    onClick = {
-                                        showShortcutDialog = true
-                                    }
-                                )
-                                DropdownMenuItem(
-                                    text = {
-                                        Text(text = stringResource(R.string.delete_contact))
-                                    },
-                                    onClick = {
-                                        showDelete = true
-                                    }
-                                )
+                        TopBarMoreMenu(
+                            options = listOf(
+                                stringResource(R.string.change_ringtone),
+                                stringResource(R.string.create_shortcut),
+                                stringResource(R.string.delete_contact)
+                            ),
+                        ) { index ->
+                            when (index) {
+                                0 -> ringtonePicker.launch()
+                                1 -> showShortcutDialog = true
+                                2 -> showDelete = true
                             }
                         }
                     }

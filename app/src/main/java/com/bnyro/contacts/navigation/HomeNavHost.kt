@@ -39,7 +39,7 @@ fun HomeNavHost(
         composable<HomeRoutes.Phone>(
             deepLinks = HomeRoutes.Phone.deepLinks
         ) {
-            CallLogsScreen(contactsModel, themeModel)
+            CallLogsScreen(contactsModel, themeModel, onNavigate)
         }
         composable<HomeRoutes.Messages> {
             CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {

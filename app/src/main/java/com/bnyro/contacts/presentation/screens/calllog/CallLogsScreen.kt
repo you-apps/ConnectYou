@@ -36,9 +36,6 @@ import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.FrontHand
 import androidx.compose.material.icons.rounded.Handshake
-import androidx.compose.material.icons.rounded.MoreVert
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -69,9 +66,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.domain.model.CallLogEntry
+import com.bnyro.contacts.navigation.NavRoutes
 import com.bnyro.contacts.presentation.components.CharacterHeader
-import com.bnyro.contacts.presentation.components.ClickableIcon
 import com.bnyro.contacts.presentation.components.NothingHere
+import com.bnyro.contacts.presentation.components.TopBarMoreMenu
 import com.bnyro.contacts.presentation.features.ConfirmationDialog
 import com.bnyro.contacts.presentation.screens.calllog.components.NumberInput
 import com.bnyro.contacts.presentation.screens.calllog.components.PhoneNumberDisplay
@@ -86,7 +84,8 @@ import com.bnyro.contacts.util.PermissionHelper
 @Composable
 fun CallLogsScreen(
     contactsModel: ContactsModel,
-    themeModel: ThemeModel
+    themeModel: ThemeModel,
+    onNavigate: (NavRoutes) -> Unit
 ) {
     val callModel: CallModel = viewModel()
     val context = LocalContext.current
@@ -108,38 +107,31 @@ fun CallLogsScreen(
                 Icon(Icons.Default.Dialpad, contentDescription = null)
             }
         }, topBar = {
-            TopAppBar(title = {
-                Text(text = stringResource(id = R.string.recent_calls))
-            }, actions = {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    Box {
-                        var showMore by remember { mutableStateOf(false) }
-                        ClickableIcon(
-                            icon = Icons.Rounded.MoreVert,
-                            contentDescription = R.string.more
-                        ) {
-                            showMore = !showMore
-                        }
-                        DropdownMenu(
-                            expanded = showMore,
-                            onDismissRequest = {
-                                showMore = false
-                            }
-                        ) {
-                            DropdownMenuItem(
-                                text = {
-                                    Text(
-                                        text = stringResource(R.string.block_numbers)
-                                    )
-                                },
-                                onClick = {
-                                    IntentHelper.openBlockedNumberManager(context)
-                                }
-                            )
+            TopAppBar(
+                title = {
+                    Text(text = stringResource(id = R.string.recent_calls))
+                },
+                actions = {
+                    val canBlockNumbers = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+
+                    TopBarMoreMenu(
+                        options = listOfNotNull(
+                            if (canBlockNumbers) stringResource(R.string.block_numbers) else null,
+                            stringResource(R.string.settings),
+                            stringResource(R.string.about)
+                        ),
+                    ) { index ->
+                        // skip first index that's hidden
+                        val realIndex = if (canBlockNumbers) index else index + 1
+
+                        when (realIndex) {
+                            0 -> if (canBlockNumbers) IntentHelper.openBlockedNumberManager(context)
+                            1 -> onNavigate.invoke(NavRoutes.Settings)
+                            2 -> onNavigate.invoke(NavRoutes.About)
                         }
                     }
                 }
-            })
+            )
         }
     ) { pV ->
         if (groupedLogs.isNotEmpty()) {
@@ -150,7 +142,9 @@ fun CallLogsScreen(
                     stickyHeader {
                         CharacterHeader(text = time)
                     }
-                    items(callLogs, key = { callLog -> "${callLog.time} ${callLog.phoneNumber}"}) { callLog ->
+                    items(
+                        callLogs,
+                        key = { callLog -> "${callLog.time} ${callLog.phoneNumber}" }) { callLog ->
                         val contact = remember {
                             contactsModel.getContactByNumber(callLog.phoneNumber)
                         }
