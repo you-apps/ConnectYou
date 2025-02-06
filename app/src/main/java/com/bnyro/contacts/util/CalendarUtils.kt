@@ -4,10 +4,15 @@ import android.annotation.SuppressLint
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.GregorianCalendar
 
 object CalendarUtils {
     @SuppressLint("SimpleDateFormat")
     val isoDateFormat = SimpleDateFormat("yyyy-MM-dd")
+
+    @SuppressLint("SimpleDateFormat")
+    val isoDateFormatWithoutDash = SimpleDateFormat("yyyyMMdd")
 
     @SuppressLint("SimpleDateFormat")
     val isoTimeFormat = SimpleDateFormat("HH:mm:ss")
@@ -27,24 +32,36 @@ object CalendarUtils {
         return formatter.format(calendar.time)
     }
 
-    fun dateToMillis(date: String) = kotlin.runCatching { isoDateFormat.parse(date) }.getOrNull()?.time
+    private fun parseDateString(dateStr: String): Date? {
+        val isDateWithoutYear = dateStr.startsWith("--")
+        val newIsoDate = dateStr.removePrefix("--")
+        val formatter = when {
+            isDateWithoutYear -> isoDateFormatWithoutYear
+            !dateStr.contains("-") -> isoDateFormatWithoutDash
+            else -> isoDateFormat
+        }
+
+       val dateObject = runCatching {
+            formatter.parse(newIsoDate)
+        }.getOrNull() ?: return null
+
+        val timeObject = GregorianCalendar().apply {
+            this.time = dateObject
+        }
+        if (isDateWithoutYear) {
+            val currentYear = GregorianCalendar.getInstance().get(Calendar.YEAR)
+            timeObject.set(Calendar.YEAR, currentYear)
+        }
+
+        return timeObject.time
+    }
+
+    fun dateToMillis(date: String) = parseDateString(date)?.time
 
     fun localizeIsoDate(isoDate: String): String {
-        val isDateWithoutYear = isoDate.startsWith('-')
-        val newIsoDate = if (isDateWithoutYear) isoDate.replace("--", "") else isoDate
-        val formatter = if (isDateWithoutYear) isoDateFormatWithoutYear else isoDateFormat
+        val date = parseDateString(isoDate) ?: return isoDate
 
-        val date = runCatching {
-            formatter.parse(newIsoDate)
-        }.getOrNull() ?: return newIsoDate
-        return localizedFormat.format(date).let {
-            if (isDateWithoutYear) {
-                // Due to the limitations of the API we're getting 1970 when there's no year
-                it.replace("1970", "")
-            } else {
-                it
-            }
-        }
+        return localizedFormat.format(date)
     }
 
     fun getCurrentDateTime(): String {
