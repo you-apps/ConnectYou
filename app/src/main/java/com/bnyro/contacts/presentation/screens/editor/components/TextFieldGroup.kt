@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.domain.model.TranslatedType
 import com.bnyro.contacts.domain.model.ValueWithType
@@ -43,8 +44,9 @@ fun TextFieldGroup(
     types: List<TranslatedType> = listOf(),
     leadingIcon: ImageVector,
     keyboardType: KeyboardType = KeyboardType.Text,
+    borderRadius: Dp
 ) {
-    Column() {
+    Column {
         with(items) {
             forEachIndexed { index, it ->
                 TextFieldEditor(
@@ -65,7 +67,7 @@ fun TextFieldGroup(
                             )
                         }
                     },
-                    shape = if (index == 0) RoundedCornerShape(50, 50, 0, 0) else RectangleShape
+                    shape = if (index == 0) RoundedCornerShape(borderRadius, borderRadius, 0.dp, 0.dp) else RectangleShape
                 )
             }
             FilledTonalButton(

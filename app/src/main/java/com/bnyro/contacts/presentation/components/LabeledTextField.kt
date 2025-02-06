@@ -12,7 +12,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
@@ -38,7 +37,6 @@ import androidx.compose.ui.text.input.KeyboardType
  * @param shape The shape of the text field.
  * @param onValueChange The function to call when the value of the text field changes.
  */
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LabeledTextField(
     modifier: Modifier = Modifier,

@@ -74,6 +74,8 @@ import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.ImageHelper
 import com.bnyro.contacts.util.Preferences
 
+val borderRadius = 20.dp
+
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ContactEditor(
@@ -308,7 +310,8 @@ fun ContactEditor(
                         imageVector = Icons.Outlined.Person2,
                         contentDescription = null
                     )
-                }
+                },
+                shape = RoundedCornerShape(borderRadius)
             )
 
             LabeledTextField(
@@ -319,7 +322,8 @@ fun ContactEditor(
                         imageVector = Icons.Outlined.Person2,
                         contentDescription = null
                     )
-                }
+                },
+                shape = RoundedCornerShape(borderRadius)
             )
 
             AnimatedVisibility(showAdvanced) {
@@ -332,7 +336,8 @@ fun ContactEditor(
                                 imageVector = Icons.Outlined.Person2,
                                 contentDescription = null
                             )
-                        }
+                        },
+                        shape = RoundedCornerShape(borderRadius)
                     )
                     LabeledTextField(
                         label = R.string.organization,
@@ -342,7 +347,8 @@ fun ContactEditor(
                                 imageVector = Icons.Outlined.Cases,
                                 contentDescription = null
                             )
-                        }
+                        },
+                        shape = RoundedCornerShape(borderRadius)
                     )
                     LabeledTextField(
                         label = R.string.title,
@@ -352,7 +358,8 @@ fun ContactEditor(
                                 imageVector = Icons.Outlined.Cases,
                                 contentDescription = null
                             )
-                        }
+                        },
+                        shape = RoundedCornerShape(borderRadius)
                     )
                     TextFieldGroup(
                         items = websites,
@@ -360,7 +367,8 @@ fun ContactEditor(
                         types = ContactsHelper.websiteTypes,
                         addActionText = R.string.add_website,
                         keyboardType = KeyboardType.Uri,
-                        leadingIcon = Icons.Outlined.Web
+                        leadingIcon = Icons.Outlined.Web,
+                        borderRadius = borderRadius
                     )
                 }
             }
@@ -387,7 +395,8 @@ fun ContactEditor(
                 addActionText = R.string.add_phone_number,
                 keyboardType = KeyboardType.Phone,
                 leadingIcon = Icons.Outlined.Phone,
-                types = ContactsHelper.phoneNumberTypes
+                types = ContactsHelper.phoneNumberTypes,
+                borderRadius = borderRadius
             )
             TextFieldGroup(
                 items = emails,
@@ -395,28 +404,32 @@ fun ContactEditor(
                 addActionText = R.string.add_e_mail,
                 keyboardType = KeyboardType.Email,
                 leadingIcon = Icons.Outlined.Email,
-                types = ContactsHelper.emailTypes
+                types = ContactsHelper.emailTypes,
+                borderRadius = borderRadius
             )
             TextFieldGroup(
                 items = addresses,
                 label = R.string.address,
                 addActionText = R.string.add_address,
                 leadingIcon = Icons.Outlined.LocationOn,
-                types = ContactsHelper.addressTypes
+                types = ContactsHelper.addressTypes,
+                borderRadius = borderRadius
             )
 
             EventFieldGroup(
                 items = events,
                 label = R.string.event,
                 types = ContactsHelper.eventTypes,
-                addActionText = R.string.add_event
+                addActionText = R.string.add_event,
+                borderRadius = borderRadius
             )
 
             TextFieldGroup(
                 items = notes,
                 label = R.string.note,
                 addActionText = R.string.add_note,
-                leadingIcon = Icons.Outlined.Note
+                leadingIcon = Icons.Outlined.Note,
+                borderRadius = borderRadius
             )
 
             Column(

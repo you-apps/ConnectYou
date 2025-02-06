@@ -17,7 +17,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.domain.model.TranslatedType
 import com.bnyro.contacts.domain.model.ValueWithType
@@ -36,8 +38,9 @@ fun EventFieldGroup(
     @StringRes label: Int,
     @StringRes addActionText: Int,
     types: List<TranslatedType> = listOf(),
+    borderRadius: Dp
 ) {
-    Column() {
+    Column {
         with(items) {
             forEachIndexed { index, it ->
                 DatePickerEditor(
@@ -48,7 +51,7 @@ fun EventFieldGroup(
                         removeAt(index)
                     },
                     showDeleteAction = size > 1,
-                    shape = if (index == 0) RoundedCornerShape(50, 50, 0, 0) else RectangleShape
+                    shape = if (index == 0) RoundedCornerShape(borderRadius, borderRadius, 0.dp, 0.dp) else RectangleShape
                 )
             }
             FilledTonalButton(
