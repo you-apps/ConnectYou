@@ -151,5 +151,7 @@
     <string name="favorites_only">Nur Favoriten</string>
     <string name="import_sms">SMS importieren</string>
     <string name="export_sms">SMS exportieren</string>
-    <string name="backup_naming_scheme_hint">%d: Datum, %t: Zeit. %s: Quelle (lokal, Gerät), die Quelle und entweder Datum oder Zeit müssen angegeben werden</string>
+    <string name="backup_naming_scheme_hint">%d: Datum, %t: Uhrzeit, %s: Quelle (lokal, Gerät), Quelle ist erforderlich und entweder Datum oder Uhrzeit</string>
+    <string name="cant_respond">Kann nicht antworten</string>
+    <string name="backup_naming_scheme">Schema der Sicherungsbenennung</string>
 </resources>

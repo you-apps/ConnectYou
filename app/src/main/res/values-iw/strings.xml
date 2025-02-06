@@ -117,4 +117,17 @@
     <string name="date">תאריך</string>
     <string name="amoled">אמולד</string>
     <string name="send_message_as_multiple">לשלוח את ההודעה מחולקת לכמה הודעות קטנות?</string>
+    <string name="favorite">הוספה למועדפים</string>
+    <string name="favorites_only">מועדפים בלבד</string>
+    <string name="speakers">רמקולים</string>
+    <string name="cant_respond">אי אפשר להגיב</string>
+    <string name="import_sms">ייבוא מסרונים</string>
+    <string name="in_progress">בתהליך</string>
+    <string name="disconnecting">מתנתק…</string>
+    <string name="connecting">מתחבר…</string>
+    <string name="confirm_start_call">להתקשר ל־%1$s?</string>
+    <string name="mute">השתקה</string>
+    <string name="export_sms">ייצוא מסרונים</string>
+    <string name="backup_naming_scheme">סכמת מתן שמות לגיבויים</string>
+    <string name="ringing">מחייג…</string>
 </resources>

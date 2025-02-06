@@ -3,7 +3,7 @@
     <string name="copied">Kopioitu leikepöydälle</string>
     <string name="irreversible">Oletko varma? Tätä ei voi perua!</string>
     <string name="cancel">Peru</string>
-    <string name="okay">OK</string>
+    <string name="okay">Hyvä on</string>
     <string name="reset">Nollaa</string>
     <string name="create_contact">Luo yhteystieto</string>
     <string name="retry">Yritä uudelleen</string>
@@ -148,4 +148,6 @@
     <string name="select_custom_ringtone">Valitse mukautettu soittoääni</string>
     <string name="block_numbers">Estä numerot</string>
     <string name="call_from">Puhelu soittajalta</string>
+    <string name="import_sms">Tuo SMS</string>
+    <string name="export_sms">Vie SMS</string>
 </resources>

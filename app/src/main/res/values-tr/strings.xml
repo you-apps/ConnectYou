@@ -149,4 +149,9 @@
     <string name="start_a_new_conversation">Yeni görüşme başlat</string>
     <string name="favorites_only">Yalnızca sık kullanılanlar</string>
     <string name="favorite">Sık Kullanılan</string>
+    <string name="cant_respond">Cevap veremiyorum</string>
+    <string name="import_sms">SMS\'i içe aktar</string>
+    <string name="export_sms">SMS\'i dışa aktar</string>
+    <string name="backup_naming_scheme">Yedekleme adlandırma şeması</string>
+    <string name="backup_naming_scheme_hint">%d: tarih, %t: saat, %s: kaynak (yerel, cihaz), kaynak gereklidir ve tarih veya saat</string>
 </resources>
