@@ -157,7 +157,7 @@ fun SmsThreadScreen(
 
             // can't respond to address short codes that don't include a number
             val showSendButton = remember {
-                address.any { !it.isLetter() }
+                address.any { it.isDigit() }
             }
 
             Row(
