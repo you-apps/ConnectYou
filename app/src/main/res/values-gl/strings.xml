@@ -153,4 +153,5 @@
     <string name="cant_respond">Non pode responder</string>
     <string name="export_sms">Exportar SMS</string>
     <string name="import_sms">Importar SMS</string>
+    <string name="enabled_tabs">Pestanas activas</string>
 </resources>
