@@ -153,4 +153,5 @@
     <string name="date">Datums</string>
     <string name="amoled">AMOLED</string>
     <string name="calls">Zvani</string>
+    <string name="enabled_tabs">Iespējotās cilnes</string>
 </resources>
