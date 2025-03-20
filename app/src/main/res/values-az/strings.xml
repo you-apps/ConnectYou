@@ -154,4 +154,5 @@
     <string name="backup_naming_scheme_hint">%d: tarix, %t: vaxt, %s: mənbə (yerli, cihaz), mənbə tələb olunur və tarix və ya vaxt</string>
     <string name="export_sms">SMS İxrac Et</string>
     <string name="import_sms">SMS İdxal Et</string>
+    <string name="enabled_tabs">Aktiv ekranlar</string>
 </resources>
