@@ -153,4 +153,5 @@
     <string name="key_pad">Tastatur</string>
     <string name="dialing">Ringer...</string>
     <string name="favorite">Favorit</string>
+    <string name="enabled_tabs">Aktiverede faner</string>
 </resources>
