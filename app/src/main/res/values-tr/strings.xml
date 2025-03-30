@@ -154,4 +154,5 @@
     <string name="export_sms">SMS\'i dışa aktar</string>
     <string name="backup_naming_scheme">Yedekleme adlandırma şeması</string>
     <string name="backup_naming_scheme_hint">%d: tarih, %t: saat, %s: kaynak (yerel, cihaz), kaynak gereklidir ve tarih veya saat</string>
+    <string name="enabled_tabs">Etkin sekmeler</string>
 </resources>
