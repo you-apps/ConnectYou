@@ -116,4 +116,7 @@
     <string name="add_event">Dodaj wydarzenie</string>
     <string name="date">Data</string>
     <string name="import_confirm">Czy chcesz zaimportować wybrany plik VCF?</string>
+    <string name="in_progress">W toku</string>
+    <string name="favorites_only">Tylko ulubione</string>
+    <string name="favorite">Ulubione</string>
 </resources>
