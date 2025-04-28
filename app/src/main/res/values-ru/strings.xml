@@ -153,4 +153,5 @@
     <string name="export_sms">Экспорт SMS</string>
     <string name="backup_naming_scheme">Шаблон наименований рез. копий</string>
     <string name="backup_naming_scheme_hint">%d: дата, %t: время, %s: база (приложения или общая). Требуется база и хотя бы дата или время</string>
+    <string name="enabled_tabs">Включить вкладки</string>
 </resources>
