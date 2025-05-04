@@ -86,7 +86,7 @@ sealed class HomeRoutes {
 
     companion object {
         val all = listOf(
-            HomeNavBarItem(Phone(), R.string.dial, Icons.Rounded.Phone),
+            // HomeNavBarItem(Phone(), R.string.dial, Icons.Rounded.Phone),
             HomeNavBarItem(Contacts, R.string.contacts, Icons.Rounded.Person),
             HomeNavBarItem(Messages, R.string.messages, Icons.AutoMirrored.Rounded.Message)
         )

@@ -29,15 +29,15 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <!-- Dialing support -->
-    <uses-permission android:name="android.permission.MANAGE_OWN_CALLS" />
-    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.READ_CALL_LOG" />
-    <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
-    <uses-permission
-        android:name="android.permission.MODIFY_PHONE_STATE"
-        tools:ignore="ProtectedPermissions" />
+<!--    <uses-permission android:name="android.permission.MANAGE_OWN_CALLS" />-->
+<!--    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />-->
+<!--    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />-->
+<!--    <uses-permission android:name="android.permission.CALL_PHONE" />-->
+<!--    <uses-permission android:name="android.permission.READ_CALL_LOG" />-->
+<!--    <uses-permission android:name="android.permission.WRITE_CALL_LOG" />-->
+<!--    <uses-permission-->
+<!--        android:name="android.permission.MODIFY_PHONE_STATE"-->
+<!--        tools:ignore="ProtectedPermissions" />-->
 
     <!-- Opt out from network permissions declared by whatever dependency -->
     <uses-permission
@@ -210,9 +210,9 @@
 
         </activity>
 
-        <activity
-            android:name=".ui.activities.CallActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".ui.activities.CallActivity"-->
+<!--            android:exported="false" />-->
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -276,19 +276,19 @@
             </intent-filter>
         </service>
 
-        <service
-            android:name=".util.services.CallService"
-            android:exported="true"
-            android:foregroundServiceType="phoneCall"
-            android:permission="android.permission.BIND_INCALL_SERVICE">
-            <meta-data
-                android:name="android.telecom.IN_CALL_SERVICE_UI"
-                android:value="true" />
+<!--        <service-->
+<!--            android:name=".util.services.CallService"-->
+<!--            android:exported="true"-->
+<!--            android:foregroundServiceType="phoneCall"-->
+<!--            android:permission="android.permission.BIND_INCALL_SERVICE">-->
+<!--            <meta-data-->
+<!--                android:name="android.telecom.IN_CALL_SERVICE_UI"-->
+<!--                android:value="true" />-->
 
-            <intent-filter>
-                <action android:name="android.telecom.InCallService" />
-            </intent-filter>
-        </service>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.telecom.InCallService" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
     </application>
 
 </manifest>
