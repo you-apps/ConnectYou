@@ -153,4 +153,5 @@
     <string name="export_sms">تصدير الرسائل</string>
     <string name="backup_naming_scheme">نظام التسمية لنسخ الاحتياطية</string>
     <string name="backup_naming_scheme_hint">%d: التاريخ، %t: الوقت، %s: المصدر (المحلي، الجهاز)، المصدر يتطلب التاريخ أو الوقت</string>
+    <string name="enabled_tabs">تمكين التبويبات</string>
 </resources>

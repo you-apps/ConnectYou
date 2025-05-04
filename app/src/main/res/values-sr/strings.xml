@@ -164,4 +164,5 @@
     <string name="export_sms">Извоз SMS-а</string>
     <string name="backup_naming_scheme">Шема именовања резервне копије</string>
     <string name="backup_naming_scheme_hint">%d: датум, %t: време, %s: извор (локални, уређај), извор је обавезан и датум или време</string>
+    <string name="enabled_tabs">Омогућене картице</string>
 </resources>

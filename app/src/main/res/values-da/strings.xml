@@ -143,4 +143,15 @@
     <string name="call_ended">Opkald Afsluttet</string>
     <string name="call_from">Opkald fra</string>
     <string name="favorites_only">Kun favoritter</string>
+    <string name="cant_respond">Kan ikke svare</string>
+    <string name="import_sms">Importér SMS</string>
+    <string name="export_sms">Eksportér SMS</string>
+    <string name="backup_naming_scheme">Navngivning af backup</string>
+    <string name="backup_naming_scheme_hint">%d: dato, %t: tid, %s: kilde (lokal, enhed); kilde er påkrævet og enten dato eller tid</string>
+    <string name="dial_pad">Tastatur</string>
+    <string name="unblock_number">Fjern blokering af nummer</string>
+    <string name="key_pad">Tastatur</string>
+    <string name="dialing">Ringer...</string>
+    <string name="favorite">Favorit</string>
+    <string name="enabled_tabs">Aktiverede faner</string>
 </resources>

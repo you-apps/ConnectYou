@@ -153,4 +153,5 @@
     <string name="export_sms">Ekspordi SMD\'id</string>
     <string name="backup_naming_scheme">Varukoopiate nimeloogika</string>
     <string name="backup_naming_scheme_hint">%d: kuupäev, %t: kellaaeg, %s: allikas (kohalik, seade), nõutav on allikas ja kas kuupäev või kellaaeg</string>
+    <string name="enabled_tabs">Kasutusel vahekaardid</string>
 </resources>

@@ -153,4 +153,5 @@
     <string name="connecting">Conectando…</string>
     <string name="mute">Silenciar</string>
     <string name="speakers">Alto-falantes</string>
+    <string name="enabled_tabs">Guias habilitadas</string>
 </resources>

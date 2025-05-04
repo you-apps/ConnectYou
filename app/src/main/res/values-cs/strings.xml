@@ -153,4 +153,5 @@
     <string name="export_sms">Exportovat SMS</string>
     <string name="backup_naming_scheme">Schéma názvů záloh</string>
     <string name="backup_naming_scheme_hint">%d: datum, %t: čas, %s: zdroj (local, device), je vyžadován zdroj a buď datum nebo čas</string>
+    <string name="enabled_tabs">Povolené karty</string>
 </resources>
