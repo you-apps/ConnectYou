@@ -39,7 +39,7 @@ class ContactsModel(
     private val deviceContactsRepository: DeviceContactsRepository
 ) : ViewModel() {
     var contactsSource by mutableStateOf(
-        ContactsSource.values().getOrNull(
+        ContactsSource.entries.getOrNull(
             Preferences.getInt(Preferences.selectedContactsRepo, 0)
         ) ?: ContactsSource.DEVICE
     )

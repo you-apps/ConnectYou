@@ -9,6 +9,7 @@ import android.content.Intent
 import android.provider.Telephony
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.Person
 import androidx.core.app.RemoteInput
 import com.bnyro.contacts.App
 import com.bnyro.contacts.R
@@ -102,16 +103,20 @@ class SmsReceiver : BroadcastReceiver() {
             PendingIntent.FLAG_IMMUTABLE
         )
 
+        val sender = Person.Builder()
+            .setName(smsData.address)
+            .build()
+
         val builder = NotificationCompat.Builder(context, MESSAGES_CHANNEL_ID)
             .setDefaults(Notification.DEFAULT_ALL)
             .setSmallIcon(R.drawable.ic_message_notification)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setContentTitle(smsData.address)
+            .setContentTitle(sender.name)
             .setContentText(smsData.body)
             .setContentIntent(smsThreadPendingIntent)
             .setStyle(
-                NotificationCompat.BigTextStyle()
-                    .bigText(smsData.body)
+                NotificationCompat.MessagingStyle(sender)
+                    .addMessage(NotificationCompat.MessagingStyle.Message(smsData.body, smsData.timestamp, sender))
             )
             .setWhen(smsData.timestamp)
             .setShowWhen(true)
@@ -132,7 +137,7 @@ class SmsReceiver : BroadcastReceiver() {
             )
 
             val copyMessageAction = NotificationCompat.Action.Builder(
-                R.drawable.ic_delete,
+                R.drawable.ic_copy,
                 "${context.getString(R.string.copy)} ${code.value}",
                 copyPendingIntent
             ).build()
