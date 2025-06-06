@@ -153,4 +153,5 @@
     <string name="start_a_new_conversation">Rozpocznij nową rozmowę</string>
     <string name="enabled_tabs">Aktywne karty</string>
     <string name="dial_pad">Klawiatura numeryczna</string>
+    <string name="backup_naming_scheme_hint">%d: data, %t: czas, %s: źródło (lokalne, urządzenie), wymagane jest źródło i data lub godzina</string>
 </resources>
