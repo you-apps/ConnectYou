@@ -81,7 +81,7 @@ val borderRadius = 20.dp
 fun ContactEditor(
     modifier: Modifier = Modifier,
     contact: ContactData? = null,
-    isCreatingNewDeviceContact: Boolean,
+    isDeviceContact: Boolean,
     onSave: (contact: ContactData) -> Unit
 ) {
     val context = LocalContext.current
@@ -214,7 +214,7 @@ fun ContactEditor(
                 )
             }
         }, topBar = {
-            if (isCreatingNewDeviceContact) {
+            if (isDeviceContact) {
                 TopAppBar(title = {
                     var expanded by remember { mutableStateOf(false) }
                     Row(

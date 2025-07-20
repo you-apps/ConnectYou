@@ -47,6 +47,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bnyro.contacts.R
+import com.bnyro.contacts.domain.enums.ContactsSource
 import com.bnyro.contacts.domain.enums.IntentActionType
 import com.bnyro.contacts.domain.enums.ListAttribute
 import com.bnyro.contacts.domain.enums.Notes
@@ -270,8 +271,14 @@ fun SingleContactScreen(contact: ContactData, viewModel: ContactsModel, onClose:
             onClose = {
                 showEditor = false
             },
+            isDeviceContact = (viewModel.contactsSource == ContactsSource.DEVICE),
             onSave = {
-                viewModel.updateContact(context, it)
+                if (contact.accountIdentifier == it.accountIdentifier) {
+                    viewModel.updateContact(context, it)
+                } else {
+                    viewModel.deleteContacts(listOf(it))
+                    viewModel.createContact(context, it)
+                }
                 onClose.invoke()
             }
         )
