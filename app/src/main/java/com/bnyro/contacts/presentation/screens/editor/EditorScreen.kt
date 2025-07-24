@@ -26,7 +26,7 @@ import com.bnyro.contacts.util.ContactsHelper
 fun EditorScreen(
     contact: ContactData? = null,
     onClose: () -> Unit,
-    isCreatingNewDeviceContact: Boolean = false,
+    isDeviceContact: Boolean = false,
     onSave: (ContactData) -> Unit
 ) {
     val context = LocalContext.current
@@ -59,7 +59,7 @@ fun EditorScreen(
             modifier = Modifier
                 .padding(bottom = topPadding),
             contact = contact?.copy(),
-            isCreatingNewDeviceContact = isCreatingNewDeviceContact,
+            isDeviceContact = isDeviceContact,
             onSave = {
                 if (ContactsHelper.isContactEmpty(it)) {
                     Toast.makeText(context, R.string.empty_name, Toast.LENGTH_SHORT).show()

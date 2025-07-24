@@ -342,7 +342,7 @@ fun ContactsPage(
                 newContactToInsert = null
                 showEditorScreen = false
             },
-            isCreatingNewDeviceContact = (viewModel.contactsSource == ContactsSource.DEVICE),
+            isDeviceContact = (viewModel.contactsSource == ContactsSource.DEVICE),
             onSave = {
                 viewModel.createContact(context, it)
             }
