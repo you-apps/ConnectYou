@@ -12,20 +12,18 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.presentation.screens.contacts.model.ContactsModel
 
 @Composable
-fun ConfirmImportContactsDialog(contactsModel: ContactsModel, contactsUri: Uri) {
+fun ConfirmImportContactsDialog(
+    contactsModel: ContactsModel,
+    contactsUri: Uri,
+    onDismissRequest: () -> Unit
+) {
     val context = LocalContext.current
 
-    var showDialog by remember {
-        mutableStateOf(true)
-    }
-
-    if (showDialog) {
-        ConfirmationDialog(
-            onDismissRequest = { showDialog = false },
-            title = stringResource(R.string.import_vcf),
-            text = stringResource(R.string.import_confirm)
-        ) {
-            contactsModel.importVcf(context, contactsUri)
-        }
+    ConfirmationDialog(
+        onDismissRequest = onDismissRequest,
+        title = stringResource(R.string.import_vcf),
+        text = stringResource(R.string.import_confirm)
+    ) {
+        contactsModel.importVcf(context, contactsUri)
     }
 }

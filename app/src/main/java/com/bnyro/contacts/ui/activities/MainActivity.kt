@@ -22,6 +22,7 @@ import com.bnyro.contacts.navigation.NavContainer
 import com.bnyro.contacts.navigation.NavRoutes
 import com.bnyro.contacts.presentation.features.AddToContactDialog
 import com.bnyro.contacts.presentation.features.ConfirmImportContactsDialog
+import com.bnyro.contacts.presentation.screens.contact.SingleContactScreen
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
 import com.bnyro.contacts.util.BackupHelper
 import com.bnyro.contacts.util.BiometricAuthUtil
@@ -42,8 +43,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        contactsModel.initialContactId = getInitialContactId()
-        contactsModel.initialContactData = getInsertContactData()
+        contactsModel.initialInsertContactData = getInsertContactData()
 
         setContent {
             ConnectYouTheme(themeModel.themeMode) {
@@ -71,19 +71,36 @@ class MainActivity : BaseActivity() {
                         } ?: -1) ?: HomeRoutes.all[enabledTabs.first()]).route
                     )
 
-                    getInsertOrEditNumber()?.let {
-                        var showAddToContactDialog by remember {
-                            mutableStateOf(true)
-                        }
+                    var initialContactId by remember {
+                        mutableStateOf(getInitialContactId())
+                    }
+                    contactsModel.contacts.find { it.contactId == initialContactId }
+                        ?.let { contact ->
+                            LaunchedEffect(Unit) {
+                                contactsModel.loadAdvancedContactData(contact)
+                            }
 
-                        if (showAddToContactDialog) {
-                            AddToContactDialog(it) {
-                                showAddToContactDialog = false
+                            SingleContactScreen(contact, contactsModel) {
+                                initialContactId = null
                             }
                         }
+
+                    var insertOrEditNumber by remember {
+                        mutableStateOf(getInsertOrEditNumber())
                     }
-                    getSharedVcfUri()?.let {
-                        ConfirmImportContactsDialog(contactsModel, it)
+                    insertOrEditNumber?.let {
+                        AddToContactDialog(it) {
+                            insertOrEditNumber = null
+                        }
+                    }
+
+                    var sharedVcfUri by remember {
+                        mutableStateOf(getSharedVcfUri())
+                    }
+                    sharedVcfUri?.let {
+                        ConfirmImportContactsDialog(contactsModel, it) {
+                            sharedVcfUri = null
+                        }
                     }
                 }
 

@@ -79,7 +79,7 @@ fun ContactsPage(
     }
 
     var newContactToInsert by remember {
-        mutableStateOf(viewModel.initialContactData)
+        mutableStateOf(viewModel.initialInsertContactData)
     }
 
     var showEditorScreen by rememberSaveable {
