@@ -148,4 +148,10 @@
     <string name="favorite">برگزیدن</string>
     <string name="favorites_only">تنها برگزیدگان</string>
     <string name="key_pad">برگه کلید</string>
+    <string name="cant_respond">نمی‌تواند پاسخ دهد</string>
+    <string name="import_sms">درون‌برد پیامک</string>
+    <string name="export_sms">برون‌برد پیامک</string>
+    <string name="enabled_tabs">برگه‌های فعال</string>
+    <string name="backup_naming_scheme">شیوه‌ی نامیدن پشتیبان‌گیری‌ها</string>
+    <string name="backup_naming_scheme_hint">%d: تاریخ، %t: زمان، %s: بن‌مایه(برزنی، دستگاه)، بن‌مایه همراه با تاریخ یا زمان لازم است</string>
 </resources>
