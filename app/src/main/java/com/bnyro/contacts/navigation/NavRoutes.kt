@@ -1,11 +1,11 @@
 package com.bnyro.contacts.navigation
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Message
 import androidx.compose.material.icons.rounded.Person
-import androidx.compose.material.icons.rounded.Phone
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.net.toUri
 import androidx.navigation.navDeepLink
@@ -24,6 +24,7 @@ sealed class NavRoutes {
     @Serializable
     data object Settings : NavRoutes()
 
+    @SuppressLint("UnsafeOptInUsageError")
     @Serializable
     data class MessageThread(
         val address: String,
@@ -62,6 +63,7 @@ sealed class NavRoutes {
 
 @Serializable
 sealed class HomeRoutes {
+    @SuppressLint("UnsafeOptInUsageError")
     @Serializable
     data class Phone(
         val phoneNumber: String? = null

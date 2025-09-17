@@ -7,6 +7,7 @@ import android.telephony.SubscriptionInfo
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.bnyro.contacts.App
+import com.bnyro.contacts.data.database.obj.SmsData
 import com.bnyro.contacts.domain.model.ContactData
 import com.bnyro.contacts.util.SmsUtil
 import kotlinx.coroutines.Dispatchers
@@ -50,6 +51,12 @@ class SmsModel(application: Application) : AndroidViewModel(application) {
     fun sendSms(context: Context, address: String, body: String) {
         viewModelScope.launch(Dispatchers.IO) {
             SmsUtil.sendSms(context, address, body, currentSubscription?.subscriptionId)
+        }
+    }
+
+    fun resendSms(context: Context, smsData: SmsData) {
+        viewModelScope.launch(Dispatchers.IO) {
+            SmsUtil.resendSms(context, smsData, currentSubscription?.subscriptionId)
         }
     }
 

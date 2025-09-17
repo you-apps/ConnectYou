@@ -2,6 +2,7 @@ package com.bnyro.contacts.presentation.screens.sms.components
 
 import android.provider.Telephony
 import android.text.format.DateUtils
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,8 +20,14 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircleOutline
+import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.filled.Pending
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -42,13 +50,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bnyro.contacts.R
 import com.bnyro.contacts.data.database.obj.SmsData
+import com.bnyro.contacts.data.database.obj.SmsStatus
 import com.bnyro.contacts.presentation.features.ConfirmationDialog
+import com.bnyro.contacts.presentation.features.DialogButton
 import com.bnyro.contacts.presentation.screens.sms.model.SmsModel
 import com.bnyro.contacts.util.generateAnnotations
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColumnScope.Messages(messages: List<SmsData>, smsModel: SmsModel) {
+    val context = LocalContext.current
     val scrollState = rememberLazyListState()
 
     var scrolledToBottom = remember { false }
@@ -105,7 +116,10 @@ fun ColumnScope.Messages(messages: List<SmsData>, smsModel: SmsModel) {
                     content = {
                         Message(
                             msg = smsData,
-                            isUserMe = isUserMe
+                            isUserMe = isUserMe,
+                            onResend = {
+                                smsModel.resendSms(context, smsData)
+                            }
                         )
                     }
                 )
@@ -127,10 +141,11 @@ fun ColumnScope.Messages(messages: List<SmsData>, smsModel: SmsModel) {
 @Composable
 fun Message(
     msg: SmsData,
-    isUserMe: Boolean
+    isUserMe: Boolean,
+    onResend: () -> Unit
 ) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        ChatItemBubble(msg, isUserMe)
+        ChatItemBubble(msg, isUserMe, onResend)
         Spacer(modifier = Modifier.height(4.dp))
     }
 }
@@ -169,7 +184,8 @@ private fun RowScope.DayHeaderLine() {
 @Composable
 fun ChatItemBubble(
     message: SmsData,
-    isUserMe: Boolean
+    isUserMe: Boolean,
+    onResend: () -> Unit
 ) {
     val backgroundBubbleColor = if (isUserMe) {
         MaterialTheme.colorScheme.surfaceColorAtElevation(100.dp)
@@ -179,6 +195,10 @@ fun ChatItemBubble(
 
     val textColor =
         MaterialTheme.colorScheme.primary
+
+    var showSmsFailedDialog by remember {
+        mutableStateOf(false)
+    }
 
     Row(
         Modifier.fillMaxWidth(),
@@ -192,6 +212,8 @@ fun ChatItemBubble(
                 Modifier.padding(
                     end = 40.dp
                 )
+            }.clickable(message.status == SmsStatus.ERROR && isUserMe) {
+                showSmsFailedDialog = true
             },
             color = backgroundBubbleColor,
             shape = if (isUserMe) rightChatBubbleShape else leftChatBubbleShape
@@ -215,23 +237,59 @@ fun ChatItemBubble(
                         ).split(", ")[1]
                     )
                     message.simNumber?.let {
-                        Spacer(modifier = Modifier.width(8.dp))
                         Text(
+                            modifier = Modifier.padding(start = 8.dp),
                             style = MaterialTheme.typography.bodyMedium,
                             color = textColor,
                             text = "SIM $it"
                         )
                     }
+
+                    if (isUserMe) {
+                        if (message.status != SmsStatus.NONE) {
+                            Spacer(modifier = Modifier.width(8.dp))
+                        }
+
+                        when (message.status) {
+                            SmsStatus.NONE -> Unit
+                            SmsStatus.SENT -> Icon(
+                                modifier = Modifier.size(16.dp),
+                                imageVector = Icons.Default.Pending,
+                                tint = MaterialTheme.colorScheme.primary,
+                                contentDescription = null
+                            )
+
+                            SmsStatus.DELIVERED -> Icon(
+                                modifier = Modifier.size(16.dp),
+                                imageVector = Icons.Default.CheckCircleOutline,
+                                tint = MaterialTheme.colorScheme.primary,
+                                contentDescription = null
+                            )
+
+                            SmsStatus.ERROR -> Icon(
+                                modifier = Modifier.size(16.dp),
+                                imageVector = Icons.Default.Error,
+                                tint = MaterialTheme.colorScheme.error,
+                                contentDescription = null
+                            )
+                        }
+                    }
                 }
             }
+        }
+    }
+
+    if (showSmsFailedDialog) {
+        SmsFailedDialog(
+            onResend = onResend
+        ) {
+            showSmsFailedDialog = false
         }
     }
 }
 
 @Composable
-fun ClickableMessage(
-    smsData: SmsData
-) {
+fun ClickableMessage(smsData: SmsData) {
     SelectionContainer {
         val uriHandler = LocalUriHandler.current
         val primary = MaterialTheme.colorScheme.primary
@@ -252,4 +310,26 @@ fun ClickableMessage(
             }
         )
     }
+}
+
+@Composable
+fun SmsFailedDialog(onResend: () -> Unit, onDismissRequest: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        text = {
+            Text(text = stringResource(R.string.failed_send_sms))
+        },
+        dismissButton = {
+            DialogButton(stringResource(R.string.cancel)) {
+                onDismissRequest()
+            }
+        },
+        confirmButton = {
+            DialogButton(stringResource(R.string.resend)) {
+                onResend()
+
+                onDismissRequest()
+            }
+        }
+    )
 }

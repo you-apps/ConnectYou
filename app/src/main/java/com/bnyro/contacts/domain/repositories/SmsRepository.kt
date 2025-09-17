@@ -6,7 +6,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface SmsRepository {
     fun getSmsStream(context: Context): Flow<List<SmsData>>
-    suspend fun persistSms(context: Context, smsData: SmsData)
+    suspend fun persistSms(context: Context, smsData: SmsData): Long
+    suspend fun updateSms(context: Context, smsData: SmsData)
+    suspend fun getSms(context: Context, id: Long): SmsData?
     suspend fun getOrCreateThreadId(context: Context, address: String): Long
     suspend fun deleteSms(context: Context, id: Long)
     suspend fun deleteThread(context: Context, threadId: Long)

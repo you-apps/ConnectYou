@@ -109,17 +109,6 @@ class ContactsModel(
     }
 
     @SuppressLint("MissingPermission")
-    fun setInitialContactID(id: Long, context: Context) {
-        if (!PermissionHelper.hasPermission(context, Manifest.permission.READ_CONTACTS)) return
-
-        contacts.firstOrNull { it.contactId == id }?.let {
-            viewModelScope.launch {
-                initialInsertContactData = deviceContactsRepository.loadAdvancedData(it)
-            }
-        }
-    }
-
-    @SuppressLint("MissingPermission")
     private fun loadContacts(context: Context) {
         viewModelScope.launch {
             getDeviceContacts(context)

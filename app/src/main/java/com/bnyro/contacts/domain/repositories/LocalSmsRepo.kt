@@ -11,8 +11,19 @@ class LocalSmsRepo : SmsRepository {
     override fun getSmsStream(context: Context): Flow<List<SmsData>> =
         DatabaseHolder.Db.localSmsDao().getStream()
 
-    override suspend fun persistSms(context: Context, smsData: SmsData) {
-        DatabaseHolder.Db.localSmsDao().createSms(smsData)
+    override suspend fun persistSms(context: Context, smsData: SmsData): Long {
+        return DatabaseHolder.Db.localSmsDao().createSms(smsData)
+    }
+
+    override suspend fun updateSms(
+        context: Context,
+        smsData: SmsData
+    ) {
+        DatabaseHolder.Db.localSmsDao().updateSms(smsData)
+    }
+
+    override suspend fun getSms(context: Context, id: Long): SmsData? {
+        return DatabaseHolder.Db.localSmsDao().getSms(id)
     }
 
     override suspend fun getOrCreateThreadId(context: Context, address: String): Long {

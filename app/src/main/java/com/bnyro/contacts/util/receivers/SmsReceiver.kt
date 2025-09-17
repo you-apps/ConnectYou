@@ -14,6 +14,7 @@ import androidx.core.app.RemoteInput
 import com.bnyro.contacts.App
 import com.bnyro.contacts.R
 import com.bnyro.contacts.data.database.obj.SmsData
+import com.bnyro.contacts.data.database.obj.SmsStatus
 import com.bnyro.contacts.domain.enums.IntentActionType
 import com.bnyro.contacts.util.IntentHelper
 import com.bnyro.contacts.util.NotificationHelper
@@ -40,7 +41,8 @@ class SmsReceiver : BroadcastReceiver() {
                     )
                 }
             val bareSmsData =
-                SmsData(0, address, body, timestamp, threadId, Telephony.Sms.MESSAGE_TYPE_INBOX)
+                SmsData(0, address, body, timestamp, threadId, Telephony.Sms.MESSAGE_TYPE_INBOX,
+                    status = SmsStatus.DELIVERED)
 
             createNotification(context, bareSmsData.hashCode(), bareSmsData)
             runBlocking(Dispatchers.IO) {

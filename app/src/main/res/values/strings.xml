@@ -92,6 +92,8 @@
     <string name="private_sms_database_desc">The SMS will only be stored within the app and not be accessible in other apps.</string>
     <string name="delete_thread">Delete thread</string>
     <string name="delete_message">Delete message</string>
+    <string name="failed_send_sms">Delivering the SMS has failed. Would you like to re-send it?</string>
+    <string name="resend">Resend</string>
     <!-- Dialer -->
     <string name="in_progress">In progress</string>
     <string name="ringing">Ringing…</string>

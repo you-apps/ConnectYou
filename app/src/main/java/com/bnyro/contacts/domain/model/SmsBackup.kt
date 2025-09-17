@@ -1,9 +1,12 @@
 package com.bnyro.contacts.domain.model
 
+import android.annotation.SuppressLint
 import com.bnyro.contacts.data.database.obj.SmsData
+import com.bnyro.contacts.data.database.obj.SmsStatus.Companion.smsStatusFromInt
 import kotlinx.serialization.Serializable
 
 @Serializable
+@SuppressLint("UnsafeOptInUsageError")
 data class SmsBackup(
     val subscriptionId: Long,
     val address: String,
@@ -24,5 +27,6 @@ data class SmsBackup(
         timestamp = date,
         simNumber = subscriptionId.toInt(),
         type = type,
+        status = smsStatusFromInt(status)
     )
 }
