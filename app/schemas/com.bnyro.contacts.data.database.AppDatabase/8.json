@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 8,
-    "identityHash": "30569477bccf0cbcc8a416e3de363f3c",
+    "identityHash": "a3f140de0d351c554afe93fa3bc5b7ad",
     "entities": [
       {
         "tableName": "localContacts",
@@ -120,7 +120,7 @@
       },
       {
         "tableName": "localSms",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `address` TEXT NOT NULL, `body` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `threadId` INTEGER NOT NULL, `type` INTEGER NOT NULL, `simNumber` INTEGER DEFAULT NULL, `status` TEXT NOT NULL DEFAULT 'UNKNOWN')",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `address` TEXT NOT NULL, `body` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `threadId` INTEGER NOT NULL, `type` INTEGER NOT NULL, `simNumber` INTEGER DEFAULT NULL, `status` TEXT NOT NULL DEFAULT 'NONE')",
         "fields": [
           {
             "fieldPath": "id",
@@ -170,7 +170,7 @@
             "columnName": "status",
             "affinity": "TEXT",
             "notNull": true,
-            "defaultValue": "'UNKNOWN'"
+            "defaultValue": "'NONE'"
           }
         ],
         "primaryKey": {
@@ -186,7 +186,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '30569477bccf0cbcc8a416e3de363f3c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a3f140de0d351c554afe93fa3bc5b7ad')"
     ]
   }
 }

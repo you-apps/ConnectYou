@@ -28,7 +28,7 @@ data class SmsData(
     @ColumnInfo var threadId: Long = 0,
     @ColumnInfo var type: Int = 0,
     @ColumnInfo(defaultValue = "NULL") var simNumber: Int? = null,
-    @ColumnInfo(defaultValue = "UNKNOWN") var status: SmsStatus
+    @ColumnInfo(defaultValue = "NONE") var status: SmsStatus
 ) {
     fun toSmsBackup() = SmsBackup(
         subscriptionId = simNumber?.toLong() ?: 0,
