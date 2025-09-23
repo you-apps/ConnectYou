@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.bnyro.contacts"
-    compileSdk = 34
+    compileSdk = 35
 
     androidResources {
         generateLocaleConfig = true
@@ -17,7 +17,7 @@ android {
     defaultConfig {
         applicationId = "com.bnyro.contacts"
         minSdk = 23
-        targetSdk = 33
+        targetSdk = 35
         versionCode = 29
         versionName = "10.1"
 

@@ -40,7 +40,7 @@ object SmsUtil {
     fun getSubscriptions(context: Context): List<SubscriptionInfo> {
         val subscriptionManager =
             context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager?
-        return subscriptionManager!!.activeSubscriptionInfoList
+        return subscriptionManager!!.activeSubscriptionInfoList.orEmpty()
     }
 
     suspend fun sendSms(

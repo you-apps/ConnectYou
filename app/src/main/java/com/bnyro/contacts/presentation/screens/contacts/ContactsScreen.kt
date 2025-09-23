@@ -126,13 +126,8 @@ fun ContactsPage(
             ) {
                 Icon(Icons.Default.Create, null)
             }
-        }
-    ) { pv ->
-        Column(
-            modifier = Modifier
-                .padding(pv)
-                .fillMaxSize()
-        ) {
+        },
+        topBar = {
             Crossfade(
                 targetState = selectedContacts.isEmpty(),
                 label = "main layout"
@@ -295,7 +290,13 @@ fun ContactsPage(
                     }
                 }
             }
-
+        }
+    ) { pV ->
+        Column(
+            modifier = Modifier
+                .padding(top = pV.calculateTopPadding())
+                .fillMaxSize()
+        ) {
             when (
                 val contactState = when (viewModel.contactsSource) {
                     ContactsSource.DEVICE -> viewModel.deviceContacts

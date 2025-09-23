@@ -136,7 +136,8 @@ fun CallLogsScreen(
     ) { pV ->
         if (groupedLogs.isNotEmpty()) {
             LazyColumn(
-                modifier = Modifier.padding(pV)
+                modifier = Modifier
+                    .padding(top = pV.calculateTopPadding())
             ) {
                 groupedLogs.entries.forEach { (time, callLogs) ->
                     stickyHeader {

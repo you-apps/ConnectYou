@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.ContactsContract.Intents
 import android.provider.ContactsContract.QuickContact
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,6 +42,7 @@ class MainActivity : BaseActivity() {
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         contactsModel.initialInsertContactData = getInsertContactData()

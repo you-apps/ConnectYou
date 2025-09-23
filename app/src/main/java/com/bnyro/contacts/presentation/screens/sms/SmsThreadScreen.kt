@@ -124,7 +124,7 @@ fun SmsThreadScreen(
     ) { pV ->
         Column(
             modifier = Modifier
-                .padding(pV)
+                .padding(top = pV.calculateTopPadding())
         ) {
             Messages(messages = smsList, smsModel = smsModel)
 

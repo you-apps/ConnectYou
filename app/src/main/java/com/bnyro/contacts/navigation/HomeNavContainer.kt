@@ -2,6 +2,8 @@ package com.bnyro.contacts.navigation
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -21,6 +23,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -89,10 +92,16 @@ fun HomeNavContainer(
             }
         }
     ) { pV ->
+        val layoutDirection = LocalLayoutDirection.current
+
         Row(
             Modifier
                 .fillMaxSize()
-                .padding(pV)
+                .padding(
+                    bottom = pV.calculateBottomPadding(),
+                    start = pV.calculateStartPadding(layoutDirection),
+                    end = pV.calculateEndPadding(layoutDirection)
+                )
         ) {
             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 NavigationRail {
