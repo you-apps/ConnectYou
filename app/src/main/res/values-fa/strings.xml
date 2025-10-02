@@ -3,8 +3,8 @@
     <string name="reset">بازنشانی</string>
     <string name="new_contact">هَمدرِنگ نو</string>
     <string name="copy">رونوشت</string>
-    <string name="delete_contact">سِتُردن هَمدرِنگ</string>
-    <string name="create_contact">ساختن هَمدرِنگ</string>
+    <string name="delete_contact">پاک کردن مخاطب</string>
+    <string name="create_contact">ساختن مخاطب</string>
     <string name="retry">تلاش دوباره</string>
     <string name="about">درباره ما</string>
     <string name="cancel">وازدن</string>
@@ -31,7 +31,7 @@
     <string name="version">نگارش</string>
     <string name="appearance">نما</string>
     <string name="backup_password">گذرواژه</string>
-    <string name="add_to_contact">افزودن به هَمدرِنگ</string>
+    <string name="add_to_contact">افزودن به مخاطب</string>
     <string name="create_shortcut">ساختن میان‌بر</string>
     <string name="dial">تماس</string>
     <string name="message">پیامک</string>
