@@ -1,3 +1,7 @@
+> [!NOTE]
+> To use the SMS feature on Android 16 and above, you have to allow the app to use "Restricted Permissions", see [here](https://httpsms.com/blog/grant-send-and-read-sms-permissions-on-android/).
+>
+
 <!-- ---------- Header ---------- -->
 <div align="center">
   <img width="200" height="200"src="fastlane/metadata/android/en-US/images/icon.png">
