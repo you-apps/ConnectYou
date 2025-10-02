@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -66,26 +67,32 @@ fun SmsSearchScreen(
             }
         }
 
-        Column(Modifier.fillMaxSize()) {
-            ElevatedTextInputField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp)
-                    .padding(top = 8.dp),
-                query = searchQuery,
-                onQueryChange = { searchQuery = it },
-                leadingIcon = Icons.Default.Search,
-                placeholder = stringResource(id = R.string.search),
-                imeAction = ImeAction.Done,
-                focusRequester = focusRequester,
-                singleLine = true
-            )
-            LazyColumn(
+        Scaffold { pV ->
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .padding(pV)
             ) {
-                items(visibleThreads, key = SmsThread::threadId) { thread ->
-                    SmsThreadItem(smsModel, thread, onClickMessage)
+                ElevatedTextInputField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                        .padding(top = 8.dp),
+                    query = searchQuery,
+                    onQueryChange = { searchQuery = it },
+                    leadingIcon = Icons.Default.Search,
+                    placeholder = stringResource(id = R.string.search),
+                    imeAction = ImeAction.Done,
+                    focusRequester = focusRequester,
+                    singleLine = true
+                )
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    items(visibleThreads, key = SmsThread::threadId) { thread ->
+                        SmsThreadItem(smsModel, thread, onClickMessage)
+                    }
                 }
             }
         }

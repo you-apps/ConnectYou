@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -55,26 +56,32 @@ fun ContactSearchScreen(
             }
         }
 
-        Column(Modifier.fillMaxSize()) {
-            ElevatedTextInputField(
+        Scaffold { pV ->
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp)
-                    .padding(top = 8.dp),
-                query = searchQuery,
-                onQueryChange = { searchQuery = it },
-                leadingIcon = Icons.Default.Search,
-                placeholder = stringResource(id = R.string.search),
-                imeAction = ImeAction.Done,
-                focusRequester = focusRequester,
-                singleLine = true
-            )
-            ContactsList(
-                contacts = visibleContacts,
-                filterOptions = filterOptions,
-                scrollConnection = null,
-                selectedContacts = emptyList<ContactData>().toMutableList()
-            )
+                    .fillMaxSize()
+                    .padding(pV)
+            ) {
+                ElevatedTextInputField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                        .padding(top = 8.dp),
+                    query = searchQuery,
+                    onQueryChange = { searchQuery = it },
+                    leadingIcon = Icons.Default.Search,
+                    placeholder = stringResource(id = R.string.search),
+                    imeAction = ImeAction.Done,
+                    focusRequester = focusRequester,
+                    singleLine = true
+                )
+                ContactsList(
+                    contacts = visibleContacts,
+                    filterOptions = filterOptions,
+                    scrollConnection = null,
+                    selectedContacts = emptyList<ContactData>().toMutableList()
+                )
+            }
         }
     }
 }
