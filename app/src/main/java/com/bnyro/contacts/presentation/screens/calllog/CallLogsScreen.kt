@@ -308,7 +308,6 @@ fun CallLogOptionsSheet(
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         sheetState = songSettingsSheetState,
-        windowInsets = WindowInsets.systemBars,
         dragHandle = null
     ) {
         Row(

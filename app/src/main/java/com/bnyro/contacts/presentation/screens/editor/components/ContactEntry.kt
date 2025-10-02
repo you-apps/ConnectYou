@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bnyro.contacts.util.ClipboardHelper
 import com.halilibo.richtext.markdown.Markdown
-import com.halilibo.richtext.ui.material3.Material3RichText
+import com.halilibo.richtext.ui.material3.RichText
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -58,7 +58,7 @@ fun ContactEntry(
                 Spacer(modifier = Modifier.height(5.dp))
             }
             if (useMarkdown) {
-                Material3RichText(
+                RichText(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {

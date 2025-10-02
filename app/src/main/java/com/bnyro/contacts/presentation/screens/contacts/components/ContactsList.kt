@@ -18,6 +18,7 @@ import com.bnyro.contacts.domain.model.ContactData
 import com.bnyro.contacts.domain.model.FilterOptions
 import com.bnyro.contacts.presentation.components.CharacterHeader
 import my.nanihadesuka.compose.LazyColumnScrollbar
+import my.nanihadesuka.compose.ScrollbarSettings
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -44,10 +45,13 @@ fun ContactsList(
         }
     }
     LazyColumnScrollbar(
-        listState = state,
-        thumbColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
-        thumbSelectedColor = MaterialTheme.colorScheme.primary,
-        thickness = 8.dp
+        state = state,
+        settings = ScrollbarSettings(
+            thumbUnselectedColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+            thumbSelectedColor = MaterialTheme.colorScheme.primary,
+            thumbThickness = 8.dp
+        ),
+
     ) {
         LazyColumn(
             state = state,
