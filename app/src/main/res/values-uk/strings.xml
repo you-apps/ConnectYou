@@ -155,4 +155,6 @@
     <string name="export_sms">Експортувати SMS</string>
     <string name="backup_naming_scheme_hint">%d: дата, %t: час, %s: джерело (локально, пристрій), потрібно вказати джерело та дату або час</string>
     <string name="enabled_tabs">Увімкнені вкладки</string>
+    <string name="failed_send_sms">Не вдалося доставити SMS. Бажаєте надіслати його повторно?</string>
+    <string name="resend">Надіслати повторно</string>
 </resources>
