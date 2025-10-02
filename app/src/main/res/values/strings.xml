@@ -94,6 +94,7 @@
     <string name="delete_message">Delete message</string>
     <string name="failed_send_sms">Delivering the SMS has failed. Would you like to re-send it?</string>
     <string name="resend">Resend</string>
+    <string name="set_default_sms_app">Please make Connect You your default SMS app in your Android settings! On recent Android versions, you must allow "Restricted Permissions" for the app to achieve that.</string>
     <!-- Dialer -->
     <string name="in_progress">In progress</string>
     <string name="ringing">Ringing…</string>

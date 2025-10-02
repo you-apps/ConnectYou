@@ -36,7 +36,11 @@ object PermissionHelper {
     fun canBlockNumbers(context: Context): Boolean {
         if (!BlockedNumberContract.canCurrentUserBlockNumbers(context)) return false
 
-        return Telephony.Sms.getDefaultSmsPackage(context) == context.packageName ||
+        return isDefaultSmsApp(context) ||
                 context.getSystemService<TelecomManager>()?.defaultDialerPackage == context.packageName
+    }
+
+    fun isDefaultSmsApp(context: Context): Boolean {
+        return Telephony.Sms.getDefaultSmsPackage(context) == context.packageName
     }
 }

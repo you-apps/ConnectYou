@@ -63,6 +63,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.core.content.getSystemService
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
 import com.bnyro.contacts.domain.model.ContactData
@@ -82,6 +83,7 @@ import com.bnyro.contacts.util.CalendarUtils
 import com.bnyro.contacts.util.ExportHelper
 import com.bnyro.contacts.util.IntentHelper
 import com.bnyro.contacts.util.PermissionHelper
+import com.bnyro.contacts.util.SmsDefaultAppActivityContract
 import com.bnyro.contacts.util.extension.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -151,12 +153,13 @@ fun SmsListScreen(
                     ) {
                         showSearch = true
                     }
-                    TopBarMoreMenu(options = listOf(
-                        stringResource(R.string.import_sms),
-                        stringResource(R.string.export_sms),
-                        stringResource(R.string.settings),
-                        stringResource(R.string.about)
-                    ),
+                    TopBarMoreMenu(
+                        options = listOf(
+                            stringResource(R.string.import_sms),
+                            stringResource(R.string.export_sms),
+                            stringResource(R.string.settings),
+                            stringResource(R.string.about)
+                        ),
                         onOptionClick = { index ->
                             when (index) {
                                 0 -> {
@@ -190,40 +193,84 @@ fun SmsListScreen(
                 Icon(Icons.Default.Edit, null)
             }
         }) { pv ->
-        val smsList by smsModel.smsList.collectAsState()
-        if (smsList.isNotEmpty()) {
-            val threadList = smsList.groupBy { it.threadId }
-                .map { (threadId, smsList) ->
-                    val address = smsList.first().address
-                    SmsThread(
-                        threadId = threadId,
-                        contactData = contactsModel.getContactByNumber(address),
-                        address = address,
-                        smsList = smsList
-                    )
+        val context = LocalContext.current
+        var isDefaultSmsApp by remember {
+            mutableStateOf(true)
+        }
+        Column(
+            modifier = Modifier.padding(pv)
+        ) {
+            val defaultSmsAppSelector =
+                rememberLauncherForActivityResult(SmsDefaultAppActivityContract()) {
+                    isDefaultSmsApp = it
                 }
-                .sortedBy { thread -> thread.smsList.maxOf { it.timestamp } }
-                .reversed()
 
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(pv)
-                    .let { modifier ->
-                        scrollConnection?.let { modifier.nestedScroll(it) } ?: modifier
+            LaunchedEffect(Unit) {
+                isDefaultSmsApp = PermissionHelper.isDefaultSmsApp(context)
+
+                if (!isDefaultSmsApp) defaultSmsAppSelector.launch(Unit)
+            }
+
+            if (!isDefaultSmsApp) {
+                Card(
+                    modifier = Modifier
+                        .padding(horizontal = 4.dp)
+                        .clip(CardDefaults.shape)
+                        .clickable {
+                            defaultSmsAppSelector.launch(Unit)
+                        },
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.errorContainer,
+                        contentColor = MaterialTheme.colorScheme.onErrorContainer
+                    )
+                ) {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Warning, contentDescription = null
+                        )
+
+                        Text(stringResource(R.string.set_default_sms_app))
                     }
-            ) {
-                items(threadList, key = SmsThread::threadId) { thread ->
-                    SmsThreadItem(smsModel, thread, onClick = onClickMessage, onLongClick = {
-                        selectedThread = thread
-                    })
                 }
             }
-            if (showSearch) {
-                SmsSearchScreen(smsModel, threadList, { showSearch = false }, onClickMessage)
+
+            val smsList by smsModel.smsList.collectAsState()
+            if (smsList.isNotEmpty()) {
+                val threadList = smsList.groupBy { it.threadId }
+                    .map { (threadId, smsList) ->
+                        val address = smsList.first().address
+                        SmsThread(
+                            threadId = threadId,
+                            contactData = contactsModel.getContactByNumber(address),
+                            address = address,
+                            smsList = smsList
+                        )
+                    }
+                    .sortedBy { thread -> thread.smsList.maxOf { it.timestamp } }
+                    .reversed()
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .let { modifier ->
+                            scrollConnection?.let { modifier.nestedScroll(it) } ?: modifier
+                        }
+                ) {
+                    items(threadList, key = SmsThread::threadId) { thread ->
+                        SmsThreadItem(smsModel, thread, onClick = onClickMessage, onLongClick = {
+                            selectedThread = thread
+                        })
+                    }
+                }
+                if (showSearch) {
+                    SmsSearchScreen(smsModel, threadList, { showSearch = false }, onClickMessage)
+                }
+            } else {
+                BlobIconBox(icon = R.drawable.ic_no_sms)
             }
-        } else {
-            BlobIconBox(icon = R.drawable.ic_no_sms)
         }
 
         if (showNumberPicker) {
