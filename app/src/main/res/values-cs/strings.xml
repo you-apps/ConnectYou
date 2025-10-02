@@ -154,4 +154,6 @@
     <string name="backup_naming_scheme">Schéma názvů záloh</string>
     <string name="backup_naming_scheme_hint">%d: datum, %t: čas, %s: zdroj (local, device), je vyžadován zdroj a buď datum nebo čas</string>
     <string name="enabled_tabs">Povolené karty</string>
+    <string name="failed_send_sms">Doručení SMS se nezdařilo. Chcete ji odeslat znovu?</string>
+    <string name="resend">Odeslat znovu</string>
 </resources>
