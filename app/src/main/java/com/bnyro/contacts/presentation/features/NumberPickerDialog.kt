@@ -23,6 +23,7 @@ import androidx.compose.material.icons.rounded.AddComment
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -41,13 +42,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 import com.bnyro.contacts.R
 import com.bnyro.contacts.domain.enums.SortOrder
 import com.bnyro.contacts.domain.model.ContactData
 import com.bnyro.contacts.domain.model.ContactSingleDataItem
+import com.bnyro.contacts.presentation.components.FullScreenDialog
 import com.bnyro.contacts.presentation.screens.contacts.model.ContactsModel
 import com.bnyro.contacts.presentation.screens.editor.components.ContactIconPlaceholder
 import com.bnyro.contacts.presentation.screens.settings.model.ThemeModel
@@ -59,13 +59,12 @@ fun NumberPickerDialog(
     onDismissRequest: () -> Unit,
     onNumberSelect: (number: String, contactData: ContactData?) -> Unit
 ) {
-    Dialog(
-        onDismissRequest = onDismissRequest,
-        properties = remember { DialogProperties(usePlatformDefaultWidth = false) }) {
-        Surface(color = MaterialTheme.colorScheme.surface) {
+    FullScreenDialog(onClose = onDismissRequest) {
+        Scaffold { pV ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .padding(pV)
                     .padding(horizontal = 8.dp)
             ) {
                 var filteredContacts by remember {
