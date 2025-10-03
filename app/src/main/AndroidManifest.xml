@@ -53,7 +53,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.ConnectYou"
-        tools:targetApi="33">
+        tools:targetApi="33"
+        android:enableOnBackInvokedCallback="true">
 
         <activity
             android:name=".ui.activities.MainActivity"
