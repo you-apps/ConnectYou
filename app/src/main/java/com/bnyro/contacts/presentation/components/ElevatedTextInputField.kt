@@ -16,6 +16,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun ElevatedTextInputField(
@@ -45,7 +46,7 @@ fun ElevatedTextInputField(
                 }
             }
         },
-        shape = RoundedCornerShape(50),
+        shape = RoundedCornerShape(40.dp),
         colors = TextFieldDefaults.colors(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
