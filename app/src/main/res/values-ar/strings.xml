@@ -156,4 +156,5 @@
     <string name="enabled_tabs">تمكين التبويبات</string>
     <string name="failed_send_sms">فشل تسليم الرسالة النصية (SMS). أترغب في إعادة إرسالها؟</string>
     <string name="resend">أعد إرسال</string>
+    <string name="set_default_sms_app">الرجاء جعل Connect You تطبيق الرسائل النصية الافتراضي في إعدادات أندرويد الخاصة بك! في إصدارات أندرويد الحديثة، يجب عليك السماح بالأذونات المقيدة للتطبيق لتحقيق ذلك.</string>
 </resources>
