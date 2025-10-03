@@ -41,6 +41,7 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.domain.model.ContactData
 import com.bnyro.contacts.presentation.components.ClickableIcon
 import com.bnyro.contacts.presentation.components.ElevatedTextInputField
+import com.bnyro.contacts.presentation.components.keyboardPadding
 import com.bnyro.contacts.presentation.features.AddToContactDialog
 import com.bnyro.contacts.presentation.features.ConfirmationDialog
 import com.bnyro.contacts.presentation.screens.contact.SingleContactScreen
@@ -124,7 +125,8 @@ fun SmsThreadScreen(
     ) { pV ->
         Column(
             modifier = Modifier
-                .padding(top = pV.calculateTopPadding())
+                .padding(pV)
+                .padding(bottom = keyboardPadding())
         ) {
             Messages(messages = smsList, smsModel = smsModel)
 
@@ -142,7 +144,7 @@ fun SmsThreadScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 10.dp, end = 5.dp, bottom = 20.dp),
+                    .padding(start = 10.dp, end = 5.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 var showConfirmSendMultipleSmsDialog by remember {
