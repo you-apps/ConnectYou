@@ -156,4 +156,5 @@
     <string name="enabled_tabs">启用的标签页</string>
     <string name="failed_send_sms">短信发送失败。是否重新发送？</string>
     <string name="resend">重新发送</string>
+    <string name="set_default_sms_app">请在安卓系统设置中把 Connect You 设为默认短信应用！在最近的安卓版本上要做到这一点你必须允许本应用获取“受限权限”。</string>
 </resources>
