@@ -156,4 +156,5 @@
     <string name="enabled_tabs">Kasutusel vahekaardid</string>
     <string name="failed_send_sms">Ei õnnestunud SMS-i kätte toimetada. Kas tahaksid ta uuesti saata?</string>
     <string name="resend">Saada uuesti</string>
+    <string name="set_default_sms_app">Palun muuda Connect You oma Androidi nutiseadme vaikimisi SMS-rakenduseks. Uuemate Androidi versioonide puhul pead selleks lubama rakendusel kasutada piiratud õigusi (Restricted Permissions).</string>
 </resources>
