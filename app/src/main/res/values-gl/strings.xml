@@ -154,4 +154,7 @@
     <string name="export_sms">Exportar SMS</string>
     <string name="import_sms">Importar SMS</string>
     <string name="enabled_tabs">Pestanas activas</string>
+    <string name="failed_send_sms">Fallou a entrega do SMS. Queres volver a envialo?</string>
+    <string name="resend">Volver enviar</string>
+    <string name="set_default_sms_app">Fai que Connect You sexa a aplicación por defecto para SMS nos axustes de Android! Nas versións recentes de Android tes que conceder Permisos Restrinxidos á app para acadalo.</string>
 </resources>
