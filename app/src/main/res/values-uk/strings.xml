@@ -157,4 +157,5 @@
     <string name="enabled_tabs">Увімкнені вкладки</string>
     <string name="failed_send_sms">Не вдалося доставити SMS. Бажаєте надіслати його повторно?</string>
     <string name="resend">Надіслати повторно</string>
+    <string name="set_default_sms_app">Зробіть Connect You типовим застосунком SMS у налаштуваннях Android! На останніх версіях Android ви повинні дозволити обмежені дозволи для нього, щоб зробити це.</string>
 </resources>
