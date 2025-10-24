@@ -155,4 +155,7 @@
     <string name="backup_naming_scheme">Yedekleme adlandırma şeması</string>
     <string name="backup_naming_scheme_hint">%d: tarih, %t: saat, %s: kaynak (yerel, cihaz), kaynak gereklidir ve tarih veya saat</string>
     <string name="enabled_tabs">Etkin sekmeler</string>
+    <string name="failed_send_sms">SMS gönderilemedi. Yeniden göndermek ister misiniz?</string>
+    <string name="resend">Yeniden gönder</string>
+    <string name="set_default_sms_app">Lütfen Android ayarlarınızda Connect You\'yu öntanımlı SMS uygulamanız olarak ayarlayın! Yeni Android sürümlerinde, bunu gerçekleştirmek için uygulamaya Kısıtlı İzinler vermeniz gerekir.</string>
 </resources>

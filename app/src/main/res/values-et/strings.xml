@@ -154,4 +154,7 @@
     <string name="backup_naming_scheme">Varukoopiate nimeloogika</string>
     <string name="backup_naming_scheme_hint">%d: kuupäev, %t: kellaaeg, %s: allikas (kohalik, seade), nõutav on allikas ja kas kuupäev või kellaaeg</string>
     <string name="enabled_tabs">Kasutusel vahekaardid</string>
+    <string name="failed_send_sms">Ei õnnestunud SMS-i kätte toimetada. Kas tahaksid ta uuesti saata?</string>
+    <string name="resend">Saada uuesti</string>
+    <string name="set_default_sms_app">Palun muuda Connect You oma Androidi nutiseadme vaikimisi SMS-rakenduseks. Uuemate Androidi versioonide puhul pead selleks lubama rakendusel kasutada piiratud õigusi (Restricted Permissions).</string>
 </resources>

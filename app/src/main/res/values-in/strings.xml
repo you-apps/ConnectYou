@@ -154,4 +154,7 @@
     <string name="backup_naming_scheme_hint">%d: tanggal, %t: waktu, %s: sumber (lokal, perangkat), sumber diperlukan untuk tanggal atau waktu</string>
     <string name="cant_respond">Tidak dapat membalas</string>
     <string name="enabled_tabs">Tab diaktifkan</string>
+    <string name="failed_send_sms">Pengiriman SMS gagal. Apakah Anda ingin mengirim ulang?</string>
+    <string name="resend">Kirim ulang</string>
+    <string name="set_default_sms_app">Silakan membuat Connect You sebagai aplikasi SMS bawaan Anda dalam pengaturan Android! Pada versi Android terkini, Anda harus mengizinkan Izin Terbatas untuk aplikasi.</string>
 </resources>
