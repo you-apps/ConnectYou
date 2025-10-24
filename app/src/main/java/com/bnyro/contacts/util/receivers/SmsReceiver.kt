@@ -20,7 +20,9 @@ import com.bnyro.contacts.util.IntentHelper
 import com.bnyro.contacts.util.NotificationHelper
 import com.bnyro.contacts.util.NotificationHelper.MESSAGES_CHANNEL_ID
 import com.bnyro.contacts.util.PermissionHelper
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class SmsReceiver : BroadcastReceiver() {
@@ -29,24 +31,26 @@ class SmsReceiver : BroadcastReceiver() {
         if (intent.action != SMS_DELIVER) return
 
         Telephony.Sms.Intents.getMessagesFromIntent(intent).forEach { message ->
-            val address = message.displayOriginatingAddress
-            val body = message.displayMessageBody
-            val timestamp = message.timestampMillis
+            CoroutineScope(Dispatchers.IO).launch {
+                val threadId = (context.applicationContext as App).smsRepo.getOrCreateThreadId(
+                    context,
+                    message.displayOriginatingAddress
+                )
+                val bareSmsData = SmsData(
+                    id = 0,
+                    address = message.displayOriginatingAddress,
+                    body = message.displayMessageBody,
+                    timestamp = message.timestampMillis,
+                    threadId = threadId,
+                    type = Telephony.Sms.MESSAGE_TYPE_INBOX,
+                    status = SmsStatus.DELIVERED
+                )
 
-            val threadId =
-                runBlocking(Dispatchers.IO) {
-                    (context.applicationContext as App).smsRepo.getOrCreateThreadId(
-                        context,
-                        address
-                    )
-                }
-            val bareSmsData =
-                SmsData(0, address, body, timestamp, threadId, Telephony.Sms.MESSAGE_TYPE_INBOX,
-                    status = SmsStatus.DELIVERED)
+                val smsId =
+                    (context.applicationContext as App).smsRepo.persistSms(context, bareSmsData)
+                val smsData = bareSmsData.copy(id = smsId)
 
-            createNotification(context, bareSmsData.hashCode(), bareSmsData)
-            runBlocking(Dispatchers.IO) {
-                (context.applicationContext as App).smsRepo.persistSms(context, bareSmsData)
+                createNotification(context, smsData.hashCode(), smsData)
             }
         }
     }
@@ -118,7 +122,13 @@ class SmsReceiver : BroadcastReceiver() {
             .setContentIntent(smsThreadPendingIntent)
             .setStyle(
                 NotificationCompat.MessagingStyle(sender)
-                    .addMessage(NotificationCompat.MessagingStyle.Message(smsData.body, smsData.timestamp, sender))
+                    .addMessage(
+                        NotificationCompat.MessagingStyle.Message(
+                            smsData.body,
+                            smsData.timestamp,
+                            sender
+                        )
+                    )
             )
             .setWhen(smsData.timestamp)
             .setShowWhen(true)
