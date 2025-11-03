@@ -154,4 +154,7 @@
     <string name="mute">Silenciar</string>
     <string name="speakers">Alto-falantes</string>
     <string name="enabled_tabs">Guias habilitadas</string>
+    <string name="failed_send_sms">A entrega do SMS falhou. Deseja reenviá-lo?</string>
+    <string name="resend">Reenviar</string>
+    <string name="set_default_sms_app">Defina o Connect You como seu aplicativo de SMS padrão nas configurações do seu Android! Em versões recentes do Android, você precisa conceder permissões restritas ao aplicativo para conseguir isso.</string>
 </resources>
