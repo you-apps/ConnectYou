@@ -13,7 +13,7 @@
     <string name="mobile">Mobil</string>
     <string name="other">Andere</string>
     <string name="search" tools:ignore="PrivateResource">Suchen</string>
-    <string name="irreversible">Sind Sie Sicher? Dies kann nicht rückgängig gemacht werden.</string>
+    <string name="irreversible">Sind Sie Sicher? Dies kann nicht rückgängig gemacht werden!</string>
     <string name="cancel">Abbrechen</string>
     <string name="retry">Erneut versuchen</string>
     <string name="delete_contact">Kontakt löschen</string>
@@ -141,7 +141,7 @@
     <string name="block_number">Nummer blockieren</string>
     <string name="start_a_new_conversation">Eine neue Unterhaltung beginnen</string>
     <string name="search_contacts">Kontakte suchen</string>
-    <string name="blocking_number_is_not_supported">"Rufnummerblockade wird nicht unterstützt,  Connect you ist nicht die Standard SMS/Telefon App"</string>
+    <string name="blocking_number_is_not_supported">Rufnummerblockade wird nicht unterstützt, Connect you ist nicht die Standard SMS/Telefon App</string>
     <string name="unblock_number">Rufnummer wieder freigeben</string>
     <string name="in_progress">In Bearbeitung</string>
     <string name="mute">Stumm, lautlos</string>
@@ -154,4 +154,8 @@
     <string name="backup_naming_scheme_hint">%d: Datum, %t: Uhrzeit, %s: Quelle (lokal, Gerät), Quelle ist erforderlich und entweder Datum oder Uhrzeit</string>
     <string name="cant_respond">Kann nicht antworten</string>
     <string name="backup_naming_scheme">Schema der Sicherungsbenennung</string>
+    <string name="failed_send_sms">Die Zustellung der SMS ist fehlgeschlagen. Möchten Sie sie erneut senden?</string>
+    <string name="resend">Erneut senden</string>
+    <string name="set_default_sms_app">Bitte legen Sie Connect You in Ihren Android-Einstellungen als Standard-SMS-App fest! Bei neueren Android-Versionen müssen Sie eingeschränkte Berechtigungen für die App zulassen.</string>
+    <string name="enabled_tabs">Aktivierte Tabs</string>
 </resources>
