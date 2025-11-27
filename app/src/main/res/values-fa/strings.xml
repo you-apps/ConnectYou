@@ -111,7 +111,7 @@
     <string name="move">جابجا</string>
     <string name="selected">%1$s گزیده شده</string>
     <string name="delete_message">سِتُردن پیامک</string>
-    <string name="messages">پیام ها</string>
+    <string name="messages">پیام‌ها</string>
     <string name="send">فرستادن پیامک</string>
     <string name="private_sms_database">پایگاه‌داده‌ی پیامک خوشیک</string>
     <string name="collapse_bottom_bar">فرو‌ریزش کادر پایینی هنگام پیمایش</string>
@@ -154,4 +154,7 @@
     <string name="enabled_tabs">برگه‌های فعال</string>
     <string name="backup_naming_scheme">شیوه‌ی نامیدن پشتیبان‌گیری‌ها</string>
     <string name="backup_naming_scheme_hint">%d: تاریخ، %t: زمان، %s: بن‌مایه(برزنی، دستگاه)، بن‌مایه همراه با تاریخ یا زمان لازم است</string>
+    <string name="failed_send_sms">پیام فرستاده نشد. آیا می‌خواهید دوباره آن را بفرستید؟</string>
+    <string name="resend">دوباره بفرست</string>
+    <string name="set_default_sms_app">خواهشمند است که Connect You را برنامه پیامک پیش‌گزیده، در پیکربندی اندروید خویش کنید! در نگارش‌های تازه‌تر اندروید، برای این کار باید دسترسی ‌های ویژه‌ای بدهید.</string>
 </resources>
