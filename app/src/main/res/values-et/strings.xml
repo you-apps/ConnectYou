@@ -121,7 +121,7 @@
     <string name="biometric_authentication">Biomeetriline autentimine</string>
     <string name="biometric_authentication_summary">Muuda biomeetriline autentimine (näiteks sõrmejälje alusel) nõutavaks enne rakenduse avamist.</string>
     <string name="in_progress">Toimetamisel</string>
-    <string name="ringing">Helistame…</string>
+    <string name="ringing">Heliseb…</string>
     <string name="disconnecting">Katkestame ühendust…</string>
     <string name="connecting">Ühendame…</string>
     <string name="confirm_start_call">Kas sa soovid helistada %1$sle?</string>
