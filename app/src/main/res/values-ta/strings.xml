@@ -154,4 +154,7 @@
     <string name="favorite">பிடித்த</string>
     <string name="favorites_only">பிடித்தவை மட்டுமே</string>
     <string name="enabled_tabs">இயக்கப்பட்ட தாவல்கள்</string>
+    <string name="failed_send_sms">குறுஞ்செய்தி வழங்குவது தோல்வியடைந்தது. அதை மீண்டும் அனுப்ப விரும்புகிறீர்களா?</string>
+    <string name="resend">மீண்டும் அனுப்பு</string>
+    <string name="set_default_sms_app">உங்கள் ஆண்ட்ராய்டு அமைப்புகளில் நீ இணை ஐ உங்கள் இயல்புநிலை குறுஞ்செய்தி செயலியாக மாற்றவும்! சமீபத்திய ஆண்ட்ராய்டு பதிப்புகளில், அதைச் அடைய பயன்பாட்டிற்கான தடைசெய்யப்பட்ட அனுமதிகளை நீங்கள் அனுமதிக்க வேண்டும்.</string>
 </resources>
