@@ -154,4 +154,7 @@
     <string name="import_sms">Importar SMS</string>
     <string name="backup_naming_scheme_hint">%d: fecha, %t: hora, %s: fuente (local, dispositivo), se requiere la fuente y la fecha o la hora</string>
     <string name="enabled_tabs">Pestañas activas</string>
+    <string name="resend">Reenviar</string>
+    <string name="set_default_sms_app">¡Configura Connect You como tu aplicación de SMS predeterminada en los ajustes de Android! En las versiones recientes de Android, debes permitir Permisos Restringidos para la aplicación para poder hacerlo.</string>
+    <string name="failed_send_sms">Se ha producido un error al enviar el SMS. ¿Desea volver a enviarlo?</string>
 </resources>
