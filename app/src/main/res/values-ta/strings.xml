@@ -90,7 +90,7 @@
     <string name="confirm_start_call">நீங்கள் %1$s ஐ அழைக்க விரும்புகிறீர்களா?</string>
     <string name="mute">முடக்கு</string>
     <string name="speakers">பேச்சாளர்கள்</string>
-    <string name="import_vcf">VCARD ஐ இறக்குமதி செய்யுங்கள்</string>
+    <string name="import_vcf">செஅட்டையை இறக்குமதி செய்</string>
     <string name="export_vcf">ஏற்றுமதி vcard</string>
     <string name="import_sim">சிம்மில் இருந்து இறக்குமதி</string>
     <string name="import_confirm">தேர்ந்தெடுக்கப்பட்ட வி.சி.எஃப் கோப்பை இறக்குமதி செய்ய விரும்புகிறீர்களா?</string>
