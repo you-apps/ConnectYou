@@ -150,4 +150,6 @@
     <string name="call_from">Puhelu soittajalta</string>
     <string name="import_sms">Tuo SMS</string>
     <string name="export_sms">Vie SMS</string>
+    <string name="failed_send_sms">SMS-viestin toimittaminen epäonnistui. Haluatko lähettää sen uudelleen?</string>
+    <string name="resend">Lähetä uudelleen</string>
 </resources>
