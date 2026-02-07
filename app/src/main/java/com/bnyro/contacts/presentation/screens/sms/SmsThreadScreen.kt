@@ -8,12 +8,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.PersonAddAlt1
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -41,7 +41,6 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.domain.model.ContactData
 import com.bnyro.contacts.presentation.components.ClickableIcon
 import com.bnyro.contacts.presentation.components.ElevatedTextInputField
-import com.bnyro.contacts.presentation.components.keyboardPadding
 import com.bnyro.contacts.presentation.features.AddToContactDialog
 import com.bnyro.contacts.presentation.features.ConfirmationDialog
 import com.bnyro.contacts.presentation.screens.contact.SingleContactScreen
@@ -126,7 +125,7 @@ fun SmsThreadScreen(
         Column(
             modifier = Modifier
                 .padding(pV)
-                .padding(bottom = keyboardPadding())
+                .imePadding()
         ) {
             Messages(messages = smsList, smsModel = smsModel)
 
