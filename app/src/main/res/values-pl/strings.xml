@@ -154,4 +154,7 @@
     <string name="enabled_tabs">Aktywne karty</string>
     <string name="dial_pad">Klawiatura numeryczna</string>
     <string name="backup_naming_scheme_hint">%d: data, %t: czas, %s: źródło (lokalne, urządzenie), wymagane jest źródło i data lub godzina</string>
+    <string name="failed_send_sms">Wysyłanie wiadomości SMS nie powiodło się. Czy chcesz ją wysłać ponownie?</string>
+    <string name="resend">Wyślij ponownie</string>
+    <string name="set_default_sms_app">Proszę ustawić Connect You jako domyślną aplikację do obsługi wiadomości SMS w ustawieniach systemu Android! W najnowszych wersjach systemu Android należy w tym celu zezwolić na Ograniczone Uprawnienia dla aplikacji.</string>
 </resources>
