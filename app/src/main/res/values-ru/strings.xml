@@ -154,4 +154,7 @@
     <string name="backup_naming_scheme">Шаблон наименований рез. копий</string>
     <string name="backup_naming_scheme_hint">%d: дата, %t: время, %s: база (приложения или общая). Требуется база и хотя бы дата или время</string>
     <string name="enabled_tabs">Включить вкладки</string>
+    <string name="failed_send_sms">Не удалось доставить SMS. Хотите отправить его ещё раз?</string>
+    <string name="resend">Отправить</string>
+    <string name="set_default_sms_app">Пожалуйста, установите Connect You в качестве приложения для отправки SMS по умолчанию в настройках вашего Android! В последних версиях Android для этого необходимо разрешить приложению ограниченные права доступа.</string>
 </resources>
