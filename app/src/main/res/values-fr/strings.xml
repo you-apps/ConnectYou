@@ -149,4 +149,10 @@
     <string name="dialing">Numérotation…</string>
     <string name="call_from">Appel de</string>
     <string name="key_pad">Clavier numérique</string>
+    <string name="failed_send_sms">L\'envoi du message a échoué, réessayer ?</string>
+    <string name="resend">Renvoyer</string>
+    <string name="set_default_sms_app">Veuillez définir Connect You comme application de SMS par défaut dans les paramètres Android ! Sur les versions d\'Android récentes, cette configuration s\'effectue dans les paramètres des accès spéciaux.</string>
+    <string name="import_sms">Importer les SMS</string>
+    <string name="export_sms">Exporter les SMS</string>
+    <string name="enabled_tabs">Onglets actifs</string>
 </resources>
