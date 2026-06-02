@@ -125,7 +125,7 @@
     <string name="cant_respond">Non posso rispondere</string>
     <string name="failed_send_sms">La consegna dell\'SMS non è riuscita. Vuoi mandarlo di nuovo?</string>
     <string name="resend">Reinviare</string>
-    <string name="set_default_sms_app">Si prega di impostare Connect You come applicazione predefinita per gli SMS nelle vostre impostazioni di Android! Nelle versioni più recenti di Android dovete consentire all\'app i privilegi speciali.</string>
+    <string name="set_default_sms_app">Imposta Connect You come app SMS predefinita nelle impostazioni di Android! Sulle versioni recenti di Android, per farlo, devi consentire le Impostazioni limitate.</string>
     <string name="in_progress">In corso</string>
     <string name="ringing">Sta suonando…</string>
     <string name="disconnecting">Disconnessione…</string>
