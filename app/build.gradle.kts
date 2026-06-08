@@ -19,8 +19,8 @@ android {
         applicationId = "com.bnyro.contacts"
         minSdk = 23
         targetSdk = 35
-        versionCode = 33
-        versionName = "11.3"
+        versionCode = 34
+        versionName = "11.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
