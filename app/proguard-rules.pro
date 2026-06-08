@@ -19,3 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Keep constructors and members for both properties and parameters
+-keep,includedescriptorclasses class ezvcard.parameter.** { <init>(...); *; }
+-keep,includedescriptorclasses class ezvcard.property.** { <init>(...); *; }
