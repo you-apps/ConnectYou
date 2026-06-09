@@ -100,7 +100,7 @@
     <string name="encrypt_backups">Chiffrer les sauvegardes sous format zip</string>
     <string name="message_too_long">Le message est trop long !</string>
     <string name="contacts">Contacts</string>
-    <string name="send">Send message</string>
+    <string name="send">Envoyer</string>
     <string name="backup">Sauvegarde</string>
     <string name="private_sms_database_desc">Les SMS ne seront stockés que dans l\'application et ne seront pas accessible par les autres applications.</string>
     <string name="pick_contact">Choisissez un contact</string>
@@ -155,4 +155,7 @@
     <string name="import_sms">Importer les SMS</string>
     <string name="export_sms">Exporter les SMS</string>
     <string name="enabled_tabs">Onglets actifs</string>
+    <string name="cant_respond">Réponse impossible</string>
+    <string name="backup_naming_scheme_hint">%d : date, %t : heure, %s : origine (locale, appareil), l\'origine est nécessaire en plus de soit la date, soit l\'heure</string>
+    <string name="backup_naming_scheme">Faire une sauvegarde du système de nommage</string>
 </resources>
