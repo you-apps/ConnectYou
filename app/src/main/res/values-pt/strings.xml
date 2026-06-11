@@ -5,7 +5,7 @@
     <string name="search" tools:ignore="PrivateResource">Pesquisar</string>
     <string name="copied">Copiado para a área de transferência</string>
     <string name="delete_contact">Eliminar contacto</string>
-    <string name="irreversible">Tem a certeza? Isto não pode ser desfeito!</string>
+    <string name="irreversible">Tem a certeza? A ação não pode ser revertida!</string>
     <string name="cancel">Cancelar</string>
     <string name="create_contact">Criar contacto</string>
     <string name="reset">Repor</string>
@@ -78,7 +78,7 @@
     <string name="filter">Filtro</string>
     <string name="more">Mais</string>
     <string name="show_less">Mostrar menos</string>
-    <string name="website">Página Web</string>
+    <string name="website">Página web</string>
     <string name="nick_name">Alcunha</string>
     <string name="organization">Organização</string>
     <string name="homepage">Página inicial</string>
@@ -98,7 +98,7 @@
     <string name="messages">Mensagens</string>
     <string name="send">Enviar mensagem</string>
     <string name="reply">Responder</string>
-    <string name="connection_error">Não foi possível ligar. Certifique-se de que desativou o modo avião.</string>
+    <string name="connection_error">Não foi possível ligar. Verifique se o modo avião está ativo.</string>
     <string name="save">Guardar</string>
     <string name="delete_thread">Eliminar tópico</string>
     <string name="private_sms_database">Base de dados privada para SMS</string>
@@ -115,5 +115,23 @@
     <string name="add_website">Adicionar site</string>
     <string name="add_phone_number">Adicionar número de telefone</string>
     <string name="add_e_mail">Adicionar E-mail</string>
-    <string name="send_message_as_multiple">Quer enviar a mensagem como múltiplas mensagens pequenas?</string>
+    <string name="send_message_as_multiple">Deseja separar a mensagem em múltiplas mensagens pequenas?</string>
+    <string name="favorite">Favoritos</string>
+    <string name="favorites_only">Apenas favoritos</string>
+    <string name="cant_respond">Não é possível responder</string>
+    <string name="failed_send_sms">Não foi possível enviar a mensagem. Deseja tentar novamente?</string>
+    <string name="resend">Reenviar</string>
+    <string name="set_default_sms_app">Deve tornar Conect You como a aplicação padrão para SMS nas definições. Em versões Android recentes, tem que ativar as permissões restritas para ser possível.</string>
+    <string name="in_progress">Em curso</string>
+    <string name="ringing">A tocar…</string>
+    <string name="disconnecting">A desligar…</string>
+    <string name="connecting">A ligar…</string>
+    <string name="confirm_start_call">Deseja ligar a %1$s?</string>
+    <string name="mute">Silenciar</string>
+    <string name="speakers">Altifalantes</string>
+    <string name="import_sms">Importar SMS</string>
+    <string name="export_sms">Exportar SMS</string>
+    <string name="enabled_tabs">Separadores ativos</string>
+    <string name="backup_naming_scheme">Esquema de nome para os backups</string>
+    <string name="backup_naming_scheme_hint">%d: data, %t: hora, %s: origem (local, dispositivo). Requer, pelo menos, uma origem e uma das opções hora ou data.</string>
 </resources>
