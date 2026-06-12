@@ -66,7 +66,7 @@
     <string name="group_already_exists">O grupo já existe</string>
     <string name="selected">%1$s selecionado</string>
     <string name="backup_interval">Intervalo entre backups</string>
-    <string name="misc">Diversas</string>
+    <string name="misc">Outras</string>
     <string name="collapse_bottom_bar">Recolher barra inferior ao deslocar</string>
     <string name="colorful_contact_icons">Ícones coloridos</string>
     <string name="add_to_contact">Adicionar a contacto</string>
@@ -92,7 +92,7 @@
     <string name="appearance">Aparência</string>
     <string name="behavior">Comportamento</string>
     <string name="pick_contact">Escolher contacto</string>
-    <string name="backup">Backups</string>
+    <string name="backup">Backup</string>
     <string name="encrypt_backups">Cifrar backups como zip</string>
     <string name="backup_password">Palavra-passe</string>
     <string name="messages">Mensagens</string>
@@ -114,7 +114,7 @@
     <string name="add_address">Adicionar endereço</string>
     <string name="add_website">Adicionar site</string>
     <string name="add_phone_number">Adicionar número de telefone</string>
-    <string name="add_e_mail">Adicionar E-mail</string>
+    <string name="add_e_mail">Adicionar e-mail</string>
     <string name="send_message_as_multiple">Deseja separar a mensagem em múltiplas mensagens pequenas?</string>
     <string name="favorite">Favoritos</string>
     <string name="favorites_only">Apenas favoritos</string>
@@ -134,4 +134,26 @@
     <string name="enabled_tabs">Separadores ativos</string>
     <string name="backup_naming_scheme">Esquema de nome para os backups</string>
     <string name="backup_naming_scheme_hint">%d: data, %t: hora, %s: origem (local, dispositivo). Requer, pelo menos, uma origem e uma das opções hora ou data.</string>
+    <string name="security">Segurança</string>
+    <string name="biometric_authentication">Autenticação biométrica</string>
+    <string name="biometric_authentication_summary">Requer autenticação biométrica (impressão digital) para abrir a aplicação</string>
+    <string name="amoled">Amoled</string>
+    <string name="calls">Chamadas</string>
+    <string name="decline">Recusar</string>
+    <string name="accept">Aceitar</string>
+    <string name="unknown_number">Número desconhecido</string>
+    <string name="dial_pad">Marcador</string>
+    <string name="call_ended">Chamada terminada</string>
+    <string name="dialing">A ligar...</string>
+    <string name="call_from">Chamada de</string>
+    <string name="select_custom_ringtone">Toque personalizado</string>
+    <string name="change_ringtone">Alterar toque</string>
+    <string name="recent_calls">Chamadas recentes</string>
+    <string name="block_numbers">Bloquear números</string>
+    <string name="number_blocked">Número bloqueado</string>
+    <string name="block_number">Bloquear número</string>
+    <string name="unblock_number">Desbloquear número</string>
+    <string name="search_contacts">Pesquisar contactos</string>
+    <string name="start_a_new_conversation">Iniciar uma conversa</string>
+    <string name="key_pad">Teclado numérico</string>
 </resources>
