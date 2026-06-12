@@ -1,3 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="search" tools:ignore="PrivateResource">Tfittxija</string>
+    <string name="copied">Ikkupjat fil-clipboard</string>
+    <string name="delete_contact">Ħassar il-kuntatt</string>
+    <string name="irreversible">Żgur/a? Dan ma jistax jitneħħa!</string>
+    <string name="cancel">Ikkanċella</string>
+    <string name="okay">Tajjeb</string>
+    <string name="reset">Irrisettja</string>
+    <string name="create_contact">Oħloq kuntatt</string>
+    <string name="retry">Erġa\' pprova</string>
+    <string name="share">Xxerjar</string>
 </resources>
