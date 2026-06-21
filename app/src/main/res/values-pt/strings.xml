@@ -156,4 +156,5 @@
     <string name="search_contacts">Pesquisar contactos</string>
     <string name="start_a_new_conversation">Iniciar uma conversa</string>
     <string name="key_pad">Teclado numérico</string>
+    <string name="blocking_number_is_not_supported">Não é possível bloquear números porque não definiu Connect You como a aplicação padrão para chamadas/mensagens</string>
 </resources>
