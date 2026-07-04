@@ -60,7 +60,7 @@ class ContactsModel(
     /**
      * Mutable State that updates whenever the contacts data changes.
      */
-    val contactsStateObserver = when (contactsSource) {
+    val contactsStateObserver get() = when (contactsSource) {
         ContactsSource.DEVICE -> deviceContacts
         ContactsSource.LOCAL -> localContacts
     }
