@@ -14,7 +14,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
@@ -34,15 +33,12 @@ import com.bnyro.contacts.util.IntentHelper
 import com.bnyro.contacts.util.Preferences
 import com.bnyro.contacts.util.extension.parcelable
 import com.bnyro.contacts.util.rememberPreference
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.net.URLDecoder
 
 class MainActivity : BaseActivity() {
-    private val smsSendIntents = listOf(
-        Intent.ACTION_VIEW,
-        Intent.ACTION_SEND,
-        Intent.ACTION_SENDTO
+    private val smsSendSchemes = listOf(
+        "sms",
+        "smsto"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,17 +60,12 @@ class MainActivity : BaseActivity() {
                         Preferences.enabledTabsKey,
                         HomeRoutes.all.indices.toList()
                     )
-                    val initialTabIndex by rememberPreference(
-                        Preferences.homeTabKey,
-                        HomeRoutes.all.indexOfFirst { it.route is HomeRoutes.Contacts })
 
                     NavContainer(
                         enabledTabs = HomeRoutes.all.filterIndexed { index, _ ->
                             enabledTabs.contains(index)
                         },
-                        initialTab = (HomeRoutes.all.getOrNull(initialTabIndex.takeIf {
-                            enabledTabs.contains(it)
-                        } ?: -1) ?: HomeRoutes.all[enabledTabs.first()]).route
+                        initialTab = getInitialStartTab(enabledTabs)
                     )
 
                     var initialContactId by remember {
@@ -138,6 +129,19 @@ class MainActivity : BaseActivity() {
             }
         }
         processIntent(intent)
+    }
+
+    private fun getInitialStartTab(enabledTabIndices: List<Int>): HomeRoutes {
+        if (intent.data?.host == "com.android.contacts") {
+            return HomeRoutes.Contacts
+        }
+
+        val homeTabIndex = Preferences.getInt(Preferences.homeTabKey, -1)
+
+        if (enabledTabIndices.contains(homeTabIndex)) {
+            return HomeRoutes.all[homeTabIndex].route
+        }
+        return HomeRoutes.all[enabledTabIndices.first()].route
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -235,7 +239,7 @@ class MainActivity : BaseActivity() {
 
     // phone number with optional message body to send
     private fun getInitialSmsAddressAndBody(): Pair<String, String?>? {
-        if (intent?.action !in smsSendIntents || intent?.type in BackupHelper.vCardMimeTypes) return null
+        if (intent?.scheme !in smsSendSchemes) return null
 
         val address = intent?.data?.schemeSpecificPart
             // the number is url encoded and hence must be decoded first
@@ -248,9 +252,11 @@ class MainActivity : BaseActivity() {
 
     // body without any phone number, so the contact/number must be selected first
     private fun getInitialSmsBody(): String? {
-        if (intent.action !in arrayOf(Intent.ACTION_VIEW, Intent.ACTION_SEND)) return null
-        // if there's a phone number provided, then we don't need to show a contact picker
-        if (getInitialSmsAddressAndBody() != null) return null
+        if (intent.action !in arrayOf(
+                Intent.ACTION_VIEW,
+                Intent.ACTION_SEND
+            ) || intent.scheme in smsSendSchemes
+        ) return null
 
         return intent.getStringExtra(Intent.EXTRA_TEXT)
     }

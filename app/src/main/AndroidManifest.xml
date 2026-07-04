@@ -154,8 +154,6 @@
 
                 <data android:scheme="sms" />
                 <data android:scheme="smsto" />
-                <data android:scheme="mms" />
-                <data android:scheme="mmsto" />
             </intent-filter>
 
             <!-- Send provided data (i.e. text, because we don't support MMS) via SMS -->
