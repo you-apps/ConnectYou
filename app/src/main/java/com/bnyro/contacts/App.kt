@@ -13,6 +13,9 @@ import com.bnyro.contacts.util.NotificationHelper
 import com.bnyro.contacts.util.Preferences
 import com.bnyro.contacts.util.ShortcutHelper
 import com.bnyro.contacts.util.workers.BackupWorker
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class App : Application() {
     val deviceContactsRepository by lazy {
@@ -40,8 +43,6 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        ShortcutHelper.createShortcuts(this)
-
         DatabaseHolder.init(this)
 
         Preferences.init(this)
@@ -49,6 +50,12 @@ class App : Application() {
         BackupWorker.enqueue(this)
 
         NotificationHelper.createChannels(this)
+
+        // creating shortcuts is potentially blocking/slow and thus is called from a coroutine
+        // https://developer.android.com/reference/android/content/pm/ShortcutManager
+        CoroutineScope(Dispatchers.IO).launch {
+            ShortcutHelper.createShortcuts(this@App)
+        }
 
         initSmsRepo()
     }
