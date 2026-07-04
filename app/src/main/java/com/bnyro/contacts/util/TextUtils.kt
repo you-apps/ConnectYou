@@ -1,11 +1,16 @@
 package com.bnyro.contacts.util
 
-object TextUtils {
-    private val VALID_NUMBER_CHARS = listOf(' ', '-', '+')
+import android.content.Context
+import android.text.format.DateUtils
 
-    fun isPhoneNumber(text: String): Boolean {
-        return !text.isBlank() && text.all {
-            it.isDigit() || VALID_NUMBER_CHARS.contains(it)
-        }
+object TextUtils {
+    fun formatDateTimestamp(context: Context, timestampMillis: Long): String {
+        return DateUtils.getRelativeDateTimeString(
+            context,
+            timestampMillis,
+            DateUtils.MINUTE_IN_MILLIS,
+            DateUtils.WEEK_IN_MILLIS,
+            DateUtils.FORMAT_ABBREV_ALL
+        ).split(", ").first()
     }
 }

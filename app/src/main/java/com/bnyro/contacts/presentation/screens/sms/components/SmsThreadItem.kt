@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -45,6 +46,7 @@ import com.bnyro.contacts.domain.model.SmsThread
 import com.bnyro.contacts.presentation.features.ConfirmationDialog
 import com.bnyro.contacts.presentation.screens.sms.model.SmsModel
 import com.bnyro.contacts.ui.theme.LocalDarkTheme
+import com.bnyro.contacts.util.TextUtils
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -125,15 +127,30 @@ fun SmsThreadItem(
                     Column(
                         modifier = Modifier.padding(10.dp)
                     ) {
-                        Text(
-                            text = thread.contactData?.displayName ?: thread.address,
-                            color = MaterialTheme.colorScheme.primary,
-                            fontSize = 16.sp
-                        )
+                        val latestMessage = thread.smsList.lastOrNull()
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = thread.contactData?.displayName ?: thread.address,
+                                color = MaterialTheme.colorScheme.primary,
+                                fontSize = 16.sp
+                            )
+
+                            latestMessage?.timestamp?.let {
+                                Text(
+                                    text = TextUtils.formatDateTimestamp(context, it),
+                                    color = MaterialTheme.colorScheme.primary,
+                                    style = MaterialTheme.typography.labelSmall
+                                )
+                            }
+                        }
                         Spacer(modifier = Modifier.height(3.dp))
                         Text(
                             // safe call to avoid crashes when re-rendering
-                            text = thread.smsList.lastOrNull()?.body.orEmpty(),
+                            text = latestMessage?.body.orEmpty(),
                             maxLines = 2,
                             fontSize = 14.sp,
                             lineHeight = 18.sp

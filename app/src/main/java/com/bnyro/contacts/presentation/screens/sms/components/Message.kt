@@ -54,6 +54,7 @@ import com.bnyro.contacts.data.database.obj.SmsStatus
 import com.bnyro.contacts.presentation.features.ConfirmationDialog
 import com.bnyro.contacts.presentation.features.DialogButton
 import com.bnyro.contacts.presentation.screens.sms.model.SmsModel
+import com.bnyro.contacts.util.TextUtils
 import com.bnyro.contacts.util.generateAnnotations
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -73,13 +74,7 @@ fun ColumnScope.Messages(messages: List<SmsData>, smsModel: SmsModel) {
     }
 
     val timestamped = messages.groupBy {
-        DateUtils.getRelativeDateTimeString(
-            LocalContext.current,
-            it.timestamp,
-            DateUtils.MINUTE_IN_MILLIS,
-            DateUtils.WEEK_IN_MILLIS,
-            DateUtils.FORMAT_ABBREV_ALL
-        ).split(", ").first()
+        TextUtils.formatDateTimestamp(LocalContext.current, it.timestamp)
     }
 
     LazyColumn(
