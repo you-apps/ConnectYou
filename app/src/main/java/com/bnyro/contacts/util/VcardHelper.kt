@@ -103,7 +103,9 @@ object VcardHelper {
             }
             ContactData(
                 displayName = it.formattedName?.value,
-                firstName = it.structuredName?.given,
+                // we currently don't support prefixes, suffixes and middle names
+                // so we merge all of them into the first name to not lose that information
+                firstName = it.structuredName?.allExceptFamilyName(),
                 surName = it.structuredName?.family,
                 nickName = it.nickname?.values?.firstOrNull(),
                 organization = it.organization?.values?.firstOrNull(),
@@ -164,5 +166,11 @@ object VcardHelper {
                 thumbnail = photo
             )
         }
+    }
+
+    fun StructuredName.allExceptFamilyName(): String {
+        return (prefixes + listOf(given) + additionalNames + suffixes)
+            .filterNotNull()
+            .joinToString(" ")
     }
 }
