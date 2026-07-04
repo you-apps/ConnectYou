@@ -75,7 +75,7 @@
     <string name="groups">Groups</string>
     <!-- Storage locations -->
     <string name="device">Device</string>
-    <string name="local">Local</string>
+    <string name="local">In-App</string>
     <string name="copy">Copy</string>
     <string name="move">Move</string>
     <string name="delete">Delete</string>
