@@ -85,6 +85,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
     implementation("com.github.nanihadesuka:LazyColumnScrollbar:2.2.0")
     implementation("androidx.navigation:navigation-compose:2.9.5")
+    implementation("androidx.graphics:graphics-shapes:1.1.0")
 
     // VCard
     implementation("com.googlecode.ez-vcard:ez-vcard:0.11.3")
