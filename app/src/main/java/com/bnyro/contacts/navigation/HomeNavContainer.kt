@@ -69,7 +69,7 @@ fun HomeNavContainer(
     val orientation = LocalConfiguration.current.orientation
     Scaffold(
         bottomBar = {
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            if (orientation == Configuration.ORIENTATION_PORTRAIT && enabledTabs.size > 1) {
                 NavigationBar(
                     tonalElevation = 5.dp
                 ) {
@@ -103,7 +103,7 @@ fun HomeNavContainer(
                     end = pV.calculateEndPadding(layoutDirection)
                 )
         ) {
-            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE && enabledTabs.size > 1) {
                 NavigationRail {
                     enabledTabs.forEach {
                         NavigationRailItem(
