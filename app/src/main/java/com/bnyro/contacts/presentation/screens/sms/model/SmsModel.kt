@@ -39,7 +39,7 @@ class SmsModel(application: Application) : AndroidViewModel(application) {
         )
     }
 
-    fun deleteSms(context: Context, id: Long, threadId: Long) {
+    fun deleteSms(context: Context, id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             app.smsRepo.deleteSms(context, id)
         }

@@ -90,7 +90,7 @@ fun SmsSearchScreen(
                     modifier = Modifier
                         .fillMaxSize()
                 ) {
-                    items(visibleThreads, key = SmsThread::threadId) { thread ->
+                    items(visibleThreads, key = SmsThread::address) { thread ->
                         SmsThreadItem(smsModel, thread, onClickMessage)
                     }
                 }

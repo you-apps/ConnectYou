@@ -239,11 +239,9 @@ fun SmsListScreen(
 
             val smsList by smsModel.smsList.collectAsState()
             if (smsList.isNotEmpty()) {
-                val threadList = smsList.groupBy { it.threadId }
-                    .map { (threadId, smsList) ->
-                        val address = smsList.first().address
+                val threadList = smsList.groupBy { it.address }
+                    .map { (address, smsList) ->
                         SmsThread(
-                            threadId = threadId,
                             contactData = contactsModel.getContactByNumber(address),
                             address = address,
                             smsList = smsList
@@ -259,7 +257,7 @@ fun SmsListScreen(
                             scrollConnection?.let { modifier.nestedScroll(it) } ?: modifier
                         }
                 ) {
-                    items(threadList, key = SmsThread::threadId) { thread ->
+                    items(threadList, key = SmsThread::address) { thread ->
                         SmsThreadItem(smsModel, thread, onClick = onClickMessage, onLongClick = {
                             selectedThread = thread
                         })

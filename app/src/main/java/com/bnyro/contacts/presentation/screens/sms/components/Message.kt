@@ -130,7 +130,7 @@ fun ColumnScope.Messages(messages: List<SmsData>, smsModel: SmsModel) {
                         title = stringResource(R.string.delete_message),
                         text = stringResource(R.string.irreversible)
                     ) {
-                        smsModel.deleteSms(context, smsData.id, smsData.threadId)
+                        smsModel.deleteSms(context, smsData.id)
                     }
                 }
             }

@@ -151,7 +151,13 @@ fun SmsThreadItem(
             title = stringResource(R.string.delete_thread),
             text = stringResource(R.string.irreversible)
         ) {
-            smsModel.deleteThread(context, thread.threadId)
+            // HACK: usually, all of the messages of an address / sms thread
+            // should have the same thread id, but apparently that's not the case
+            // due to a bug somewhere else
+            val threadIds = thread.smsList.map { it.threadId }.distinct()
+            for (threadId in threadIds) {
+                smsModel.deleteThread(context, threadId)
+            }
         }
     }
 }
