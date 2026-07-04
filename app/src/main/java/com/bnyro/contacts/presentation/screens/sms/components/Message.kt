@@ -223,13 +223,10 @@ fun ChatItemBubble(
                     Text(
                         style = MaterialTheme.typography.bodyMedium,
                         color = textColor,
-                        text = DateUtils.getRelativeDateTimeString(
+                        text = TextUtils.formatDateTimestamp(
                             LocalContext.current,
                             message.timestamp,
-                            DateUtils.MINUTE_IN_MILLIS,
-                            DateUtils.WEEK_IN_MILLIS,
-                            DateUtils.FORMAT_ABBREV_ALL
-                        ).split(", ")[1]
+                        )
                     )
                     message.simNumber?.let {
                         Text(
