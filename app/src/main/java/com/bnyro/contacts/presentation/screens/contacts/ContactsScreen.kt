@@ -297,12 +297,7 @@ fun ContactsPage(
                 .padding(top = pV.calculateTopPadding())
                 .fillMaxSize()
         ) {
-            when (
-                val contactState = when (viewModel.contactsSource) {
-                    ContactsSource.DEVICE -> viewModel.deviceContacts
-                    ContactsSource.LOCAL -> viewModel.localContacts
-                }
-            ) {
+            when (val contactState = viewModel.contactsStateObserver.value) {
                 ContactListState.Loading -> {
                     Box(
                         modifier = Modifier.fillMaxSize()

@@ -67,7 +67,7 @@ fun NumberPickerDialog(
                     .padding(pV)
                     .padding(horizontal = 8.dp)
             ) {
-                var filteredContacts by remember {
+                var filteredContacts by remember(contactsModel.contactsStateObserver) {
                     mutableStateOf(contactsModel.contacts.flatMap {
                         it.numbers.map { num ->
                             ContactSingleDataItem(

@@ -14,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
@@ -23,6 +24,7 @@ import com.bnyro.contacts.navigation.NavContainer
 import com.bnyro.contacts.navigation.NavRoutes
 import com.bnyro.contacts.presentation.features.AddToContactDialog
 import com.bnyro.contacts.presentation.features.ConfirmImportContactsDialog
+import com.bnyro.contacts.presentation.features.NumberPickerDialog
 import com.bnyro.contacts.presentation.screens.contact.SingleContactScreen
 import com.bnyro.contacts.ui.theme.ConnectYouTheme
 import com.bnyro.contacts.util.BackupHelper
@@ -32,6 +34,8 @@ import com.bnyro.contacts.util.IntentHelper
 import com.bnyro.contacts.util.Preferences
 import com.bnyro.contacts.util.extension.parcelable
 import com.bnyro.contacts.util.rememberPreference
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.net.URLDecoder
 
 class MainActivity : BaseActivity() {
@@ -103,6 +107,21 @@ class MainActivity : BaseActivity() {
                         ConfirmImportContactsDialog(contactsModel, it) {
                             sharedVcfUri = null
                         }
+                    }
+
+                    // handles the case that we got a message text, but no phone number
+                    var initialMessageBody by remember {
+                        mutableStateOf(getInitialSmsBody())
+                    }
+                    initialMessageBody?.let {
+                        NumberPickerDialog(
+                            contactsModel,
+                            themeModel,
+                            onDismissRequest = { initialMessageBody = null },
+                            onNumberSelect = { number, _ ->
+                                openSMSThread(number, initialMessageBody)
+                            }
+                        )
                     }
                 }
 
@@ -214,6 +233,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    // phone number with optional message body to send
     private fun getInitialSmsAddressAndBody(): Pair<String, String?>? {
         if (intent?.action !in smsSendIntents || intent?.type in BackupHelper.vCardMimeTypes) return null
 
@@ -224,6 +244,15 @@ class MainActivity : BaseActivity() {
         val body = intent?.getStringExtra(Intent.EXTRA_TEXT)
 
         return ContactsHelper.normalizePhoneNumber(address) to body
+    }
+
+    // body without any phone number, so the contact/number must be selected first
+    private fun getInitialSmsBody(): String? {
+        if (intent.action !in arrayOf(Intent.ACTION_VIEW, Intent.ACTION_SEND)) return null
+        // if there's a phone number provided, then we don't need to show a contact picker
+        if (getInitialSmsAddressAndBody() != null) return null
+
+        return intent.getStringExtra(Intent.EXTRA_TEXT)
     }
 
     private fun getSharedVcfUri(): Uri? {

@@ -52,7 +52,7 @@ fun HomeNavHost(
                     },
                     onClickMessage = { address, contactData ->
                         smsModel.currentContactData = contactData
-                        onNavigate.invoke(NavRoutes.MessageThread(address))
+                        onNavigate.invoke(NavRoutes.MessageThread(address, smsModel.initialMessage))
                     }
                 )
             }

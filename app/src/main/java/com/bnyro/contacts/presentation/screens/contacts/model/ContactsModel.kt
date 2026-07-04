@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -32,6 +33,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 class ContactsModel(
     context: Context,
@@ -50,21 +52,28 @@ class ContactsModel(
         }
     var initialInsertContactData: ContactData? by mutableStateOf(null)
 
-    var localContacts: ContactListState by mutableStateOf(ContactListState.Loading)
-        private set
+    private var localContacts: MutableState<ContactListState> =
+        mutableStateOf(ContactListState.Loading)
+    private var deviceContacts: MutableState<ContactListState> =
+        mutableStateOf(ContactListState.Loading)
 
-    var deviceContacts: ContactListState by mutableStateOf(ContactListState.Loading)
-        private set
+    /**
+     * Mutable State that updates whenever the contacts data changes.
+     */
+    val contactsStateObserver = when (contactsSource) {
+        ContactsSource.DEVICE -> deviceContacts
+        ContactsSource.LOCAL -> localContacts
+    }
 
     var contacts: List<ContactData>
         get() = when (contactsSource) {
-            ContactsSource.LOCAL -> (localContacts as? ContactListState.Success)?.contacts.orEmpty()
-            ContactsSource.DEVICE -> (deviceContacts as? ContactListState.Success)?.contacts.orEmpty()
+            ContactsSource.LOCAL -> (localContacts.value as? ContactListState.Success)?.contacts.orEmpty()
+            ContactsSource.DEVICE -> (deviceContacts.value as? ContactListState.Success)?.contacts.orEmpty()
         }
         private set(value) {
             when (contactsSource) {
-                ContactsSource.LOCAL -> localContacts = ContactListState.Success(value)
-                ContactsSource.DEVICE -> deviceContacts = ContactListState.Success(value)
+                ContactsSource.LOCAL -> localContacts.value = ContactListState.Success(value)
+                ContactsSource.DEVICE -> deviceContacts.value = ContactListState.Success(value)
             }
         }
 
@@ -73,7 +82,7 @@ class ContactsModel(
     }
 
     private suspend inline fun getLocalContacts() {
-        localContacts = try {
+        localContacts.value = try {
             localContactsRepository.getContactList().takeIf { it.isNotEmpty() }?.let {
                 ContactListState.Success(it)
             } ?: ContactListState.Empty
@@ -84,12 +93,12 @@ class ContactsModel(
 
     @SuppressLint("MissingPermission")
     private suspend inline fun getDeviceContacts(context: Context) {
-        deviceContacts = ContactListState.Loading
+        deviceContacts.value = ContactListState.Loading
         while (!PermissionHelper.hasPermission(context, Manifest.permission.READ_CONTACTS)) {
-            deviceContacts = ContactListState.Error
-            delay(500)
+            deviceContacts.value = ContactListState.Error
+            delay(500.milliseconds)
         }
-        deviceContacts = try {
+        deviceContacts.value = try {
             deviceContactsRepository.getContactList().takeIf { it.isNotEmpty() }?.let {
                 ContactListState.Success(it)
             } ?: ContactListState.Empty
@@ -97,9 +106,9 @@ class ContactsModel(
             ContactListState.Error
         }
 
-        (deviceContacts as? ContactListState.Success)?.contacts?.let {
+        (deviceContacts.value as? ContactListState.Success)?.contacts?.let { contacts ->
             viewModelScope.launch {
-                it.map {
+                contacts.map {
                     async {
                         deviceContactsRepository.loadAdvancedData(it)
                     }
@@ -202,7 +211,7 @@ class ContactsModel(
         return deviceContactsRepository.getAccountTypes()
     }
 
-    fun getAvailableGroups() = contacts.map { it.groups }.flatten().distinct()
+    fun getAvailableGroups() = contacts.flatMap { it.groups }.distinct()
 
     fun getContactByNumber(number: String): ContactData? {
         val normalizedNumber = ContactsHelper.normalizePhoneNumber(number)
