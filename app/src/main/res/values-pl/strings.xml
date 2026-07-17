@@ -47,7 +47,7 @@
     <string name="group_already_exists">Grupa już istnieje</string>
     <string name="groups">Grupy</string>
     <string name="device">Urządzenie</string>
-    <string name="local">Lokalne</string>
+    <string name="local">W aplikacji</string>
     <string name="copy">Kopiuj</string>
     <string name="move">Przenieś</string>
     <string name="delete">Usuń</string>
