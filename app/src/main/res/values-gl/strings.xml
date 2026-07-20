@@ -48,7 +48,7 @@
     <string name="group_already_exists">Xa existe o grupo</string>
     <string name="groups">Grupos</string>
     <string name="device">Dispositivo</string>
-    <string name="local">Local</string>
+    <string name="local">Na app</string>
     <string name="copy">Copiar</string>
     <string name="move">Mover</string>
     <string name="delete">Eliminar</string>
