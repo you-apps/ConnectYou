@@ -37,8 +37,8 @@ fun FilterDialog(
         mutableStateOf(initialFilters.sortOrder)
     }
 
-    var hiddenAccountNames by remember {
-        mutableStateOf(initialFilters.hiddenAccountIdentifiers)
+    var hiddenAccounts by remember {
+        mutableStateOf(initialFilters.hiddenAccounts)
     }
 
     var visibleGroups by remember {
@@ -53,7 +53,7 @@ fun FilterDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
             DialogButton(text = stringResource(R.string.okay)) {
-                val options = FilterOptions(sortOrder, hiddenAccountNames, visibleGroups, favoritesOnly)
+                val options = FilterOptions(sortOrder, hiddenAccounts, visibleGroups, favoritesOnly)
                 onFilterChanged.invoke(options)
                 onDismissRequest.invoke()
             }
@@ -84,16 +84,16 @@ fun FilterDialog(
                     Spacer(modifier = Modifier.height(10.dp))
                     ChipSelector(
                         title = stringResource(R.string.account_type),
-                        entries = availableAccountTypes.map { it.type },
+                        entries = availableAccountTypes.map { it.displayType() },
                         selections = availableAccountTypes.filter {
-                            !hiddenAccountNames.contains(it.identifier)
-                        }.map { it.type },
+                            !hiddenAccounts.contains(it)
+                        }.map { it.displayType() },
                         onSelectionChanged = { index, newValue ->
                             val selection = availableAccountTypes[index]
-                            hiddenAccountNames = if (newValue) {
-                                hiddenAccountNames - selection.identifier
+                            hiddenAccounts = if (newValue) {
+                                hiddenAccounts - selection
                             } else {
-                                hiddenAccountNames + selection.identifier
+                                hiddenAccounts + selection
                             }
                         }
                     )

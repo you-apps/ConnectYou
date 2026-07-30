@@ -6,10 +6,12 @@ import android.annotation.SuppressLint
 import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.content.ContentUris
+import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.provider.ContactsContract
 import android.provider.ContactsContract.AUTHORITY
 import android.provider.ContactsContract.CALLER_IS_SYNCADAPTER
@@ -20,6 +22,7 @@ import android.provider.ContactsContract.CommonDataKinds.StructuredName
 import android.provider.ContactsContract.Contacts
 import android.provider.ContactsContract.Data
 import android.provider.ContactsContract.RawContacts
+import android.util.Log
 import androidx.annotation.RequiresPermission
 import com.bnyro.contacts.R
 import com.bnyro.contacts.domain.enums.BackupType
@@ -28,9 +31,12 @@ import com.bnyro.contacts.domain.enums.StringAttribute
 import com.bnyro.contacts.domain.model.AccountType
 import com.bnyro.contacts.domain.model.ContactData
 import com.bnyro.contacts.domain.model.ContactsGroup
+import com.bnyro.contacts.domain.model.DeviceAccountType
+import com.bnyro.contacts.domain.model.RealAccountType
 import com.bnyro.contacts.domain.model.ValueWithType
 import com.bnyro.contacts.util.ContactsHelper
 import com.bnyro.contacts.util.ImageHelper
+import com.bnyro.contacts.util.PermissionHelper
 import com.bnyro.contacts.util.Preferences
 import com.bnyro.contacts.util.extension.boolValue
 import com.bnyro.contacts.util.extension.intValue
@@ -98,8 +104,10 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
                     val contact = ContactData(
                         rawContactId = it.intValue(Data.RAW_CONTACT_ID) ?: 0,
                         contactId = contactId,
-                        accountType = it.stringValue(RawContacts.ACCOUNT_TYPE),
-                        accountName = it.stringValue(RawContacts.ACCOUNT_NAME),
+                        account = AccountType.fromAccountColumns(
+                            accountName = it.stringValue(RawContacts.ACCOUNT_NAME),
+                            accountType = it.stringValue(RawContacts.ACCOUNT_TYPE),
+                        ),
                         displayName = displayName,
                         alternativeName = alternativeName,
                         firstName = firstName,
@@ -167,11 +175,12 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
     override suspend fun createGroup(groupName: String): ContactsGroup? {
         return withContext(Dispatchers.IO) {
             val operations = ArrayList<ContentProviderOperation>()
+            val (accountName, accountType) = DeviceAccountType.toAccountColumns()
             ContentProviderOperation.newInsert(ContactsContract.Groups.CONTENT_URI).apply {
                 withValue(ContactsContract.Groups.TITLE, groupName)
                 withValue(ContactsContract.Groups.GROUP_VISIBLE, 1)
-                withValue(ContactsContract.Groups.ACCOUNT_NAME, AccountType.androidDefault.name)
-                withValue(ContactsContract.Groups.ACCOUNT_TYPE, AccountType.androidDefault.type)
+                withValue(ContactsContract.Groups.ACCOUNT_NAME, accountName)
+                withValue(ContactsContract.Groups.ACCOUNT_TYPE, accountType)
                 operations.add(build())
             }
 
@@ -311,8 +320,7 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
             val lastChosenAccount = Preferences.getLastChosenAccount()
             val ops = listOfNotNull(
                 getCreateAction(
-                    contact.accountType ?: lastChosenAccount.type,
-                    contact.accountName ?: lastChosenAccount.name
+                    contact.account ?: lastChosenAccount
                 ),
                 getInsertAction(
                     StructuredName.CONTENT_ITEM_TYPE,
@@ -437,13 +445,15 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
                     && ContentResolver.getSyncAutomatically(it, AUTHORITY)
         }
 
-        return listOf(AccountType.androidDefault) + accounts.map { AccountType(it.name, it.type) }
+        return listOf<AccountType>(DeviceAccountType) + accounts.map {
+            RealAccountType(it.name, it.type)
+        }
     }
 
     private fun getCreateAction(
-        accountType: String,
-        accountName: String
+        account: AccountType
     ): ContentProviderOperation {
+        val (accountName, accountType) = account.toAccountColumns()
         return ContentProviderOperation.newInsert(RawContacts.CONTENT_URI)
             .withValue(RawContacts.ACCOUNT_TYPE, accountType)
             .withValue(RawContacts.ACCOUNT_NAME, accountName)
@@ -587,6 +597,83 @@ class DeviceContactsRepository(private val context: Context) : ContactsRepositor
 
             contentResolver.applyBatch(AUTHORITY, arrayListOf(op))
         }
+
+    fun migrateContactsFromLegacyDeviceAccount() {
+        val alreadyMigrated = Preferences.getBoolean(
+            Preferences.legacyDeviceAccountsMigratedKey,
+            false
+        )
+
+        if (!alreadyMigrated
+            && hasPermissionReadWriteContacts()
+            && isLegacyAccountAFakeAccount()
+        ) {
+            runMigration()
+
+            Preferences.edit {
+                putBoolean(
+                    Preferences.legacyDeviceAccountsMigratedKey,
+                    true
+                )
+            }
+        }
+    }
+
+    private fun runMigration() {
+        try {
+            clearLegacyAccountColumns()
+        } catch (error: IllegalArgumentException) {
+            /* At least one version of Samsung Android throws
+             * IllegalArgumentException("Must specify both or neither of ACCOUNT_NAME and ACCOUNT_TYPE")
+             * if you pass in null for both values (despite this being the mentioned "neither" case).
+             */
+            Log.e(
+                "LegacyContactsMigration",
+                "In-place update of contacts with the legacy account values failed. Manufacturer: ${Build.MANUFACTURER}, Model: ${Build.MODEL}",
+                error
+            )
+        }
+    }
+
+    private fun hasPermissionReadWriteContacts(): Boolean {
+        return PermissionHelper.hasPermission(
+            context,
+            Manifest.permission.READ_CONTACTS,
+            Manifest.permission.WRITE_CONTACTS,
+        )
+    }
+
+    private fun isLegacyAccountAFakeAccount(): Boolean {
+        return AccountManager.get(context).accounts.none {
+            it.name == DeviceAccountType.LEGACY_NAME
+                    && it.type == DeviceAccountType.LEGACY_TYPE
+        }
+    }
+
+    private fun clearLegacyAccountColumns() {
+        val values = ContentValues().apply {
+            putNull(RawContacts.ACCOUNT_NAME)
+            putNull(RawContacts.ACCOUNT_TYPE)
+        }
+
+        val selection =
+            "${RawContacts.ACCOUNT_NAME} = ? AND ${RawContacts.ACCOUNT_TYPE} = ?"
+        val selectionArgs =
+            arrayOf(DeviceAccountType.LEGACY_NAME, DeviceAccountType.LEGACY_TYPE)
+
+        contentResolver.update(
+            RawContacts.CONTENT_URI,
+            values,
+            selection,
+            selectionArgs
+        )
+        contentResolver.update(
+            ContactsContract.Groups.CONTENT_URI,
+            values,
+            selection,
+            selectionArgs
+        )
+    }
 
     companion object {
         const val MAX_PHOTO_SIZE = 700f

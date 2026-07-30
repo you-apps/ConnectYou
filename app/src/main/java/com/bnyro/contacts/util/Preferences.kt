@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.bnyro.contacts.domain.enums.BackupType
 import com.bnyro.contacts.domain.model.AccountType
+import com.bnyro.contacts.domain.model.DeviceAccountType
 
 object Preferences {
     private const val prefFile = "preferences"
@@ -34,6 +35,7 @@ object Preferences {
     const val biometricAuthKey = "biometricAuth"
     const val favoritesOnlyKey = "favoritesOnly"
     const val selectedSimSubscriptionIdKey = "selectedSimSubscriptionId"
+    const val legacyDeviceAccountsMigratedKey = "legacyDeviceAccountsMigrated"
 
     fun init(context: Context) {
         preferences = context.getSharedPreferences(prefFile, Context.MODE_PRIVATE)
@@ -53,14 +55,9 @@ object Preferences {
     }
 
     fun getLastChosenAccount(): AccountType {
-        getString(lastChosenAccount, "")
-            .takeIf { !it.isNullOrBlank() }
-            ?.let {
-                val split = it.split("|")
-                return AccountType(split.last(), split.first())
-            }
-
-        return AccountType.androidDefault
+        return getString(lastChosenAccount, "")
+            ?.let { AccountType.fromPreferencesString(it) }
+            ?: DeviceAccountType
     }
 }
 

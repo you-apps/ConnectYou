@@ -64,7 +64,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bnyro.contacts.R
-import com.bnyro.contacts.domain.model.AccountType
 import com.bnyro.contacts.domain.model.ContactData
 import com.bnyro.contacts.domain.model.ValueWithType
 import com.bnyro.contacts.presentation.components.LabeledTextField
@@ -161,9 +160,7 @@ fun ContactEditor(
 
     var selectedAccount by remember {
         val lastChosenAccount = Preferences.getLastChosenAccount()
-        val account = contact?.let {
-            AccountType(it.accountName.orEmpty(), it.accountType.orEmpty())
-        } ?: lastChosenAccount
+        val account = contact?.account ?: lastChosenAccount
         mutableStateOf(account)
     }
 
@@ -193,8 +190,7 @@ fun ContactEditor(
                         it.title = title.value.takeIf { o -> o.isNotBlank() }?.trim()
                         it.displayName = "${firstName.value.trim()} ${surName.value.trim()}"
                         it.photo = profilePicture
-                        it.accountType = selectedAccount.type
-                        it.accountName = selectedAccount.name
+                        it.account = selectedAccount
                         it.websites = websites.clean()
                         it.numbers = phoneNumber.clean().map { number ->
                             number.copy(value = ContactsHelper.normalizePhoneNumber(number.value))
@@ -226,7 +222,9 @@ fun ContactEditor(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = selectedAccount.name.ifBlank { selectedAccount.type }
+                            text = selectedAccount.displayName().ifBlank {
+                                selectedAccount.displayType()
+                            }
                         )
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
@@ -240,11 +238,11 @@ fun ContactEditor(
                     ) {
                         availableAccounts.forEach {
                             DropdownMenuItem(
-                                text = { Text(it.name) },
+                                text = { Text(it.displayName()) },
                                 onClick = {
                                     selectedAccount = it
                                     Preferences.edit {
-                                        putString(Preferences.lastChosenAccount, it.identifier)
+                                        putString(Preferences.lastChosenAccount, it.toPreferencesString())
                                     }
                                     expanded = false
                                 }

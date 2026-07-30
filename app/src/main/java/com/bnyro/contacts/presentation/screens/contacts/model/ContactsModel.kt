@@ -18,6 +18,7 @@ import com.bnyro.contacts.R
 import com.bnyro.contacts.domain.enums.ContactsSource
 import com.bnyro.contacts.domain.model.AccountType
 import com.bnyro.contacts.domain.model.ContactData
+import com.bnyro.contacts.domain.model.DeviceAccountType
 import com.bnyro.contacts.domain.model.FilterOptions
 import com.bnyro.contacts.domain.repositories.ContactsRepository
 import com.bnyro.contacts.domain.repositories.DeviceContactsRepository
@@ -207,7 +208,7 @@ class ContactsModel(
      */
     fun getAvailableAccounts(context: Context): List<AccountType> {
         if (!PermissionHelper.hasPermission(context, Manifest.permission.READ_SYNC_SETTINGS))
-            return listOf(AccountType.androidDefault)
+            return listOf(DeviceAccountType)
 
         return deviceContactsRepository.getAccountTypes()
     }
@@ -231,7 +232,7 @@ class ContactsModel(
 
     fun getContactsFilteredByOptions(filterOptions: FilterOptions): List<ContactData> {
         return contacts.filter {
-            !filterOptions.hiddenAccountIdentifiers.contains(it.accountIdentifier)
+            !filterOptions.hiddenAccounts.contains(it.account)
         }.filter {
             filterOptions.visibleGroups.isEmpty() || filterOptions.visibleGroups.any { group ->
                 it.groups.contains(group)

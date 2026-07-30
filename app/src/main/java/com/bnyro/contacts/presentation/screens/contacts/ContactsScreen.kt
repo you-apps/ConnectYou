@@ -370,7 +370,10 @@ fun ContactsPage(
             onFilterChanged = {
                 Preferences.edit {
                     putInt(Preferences.sortOrderKey, it.sortOrder.ordinal)
-                    putStringSet(Preferences.hiddenAccountsKey, it.hiddenAccountIdentifiers.toSet())
+                    putStringSet(
+                        Preferences.hiddenAccountsKey,
+                        it.hiddenAccounts.map { account -> account.toPreferencesString() }.toSet(),
+                    )
                     putBoolean(Preferences.favoritesOnlyKey, it.favoritesOnly)
                 }
                 filterOptions = it

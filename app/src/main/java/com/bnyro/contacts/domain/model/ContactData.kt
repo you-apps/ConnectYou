@@ -8,8 +8,7 @@ data class ContactData(
     var dataId: Int = 0,
     var rawContactId: Int = 0,
     var contactId: Long = 0,
-    var accountType: String? = null,
-    var accountName: String? = null,
+    var account: AccountType? = null,
     var displayName: String? = null,
     var alternativeName: String? = null,
     var firstName: String? = null,
@@ -29,7 +28,6 @@ data class ContactData(
     var ringTone: Uri? = null,
     var favorite: Boolean = false
 ) {
-    val accountIdentifier get() = "$accountType|$accountName"
     fun getNameBySortOrder(sortOrder: SortOrder): String? {
         return when (sortOrder) {
             SortOrder.FIRSTNAME -> displayName

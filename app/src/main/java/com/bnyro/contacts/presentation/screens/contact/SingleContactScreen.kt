@@ -273,7 +273,7 @@ fun SingleContactScreen(contact: ContactData, viewModel: ContactsModel, onClose:
             },
             isDeviceContact = (viewModel.contactsSource == ContactsSource.DEVICE),
             onSave = {
-                if (contact.accountIdentifier == it.accountIdentifier) {
+                if (contact.account == it.account) {
                     viewModel.updateContact(context, it)
                 } else {
                     viewModel.deleteContacts(listOf(it))

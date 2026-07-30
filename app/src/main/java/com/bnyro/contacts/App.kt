@@ -57,6 +57,10 @@ class App : Application() {
             ShortcutHelper.createShortcuts(this@App)
         }
 
+        CoroutineScope(Dispatchers.IO).launch {
+            deviceContactsRepository.migrateContactsFromLegacyDeviceAccount()
+        }
+
         initSmsRepo()
     }
 }
