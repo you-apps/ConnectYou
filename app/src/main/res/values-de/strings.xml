@@ -51,7 +51,7 @@
     <string name="note">Notiz</string>
     <string name="copy">Kopieren</string>
     <string name="theme">Thema</string>
-    <string name="local">Lokal</string>
+    <string name="local">Lokal in App</string>
     <string name="auto_backup">Automatische Backups</string>
     <string name="both">Beide</string>
     <string name="none">Keine</string>

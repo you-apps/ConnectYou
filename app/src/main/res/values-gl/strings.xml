@@ -48,7 +48,7 @@
     <string name="group_already_exists">Xa existe o grupo</string>
     <string name="groups">Grupos</string>
     <string name="device">Dispositivo</string>
-    <string name="local">Local</string>
+    <string name="local">Na app</string>
     <string name="copy">Copiar</string>
     <string name="move">Mover</string>
     <string name="delete">Eliminar</string>
@@ -116,7 +116,7 @@
     <string name="add_event">Engadir evento</string>
     <string name="date">Data</string>
     <string name="import_confirm">Queres importar o ficheiro VCF seleccionado?</string>
-    <string name="amoled">AMOLED</string>
+    <string name="amoled">Amoled</string>
     <string name="security">Seguridade</string>
     <string name="biometric_authentication">Autenticación biométrica</string>
     <string name="biometric_authentication_summary">Requerir autenticación biométrica (ex. impresión dactilar) para poder acceder á app.</string>

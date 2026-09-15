@@ -22,7 +22,7 @@
     <string name="event">Událost</string>
     <string name="fax_work">Fax práce</string>
     <string name="note">Poznámka</string>
-    <string name="local">Místní</string>
+    <string name="local">V aplikaci</string>
     <string name="other">Jiné</string>
     <string name="delete">Odstranit</string>
     <string name="empty_name">Jméno nemůže být prázdné!</string>

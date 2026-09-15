@@ -58,7 +58,7 @@
     <string name="new_group">Uus</string>
     <string name="group_already_exists">Selline grupp on juba olemas</string>
     <string name="groups">Grupid</string>
-    <string name="local">Kohalik andmekogu</string>
+    <string name="local">Rakendusesisene</string>
     <string name="copy">Kopeeri</string>
     <string name="move">Teisalda</string>
     <string name="delete">Kustuta</string>

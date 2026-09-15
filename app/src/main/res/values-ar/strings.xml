@@ -40,7 +40,7 @@
     <string name="version">الإصدار</string>
     <string name="nothing_here">لا شيء هنا.</string>
     <string name="device">الجهاز</string>
-    <string name="local">محلي</string>
+    <string name="local">داخل التطبيق</string>
     <string name="copy">نسخ</string>
     <string name="move">نقل</string>
     <string name="settings">الإعدادات</string>
@@ -116,7 +116,7 @@
     <string name="add_event">إضافة حدث</string>
     <string name="date">‪التاريخ</string>
     <string name="import_confirm">هل تريد استيراد ملف VCF المحدد؟</string>
-    <string name="amoled">‬AMOLED</string>
+    <string name="amoled">‬أموليد</string>
     <string name="security">الأمان</string>
     <string name="biometric_authentication">الاستيثاق البيومتري</string>
     <string name="biometric_authentication_summary">طلب الاستيثاق البيومتري (مثل بصمة الإصبع) قبل إمكانية الوصول إلى التطبيق.</string>
